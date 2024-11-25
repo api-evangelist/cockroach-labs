@@ -53,3 +53,38 @@ maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
 specificationVersion: '0.19'
+common:
+  - name: CockroachDB Docs
+    url: https://www.cockroachlabs.com/docs/
+    type: Documentation
+  - name: CockroachDB Pricing | Cockroach Labs
+    url: https://www.cockroachlabs.com/pricing/
+    type: Pricing
+  - name: Cockroach Labs Blog | Cockroach Labs
+    url: https://www.cockroachlabs.com/blog/
+    type: Blog
+  - name: CockroachDB Docs
+    url: https://www.cockroachlabs.com/docs/
+    type: FAQ
+  - name: Glossary
+    url: https://www.cockroachlabs.com/docs/stable/architecture/glossary
+    type: Glossary
+  - name: Events
+    url: https://www.cockroachlabs.com/events/
+    type: Events
+  - name: CockroachDB support
+    url: https://www.cockroachlabs.com/support/
+    type: Support
+  - name: Cockroach Labs Partner Ecosystem
+    url: https://www.cockroachlabs.com/partners/
+    type: Partners
+  - name: >-
+      Privacy Policy - CockroachDB Dedicated - Scalable distributed SQL now in a
+      few clicks | Cockroach Labs
+    url: https://www.cockroachlabs.com/privacy/
+    type: PrivacyPolicy
+  - name: >-
+      CockroachDB - Scalable distributed SQL now in a few clicks | Cockroach
+      Labs
+    url: https://www.cockroachlabs.com/security/
+    type: Security
