@@ -1,31 +1,33 @@
----
 aid: cockroach-labs
 name: Cockroach Labs
-description: The Cloud API is a REST interface that allows you programmatic
-  access to manage the lifecycle of clusters within your organization.. This
-  document pertains to the latest version of the APIs v1 endpoints,
-  2024-09-16.For more detailed coverage of API endpoints for this version and
-  prior verisons, refer to the API reference documentation.. To manage clusters
-  and other resources in CockroachDB ...
+description: >-
+  The Cloud API is a REST interface that allows you programmatic access to
+  manage the lifecycle of clusters within your organization.. This document
+  pertains to the latest version of the APIs v1 endpoints, 2024-09-16.For more
+  detailed coverage of API endpoints for this version and prior verisons, refer
+  to the API reference documentation.. To manage clusters and other resources in
+  CockroachDB ...
 type: Index
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - API
-created: 2024-11-24
-modified: 2024-11-24
-url: https://raw.githubusercontent.com/api-evangelist/cockroach-labs/refs/heads/main/apis.yml
-specificationVersion: "0.19"
+created: 2024-11-24T00:00:00.000Z
+modified: 2024-11-24T00:00:00.000Z
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/cockroach-labs/refs/heads/main/apis.yml
+specificationVersion: '0.19'
 apis:
   - aid: cockroach-labs:cockroach-labs
     name: Cockroach Labs
-    description: The Cloud API is a REST interface that allows you programmatic
-      access to manage the lifecycle of clusters within your organization.. This
-      document pertains to the latest version of the APIs v1 endpoints,
-      2024-09-16.For more detailed coverage of API endpoints for this version
-      and prior verisons, refer to the API reference documentation.. To manage
-      clusters and other resources in CockroachDB ...
+    description: >-
+      The Cloud API is a REST interface that allows you programmatic access to
+      manage the lifecycle of clusters within your organization.. This document
+      pertains to the latest version of the APIs v1 endpoints, 2024-09-16.For
+      more detailed coverage of API endpoints for this version and prior
+      verisons, refer to the API reference documentation.. To manage clusters
+      and other resources in CockroachDB ...
     humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
     tags:
       - API
