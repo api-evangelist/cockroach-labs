@@ -10,7 +10,7 @@ apis:
     properties:
       - url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
         type: Documentation
-      - url: openapicockroach-labs-cloud-api-openapi.yml
+      - url: openapi/cockroach-labs-cloud-api-openapi.yml
         type: OpenAPI
     description: An API for managing CockroachDB Cloud resources
   - aid: cockroach-labs:cockroach-labs-cluster-api
@@ -21,7 +21,7 @@ apis:
     properties:
       - url: https://www.cockroachlabs.com/docs/api/cluster/v2
         type: Documentation
-      - url: openapicockroach-labs-cluster-api-openapi.yml
+      - url: openapi/cockroach-labs-cluster-api-openapi.yml
         type: OpenAPI
     description: >-
       REST API for querying information about CockroachDB cluster health, nodes,
