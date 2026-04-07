@@ -26,7 +26,8 @@ apis:
         type: Documentation
       - url: openapi/cockroach-labs-cloud-api-openapi.yml
         type: OpenAPI
-    description: An API for managing CockroachDB Cloud resources
+    description: >-
+      An API for managing CockroachDB Cloud resources.
   - aid: cockroach-labs:cockroach-labs-cluster-api
     name: Cockroach Labs Cluster API
     tags:
