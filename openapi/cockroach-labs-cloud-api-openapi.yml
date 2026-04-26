@@ -1,0 +1,3747 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud API
+  description: >-
+    The CockroachDB Cloud API is a REST interface that provides programmatic
+    access to manage the lifecycle of clusters within a CockroachDB Cloud
+    organization. It enables developers and operators to create, configure,
+    scale, and delete CockroachDB Serverless and Dedicated clusters without
+    using the web console. The API supports cluster provisioning, node
+    management, network authorization, customer-managed encryption keys,
+    backup and restore, log and metric export, role management, and folder
+    organization. Authentication is handled via bearer tokens, and the API is
+    rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+servers:
+  - url: https://cockroachlabs.cloud
+    description: CockroachDB Cloud Production Server
+tags:
+  - name: APIKeys
+    description: >-
+      Manage API keys for programmatic access, including creation, retrieval,
+      listing, updating, and deletion.
+  - name: AuditLogs
+    description: >-
+      Retrieve audit log events for the organization to support compliance and
+      security investigations.
+  - name: BackupRestore
+    description: >-
+      Manage cluster backups, backup configurations, and restore operations for
+      CockroachDB clusters.
+  - name: Billing
+    description: >-
+      Retrieve invoices and billing information for the CockroachDB Cloud
+      organization.
+  - name: Clusters
+    description: >-
+      Create, list, retrieve, update, and delete CockroachDB Serverless and
+      Dedicated clusters within an organization.
+  - name: CMEK
+    description: >-
+      Manage customer-managed encryption keys (CMEK) for encrypting cluster
+      data at rest using customer-controlled keys.
+  - name: Databases
+    description: >-
+      Manage databases within a CockroachDB cluster, including creation,
+      listing, updating, and deletion.
+  - name: EgressRules
+    description: >-
+      Configure egress traffic rules and egress private endpoints for outbound
+      cluster network traffic.
+  - name: Folders
+    description: >-
+      Organize clusters and other resources into hierarchical folder structures
+      within the organization.
+  - name: IPAllowlists
+    description: >-
+      Configure IP allowlist entries to control network access to a cluster.
+  - name: JWTIssuers
+    description: >-
+      Manage JWT issuer configurations for external identity provider
+      integrations.
+  - name: LogExport
+    description: >-
+      Configure log export to external destinations such as AWS CloudWatch or
+      GCP Cloud Logging.
+  - name: MaintenanceWindows
+    description: >-
+      Configure maintenance windows and blackout periods for cluster upgrade
+      scheduling.
+  - name: MetricExport
+    description: >-
+      Configure metric export integrations including AWS CloudWatch, Datadog,
+      and Prometheus.
+  - name: Organizations
+    description: >-
+      Retrieve information about the caller's CockroachDB Cloud organization.
+  - name: PrivateEndpoints
+    description: >-
+      Manage private endpoint services and connections for secure VPC-level
+      access to clusters.
+  - name: RoleManagement
+    description: >-
+      Manage role-based access control, including assigning and removing roles
+      for users across organization, folder, and cluster scopes.
+  - name: ServiceAccounts
+    description: >-
+      Manage service accounts used for machine-to-machine authentication within
+      the organization.
+  - name: SQLUsers
+    description: >-
+      Manage SQL users for a cluster, including creating users, listing users,
+      and updating SQL user passwords.
+  - name: VersionDeferral
+    description: >-
+      Manage cluster version deferral policies to delay automatic CockroachDB
+      version upgrades.
+security:
+  - bearerAuth: []
+paths:
+  /api/v1/organization:
+    get:
+      operationId: GetOrganizationInfo
+      summary: Get organization information
+      description: >-
+        Retrieves information about the caller's CockroachDB Cloud organization,
+        including organization ID and name. Requires ORG_ADMIN or ORG_MEMBER
+        role at organization scope.
+      tags:
+        - Organizations
+      responses:
+        '200':
+          description: Organization information retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v1/clusters:
+    get:
+      operationId: ListClusters
+      summary: List clusters
+      description: >-
+        Returns a list of clusters in the organization. Inactive clusters can
+        optionally be included using the showInactive query parameter. Supports
+        pagination via page, limit, asOfTime, and sortOrder parameters.
+      tags:
+        - Clusters
+      parameters:
+        - $ref: '#/components/parameters/showInactive'
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of clusters returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListClustersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: CreateCluster
+      summary: Create a cluster
+      description: >-
+        Creates and initializes a new CockroachDB Serverless or Dedicated
+        cluster within the organization. The request body specifies cluster
+        configuration including cloud provider, regions, hardware, and plan type.
+      tags:
+        - Clusters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClusterRequest'
+      responses:
+        '200':
+          description: Cluster created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/clusters/{cluster_id}:
+    get:
+      operationId: GetCluster
+      summary: Get a cluster
+      description: >-
+        Retrieves comprehensive information about a specific cluster identified
+        by cluster_id, including its configuration, state, regions, version, and
+        operational status.
+      tags:
+        - Clusters
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Cluster information retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: UpdateCluster
+      summary: Update a cluster
+      description: >-
+        Modifies the configuration of an existing cluster, including scaling
+        compute and storage resources, updating the CockroachDB version, or
+        changing cluster settings. Only the fields specified in the request body
+        are updated.
+      tags:
+        - Clusters
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateClusterSpecification'
+      responses:
+        '200':
+          description: Cluster updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteCluster
+      summary: Delete a cluster
+      description: >-
+        Permanently deletes a cluster and all of its data. This operation cannot
+        be undone. The cluster must not have delete protection enabled.
+      tags:
+        - Clusters
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Cluster deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/connection-string:
+    get:
+      operationId: GetConnectionString
+      summary: Get connection string
+      description: >-
+        Returns a formatted generic connection string for connecting to a
+        cluster. Optionally scoped to a specific database, SQL user, and
+        operating system format.
+      tags:
+        - Clusters
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - name: database
+          in: query
+          description: Name of the database to connect to.
+          schema:
+            type: string
+        - name: sql_user
+          in: query
+          description: SQL username to include in the connection string.
+          schema:
+            type: string
+        - name: os
+          in: query
+          description: >-
+            Operating system for which to format the connection string.
+            Accepted values are MAC, LINUX, WINDOWS.
+          schema:
+            type: string
+            enum: [MAC, LINUX, WINDOWS]
+      responses:
+        '200':
+          description: Connection string returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConnectionStringResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/nodes:
+    get:
+      operationId: ListClusterNodes
+      summary: List cluster nodes
+      description: >-
+        Returns a list of nodes for the specified cluster, optionally filtered
+        by region name. Supports pagination.
+      tags:
+        - Clusters
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - name: region_name
+          in: query
+          description: Filter nodes by the name of the cloud provider region.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of cluster nodes returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListClusterNodesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/available-regions:
+    get:
+      operationId: ListAvailableRegions
+      summary: List available regions
+      description: >-
+        Returns a list of regions available for cluster or node creation,
+        optionally filtered by cloud provider and whether serverless clusters
+        are supported.
+      tags:
+        - Clusters
+      parameters:
+        - name: provider
+          in: query
+          description: >-
+            Cloud provider to filter regions by. Accepted values are GCP, AWS,
+            AZURE.
+          schema:
+            type: string
+            enum: [GCP, AWS, AZURE]
+        - name: serverless
+          in: query
+          description: >-
+            If true, only return regions that support serverless clusters.
+          schema:
+            type: boolean
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+      responses:
+        '200':
+          description: Available regions returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAvailableRegionsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/cluster-versions:
+    get:
+      operationId: ListMajorClusterVersions
+      summary: List major cluster versions
+      description: >-
+        Returns a list of available major CockroachDB cluster versions that can
+        be used when creating or upgrading clusters.
+      tags:
+        - Clusters
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+      responses:
+        '200':
+          description: Available cluster versions returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMajorClusterVersionsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/clusters/{cluster_id}/databases:
+    get:
+      operationId: ListDatabases
+      summary: List databases
+      description: >-
+        Returns a list of databases for the specified cluster. Supports
+        pagination via page, limit, asOfTime, and sortOrder parameters.
+      tags:
+        - Databases
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of databases returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListDatabasesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: CreateDatabase
+      summary: Create a database
+      description: >-
+        Creates a new database within the specified cluster. Requires
+        CLUSTER_ADMIN role at organization, folder, or cluster scope.
+      tags:
+        - Databases
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDatabaseRequest'
+      responses:
+        '200':
+          description: Database created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Database'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/clusters/{cluster_id}/databases/{name}:
+    patch:
+      operationId: EditDatabase
+      summary: Update a database
+      description: >-
+        Updates the configuration of an existing database within the specified
+        cluster. Requires CLUSTER_ADMIN role.
+      tags:
+        - Databases
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/databaseName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDatabaseRequest'
+      responses:
+        '200':
+          description: Database updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Database'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteDatabase
+      summary: Delete a database
+      description: >-
+        Deletes a database from the specified cluster by name. Requires
+        CLUSTER_ADMIN role at organization, folder, or cluster scope.
+      tags:
+        - Databases
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/databaseName'
+      responses:
+        '200':
+          description: Database deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Database'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/sql-users:
+    get:
+      operationId: ListSQLUsers
+      summary: List SQL users
+      description: >-
+        Returns a list of SQL users for the specified cluster. Accessible to
+        users with CLUSTER_ADMIN, CLUSTER_OPERATOR_WRITER, or CLUSTER_DEVELOPER
+        roles.
+      tags:
+        - SQLUsers
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of SQL users returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSQLUsersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: CreateSQLUser
+      summary: Create a SQL user
+      description: >-
+        Creates a new SQL user for the specified cluster. Requires CLUSTER_ADMIN
+        role at organization, folder, or cluster scope.
+      tags:
+        - SQLUsers
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSQLUserRequest'
+      responses:
+        '200':
+          description: SQL user created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLUser'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/clusters/{cluster_id}/sql-users/{name}:
+    delete:
+      operationId: DeleteSQLUser
+      summary: Delete a SQL user
+      description: >-
+        Deletes a SQL user from the specified cluster by username. Requires
+        CLUSTER_ADMIN role.
+      tags:
+        - SQLUsers
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/sqlUserName'
+      responses:
+        '200':
+          description: SQL user deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLUser'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/sql-users/{name}/password:
+    put:
+      operationId: UpdateSQLUserPassword
+      summary: Update SQL user password
+      description: >-
+        Updates the password for the specified SQL user on the given cluster.
+        Requires CLUSTER_ADMIN role at organization, folder, or cluster scope.
+      tags:
+        - SQLUsers
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/sqlUserName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSQLUserPasswordRequest'
+      responses:
+        '200':
+          description: SQL user password updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLUser'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/api-keys:
+    get:
+      operationId: ListApiKeys
+      summary: List API keys
+      description: >-
+        Returns a list of API keys in the organization, optionally filtered by
+        service account ID. Accessible to users with ORG_ADMIN or CLUSTER_ADMIN
+        roles.
+      tags:
+        - APIKeys
+      parameters:
+        - name: service_account_id
+          in: query
+          description: Filter API keys by the associated service account ID.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of API keys returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListApiKeysResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: CreateApiKey
+      summary: Create an API key
+      description: >-
+        Creates a new API key associated with a service account. Requires
+        ORG_ADMIN role. The secret is only returned in the response to this
+        create request and cannot be retrieved again.
+      tags:
+        - APIKeys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '200':
+          description: API key created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateApiKeyResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/api-keys/{id}:
+    get:
+      operationId: GetApiKey
+      summary: Get an API key
+      description: >-
+        Retrieves details of a specific API key by ID. Accessible to users with
+        ORG_ADMIN or CLUSTER_ADMIN roles.
+      tags:
+        - APIKeys
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: API key retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: UpdateApiKey
+      summary: Update an API key
+      description: >-
+        Updates the metadata of an existing API key. Requires ORG_ADMIN role.
+      tags:
+        - APIKeys
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApiKeySpecification'
+      responses:
+        '200':
+          description: API key updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteApiKey
+      summary: Delete an API key
+      description: >-
+        Permanently deletes an API key by ID, revoking all access using that
+        key. Requires ORG_ADMIN role.
+      tags:
+        - APIKeys
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: API key deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/service-accounts:
+    get:
+      operationId: ListServiceAccounts
+      summary: List service accounts
+      description: >-
+        Returns a list of service accounts in the organization. Supports
+        pagination.
+      tags:
+        - ServiceAccounts
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of service accounts returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListServiceAccountsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: CreateServiceAccount
+      summary: Create a service account
+      description: >-
+        Creates a new service account for machine-to-machine authentication.
+        Requires ORG_ADMIN role.
+      tags:
+        - ServiceAccounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServiceAccountRequest'
+      responses:
+        '200':
+          description: Service account created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAccount'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/service-accounts/{id}:
+    get:
+      operationId: GetServiceAccount
+      summary: Get a service account
+      description: >-
+        Retrieves details of a specific service account by ID.
+      tags:
+        - ServiceAccounts
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: Service account retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: UpdateServiceAccount
+      summary: Update a service account
+      description: >-
+        Updates the name or description of an existing service account. Requires
+        ORG_ADMIN role.
+      tags:
+        - ServiceAccounts
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateServiceAccountSpecification'
+      responses:
+        '200':
+          description: Service account updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAccount'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteServiceAccount
+      summary: Delete a service account
+      description: >-
+        Permanently deletes a service account by ID. All associated API keys
+        are also revoked. Requires ORG_ADMIN role.
+      tags:
+        - ServiceAccounts
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: Service account deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAccount'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/folders:
+    get:
+      operationId: ListFolders
+      summary: List folders
+      description: >-
+        Returns a list of folders in the organization, optionally filtered by
+        path. Supports pagination.
+      tags:
+        - Folders
+      parameters:
+        - name: path
+          in: query
+          description: Filter folders by path prefix.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of folders returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFoldersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: CreateFolder
+      summary: Create a folder
+      description: >-
+        Creates a new folder for organizing clusters and resources within the
+        organization. Requires FOLDER_ADMIN role.
+      tags:
+        - Folders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFolderRequest'
+      responses:
+        '200':
+          description: Folder created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/folders/{folder_id}:
+    get:
+      operationId: GetFolder
+      summary: Get a folder
+      description: >-
+        Retrieves details of a specific folder by its ID.
+      tags:
+        - Folders
+      parameters:
+        - $ref: '#/components/parameters/folderId'
+      responses:
+        '200':
+          description: Folder retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: UpdateFolder
+      summary: Update a folder
+      description: >-
+        Updates the name or parent of an existing folder. Requires FOLDER_ADMIN
+        or FOLDER_MOVER role.
+      tags:
+        - Folders
+      parameters:
+        - $ref: '#/components/parameters/folderId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderSpecification'
+      responses:
+        '200':
+          description: Folder updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteFolder
+      summary: Delete a folder
+      description: >-
+        Permanently deletes a folder by ID. Requires FOLDER_ADMIN role. The
+        folder must be empty before deletion.
+      tags:
+        - Folders
+      parameters:
+        - $ref: '#/components/parameters/folderId'
+      responses:
+        '200':
+          description: Folder deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/folders/{folder_id}/contents:
+    get:
+      operationId: ListFolderContents
+      summary: List folder contents
+      description: >-
+        Returns the contents of a specific folder, including clusters and
+        sub-folders. Supports pagination.
+      tags:
+        - Folders
+      parameters:
+        - $ref: '#/components/parameters/folderId'
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: Folder contents returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFolderContentsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/networking/allowlist:
+    get:
+      operationId: ListAllowlistEntries
+      summary: List IP allowlist entries
+      description: >-
+        Returns a list of IP allowlist entries for the specified cluster.
+        Supports pagination.
+      tags:
+        - IPAllowlists
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of allowlist entries returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAllowlistEntriesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: AddAllowlistEntry
+      summary: Add IP allowlist entry
+      description: >-
+        Adds a new CIDR-based IP allowlist entry to the specified cluster to
+        authorize inbound connections from a network range.
+      tags:
+        - IPAllowlists
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllowlistEntry'
+      responses:
+        '200':
+          description: Allowlist entry added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllowlistEntry'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/clusters/{cluster_id}/networking/allowlist/{cidr_ip}/{cidr_mask}:
+    patch:
+      operationId: UpdateAllowlistEntry
+      summary: Update IP allowlist entry
+      description: >-
+        Updates the properties of an existing IP allowlist entry identified by
+        CIDR IP and mask for the specified cluster.
+      tags:
+        - IPAllowlists
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/cidrIp'
+        - $ref: '#/components/parameters/cidrMask'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllowlistEntry'
+      responses:
+        '200':
+          description: Allowlist entry updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllowlistEntry'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteAllowlistEntry
+      summary: Delete IP allowlist entry
+      description: >-
+        Removes an IP allowlist entry from the cluster identified by CIDR IP
+        address and mask.
+      tags:
+        - IPAllowlists
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/cidrIp'
+        - $ref: '#/components/parameters/cidrMask'
+      responses:
+        '200':
+          description: Allowlist entry deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllowlistEntry'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/networking/private-endpoint-services:
+    get:
+      operationId: ListPrivateEndpointServices
+      summary: List private endpoint services
+      description: >-
+        Returns a list of private endpoint services configured for the specified
+        cluster.
+      tags:
+        - PrivateEndpoints
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: List of private endpoint services returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPrivateEndpointServicesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: CreatePrivateEndpointServices
+      summary: Create private endpoint services
+      description: >-
+        Creates private endpoint services for the specified cluster to enable
+        VPC-level private connectivity.
+      tags:
+        - PrivateEndpoints
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Private endpoint services created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPrivateEndpointServicesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/networking/private-endpoint-connections:
+    get:
+      operationId: ListPrivateEndpointConnections
+      summary: List private endpoint connections
+      description: >-
+        Returns a list of private endpoint connections for the specified cluster.
+      tags:
+        - PrivateEndpoints
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: List of private endpoint connections returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPrivateEndpointConnectionsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: AddPrivateEndpointConnection
+      summary: Add a private endpoint connection
+      description: >-
+        Adds a new private endpoint connection for the specified cluster.
+      tags:
+        - PrivateEndpoints
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPrivateEndpointConnectionRequest'
+      responses:
+        '200':
+          description: Private endpoint connection added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateEndpointConnection'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/clusters/{cluster_id}/networking/private-endpoint-connections/{endpoint_id}:
+    delete:
+      operationId: DeletePrivateEndpointConnection
+      summary: Delete a private endpoint connection
+      description: >-
+        Removes a specific private endpoint connection from the cluster.
+      tags:
+        - PrivateEndpoints
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/endpointId'
+      responses:
+        '200':
+          description: Private endpoint connection deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivateEndpointConnection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/networking/egress-rules:
+    get:
+      operationId: ListEgressRules
+      summary: List egress rules
+      description: >-
+        Returns a list of egress traffic rules configured for the specified
+        cluster. Supports pagination.
+      tags:
+        - EgressRules
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of egress rules returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEgressRulesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: AddEgressRule
+      summary: Add an egress rule
+      description: >-
+        Adds a new egress traffic rule to the cluster to permit outbound
+        connections to specified destinations.
+      tags:
+        - EgressRules
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEgressRuleRequest'
+      responses:
+        '200':
+          description: Egress rule added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EgressRule'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/clusters/{cluster_id}/networking/egress-rules/{rule_id}:
+    get:
+      operationId: GetEgressRule
+      summary: Get an egress rule
+      description: >-
+        Retrieves details of a specific egress rule by ID for the given cluster.
+      tags:
+        - EgressRules
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/ruleId'
+      responses:
+        '200':
+          description: Egress rule retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EgressRule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: EditEgressRule
+      summary: Update an egress rule
+      description: >-
+        Updates an existing egress rule configuration for the specified cluster.
+      tags:
+        - EgressRules
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/ruleId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditEgressRuleRequest'
+      responses:
+        '200':
+          description: Egress rule updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EgressRule'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteEgressRule
+      summary: Delete an egress rule
+      description: >-
+        Removes an egress rule from the cluster. An optional idempotency key may
+        be supplied.
+      tags:
+        - EgressRules
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - $ref: '#/components/parameters/ruleId'
+        - name: idempotency_key
+          in: query
+          description: Optional key for idempotent deletion.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Egress rule deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EgressRule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/backups:
+    get:
+      operationId: ListBackups
+      summary: List backups
+      description: >-
+        Returns a list of backups for the specified cluster, optionally filtered
+        by start and end time. Supports pagination.
+      tags:
+        - BackupRestore
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - name: start_time
+          in: query
+          description: Filter backups created at or after this RFC3339 timestamp.
+          schema:
+            type: string
+            format: date-time
+        - name: end_time
+          in: query
+          description: Filter backups created before this RFC3339 timestamp.
+          schema:
+            type: string
+            format: date-time
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of backups returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBackupsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/backups-config:
+    get:
+      operationId: GetBackupConfiguration
+      summary: Get backup configuration
+      description: >-
+        Retrieves the backup configuration for the specified cluster, including
+        retention period and backup frequency.
+      tags:
+        - BackupRestore
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Backup configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupConfiguration'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: UpdateBackupConfiguration
+      summary: Update backup configuration
+      description: >-
+        Updates the backup configuration for the specified cluster, including
+        retention period and backup frequency settings.
+      tags:
+        - BackupRestore
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBackupConfigurationSpec'
+      responses:
+        '200':
+          description: Backup configuration updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackupConfiguration'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/restores:
+    get:
+      operationId: ListRestores
+      summary: List restores
+      description: >-
+        Returns a list of restore operations for the specified cluster. Supports
+        pagination and time-based filtering.
+      tags:
+        - BackupRestore
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - name: start_time
+          in: query
+          description: Filter restores initiated at or after this RFC3339 timestamp.
+          schema:
+            type: string
+            format: date-time
+        - name: end_time
+          in: query
+          description: Filter restores initiated before this RFC3339 timestamp.
+          schema:
+            type: string
+            format: date-time
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of restore operations returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRestoresResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: CreateRestore
+      summary: Create a restore
+      description: >-
+        Initiates a restore operation to restore a cluster from a backup.
+        The destination_cluster_id identifies the target cluster to restore into.
+      tags:
+        - BackupRestore
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRestoreRequest'
+      responses:
+        '200':
+          description: Restore operation initiated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restore'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/clusters/{cluster_id}/restores/{restore_id}:
+    get:
+      operationId: GetRestore
+      summary: Get a restore
+      description: >-
+        Retrieves the status and details of a specific restore operation by ID.
+      tags:
+        - BackupRestore
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+        - name: restore_id
+          in: path
+          required: true
+          description: Unique identifier of the restore operation.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Restore operation details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restore'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/logexport:
+    get:
+      operationId: GetLogExportInfo
+      summary: Get log export configuration
+      description: >-
+        Retrieves the current log export configuration for the specified cluster,
+        including destination, group settings, and enabled status.
+      tags:
+        - LogExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Log export configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogExportClusterInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnableLogExport
+      summary: Enable log export
+      description: >-
+        Configures and enables log export for the specified cluster to an
+        external destination such as AWS CloudWatch or GCP Cloud Logging.
+      tags:
+        - LogExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableLogExportRequest'
+      responses:
+        '200':
+          description: Log export enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogExportClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeleteLogExport
+      summary: Disable log export
+      description: >-
+        Disables and removes the log export configuration for the specified
+        cluster.
+      tags:
+        - LogExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Log export disabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogExportClusterInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/metricexport/cloudwatch:
+    get:
+      operationId: GetCloudWatchMetricExportInfo
+      summary: Get CloudWatch metric export configuration
+      description: >-
+        Retrieves the CloudWatch metric export configuration for the specified
+        cluster.
+      tags:
+        - MetricExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: CloudWatch metric export configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudWatchMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnableCloudWatchMetricExport
+      summary: Enable CloudWatch metric export
+      description: >-
+        Enables metric export to AWS CloudWatch for the specified cluster.
+      tags:
+        - MetricExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableCloudWatchMetricExportRequest'
+      responses:
+        '200':
+          description: CloudWatch metric export enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudWatchMetricExportInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeleteCloudWatchMetricExport
+      summary: Disable CloudWatch metric export
+      description: >-
+        Disables AWS CloudWatch metric export for the specified cluster.
+      tags:
+        - MetricExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: CloudWatch metric export disabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudWatchMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/metricexport/datadog:
+    get:
+      operationId: GetDatadogMetricExportInfo
+      summary: Get Datadog metric export configuration
+      description: >-
+        Retrieves the Datadog metric export configuration for the specified
+        cluster.
+      tags:
+        - MetricExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Datadog metric export configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatadogMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnableDatadogMetricExport
+      summary: Enable Datadog metric export
+      description: >-
+        Enables metric export to Datadog for the specified cluster.
+      tags:
+        - MetricExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableDatadogMetricExportRequest'
+      responses:
+        '200':
+          description: Datadog metric export enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatadogMetricExportInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeleteDatadogMetricExport
+      summary: Disable Datadog metric export
+      description: >-
+        Disables Datadog metric export for the specified cluster.
+      tags:
+        - MetricExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Datadog metric export disabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatadogMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/metricexport/prometheus:
+    get:
+      operationId: GetPrometheusMetricExportInfo
+      summary: Get Prometheus metric export configuration
+      description: >-
+        Retrieves the Prometheus metric export configuration for the specified
+        cluster.
+      tags:
+        - MetricExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Prometheus metric export configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrometheusMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnablePrometheusMetricExport
+      summary: Enable Prometheus metric export
+      description: >-
+        Enables Prometheus metric scraping endpoint for the specified cluster.
+      tags:
+        - MetricExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Prometheus metric export enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrometheusMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeletePrometheusMetricExport
+      summary: Disable Prometheus metric export
+      description: >-
+        Disables Prometheus metric export for the specified cluster.
+      tags:
+        - MetricExport
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Prometheus metric export disabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrometheusMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/cmek:
+    get:
+      operationId: GetCMEKClusterInfo
+      summary: Get CMEK configuration
+      description: >-
+        Retrieves the customer-managed encryption key (CMEK) configuration for
+        the specified cluster.
+      tags:
+        - CMEK
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: CMEK configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnableCMEKSpec
+      summary: Enable CMEK
+      description: >-
+        Enables customer-managed encryption keys for the specified cluster using
+        the provided key specification.
+      tags:
+        - CMEK
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CMEKClusterSpecification'
+      responses:
+        '200':
+          description: CMEK enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: UpdateCMEKSpec
+      summary: Update CMEK specification
+      description: >-
+        Replaces the CMEK key specification for the specified cluster.
+      tags:
+        - CMEK
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CMEKClusterSpecification'
+      responses:
+        '200':
+          description: CMEK specification updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    patch:
+      operationId: UpdateCMEKStatus
+      summary: Update CMEK status
+      description: >-
+        Updates the operational status of CMEK for the specified cluster, such
+        as rotating or revoking encryption keys.
+      tags:
+        - CMEK
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCMEKStatusRequest'
+      responses:
+        '200':
+          description: CMEK status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/roles:
+    get:
+      operationId: ListRoleGrants
+      summary: List role grants
+      description: >-
+        Returns a list of all role grants across the organization. Supports
+        pagination.
+      tags:
+        - RoleManagement
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of role grants returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRoleGrantsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/roles/{user_id}:
+    get:
+      operationId: GetAllRolesForUser
+      summary: Get all roles for a user
+      description: >-
+        Returns all role grants assigned to the specified user across all
+        resource scopes.
+      tags:
+        - RoleManagement
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          description: User roles retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllRolesForUserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: SetRolesForUser
+      summary: Set roles for a user
+      description: >-
+        Replaces all role grants for the specified user with the provided set of
+        roles. Requires ORG_ADMIN role.
+      tags:
+        - RoleManagement
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetRolesForUserRequest'
+      responses:
+        '200':
+          description: User roles updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllRolesForUserResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/roles/{user_id}/{resource_type}/{resource_id}/{role_name}:
+    post:
+      operationId: AddUserToRole
+      summary: Add user to role
+      description: >-
+        Grants a specific role to a user for a particular resource. Requires
+        ORG_ADMIN role.
+      tags:
+        - RoleManagement
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/resourceType'
+        - $ref: '#/components/parameters/resourceId'
+        - $ref: '#/components/parameters/roleName'
+      responses:
+        '200':
+          description: User added to role successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllRolesForUserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: RemoveUserFromRole
+      summary: Remove user from role
+      description: >-
+        Revokes a specific role from a user for a particular resource. Requires
+        ORG_ADMIN role.
+      tags:
+        - RoleManagement
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/resourceType'
+        - $ref: '#/components/parameters/resourceId'
+        - $ref: '#/components/parameters/roleName'
+      responses:
+        '200':
+          description: User removed from role successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllRolesForUserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/users/persons-by-email:
+    get:
+      operationId: GetPersonUsersByEmail
+      summary: Get person users by email
+      description: >-
+        Looks up person (human) user accounts by email address. Useful for
+        resolving user IDs before assigning roles.
+      tags:
+        - RoleManagement
+      parameters:
+        - name: email
+          in: query
+          required: true
+          description: Email address to look up.
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: User accounts returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPersonUsersByEmailResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/invoices:
+    get:
+      operationId: ListInvoices
+      summary: List invoices
+      description: >-
+        Returns a list of invoices for the organization. Optionally filter by
+        invoice status to retrieve only Finalized or Draft invoices.
+      tags:
+        - Billing
+      parameters:
+        - name: status
+          in: query
+          description: >-
+            Filter invoices by status. Accepted values are Finalized and Draft.
+            If not specified, both types are returned.
+          schema:
+            type: string
+            enum: [Finalized, Draft]
+      responses:
+        '200':
+          description: List of invoices returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListInvoicesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/invoices/{invoice_id}:
+    get:
+      operationId: GetInvoice
+      summary: Get an invoice
+      description: >-
+        Retrieves a specific invoice by its unique ID including line items and
+        totals for the billing period.
+      tags:
+        - Billing
+      parameters:
+        - name: invoice_id
+          in: path
+          required: true
+          description: Unique identifier of the invoice to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invoice retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/auditlogevents:
+    get:
+      operationId: ListAuditLogs
+      summary: List audit log events
+      description: >-
+        Returns audit log events for the organization. Optionally filter by
+        starting timestamp. Results are paginated by limit and ordered by
+        sortOrder. Requires ORG_ADMIN role.
+      tags:
+        - AuditLogs
+      parameters:
+        - name: starting_from
+          in: query
+          description: >-
+            Exclusive timestamp for filtering audit log entries by creation time.
+          schema:
+            type: string
+            format: date-time
+        - name: sort_order
+          in: query
+          description: Pagination direction. Accepted values are ASC and DESC.
+          schema:
+            type: string
+            enum: [ASC, DESC]
+        - name: limit
+          in: query
+          description: Number of entries to return per page.
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 1000
+      responses:
+        '200':
+          description: Audit log events returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAuditLogsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/jwt-issuers:
+    get:
+      operationId: ListJWTIssuers
+      summary: List JWT issuers
+      description: >-
+        Returns a list of JWT issuer configurations registered with the
+        organization. Requires ORG_ADMIN role.
+      tags:
+        - JWTIssuers
+      parameters:
+        - $ref: '#/components/parameters/paginationPage'
+        - $ref: '#/components/parameters/paginationLimit'
+        - $ref: '#/components/parameters/paginationAsOfTime'
+        - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of JWT issuers returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListJWTIssuersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: AddJWTIssuer
+      summary: Add a JWT issuer
+      description: >-
+        Registers a new JWT issuer configuration for external identity provider
+        integration. Requires ORG_ADMIN role.
+      tags:
+        - JWTIssuers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddJWTIssuerRequest'
+      responses:
+        '200':
+          description: JWT issuer added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTIssuer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/jwt-issuers/{id}:
+    get:
+      operationId: GetJWTIssuer
+      summary: Get a JWT issuer
+      description: >-
+        Retrieves a specific JWT issuer configuration by ID. Requires ORG_ADMIN
+        role.
+      tags:
+        - JWTIssuers
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: JWT issuer retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTIssuer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: UpdateJWTIssuer
+      summary: Update a JWT issuer
+      description: >-
+        Updates an existing JWT issuer configuration. Requires ORG_ADMIN role.
+      tags:
+        - JWTIssuers
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateJWTIssuerRequest'
+      responses:
+        '200':
+          description: JWT issuer updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTIssuer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteJWTIssuer
+      summary: Delete a JWT issuer
+      description: >-
+        Removes a JWT issuer configuration by ID. Requires ORG_ADMIN role.
+      tags:
+        - JWTIssuers
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: JWT issuer deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTIssuer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/maintenance-window:
+    get:
+      operationId: GetMaintenanceWindow
+      summary: Get maintenance window
+      description: >-
+        Retrieves the maintenance window configuration for the specified cluster,
+        defining when automatic upgrades and maintenance operations may occur.
+      tags:
+        - MaintenanceWindows
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Maintenance window retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceWindow'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: SetMaintenanceWindow
+      summary: Set maintenance window
+      description: >-
+        Sets or replaces the maintenance window configuration for the specified
+        cluster.
+      tags:
+        - MaintenanceWindows
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceWindow'
+      responses:
+        '200':
+          description: Maintenance window set successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceWindow'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeleteMaintenanceWindow
+      summary: Delete maintenance window
+      description: >-
+        Removes the maintenance window configuration from the specified cluster,
+        reverting to the default maintenance schedule.
+      tags:
+        - MaintenanceWindows
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Maintenance window deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceWindow'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/clusters/{cluster_id}/version-deferral:
+    get:
+      operationId: GetClusterVersionDeferral
+      summary: Get version deferral
+      description: >-
+        Retrieves the version deferral policy for the specified cluster,
+        indicating whether automatic version upgrades are deferred and for how
+        long.
+      tags:
+        - VersionDeferral
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Version deferral policy retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterVersionDeferral'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: SetClusterVersionDeferral
+      summary: Set version deferral
+      description: >-
+        Sets the version deferral policy for the specified cluster to delay
+        automatic CockroachDB version upgrades.
+      tags:
+        - VersionDeferral
+      parameters:
+        - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterVersionDeferral'
+      responses:
+        '200':
+          description: Version deferral policy set successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterVersionDeferral'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Bearer token authentication. Generate a token in the CockroachDB Cloud
+        Console under Organization Settings > API Access.
+
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+    folderId:
+      name: folder_id
+      in: path
+      required: true
+      description: Unique identifier of the folder.
+      schema:
+        type: string
+    resourceId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the resource.
+      schema:
+        type: string
+    userId:
+      name: user_id
+      in: path
+      required: true
+      description: Unique identifier of the user.
+      schema:
+        type: string
+    resourceType:
+      name: resource_type
+      in: path
+      required: true
+      description: >-
+        Type of resource the role is scoped to. Accepted values include
+        ORGANIZATION, FOLDER, CLUSTER.
+      schema:
+        type: string
+        enum: [ORGANIZATION, FOLDER, CLUSTER]
+    roleName:
+      name: role_name
+      in: path
+      required: true
+      description: Name of the role to grant or revoke.
+      schema:
+        type: string
+    databaseName:
+      name: name
+      in: path
+      required: true
+      description: Name of the database.
+      schema:
+        type: string
+    sqlUserName:
+      name: name
+      in: path
+      required: true
+      description: Username of the SQL user.
+      schema:
+        type: string
+    cidrIp:
+      name: cidr_ip
+      in: path
+      required: true
+      description: IPv4 address part of the CIDR range.
+      schema:
+        type: string
+    cidrMask:
+      name: cidr_mask
+      in: path
+      required: true
+      description: Prefix length of the CIDR range (e.g. 24 for /24).
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 32
+    endpointId:
+      name: endpoint_id
+      in: path
+      required: true
+      description: Unique identifier of the private endpoint connection.
+      schema:
+        type: string
+    ruleId:
+      name: rule_id
+      in: path
+      required: true
+      description: Unique identifier of the egress rule.
+      schema:
+        type: string
+    showInactive:
+      name: show_inactive
+      in: query
+      description: If true, inactive clusters are included in the response.
+      schema:
+        type: boolean
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: >-
+        RFC3339 timestamp to return results as they were at a specific point in
+        time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum: [ASC, DESC]
+
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The caller does not have permission to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+
+    Organization:
+      type: object
+      description: >-
+        Represents a CockroachDB Cloud organization, which is the top-level
+        container for all clusters, users, and billing.
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the organization.
+        name:
+          type: string
+          description: Human-readable name of the organization.
+        label:
+          type: string
+          description: Short label for the organization.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the organization was created.
+
+    Cluster:
+      type: object
+      description: >-
+        Represents a CockroachDB Cloud cluster, which is an instance of
+        CockroachDB running in one or more cloud regions on Serverless or
+        Dedicated infrastructure.
+      required:
+        - id
+        - name
+        - cloud_provider
+        - state
+        - operation_status
+        - plan
+        - regions
+        - cockroach_version
+        - creator_id
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the cluster.
+        name:
+          type: string
+          description: Human-readable name of the cluster.
+        cloud_provider:
+          type: string
+          description: Cloud infrastructure provider hosting the cluster.
+          enum: [GCP, AWS, AZURE]
+        cockroach_version:
+          type: string
+          description: Version of CockroachDB running on the cluster.
+        plan:
+          type: string
+          description: Service tier of the cluster.
+          enum: [DEDICATED, SERVERLESS]
+        state:
+          type: string
+          description: Overall state of the cluster.
+        operation_status:
+          type: string
+          description: Current operational status of the cluster.
+        regions:
+          type: array
+          description: Cloud provider regions where the cluster is deployed.
+          items:
+            $ref: '#/components/schemas/Region'
+        config:
+          $ref: '#/components/schemas/ClusterConfig'
+        creator_id:
+          type: string
+          description: Identifier of the user who created the cluster.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the cluster was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of the most recent modification.
+        deleted_at:
+          type: string
+          format: date-time
+          description: Timestamp when the cluster was deleted, if applicable.
+        sql_dns:
+          type: string
+          description: DNS hostname for SQL connections to the cluster.
+        upgrade_status:
+          type: string
+          description: Status of any in-progress version upgrade.
+        account_id:
+          type: string
+          description: Cloud provider account ID associated with the cluster.
+        parent_id:
+          type: string
+          description: ID of the folder containing this cluster, if any.
+        labels:
+          type: object
+          description: Key-value labels for resource organization.
+          additionalProperties:
+            type: string
+        delete_protection:
+          type: string
+          description: Whether delete protection is enabled on the cluster.
+        egress_traffic_policy:
+          type: string
+          description: Policy governing outbound traffic from the cluster.
+        network_visibility:
+          type: string
+          description: Network accessibility configuration of the cluster.
+
+    Region:
+      type: object
+      description: A geographic region where the cluster or its nodes are deployed.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Cloud provider region identifier (e.g. us-east-1).
+        sql_dns:
+          type: string
+          description: DNS hostname for SQL connections routed to this region.
+        node_count:
+          type: integer
+          description: Number of nodes in this region.
+
+    ClusterConfig:
+      type: object
+      description: Configuration settings for a CockroachDB cluster.
+      properties:
+        serverless:
+          $ref: '#/components/schemas/ServerlessClusterConfig'
+        dedicated:
+          $ref: '#/components/schemas/DedicatedClusterConfig'
+
+    ServerlessClusterConfig:
+      type: object
+      description: Configuration specific to CockroachDB Serverless clusters.
+      properties:
+        spend_limit:
+          type: integer
+          description: Monthly spend limit in US cents. 0 means no limit.
+        routing_id:
+          type: string
+          description: Unique routing identifier for the serverless cluster.
+        usage_limits:
+          type: object
+          description: Usage-based limits for request units and storage.
+
+    DedicatedClusterConfig:
+      type: object
+      description: Configuration specific to CockroachDB Dedicated clusters.
+      properties:
+        machine_type:
+          type: string
+          description: Machine type used for cluster nodes.
+        num_virtual_cpus:
+          type: integer
+          description: Number of virtual CPUs per node.
+        storage_gib:
+          type: integer
+          description: Storage capacity per node in gibibytes.
+        memory_gib:
+          type: number
+          description: Memory per node in gibibytes.
+        disk_iops:
+          type: integer
+          description: Disk IOPS allocated per node.
+
+    CreateClusterRequest:
+      type: object
+      description: Request body for creating a new CockroachDB Cloud cluster.
+      required:
+        - name
+        - provider
+        - spec
+      properties:
+        name:
+          type: string
+          description: Name for the new cluster.
+          maxLength: 40
+        provider:
+          type: string
+          description: Cloud provider to host the cluster.
+          enum: [GCP, AWS, AZURE]
+        spec:
+          type: object
+          description: >-
+            Cluster specification, either a ServerlessClusterCreateSpecification
+            or DedicatedClusterCreateSpecification.
+        regions:
+          type: array
+          description: List of regions to deploy the cluster in.
+          items:
+            type: string
+        parent_id:
+          type: string
+          description: Folder ID to place the cluster in, if applicable.
+
+    UpdateClusterSpecification:
+      type: object
+      description: Specification for modifying an existing cluster's configuration.
+      properties:
+        dedicated:
+          type: object
+          description: Updated dedicated cluster configuration fields.
+        serverless:
+          type: object
+          description: Updated serverless cluster configuration fields.
+        cockroach_version:
+          type: string
+          description: Target CockroachDB version for the upgrade.
+
+    ListClustersResponse:
+      type: object
+      description: Paginated list of clusters in the organization.
+      properties:
+        clusters:
+          type: array
+          description: Array of cluster objects.
+          items:
+            $ref: '#/components/schemas/Cluster'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    ListClusterNodesResponse:
+      type: object
+      description: Paginated list of nodes in a cluster.
+      properties:
+        nodes:
+          type: array
+          description: Array of node objects.
+          items:
+            $ref: '#/components/schemas/ClusterNode'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    ClusterNode:
+      type: object
+      description: Represents an individual node within a CockroachDB cluster.
+      properties:
+        name:
+          type: string
+          description: Node name or identifier.
+        region_name:
+          type: string
+          description: Cloud region the node is deployed in.
+        status:
+          type: string
+          description: Current operational status of the node.
+
+    ListAvailableRegionsResponse:
+      type: object
+      description: Paginated list of available cloud regions.
+      properties:
+        regions:
+          type: array
+          description: Array of available region objects.
+          items:
+            $ref: '#/components/schemas/AvailableRegion'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    AvailableRegion:
+      type: object
+      description: A cloud provider region available for cluster deployment.
+      properties:
+        name:
+          type: string
+          description: Cloud region identifier.
+        provider:
+          type: string
+          description: Cloud provider the region belongs to.
+        serverless:
+          type: boolean
+          description: Whether this region supports Serverless clusters.
+
+    ListMajorClusterVersionsResponse:
+      type: object
+      description: List of available major CockroachDB versions.
+      properties:
+        versions:
+          type: array
+          description: Array of version objects.
+          items:
+            type: object
+            properties:
+              version:
+                type: string
+                description: Major version string.
+
+    GetConnectionStringResponse:
+      type: object
+      description: Connection string for a cluster.
+      properties:
+        connection_string:
+          type: string
+          description: Formatted connection string for the cluster.
+
+    Database:
+      type: object
+      description: Represents a database within a CockroachDB cluster.
+      properties:
+        name:
+          type: string
+          description: Name of the database.
+        table_count:
+          type: integer
+          description: Number of tables in the database.
+
+    CreateDatabaseRequest:
+      type: object
+      description: Request body for creating a new database.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name for the new database.
+
+    UpdateDatabaseRequest:
+      type: object
+      description: Request body for updating an existing database.
+      properties:
+        new_name:
+          type: string
+          description: New name for the database.
+
+    ListDatabasesResponse:
+      type: object
+      description: Paginated list of databases in a cluster.
+      properties:
+        databases:
+          type: array
+          description: Array of database objects.
+          items:
+            $ref: '#/components/schemas/Database'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    SQLUser:
+      type: object
+      description: Represents a SQL user on a CockroachDB cluster.
+      properties:
+        name:
+          type: string
+          description: Username of the SQL user.
+
+    CreateSQLUserRequest:
+      type: object
+      description: Request body for creating a new SQL user.
+      required:
+        - name
+        - password
+      properties:
+        name:
+          type: string
+          description: Username for the new SQL user.
+        password:
+          type: string
+          description: Initial password for the SQL user.
+          format: password
+
+    UpdateSQLUserPasswordRequest:
+      type: object
+      description: Request body for updating a SQL user's password.
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          description: New password for the SQL user.
+          format: password
+
+    ListSQLUsersResponse:
+      type: object
+      description: Paginated list of SQL users for a cluster.
+      properties:
+        users:
+          type: array
+          description: Array of SQL user objects.
+          items:
+            $ref: '#/components/schemas/SQLUser'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    ApiKey:
+      type: object
+      description: >-
+        Represents an API key used for authenticating requests to the
+        CockroachDB Cloud API.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the API key.
+        name:
+          type: string
+          description: Human-readable name of the API key.
+        service_account_id:
+          type: string
+          description: Service account associated with this API key.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the API key was created.
+
+    CreateApiKeyRequest:
+      type: object
+      description: Request body for creating a new API key.
+      required:
+        - name
+        - service_account_id
+      properties:
+        name:
+          type: string
+          description: Name for the new API key.
+        service_account_id:
+          type: string
+          description: ID of the service account to associate the key with.
+
+    CreateApiKeyResponse:
+      type: object
+      description: >-
+        Response from creating an API key. Contains the key secret which is
+        only returned once and cannot be retrieved again.
+      properties:
+        api_key:
+          $ref: '#/components/schemas/ApiKey'
+        secret:
+          type: string
+          description: >-
+            The secret value of the API key. Only returned on creation and
+            not retrievable afterward.
+
+    UpdateApiKeySpecification:
+      type: object
+      description: Specification for updating an API key's metadata.
+      properties:
+        name:
+          type: string
+          description: New name for the API key.
+
+    ListApiKeysResponse:
+      type: object
+      description: Paginated list of API keys.
+      properties:
+        api_keys:
+          type: array
+          description: Array of API key objects.
+          items:
+            $ref: '#/components/schemas/ApiKey'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    ServiceAccount:
+      type: object
+      description: >-
+        A service account used for machine-to-machine authentication within a
+        CockroachDB Cloud organization.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the service account.
+        name:
+          type: string
+          description: Name of the service account.
+        description:
+          type: string
+          description: Description of the service account's purpose.
+        creator_id:
+          type: string
+          description: User ID of the account creator.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the service account was created.
+
+    CreateServiceAccountRequest:
+      type: object
+      description: Request body for creating a new service account.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name for the new service account.
+        description:
+          type: string
+          description: Optional description of the service account.
+
+    UpdateServiceAccountSpecification:
+      type: object
+      description: Specification for updating a service account.
+      properties:
+        name:
+          type: string
+          description: New name for the service account.
+        description:
+          type: string
+          description: New description for the service account.
+
+    ListServiceAccountsResponse:
+      type: object
+      description: Paginated list of service accounts.
+      properties:
+        service_accounts:
+          type: array
+          description: Array of service account objects.
+          items:
+            $ref: '#/components/schemas/ServiceAccount'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    Folder:
+      type: object
+      description: >-
+        Represents a folder used to organize clusters and resources within a
+        CockroachDB Cloud organization.
+      properties:
+        resource_id:
+          type: string
+          description: Unique identifier of the folder.
+        name:
+          type: string
+          description: Human-readable name of the folder.
+        parent_id:
+          type: string
+          description: ID of the parent folder, if any.
+        path:
+          type: string
+          description: Full path to the folder.
+
+    CreateFolderRequest:
+      type: object
+      description: Request body for creating a new folder.
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name for the new folder.
+        parent_id:
+          type: string
+          description: Parent folder ID to nest this folder under.
+
+    UpdateFolderSpecification:
+      type: object
+      description: Specification for updating a folder.
+      properties:
+        name:
+          type: string
+          description: New name for the folder.
+        parent_id:
+          type: string
+          description: New parent folder ID to move the folder to.
+
+    ListFoldersResponse:
+      type: object
+      description: Paginated list of folders.
+      properties:
+        folders:
+          type: array
+          description: Array of folder objects.
+          items:
+            $ref: '#/components/schemas/Folder'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    ListFolderContentsResponse:
+      type: object
+      description: Contents of a folder including clusters and sub-folders.
+      properties:
+        resources:
+          type: array
+          description: Array of resource objects (clusters or folders).
+          items:
+            type: object
+
+    AllowlistEntry:
+      type: object
+      description: >-
+        An IP allowlist entry representing a CIDR range authorized to connect
+        to a CockroachDB cluster.
+      required:
+        - cidr_ip
+        - cidr_mask
+      properties:
+        cidr_ip:
+          type: string
+          description: IPv4 address of the CIDR range.
+        cidr_mask:
+          type: integer
+          description: Prefix length of the CIDR range.
+          minimum: 0
+          maximum: 32
+        name:
+          type: string
+          description: Human-readable label for this allowlist entry.
+        ui:
+          type: boolean
+          description: >-
+            Whether this entry grants access to the DB Console (UI), in
+            addition to SQL.
+        sql:
+          type: boolean
+          description: Whether this entry grants SQL access.
+
+    ListAllowlistEntriesResponse:
+      type: object
+      description: Paginated list of IP allowlist entries for a cluster.
+      properties:
+        allowlist:
+          type: array
+          description: Array of allowlist entry objects.
+          items:
+            $ref: '#/components/schemas/AllowlistEntry'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    PrivateEndpointConnection:
+      type: object
+      description: >-
+        Represents a private endpoint connection for VPC-level access to a
+        CockroachDB cluster.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the private endpoint connection.
+        cloud_provider:
+          type: string
+          description: Cloud provider where the endpoint is hosted.
+        status:
+          type: string
+          description: Status of the private endpoint connection.
+        endpoint_id:
+          type: string
+          description: Cloud provider endpoint identifier.
+        region_name:
+          type: string
+          description: Cloud region of the endpoint.
+
+    ListPrivateEndpointServicesResponse:
+      type: object
+      description: List of private endpoint services for a cluster.
+      properties:
+        services:
+          type: array
+          description: Array of private endpoint service objects.
+          items:
+            type: object
+
+    ListPrivateEndpointConnectionsResponse:
+      type: object
+      description: List of private endpoint connections for a cluster.
+      properties:
+        connections:
+          type: array
+          description: Array of private endpoint connection objects.
+          items:
+            $ref: '#/components/schemas/PrivateEndpointConnection'
+
+    AddPrivateEndpointConnectionRequest:
+      type: object
+      description: Request body for adding a private endpoint connection.
+      required:
+        - endpoint_id
+      properties:
+        endpoint_id:
+          type: string
+          description: Cloud provider endpoint identifier to connect.
+
+    EgressRule:
+      type: object
+      description: >-
+        Represents an egress traffic rule controlling outbound connections from
+        a CockroachDB cluster.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the egress rule.
+        name:
+          type: string
+          description: Human-readable name of the egress rule.
+        destination:
+          type: string
+          description: Destination hostname or CIDR for allowed outbound traffic.
+        ports:
+          type: array
+          description: List of destination port numbers allowed by this rule.
+          items:
+            type: integer
+        type:
+          type: string
+          description: Type of egress rule (FQDN or CIDR).
+
+    AddEgressRuleRequest:
+      type: object
+      description: Request body for adding an egress rule.
+      required:
+        - name
+        - destination
+      properties:
+        name:
+          type: string
+          description: Name for the new egress rule.
+        destination:
+          type: string
+          description: Destination FQDN or CIDR to allow outbound traffic to.
+        ports:
+          type: array
+          description: List of destination ports to allow.
+          items:
+            type: integer
+        type:
+          type: string
+          description: Rule type. Accepted values are FQDN and CIDR.
+
+    EditEgressRuleRequest:
+      type: object
+      description: Request body for updating an egress rule.
+      properties:
+        name:
+          type: string
+          description: New name for the egress rule.
+        destination:
+          type: string
+          description: New destination FQDN or CIDR for the rule.
+        ports:
+          type: array
+          description: Updated list of destination ports.
+          items:
+            type: integer
+
+    ListEgressRulesResponse:
+      type: object
+      description: Paginated list of egress rules for a cluster.
+      properties:
+        rules:
+          type: array
+          description: Array of egress rule objects.
+          items:
+            $ref: '#/components/schemas/EgressRule'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    BackupConfiguration:
+      type: object
+      description: Backup configuration settings for a CockroachDB cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: Cluster ID the configuration applies to.
+        frequency_minutes:
+          type: integer
+          description: How often backups are taken, in minutes.
+        retention_days:
+          type: integer
+          description: Number of days backups are retained.
+
+    UpdateBackupConfigurationSpec:
+      type: object
+      description: Specification for updating backup configuration.
+      properties:
+        frequency_minutes:
+          type: integer
+          description: New backup frequency in minutes.
+        retention_days:
+          type: integer
+          description: New retention period in days.
+
+    Restore:
+      type: object
+      description: Represents a restore operation on a CockroachDB cluster.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the restore operation.
+        cluster_id:
+          type: string
+          description: ID of the destination cluster being restored into.
+        status:
+          type: string
+          description: Current status of the restore operation.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the restore was initiated.
+
+    CreateRestoreRequest:
+      type: object
+      description: Request body for initiating a cluster restore.
+      required:
+        - backup_id
+      properties:
+        backup_id:
+          type: string
+          description: ID of the backup to restore from.
+        target:
+          type: object
+          description: Optional target specification for the restore.
+
+    ListBackupsResponse:
+      type: object
+      description: Paginated list of cluster backups.
+      properties:
+        backups:
+          type: array
+          description: Array of backup objects.
+          items:
+            type: object
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    ListRestoresResponse:
+      type: object
+      description: Paginated list of restore operations.
+      properties:
+        restores:
+          type: array
+          description: Array of restore operation objects.
+          items:
+            $ref: '#/components/schemas/Restore'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    LogExportClusterInfo:
+      type: object
+      description: Log export configuration and status for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this log export configuration applies to.
+        status:
+          type: string
+          description: Current status of the log export configuration.
+        spec:
+          type: object
+          description: Log export specification including destination and groups.
+
+    EnableLogExportRequest:
+      type: object
+      description: Request body for enabling log export.
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          description: Type of log export destination. Accepted values are AWS_CLOUDWATCH and GCP_CLOUD_LOGGING.
+          enum: [AWS_CLOUDWATCH, GCP_CLOUD_LOGGING]
+        log_name:
+          type: string
+          description: Name for the log stream or log group.
+        groups:
+          type: array
+          description: Channel groups to export.
+          items:
+            type: object
+
+    CloudWatchMetricExportInfo:
+      type: object
+      description: AWS CloudWatch metric export configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this configuration applies to.
+        status:
+          type: string
+          description: Current status of CloudWatch metric export.
+        role_arn:
+          type: string
+          description: AWS IAM role ARN used for CloudWatch metric export.
+
+    EnableCloudWatchMetricExportRequest:
+      type: object
+      description: Request body for enabling AWS CloudWatch metric export.
+      required:
+        - role_arn
+      properties:
+        role_arn:
+          type: string
+          description: AWS IAM role ARN to assume for CloudWatch metric publishing.
+        target_region:
+          type: string
+          description: AWS region where metrics should be exported.
+
+    DatadogMetricExportInfo:
+      type: object
+      description: Datadog metric export configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this configuration applies to.
+        status:
+          type: string
+          description: Current status of Datadog metric export.
+        site:
+          type: string
+          description: Datadog site to export metrics to.
+
+    EnableDatadogMetricExportRequest:
+      type: object
+      description: Request body for enabling Datadog metric export.
+      required:
+        - api_key
+      properties:
+        api_key:
+          type: string
+          description: Datadog API key for authentication.
+        site:
+          type: string
+          description: Datadog site endpoint (e.g. US1, EU1).
+
+    PrometheusMetricExportInfo:
+      type: object
+      description: Prometheus metric export configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this configuration applies to.
+        status:
+          type: string
+          description: Current status of Prometheus metric export.
+
+    CMEKClusterInfo:
+      type: object
+      description: Customer-managed encryption key configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this CMEK configuration applies to.
+        status:
+          type: string
+          description: Current CMEK operational status.
+        spec:
+          $ref: '#/components/schemas/CMEKClusterSpecification'
+
+    CMEKClusterSpecification:
+      type: object
+      description: >-
+        Specification defining the customer-managed encryption key configuration
+        for a CockroachDB cluster.
+      required:
+        - region_specs
+      properties:
+        region_specs:
+          type: array
+          description: Per-region CMEK key specifications.
+          items:
+            type: object
+            properties:
+              region:
+                type: string
+                description: Cloud region the key applies to.
+              key:
+                type: object
+                description: Key specification including type and URI.
+
+    UpdateCMEKStatusRequest:
+      type: object
+      description: Request body for updating CMEK operational status.
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: New CMEK status. Accepted values include REVOKE and ROTATE.
+
+    ListRoleGrantsResponse:
+      type: object
+      description: Paginated list of role grants in the organization.
+      properties:
+        grants:
+          type: array
+          description: Array of role grant objects.
+          items:
+            type: object
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    GetAllRolesForUserResponse:
+      type: object
+      description: All role grants assigned to a specific user.
+      properties:
+        roles:
+          type: array
+          description: Array of role grant objects.
+          items:
+            type: object
+
+    SetRolesForUserRequest:
+      type: object
+      description: Request body for setting all roles for a user.
+      required:
+        - roles
+      properties:
+        roles:
+          type: array
+          description: Complete set of role grants to assign to the user.
+          items:
+            type: object
+
+    GetPersonUsersByEmailResponse:
+      type: object
+      description: Person user accounts matching the queried email address.
+      properties:
+        users:
+          type: array
+          description: Array of user account objects.
+          items:
+            type: object
+
+    ListInvoicesResponse:
+      type: object
+      description: List of invoices for the organization.
+      properties:
+        invoices:
+          type: array
+          description: Array of invoice objects.
+          items:
+            $ref: '#/components/schemas/Invoice'
+
+    Invoice:
+      type: object
+      description: A billing invoice for a CockroachDB Cloud organization.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the invoice.
+        status:
+          type: string
+          description: Status of the invoice. Values include Finalized and Draft.
+        period_start:
+          type: string
+          format: date-time
+          description: Start of the billing period covered by this invoice.
+        period_end:
+          type: string
+          format: date-time
+          description: End of the billing period covered by this invoice.
+        total_amount:
+          type: number
+          description: Total invoice amount in US cents.
+
+    ListAuditLogsResponse:
+      type: object
+      description: Audit log events returned from the API.
+      properties:
+        entries:
+          type: array
+          description: Array of audit log entry objects.
+          items:
+            type: object
+
+    JWTIssuer:
+      type: object
+      description: A JWT issuer configuration for external identity provider integration.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the JWT issuer.
+        issuer_url:
+          type: string
+          description: URL of the JWT issuer (identity provider).
+        jwks_id:
+          type: string
+          description: Identifier for the JSON Web Key Set.
+
+    AddJWTIssuerRequest:
+      type: object
+      description: Request body for adding a JWT issuer.
+      required:
+        - issuer_url
+        - jwks_id
+      properties:
+        issuer_url:
+          type: string
+          description: URL of the JWT issuer.
+        jwks_id:
+          type: string
+          description: Identifier for the JSON Web Key Set.
+
+    UpdateJWTIssuerRequest:
+      type: object
+      description: Request body for updating a JWT issuer.
+      properties:
+        issuer_url:
+          type: string
+          description: Updated URL of the JWT issuer.
+        jwks_id:
+          type: string
+          description: Updated JWKS identifier.
+
+    ListJWTIssuersResponse:
+      type: object
+      description: Paginated list of JWT issuers.
+      properties:
+        issuers:
+          type: array
+          description: Array of JWT issuer objects.
+          items:
+            $ref: '#/components/schemas/JWTIssuer'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+
+    MaintenanceWindow:
+      type: object
+      description: >-
+        Defines the time window during which CockroachDB Cloud may perform
+        automatic maintenance and version upgrade operations on a cluster.
+      properties:
+        day_of_week:
+          type: integer
+          description: Day of the week for maintenance. 0=Sunday, 6=Saturday.
+          minimum: 0
+          maximum: 6
+        start_hour:
+          type: integer
+          description: Hour of day (UTC) when the maintenance window begins.
+          minimum: 0
+          maximum: 23
+
+    ClusterVersionDeferral:
+      type: object
+      description: >-
+        Version deferral policy for a cluster, controlling whether automatic
+        CockroachDB version upgrades are deferred.
+      properties:
+        deferral_policy:
+          type: string
+          description: >-
+            Deferral policy. Values include NOT_DEFERRED (upgrades proceed
+            immediately) and FIXED_DEFERRAL (upgrades are delayed).
+          enum: [NOT_DEFERRED, FIXED_DEFERRAL]
+
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.

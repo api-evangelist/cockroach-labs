@@ -1,0 +1,813 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cluster API
+  description: >-
+    The CockroachDB Cluster API is a REST API hosted by all nodes of a
+    CockroachDB cluster that provides programmatic access to cluster status,
+    node information, session data, range details, and alerting rules. It is
+    available on the same HTTP port used by the DB Console, defaulting to
+    port 8080, and exposes endpoints under the /api/v2 base path. The API
+    enables monitoring and troubleshooting workflows using any HTTP-capable
+    tooling. Authentication requires requesting a session token via the
+    /api/v2/login/ endpoint and passing it with subsequent requests using the
+    X-Cockroach-API-Session header.
+  version: '2.0.0'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+externalDocs:
+  description: CockroachDB Cluster API Documentation
+  url: https://www.cockroachlabs.com/docs/stable/cluster-api
+servers:
+  - url: https://localhost:8080
+    description: >-
+      CockroachDB node HTTP port. Replace localhost with the host and 8080
+      with the configured --http-port of the target node.
+tags:
+  - name: Auth
+    description: >-
+      Authenticate to the Cluster API by creating and terminating API sessions.
+      Session tokens are passed via the X-Cockroach-API-Session header on
+      subsequent requests.
+  - name: Health
+    description: >-
+      Check the health and readiness of individual CockroachDB nodes. The
+      health endpoint can report whether the node is live and fully operational
+      for accepting SQL connections.
+  - name: Nodes
+    description: >-
+      Retrieve information about all nodes in the cluster, including their
+      status, address, locality, and operational metrics.
+  - name: Ranges
+    description: >-
+      List and inspect range information for the cluster, including hot ranges
+      by node and detailed information for specific range IDs.
+  - name: Rules
+    description: >-
+      Retrieve alerting rules templates for use with Prometheus-compatible
+      alerting systems.
+  - name: Sessions
+    description: >-
+      List active SQL sessions across all nodes of the cluster, with optional
+      filtering by username.
+security:
+  - sessionAuth: []
+paths:
+  /api/v2/login/:
+    post:
+      operationId: Login
+      summary: Create a session
+      description: >-
+        Creates an authenticated API session by supplying valid SQL username
+        and password credentials. Returns a session token in the
+        X-Cockroach-API-Session response header. This token must be included
+        as the X-Cockroach-API-Session header on all subsequent requests to
+        authenticated endpoints.
+      tags:
+        - Auth
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: >-
+            Session created successfully. The session token is returned in the
+            X-Cockroach-API-Session response header.
+          headers:
+            X-Cockroach-API-Session:
+              description: Session token to use for authenticating subsequent requests.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v2/logout/:
+    post:
+      operationId: Logout
+      summary: Terminate a session
+      description: >-
+        Terminates a previously established API session, invalidating the
+        session token. The X-Cockroach-API-Session header must be included
+        with the session token to revoke.
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: Session terminated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v2/health/:
+    get:
+      operationId: Health
+      summary: Check node health
+      description: >-
+        Reports the health of the CockroachDB node. When the optional ready
+        parameter is set to true, the endpoint also verifies that the node is
+        fully operational and ready to accept SQL connections. Returns HTTP 200
+        if healthy, or HTTP 500 if not ready. This endpoint does not require
+        authentication.
+      tags:
+        - Health
+      security: []
+      parameters:
+        - name: ready
+          in: query
+          description: >-
+            If true, checks whether the node is fully ready to accept SQL
+            connections in addition to being live.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Node is healthy and, if ready was requested, fully operational.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '500':
+          description: Node is not ready to accept SQL connections.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/v2/nodes/:
+    get:
+      operationId: ListNodes
+      summary: List nodes
+      description: >-
+        Returns information about all nodes in the cluster, including each
+        node's address, build information, locality, store metrics, and
+        operational status. Requires admin-level authentication.
+      tags:
+        - Nodes
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: List of cluster nodes returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListNodesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v2/nodes/{node_id}/ranges/:
+    get:
+      operationId: ListNodeRanges
+      summary: List ranges for a node
+      description: >-
+        Returns information about ranges stored on the specified node. If a
+        list of range IDs is provided via the ranges query parameter, only
+        information about those specific ranges is returned. Requires admin
+        authentication.
+      tags:
+        - Ranges
+      parameters:
+        - $ref: '#/components/parameters/nodeId'
+        - name: ranges
+          in: query
+          description: >-
+            Comma-separated list of range IDs to filter results. If omitted,
+            all ranges on the node are returned.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: Range information for the node returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListNodeRangesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v2/ranges/hot/:
+    get:
+      operationId: ListHotRanges
+      summary: List hot ranges
+      description: >-
+        Returns information about hot ranges across the cluster, ranked by
+        query activity. Optionally filter by node ID to return only hot ranges
+        on a specific node. Requires admin authentication.
+      tags:
+        - Ranges
+      parameters:
+        - name: node_id
+          in: query
+          description: >-
+            Filter hot ranges by the ID of the node to query. If omitted,
+            hot ranges across all nodes are returned.
+          schema:
+            type: integer
+            format: int32
+        - $ref: '#/components/parameters/limit'
+        - name: start
+          in: query
+          description: Pagination cursor for the starting position in the result set.
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Hot ranges returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListHotRangesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v2/ranges/{range_id}/:
+    get:
+      operationId: GetRange
+      summary: Get a range
+      description: >-
+        Retrieves detailed information about a specific range identified by
+        range_id, including replica placement, lease holder, and statistics.
+        Requires admin authentication.
+      tags:
+        - Ranges
+      parameters:
+        - $ref: '#/components/parameters/rangeId'
+      responses:
+        '200':
+          description: Range information returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangeResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v2/sessions/:
+    get:
+      operationId: ListSessions
+      summary: List sessions
+      description: >-
+        Returns a list of all active SQL sessions across all nodes of the
+        cluster. Optionally filter by username to return only sessions for
+        a specific SQL user. Supports pagination via limit and start parameters.
+        Requires admin authentication.
+      tags:
+        - Sessions
+      parameters:
+        - name: username
+          in: query
+          description: Filter sessions by SQL username.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/limit'
+        - name: start
+          in: query
+          description: Pagination cursor for the starting position in the result set.
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: List of active sessions returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSessionsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /api/v2/rules/:
+    get:
+      operationId: GetAlertingRules
+      summary: Get alerting rules
+      description: >-
+        Returns a Prometheus-compatible alerting rules template that can be
+        used to configure alerting for CockroachDB cluster health and
+        performance metrics. This endpoint does not require authentication.
+      tags:
+        - Rules
+      security: []
+      responses:
+        '200':
+          description: Alerting rules template returned successfully.
+          content:
+            application/yaml:
+              schema:
+                type: string
+                description: >-
+                  YAML-formatted Prometheus alerting rules template for
+                  monitoring CockroachDB cluster health.
+
+components:
+  securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: header
+      name: X-Cockroach-API-Session
+      description: >-
+        Session token obtained from the /api/v2/login/ endpoint. Include this
+        header with all authenticated requests.
+
+  parameters:
+    nodeId:
+      name: node_id
+      in: path
+      required: true
+      description: Numeric identifier of the CockroachDB node.
+      schema:
+        type: integer
+        format: int32
+    rangeId:
+      name: range_id
+      in: path
+      required: true
+      description: Numeric identifier of the range.
+      schema:
+        type: integer
+        format: int64
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of results to return in a single response.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
+    offset:
+      name: offset
+      in: query
+      description: >-
+        Number of results to skip before returning data. Used for
+        offset-based pagination.
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+
+  responses:
+    Unauthorized:
+      description: >-
+        Authentication is required. The X-Cockroach-API-Session header is
+        missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: >-
+        The authenticated user does not have admin privileges required to
+        access this endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      description: Standard error response returned by the Cluster API.
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the error.
+
+    LoginRequest:
+      type: object
+      description: Credentials for authenticating to the Cluster API.
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          description: SQL username to authenticate with.
+        password:
+          type: string
+          description: Password for the SQL user.
+          format: password
+
+    LoginResponse:
+      type: object
+      description: Response from a successful login request.
+      properties:
+        session:
+          type: string
+          description: >-
+            Session token. Also returned in the X-Cockroach-API-Session
+            response header for convenience.
+
+    LogoutResponse:
+      type: object
+      description: Response from a logout request confirming session termination.
+      properties:
+        logged_out:
+          type: boolean
+          description: True if the session was successfully terminated.
+
+    HealthResponse:
+      type: object
+      description: Health status of the CockroachDB node.
+      properties:
+        node_id:
+          type: integer
+          description: Numeric identifier of the responding node.
+        ready:
+          type: boolean
+          description: >-
+            True if the node is fully operational and ready to accept SQL
+            connections.
+
+    ListNodesResponse:
+      type: object
+      description: List of nodes in the CockroachDB cluster with pagination metadata.
+      properties:
+        nodes:
+          type: array
+          description: Array of node status objects.
+          items:
+            $ref: '#/components/schemas/NodeStatus'
+        next:
+          type: integer
+          description: >-
+            Offset value to use to retrieve the next page of results.
+            Absent when there are no more results.
+
+    NodeStatus:
+      type: object
+      description: >-
+        Status and metadata for a single node in the CockroachDB cluster,
+        including address, build details, locality, store information, and
+        activity metrics.
+      properties:
+        desc:
+          $ref: '#/components/schemas/NodeDescriptor'
+        build_info:
+          $ref: '#/components/schemas/BuildInfo'
+        started_at:
+          type: integer
+          format: int64
+          description: Unix nanosecond timestamp when the node process started.
+        updated_at:
+          type: integer
+          format: int64
+          description: Unix nanosecond timestamp of the most recent status update.
+        metrics:
+          type: object
+          description: >-
+            Map of metric name to value for this node, covering CPU, memory,
+            disk, network, and SQL throughput metrics.
+          additionalProperties:
+            type: number
+        store_statuses:
+          type: array
+          description: Status objects for each store (disk) on this node.
+          items:
+            type: object
+        args:
+          type: array
+          description: Command-line arguments the node process was started with.
+          items:
+            type: string
+        env:
+          type: array
+          description: Environment variables set in the node process.
+          items:
+            type: string
+        activity:
+          type: object
+          description: Per-node activity metrics including bytes sent and received.
+
+    NodeDescriptor:
+      type: object
+      description: >-
+        Identifies and locates a specific node within the CockroachDB cluster.
+      properties:
+        node_id:
+          type: integer
+          format: int32
+          description: Numeric identifier of the node.
+        address:
+          $ref: '#/components/schemas/Address'
+        attrs:
+          type: object
+          description: Node attribute key-value pairs used for zone configuration.
+        locality:
+          $ref: '#/components/schemas/Locality'
+        server_version:
+          type: object
+          description: CockroachDB server version running on this node.
+        build_tag:
+          type: string
+          description: Build tag string for the CockroachDB binary.
+        started_at:
+          type: integer
+          format: int64
+          description: Unix nanosecond timestamp when the node started.
+        cluster_name:
+          type: string
+          description: Name of the cluster this node belongs to.
+        sql_address:
+          $ref: '#/components/schemas/Address'
+
+    Address:
+      type: object
+      description: Network address of a CockroachDB node.
+      properties:
+        network_field:
+          type: string
+          description: Network protocol (e.g. tcp).
+        address_field:
+          type: string
+          description: Host and port of the node (e.g. 10.0.0.1:26257).
+
+    Locality:
+      type: object
+      description: >-
+        Geographic or topological locality tiers assigned to the node, used for
+        zone configuration and replica placement.
+      properties:
+        tiers:
+          type: array
+          description: Ordered list of locality tiers from most general to most specific.
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: Locality tier key (e.g. region, zone, rack).
+              value:
+                type: string
+                description: Locality tier value (e.g. us-east-1, us-east-1a).
+
+    BuildInfo:
+      type: object
+      description: Build and version metadata for the CockroachDB binary on a node.
+      properties:
+        go_version:
+          type: string
+          description: Go runtime version used to build CockroachDB.
+        tag:
+          type: string
+          description: Git tag of the CockroachDB release.
+        time:
+          type: string
+          description: Build timestamp.
+        revision:
+          type: string
+          description: Git revision hash of the build.
+        cgo_compiler:
+          type: string
+          description: CGO compiler version used in the build.
+        platform:
+          type: string
+          description: Target platform for the build (e.g. linux amd64).
+        distribution:
+          type: string
+          description: CockroachDB distribution type (e.g. CCL or OSS).
+        type:
+          type: string
+          description: Build type (e.g. release or development).
+        channel:
+          type: string
+          description: Release channel the binary belongs to.
+
+    ListNodeRangesResponse:
+      type: object
+      description: Range information for a specific node with pagination metadata.
+      properties:
+        ranges:
+          type: array
+          description: Array of range information objects for the node.
+          items:
+            $ref: '#/components/schemas/RangeInfo'
+        next:
+          type: integer
+          description: Offset for retrieving the next page of results.
+
+    RangeInfo:
+      type: object
+      description: >-
+        Information about a single range, including span, replica placement,
+        lease holder, and per-replica statistics.
+      properties:
+        desc:
+          $ref: '#/components/schemas/RangeDescriptor'
+        span:
+          type: object
+          description: Key span covered by this range.
+        source_node_id:
+          type: integer
+          description: Node ID that provided this range information.
+        source_store_id:
+          type: integer
+          description: Store ID on the source node that holds this range.
+        error_message:
+          type: string
+          description: Error message if range information could not be retrieved.
+        lease_holder:
+          type: integer
+          description: Store ID of the current leaseholder replica.
+        raft_state:
+          type: string
+          description: Raft consensus state of this range (e.g. Leader, Follower).
+        stats:
+          type: object
+          description: Aggregate statistics for the range including key/value counts.
+
+    RangeDescriptor:
+      type: object
+      description: Describes a range's identity, key bounds, and replica set.
+      properties:
+        range_id:
+          type: integer
+          format: int64
+          description: Unique identifier of the range.
+        start_key:
+          type: string
+          description: Base64-encoded start key of the range.
+        end_key:
+          type: string
+          description: Base64-encoded end key of the range.
+        internal_replicas:
+          type: array
+          description: List of replicas for this range.
+          items:
+            type: object
+            properties:
+              node_id:
+                type: integer
+                description: Node hosting this replica.
+              store_id:
+                type: integer
+                description: Store on the node hosting this replica.
+              replica_id:
+                type: integer
+                description: Unique identifier of this replica within the range.
+
+    ListHotRangesResponse:
+      type: object
+      description: Hot ranges across the cluster or filtered to a specific node.
+      properties:
+        ranges:
+          type: array
+          description: Array of hot range objects sorted by activity level.
+          items:
+            $ref: '#/components/schemas/HotRange'
+        next:
+          type: integer
+          description: Pagination cursor for the next page of hot range results.
+
+    HotRange:
+      type: object
+      description: >-
+        A range identified as hot due to elevated query activity, including the
+        range descriptor and per-second query throughput.
+      properties:
+        range_id:
+          type: integer
+          format: int64
+          description: Unique identifier of the hot range.
+        node_id:
+          type: integer
+          description: Node ID of the node reporting this hot range.
+        qps:
+          type: number
+          format: double
+          description: Queries per second observed on this range.
+        table_name:
+          type: string
+          description: Name of the table this range belongs to, if known.
+        db_name:
+          type: string
+          description: Name of the database this range belongs to, if known.
+        index_name:
+          type: string
+          description: Name of the index this range belongs to, if known.
+        schema_name:
+          type: string
+          description: Schema name for the table this range belongs to, if known.
+
+    RangeResponse:
+      type: object
+      description: Detailed information about a specific range from all replicas.
+      properties:
+        range_id:
+          type: integer
+          format: int64
+          description: Unique identifier of the range.
+        responses_by_node_id:
+          type: object
+          description: >-
+            Map of node ID to the range information reported by that node's
+            replica.
+          additionalProperties:
+            $ref: '#/components/schemas/RangeInfo'
+
+    ListSessionsResponse:
+      type: object
+      description: List of active SQL sessions across all cluster nodes.
+      properties:
+        sessions:
+          type: array
+          description: Array of active session objects.
+          items:
+            $ref: '#/components/schemas/Session'
+        errors:
+          type: array
+          description: >-
+            Errors encountered while collecting session data from individual
+            nodes. Sessions from healthy nodes are still returned.
+          items:
+            type: object
+            properties:
+              node_id:
+                type: integer
+                description: Node ID that returned an error.
+              message:
+                type: string
+                description: Error message from the node.
+        next:
+          type: integer
+          description: Pagination cursor for the next page of session results.
+
+    Session:
+      type: object
+      description: >-
+        An active SQL session on the CockroachDB cluster, representing a
+        connection from a client application.
+      properties:
+        node_id:
+          type: integer
+          description: Node ID where this session is being served.
+        username:
+          type: string
+          description: SQL username of the session.
+        client_address:
+          type: string
+          description: Network address of the client (host:port).
+        application_name:
+          type: string
+          description: Application name reported by the SQL client driver.
+        start:
+          type: string
+          format: date-time
+          description: Timestamp when the session was established.
+        last_active_query:
+          type: string
+          description: Most recently executed SQL query in this session.
+        id:
+          type: string
+          description: Unique identifier of the session.
+        alloc_bytes:
+          type: integer
+          format: int64
+          description: Memory allocated by this session in bytes.
+        max_alloc_bytes:
+          type: integer
+          format: int64
+          description: Peak memory allocation for this session in bytes.
+        active_queries:
+          type: array
+          description: Currently executing queries within this session.
+          items:
+            type: object
+        active_txn:
+          type: object
+          description: Currently active transaction within this session, if any.

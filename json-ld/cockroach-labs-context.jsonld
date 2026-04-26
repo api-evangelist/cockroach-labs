@@ -1,0 +1,316 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "cockroachdb": "https://cockroachlabs.com/vocab/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "hydra": "http://www.w3.org/ns/hydra/core#",
+
+    "Cluster": {
+      "@id": "cockroachdb:Cluster",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "description": "schema:description",
+        "cloud_provider": {
+          "@id": "cockroachdb:cloudProvider",
+          "@type": "xsd:string"
+        },
+        "cockroach_version": {
+          "@id": "cockroachdb:cockroachVersion",
+          "@type": "xsd:string"
+        },
+        "plan": {
+          "@id": "cockroachdb:plan",
+          "@type": "xsd:string"
+        },
+        "state": {
+          "@id": "cockroachdb:state",
+          "@type": "xsd:string"
+        },
+        "operation_status": {
+          "@id": "cockroachdb:operationStatus",
+          "@type": "xsd:string"
+        },
+        "regions": {
+          "@id": "cockroachdb:regions",
+          "@container": "@set"
+        },
+        "config": {
+          "@id": "cockroachdb:config"
+        },
+        "creator_id": {
+          "@id": "dcterms:creator",
+          "@type": "@id"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updated_at": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        },
+        "deleted_at": {
+          "@id": "cockroachdb:deletedAt",
+          "@type": "xsd:dateTime"
+        },
+        "sql_dns": {
+          "@id": "cockroachdb:sqlDns",
+          "@type": "@id"
+        },
+        "upgrade_status": {
+          "@id": "cockroachdb:upgradeStatus",
+          "@type": "xsd:string"
+        },
+        "account_id": {
+          "@id": "cockroachdb:accountId",
+          "@type": "xsd:string"
+        },
+        "parent_id": {
+          "@id": "cockroachdb:parentId",
+          "@type": "@id"
+        },
+        "labels": {
+          "@id": "schema:additionalProperty"
+        },
+        "delete_protection": {
+          "@id": "cockroachdb:deleteProtection",
+          "@type": "xsd:string"
+        },
+        "egress_traffic_policy": {
+          "@id": "cockroachdb:egressTrafficPolicy",
+          "@type": "xsd:string"
+        },
+        "network_visibility": {
+          "@id": "cockroachdb:networkVisibility",
+          "@type": "xsd:string"
+        },
+        "cidr_range": {
+          "@id": "cockroachdb:cidrRange",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "Region": {
+      "@id": "cockroachdb:Region",
+      "@context": {
+        "name": "schema:name",
+        "sql_dns": {
+          "@id": "cockroachdb:sqlDns",
+          "@type": "@id"
+        },
+        "node_count": {
+          "@id": "cockroachdb:nodeCount",
+          "@type": "xsd:integer"
+        },
+        "primary": {
+          "@id": "cockroachdb:isPrimary",
+          "@type": "xsd:boolean"
+        }
+      }
+    },
+
+    "Organization": {
+      "@id": "cockroachdb:Organization",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "label": "schema:alternateName",
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Folder": {
+      "@id": "cockroachdb:Folder",
+      "@context": {
+        "resource_id": "@id",
+        "name": "schema:name",
+        "parent_id": {
+          "@id": "cockroachdb:parentId",
+          "@type": "@id"
+        },
+        "path": {
+          "@id": "cockroachdb:path",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "ServiceAccount": {
+      "@id": "cockroachdb:ServiceAccount",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "description": "schema:description",
+        "creator_id": {
+          "@id": "dcterms:creator",
+          "@type": "@id"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "ApiKey": {
+      "@id": "cockroachdb:ApiKey",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "service_account_id": {
+          "@id": "cockroachdb:serviceAccount",
+          "@type": "@id"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "SQLUser": {
+      "@id": "cockroachdb:SQLUser",
+      "@context": {
+        "name": "schema:name"
+      }
+    },
+
+    "Database": {
+      "@id": "cockroachdb:Database",
+      "@context": {
+        "name": "schema:name",
+        "table_count": {
+          "@id": "cockroachdb:tableCount",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "AllowlistEntry": {
+      "@id": "cockroachdb:AllowlistEntry",
+      "@context": {
+        "cidr_ip": {
+          "@id": "cockroachdb:cidrIp",
+          "@type": "xsd:string"
+        },
+        "cidr_mask": {
+          "@id": "cockroachdb:cidrMask",
+          "@type": "xsd:integer"
+        },
+        "name": "schema:name",
+        "ui": {
+          "@id": "cockroachdb:allowsUI",
+          "@type": "xsd:boolean"
+        },
+        "sql": {
+          "@id": "cockroachdb:allowsSQL",
+          "@type": "xsd:boolean"
+        }
+      }
+    },
+
+    "Invoice": {
+      "@id": "cockroachdb:Invoice",
+      "@context": {
+        "id": "@id",
+        "status": {
+          "@id": "cockroachdb:invoiceStatus",
+          "@type": "xsd:string"
+        },
+        "period_start": {
+          "@id": "schema:temporalCoverage",
+          "@type": "xsd:dateTime"
+        },
+        "period_end": {
+          "@id": "cockroachdb:periodEnd",
+          "@type": "xsd:dateTime"
+        },
+        "total_amount": {
+          "@id": "schema:price",
+          "@type": "xsd:decimal"
+        }
+      }
+    },
+
+    "BackupConfiguration": {
+      "@id": "cockroachdb:BackupConfiguration",
+      "@context": {
+        "cluster_id": {
+          "@id": "cockroachdb:cluster",
+          "@type": "@id"
+        },
+        "frequency_minutes": {
+          "@id": "cockroachdb:frequencyMinutes",
+          "@type": "xsd:integer"
+        },
+        "retention_days": {
+          "@id": "cockroachdb:retentionDays",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "MaintenanceWindow": {
+      "@id": "cockroachdb:MaintenanceWindow",
+      "@context": {
+        "day_of_week": {
+          "@id": "cockroachdb:dayOfWeek",
+          "@type": "xsd:integer"
+        },
+        "start_hour": {
+          "@id": "cockroachdb:startHour",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "ClusterNode": {
+      "@id": "cockroachdb:ClusterNode",
+      "@context": {
+        "name": "schema:name",
+        "region_name": {
+          "@id": "cockroachdb:region",
+          "@type": "xsd:string"
+        },
+        "status": {
+          "@id": "cockroachdb:nodeStatus",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "Session": {
+      "@id": "cockroachdb:Session",
+      "@context": {
+        "id": "@id",
+        "username": {
+          "@id": "schema:identifier",
+          "@type": "xsd:string"
+        },
+        "client_address": {
+          "@id": "schema:url",
+          "@type": "xsd:string"
+        },
+        "application_name": {
+          "@id": "schema:applicationCategory",
+          "@type": "xsd:string"
+        },
+        "start": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "node_id": {
+          "@id": "cockroachdb:node",
+          "@type": "@id"
+        }
+      }
+    }
+  }
+}

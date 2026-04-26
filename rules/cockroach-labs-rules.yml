@@ -1,0 +1,115 @@
+extends:
+  - spectral:oas
+
+# Spectral linting rules for Cockroach Labs APIs.
+# Tuned to cockroachlabs.cloud (Cloud API) and per-node /api/v2 (Cluster API)
+# conventions: HTTPS for cloud, bearer tokens, Cc-Version header, UUID
+# resource identifiers, and standardized error envelopes.
+rules:
+  cockroach-labs-info-contact:
+    description: API contact information must be present.
+    severity: error
+    given: "$.info"
+    then:
+      field: contact
+      function: truthy
+
+  cockroach-labs-terms-of-service:
+    description: termsOfService must reference cockroachlabs.com.
+    severity: warn
+    given: "$.info.termsOfService"
+    then:
+      function: pattern
+      functionOptions:
+        match: "cockroachlabs.com"
+
+  cockroach-labs-server-https:
+    description: Public server URLs must use HTTPS (cluster API loopback exempt).
+    severity: warn
+    given: "$.servers[?(@.url && @.url.indexOf('localhost') === -1)].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  cockroach-labs-cloud-base-host:
+    description: Cloud API server URL must point to cockroachlabs.cloud.
+    severity: info
+    given: "$.servers[?(@.url && @.url.indexOf('cockroachlabs.cloud') > -1)].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "cockroachlabs.cloud"
+
+  cockroach-labs-bearer-security:
+    description: Cloud API operations must define a bearer-token security scheme.
+    severity: error
+    given: "$.components.securitySchemes[*]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          properties:
+            type:
+              enum: ["http", "apiKey", "oauth2"]
+
+  cockroach-labs-operation-id:
+    description: Every operation must declare a unique operationId.
+    severity: error
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: operationId
+      function: truthy
+
+  cockroach-labs-operation-tags:
+    description: Operations must declare at least one tag.
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: tags
+      function: schema
+      functionOptions:
+        schema:
+          type: array
+          minItems: 1
+
+  cockroach-labs-error-responses:
+    description: Mutating operations should declare 4xx/5xx error responses.
+    severity: warn
+    given: "$.paths[*][post,put,patch,delete].responses"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: ["400"]
+            - required: ["401"]
+            - required: ["403"]
+            - required: ["404"]
+            - required: ["429"]
+
+  cockroach-labs-uuid-cluster-id:
+    description: Path parameters named cluster_id should be UUIDs.
+    severity: info
+    given: "$.paths[*].*.parameters[?(@.in == 'path' && @.name == 'cluster_id')].schema"
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+          - uuid
+
+  cockroach-labs-cc-version-header:
+    description: Cloud API requests should support the Cc-Version versioning header.
+    severity: info
+    given: "$.paths[*][get,post,put,patch,delete].parameters[?(@.in == 'header')]"
+    then:
+      field: name
+      function: enumeration
+      functionOptions:
+        values:
+          - Cc-Version
+          - X-Cockroach-API-Session
+          - Authorization
