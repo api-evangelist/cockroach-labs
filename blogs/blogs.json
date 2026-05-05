@@ -1,0 +1,13 @@
+{
+  "repo": "cockroach-labs",
+  "feeds": [
+    {
+      "source": "https://www.cockroachlabs.com/blog/",
+      "feed_url": "https://www.cockroachlabs.com/rss.xml",
+      "saved": 10,
+      "title": "Blog posts | RSS Feed"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:26:04Z"
+}
