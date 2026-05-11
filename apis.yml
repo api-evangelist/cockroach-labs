@@ -141,6 +141,11 @@ common:
     type: Spectral
   - url: capabilities/cockroach-labs-capabilities.yml
     type: NaftikoCapabilities
+  - type: Integrations
+    url: https://www.cockroachlabs.com/partners/
+integrations:
+  - name: partner-icon
+  - name: Become a partner
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
