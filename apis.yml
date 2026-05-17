@@ -13,7 +13,7 @@ tags:
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 access: 3rd-Party
-x-type: company
+kind: company
 created: '2024-11-24'
 modified: '2026-04-26'
 position: Consumer
@@ -117,7 +117,7 @@ common:
     url: https://www.cockroachlabs.com/docs/stable/architecture/glossary
   - type: Console
     url: https://cockroachlabs.cloud/
-  - type: Status
+  - type: StatusPage
     url: https://status.cockroachlabs.cloud/
   - type: Support
     url: https://www.cockroachlabs.com/support/
@@ -134,7 +134,7 @@ common:
   - type: TermsOfService
     url: https://www.cockroachlabs.com/cloud-terms-and-conditions/
   - url: json-ld/cockroach-labs-context.jsonld
-    type: JSON-LD
+    type: JSONLD
   - url: json-schema/cockroach-labs-cluster-schema.json
     type: JSONSchema
   - url: rules/cockroach-labs-rules.yml
