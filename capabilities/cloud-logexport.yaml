@@ -1,0 +1,130 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CockroachDB Cloud API — LogExport
+  description: 'CockroachDB Cloud API — LogExport. 3 operations. Lead operation: Get log export configuration. Self-contained
+    Naftiko capability covering one Cockroach Labs business surface.'
+  tags:
+  - Cockroach Labs
+  - LogExport
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COCKROACH_LABS_API_KEY: COCKROACH_LABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-logexport
+    baseUri: https://cockroachlabs.cloud
+    description: CockroachDB Cloud API — LogExport business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-clusters-cluster_id-logexport
+      path: /api/v1/clusters/{cluster_id}/logexport
+      operations:
+      - name: getlogexportinfo
+        method: GET
+        description: Get log export configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: enablelogexport
+        method: POST
+        description: Enable log export
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletelogexport
+        method: DELETE
+        description: Disable log export
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.COCKROACH_LABS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-logexport-rest
+    port: 8080
+    description: REST adapter for CockroachDB Cloud API — LogExport. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v1/clusters/{cluster-id}/logexport
+      name: api-v1-clusters-cluster-id-logexport
+      description: REST surface for api-v1-clusters-cluster_id-logexport.
+      operations:
+      - method: GET
+        name: getlogexportinfo
+        description: Get log export configuration
+        call: cloud-logexport.getlogexportinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: enablelogexport
+        description: Enable log export
+        call: cloud-logexport.enablelogexport
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletelogexport
+        description: Disable log export
+        call: cloud-logexport.deletelogexport
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-logexport-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CockroachDB Cloud API — LogExport. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-log-export-configuration
+      description: Get log export configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-logexport.getlogexportinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: enable-log-export
+      description: Enable log export
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cloud-logexport.enablelogexport
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: disable-log-export
+      description: Disable log export
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: cloud-logexport.deletelogexport
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,179 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CockroachDB Cloud API — SQLUsers
+  description: 'CockroachDB Cloud API — SQLUsers. 4 operations. Lead operation: List SQL users. Self-contained Naftiko capability
+    covering one Cockroach Labs business surface.'
+  tags:
+  - Cockroach Labs
+  - SQLUsers
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COCKROACH_LABS_API_KEY: COCKROACH_LABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-sqlusers
+    baseUri: https://cockroachlabs.cloud
+    description: CockroachDB Cloud API — SQLUsers business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-clusters-cluster_id-sql-users
+      path: /api/v1/clusters/{cluster_id}/sql-users
+      operations:
+      - name: listsqlusers
+        method: GET
+        description: List SQL users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createsqluser
+        method: POST
+        description: Create a SQL user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v1-clusters-cluster_id-sql-users-name
+      path: /api/v1/clusters/{cluster_id}/sql-users/{name}
+      operations:
+      - name: deletesqluser
+        method: DELETE
+        description: Delete a SQL user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-v1-clusters-cluster_id-sql-users-name-password
+      path: /api/v1/clusters/{cluster_id}/sql-users/{name}/password
+      operations:
+      - name: updatesqluserpassword
+        method: PUT
+        description: Update SQL user password
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.COCKROACH_LABS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-sqlusers-rest
+    port: 8080
+    description: REST adapter for CockroachDB Cloud API — SQLUsers. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v1/clusters/{cluster-id}/sql-users
+      name: api-v1-clusters-cluster-id-sql-users
+      description: REST surface for api-v1-clusters-cluster_id-sql-users.
+      operations:
+      - method: GET
+        name: listsqlusers
+        description: List SQL users
+        call: cloud-sqlusers.listsqlusers
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createsqluser
+        description: Create a SQL user
+        call: cloud-sqlusers.createsqluser
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/clusters/{cluster-id}/sql-users/{name}
+      name: api-v1-clusters-cluster-id-sql-users-name
+      description: REST surface for api-v1-clusters-cluster_id-sql-users-name.
+      operations:
+      - method: DELETE
+        name: deletesqluser
+        description: Delete a SQL user
+        call: cloud-sqlusers.deletesqluser
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/clusters/{cluster-id}/sql-users/{name}/password
+      name: api-v1-clusters-cluster-id-sql-users-name-password
+      description: REST surface for api-v1-clusters-cluster_id-sql-users-name-password.
+      operations:
+      - method: PUT
+        name: updatesqluserpassword
+        description: Update SQL user password
+        call: cloud-sqlusers.updatesqluserpassword
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-sqlusers-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CockroachDB Cloud API — SQLUsers. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-sql-users
+      description: List SQL users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-sqlusers.listsqlusers
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-sql-user
+      description: Create a SQL user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cloud-sqlusers.createsqluser
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-sql-user
+      description: Delete a SQL user
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: cloud-sqlusers.deletesqluser
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-sql-user-password
+      description: Update SQL user password
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: cloud-sqlusers.updatesqluserpassword
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

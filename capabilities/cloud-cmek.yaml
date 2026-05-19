@@ -1,0 +1,175 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CockroachDB Cloud API — CMEK
+  description: 'CockroachDB Cloud API — CMEK. 4 operations. Lead operation: Get CMEK configuration. Self-contained Naftiko
+    capability covering one Cockroach Labs business surface.'
+  tags:
+  - Cockroach Labs
+  - CMEK
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COCKROACH_LABS_API_KEY: COCKROACH_LABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-cmek
+    baseUri: https://cockroachlabs.cloud
+    description: CockroachDB Cloud API — CMEK business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-clusters-cluster_id-cmek
+      path: /api/v1/clusters/{cluster_id}/cmek
+      operations:
+      - name: getcmekclusterinfo
+        method: GET
+        description: Get CMEK configuration
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: enablecmekspec
+        method: POST
+        description: Enable CMEK
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatecmekspec
+        method: PUT
+        description: Update CMEK specification
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updatecmekstatus
+        method: PATCH
+        description: Update CMEK status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.COCKROACH_LABS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-cmek-rest
+    port: 8080
+    description: REST adapter for CockroachDB Cloud API — CMEK. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/v1/clusters/{cluster-id}/cmek
+      name: api-v1-clusters-cluster-id-cmek
+      description: REST surface for api-v1-clusters-cluster_id-cmek.
+      operations:
+      - method: GET
+        name: getcmekclusterinfo
+        description: Get CMEK configuration
+        call: cloud-cmek.getcmekclusterinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: enablecmekspec
+        description: Enable CMEK
+        call: cloud-cmek.enablecmekspec
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecmekspec
+        description: Update CMEK specification
+        call: cloud-cmek.updatecmekspec
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatecmekstatus
+        description: Update CMEK status
+        call: cloud-cmek.updatecmekstatus
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-cmek-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CockroachDB Cloud API — CMEK. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-cmek-configuration
+      description: Get CMEK configuration
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-cmek.getcmekclusterinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: enable-cmek
+      description: Enable CMEK
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cloud-cmek.enablecmekspec
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-cmek-specification
+      description: Update CMEK specification
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: cloud-cmek.updatecmekspec
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-cmek-status
+      description: Update CMEK status
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: cloud-cmek.updatecmekstatus
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

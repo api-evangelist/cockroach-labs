@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CockroachDB Cloud API — Organizations
+  description: 'CockroachDB Cloud API — Organizations. 1 operations. Lead operation: Get organization information. Self-contained
+    Naftiko capability covering one Cockroach Labs business surface.'
+  tags:
+  - Cockroach Labs
+  - Organizations
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COCKROACH_LABS_API_KEY: COCKROACH_LABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-organizations
+    baseUri: https://cockroachlabs.cloud
+    description: CockroachDB Cloud API — Organizations business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-organization
+      path: /api/v1/organization
+      operations:
+      - name: getorganizationinfo
+        method: GET
+        description: Get organization information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.COCKROACH_LABS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-organizations-rest
+    port: 8080
+    description: REST adapter for CockroachDB Cloud API — Organizations. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v1/organization
+      name: api-v1-organization
+      description: REST surface for api-v1-organization.
+      operations:
+      - method: GET
+        name: getorganizationinfo
+        description: Get organization information
+        call: cloud-organizations.getorganizationinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-organizations-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CockroachDB Cloud API — Organizations. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-organization-information
+      description: Get organization information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-organizations.getorganizationinfo
+      outputParameters:
+      - type: object
+        mapping: $.

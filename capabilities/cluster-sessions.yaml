@@ -1,0 +1,87 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CockroachDB Cluster API — Sessions
+  description: 'CockroachDB Cluster API — Sessions. 1 operations. Lead operation: List sessions. Self-contained Naftiko capability
+    covering one Cockroach Labs business surface.'
+  tags:
+  - Cockroach Labs
+  - Sessions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COCKROACH_LABS_API_KEY: COCKROACH_LABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cluster-sessions
+    baseUri: https://localhost:8080
+    description: CockroachDB Cluster API — Sessions business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v2-sessions
+      path: /api/v2/sessions/
+      operations:
+      - name: listsessions
+        method: GET
+        description: List sessions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: username
+          in: query
+          type: string
+          description: Filter sessions by SQL username.
+        - name: start
+          in: query
+          type: integer
+          description: Pagination cursor for the starting position in the result set.
+    authentication:
+      type: apikey
+      key: X-Cockroach-API-Session
+      value: '{{env.COCKROACH_LABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: cluster-sessions-rest
+    port: 8080
+    description: REST adapter for CockroachDB Cluster API — Sessions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v2/sessions
+      name: api-v2-sessions
+      description: REST surface for api-v2-sessions.
+      operations:
+      - method: GET
+        name: listsessions
+        description: List sessions
+        call: cluster-sessions.listsessions
+        with:
+          username: rest.username
+          start: rest.start
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cluster-sessions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CockroachDB Cluster API — Sessions. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-sessions
+      description: List sessions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-sessions.listsessions
+      with:
+        username: tools.username
+        start: tools.start
+      outputParameters:
+      - type: object
+        mapping: $.

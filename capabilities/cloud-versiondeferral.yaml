@@ -1,0 +1,105 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CockroachDB Cloud API — VersionDeferral
+  description: 'CockroachDB Cloud API — VersionDeferral. 2 operations. Lead operation: Get version deferral. Self-contained
+    Naftiko capability covering one Cockroach Labs business surface.'
+  tags:
+  - Cockroach Labs
+  - VersionDeferral
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COCKROACH_LABS_API_KEY: COCKROACH_LABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-versiondeferral
+    baseUri: https://cockroachlabs.cloud
+    description: CockroachDB Cloud API — VersionDeferral business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-clusters-cluster_id-version-deferral
+      path: /api/v1/clusters/{cluster_id}/version-deferral
+      operations:
+      - name: getclusterversiondeferral
+        method: GET
+        description: Get version deferral
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: setclusterversiondeferral
+        method: PUT
+        description: Set version deferral
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.COCKROACH_LABS_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-versiondeferral-rest
+    port: 8080
+    description: REST adapter for CockroachDB Cloud API — VersionDeferral. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v1/clusters/{cluster-id}/version-deferral
+      name: api-v1-clusters-cluster-id-version-deferral
+      description: REST surface for api-v1-clusters-cluster_id-version-deferral.
+      operations:
+      - method: GET
+        name: getclusterversiondeferral
+        description: Get version deferral
+        call: cloud-versiondeferral.getclusterversiondeferral
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: setclusterversiondeferral
+        description: Set version deferral
+        call: cloud-versiondeferral.setclusterversiondeferral
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-versiondeferral-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CockroachDB Cloud API — VersionDeferral. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-version-deferral
+      description: Get version deferral
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-versiondeferral.getclusterversiondeferral
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: set-version-deferral
+      description: Set version deferral
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: cloud-versiondeferral.setclusterversiondeferral
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

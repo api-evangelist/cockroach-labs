@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CockroachDB Cluster API — Nodes
+  description: 'CockroachDB Cluster API — Nodes. 1 operations. Lead operation: List nodes. Self-contained Naftiko capability
+    covering one Cockroach Labs business surface.'
+  tags:
+  - Cockroach Labs
+  - Nodes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COCKROACH_LABS_API_KEY: COCKROACH_LABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cluster-nodes
+    baseUri: https://localhost:8080
+    description: CockroachDB Cluster API — Nodes business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v2-nodes
+      path: /api/v2/nodes/
+      operations:
+      - name: listnodes
+        method: GET
+        description: List nodes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Cockroach-API-Session
+      value: '{{env.COCKROACH_LABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: cluster-nodes-rest
+    port: 8080
+    description: REST adapter for CockroachDB Cluster API — Nodes. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v2/nodes
+      name: api-v2-nodes
+      description: REST surface for api-v2-nodes.
+      operations:
+      - method: GET
+        name: listnodes
+        description: List nodes
+        call: cluster-nodes.listnodes
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cluster-nodes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CockroachDB Cluster API — Nodes. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-nodes
+      description: List nodes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-nodes.listnodes
+      outputParameters:
+      - type: object
+        mapping: $.

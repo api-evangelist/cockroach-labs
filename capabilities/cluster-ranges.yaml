@@ -1,0 +1,160 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CockroachDB Cluster API — Ranges
+  description: 'CockroachDB Cluster API — Ranges. 3 operations. Lead operation: List ranges for a node. Self-contained Naftiko
+    capability covering one Cockroach Labs business surface.'
+  tags:
+  - Cockroach Labs
+  - Ranges
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COCKROACH_LABS_API_KEY: COCKROACH_LABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cluster-ranges
+    baseUri: https://localhost:8080
+    description: CockroachDB Cluster API — Ranges business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v2-nodes-node_id-ranges
+      path: /api/v2/nodes/{node_id}/ranges/
+      operations:
+      - name: listnoderanges
+        method: GET
+        description: List ranges for a node
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: ranges
+          in: query
+          type: string
+          description: Comma-separated list of range IDs to filter results. If omitted, all ranges on the node are returned.
+    - name: api-v2-ranges-hot
+      path: /api/v2/ranges/hot/
+      operations:
+      - name: listhotranges
+        method: GET
+        description: List hot ranges
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: node_id
+          in: query
+          type: integer
+          description: Filter hot ranges by the ID of the node to query. If omitted, hot ranges across all nodes are returned.
+        - name: start
+          in: query
+          type: integer
+          description: Pagination cursor for the starting position in the result set.
+    - name: api-v2-ranges-range_id
+      path: /api/v2/ranges/{range_id}/
+      operations:
+      - name: getrange
+        method: GET
+        description: Get a range
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Cockroach-API-Session
+      value: '{{env.COCKROACH_LABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: cluster-ranges-rest
+    port: 8080
+    description: REST adapter for CockroachDB Cluster API — Ranges. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v2/nodes/{node-id}/ranges
+      name: api-v2-nodes-node-id-ranges
+      description: REST surface for api-v2-nodes-node_id-ranges.
+      operations:
+      - method: GET
+        name: listnoderanges
+        description: List ranges for a node
+        call: cluster-ranges.listnoderanges
+        with:
+          ranges: rest.ranges
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v2/ranges/hot
+      name: api-v2-ranges-hot
+      description: REST surface for api-v2-ranges-hot.
+      operations:
+      - method: GET
+        name: listhotranges
+        description: List hot ranges
+        call: cluster-ranges.listhotranges
+        with:
+          node_id: rest.node_id
+          start: rest.start
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v2/ranges/{range-id}
+      name: api-v2-ranges-range-id
+      description: REST surface for api-v2-ranges-range_id.
+      operations:
+      - method: GET
+        name: getrange
+        description: Get a range
+        call: cluster-ranges.getrange
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cluster-ranges-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CockroachDB Cluster API — Ranges. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-ranges-node
+      description: List ranges for a node
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-ranges.listnoderanges
+      with:
+        ranges: tools.ranges
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-hot-ranges
+      description: List hot ranges
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-ranges.listhotranges
+      with:
+        node_id: tools.node_id
+        start: tools.start
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-range
+      description: Get a range
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-ranges.getrange
+      outputParameters:
+      - type: object
+        mapping: $.

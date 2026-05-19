@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: CockroachDB Cluster API — Rules
+  description: 'CockroachDB Cluster API — Rules. 1 operations. Lead operation: Get alerting rules. Self-contained Naftiko
+    capability covering one Cockroach Labs business surface.'
+  tags:
+  - Cockroach Labs
+  - Rules
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    COCKROACH_LABS_API_KEY: COCKROACH_LABS_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cluster-rules
+    baseUri: https://localhost:8080
+    description: CockroachDB Cluster API — Rules business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v2-rules
+      path: /api/v2/rules/
+      operations:
+      - name: getalertingrules
+        method: GET
+        description: Get alerting rules
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: X-Cockroach-API-Session
+      value: '{{env.COCKROACH_LABS_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: cluster-rules-rest
+    port: 8080
+    description: REST adapter for CockroachDB Cluster API — Rules. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v2/rules
+      name: api-v2-rules
+      description: REST surface for api-v2-rules.
+      operations:
+      - method: GET
+        name: getalertingrules
+        description: Get alerting rules
+        call: cluster-rules.getalertingrules
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cluster-rules-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for CockroachDB Cluster API — Rules. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-alerting-rules
+      description: Get alerting rules
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cluster-rules.getalertingrules
+      outputParameters:
+      - type: object
+        mapping: $.
