@@ -1,0 +1,265 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cluster API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Cockroach-API-Session",
+      "value": "{{X-Cockroach-API-Session}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:8080/api/v2/login/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an authenticated API session by supplying valid SQL username and password credentials. Returns a session token in the X-Cockroach-API-Session response header. This token must be included as the X-Cockroach-API-Session header on all subsequent requests to authenticated endpoints."
+        },
+        {
+          "info": {
+            "name": "Terminate a session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:8080/api/v2/logout/"
+          },
+          "docs": "Terminates a previously established API session, invalidating the session token. The X-Cockroach-API-Session header must be included with the session token to revoke."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check node health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:8080/api/v2/health/",
+            "params": [
+              {
+                "name": "ready",
+                "value": "",
+                "type": "query",
+                "description": "If true, checks whether the node is fully ready to accept SQL connections in addition to being live."
+              }
+            ]
+          },
+          "docs": "Reports the health of the CockroachDB node. When the optional ready parameter is set to true, the endpoint also verifies that the node is fully operational and ready to accept SQL connections. Returns HTTP 200 if healthy, or HTTP 500 if not ready. This endpoint does not require authentication."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Nodes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:8080/api/v2/nodes/",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return in a single response."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip before returning data. Used for offset-based pagination."
+              }
+            ]
+          },
+          "docs": "Returns information about all nodes in the cluster, including each node's address, build information, locality, store metrics, and operational status. Requires admin-level authentication."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Ranges",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List ranges for a node",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:8080/api/v2/nodes/:node_id/ranges/",
+            "params": [
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "path",
+                "description": "Numeric identifier of the CockroachDB node."
+              },
+              {
+                "name": "ranges",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of range IDs to filter results. If omitted, all ranges on the node are returned."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return in a single response."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to skip before returning data. Used for offset-based pagination."
+              }
+            ]
+          },
+          "docs": "Returns information about ranges stored on the specified node. If a list of range IDs is provided via the ranges query parameter, only information about those specific ranges is returned. Requires admin authentication."
+        },
+        {
+          "info": {
+            "name": "List hot ranges",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:8080/api/v2/ranges/hot/",
+            "params": [
+              {
+                "name": "node_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter hot ranges by the ID of the node to query. If omitted, hot ranges across all nodes are returned."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return in a single response."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor for the starting position in the result set."
+              }
+            ]
+          },
+          "docs": "Returns information about hot ranges across the cluster, ranked by query activity. Optionally filter by node ID to return only hot ranges on a specific node. Requires admin authentication."
+        },
+        {
+          "info": {
+            "name": "Get a range",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:8080/api/v2/ranges/:range_id/",
+            "params": [
+              {
+                "name": "range_id",
+                "value": "",
+                "type": "path",
+                "description": "Numeric identifier of the range."
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific range identified by range_id, including replica placement, lease holder, and statistics. Requires admin authentication."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:8080/api/v2/sessions/",
+            "params": [
+              {
+                "name": "username",
+                "value": "",
+                "type": "query",
+                "description": "Filter sessions by SQL username."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return in a single response."
+              },
+              {
+                "name": "start",
+                "value": "",
+                "type": "query",
+                "description": "Pagination cursor for the starting position in the result set."
+              }
+            ]
+          },
+          "docs": "Returns a list of all active SQL sessions across all nodes of the cluster. Optionally filter by username to return only sessions for a specific SQL user. Supports pagination via limit and start parameters. Requires admin authentication."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get alerting rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:8080/api/v2/rules/"
+          },
+          "docs": "Returns a Prometheus-compatible alerting rules template that can be used to configure alerting for CockroachDB cluster health and performance metrics. This endpoint does not require authentication."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,2461 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/organization"
+          },
+          "docs": "Retrieves information about the caller's CockroachDB Cloud organization, including organization ID and name. Requires ORG_ADMIN or ORG_MEMBER role at organization scope."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Clusters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List clusters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters",
+            "params": [
+              {
+                "name": "show_inactive",
+                "value": "",
+                "type": "query",
+                "description": "If true, inactive clusters are included in the response."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of clusters in the organization. Inactive clusters can optionally be included using the showInactive query parameter. Supports pagination via page, limit, asOfTime, and sortOrder parameters."
+        },
+        {
+          "info": {
+            "name": "Create a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and initializes a new CockroachDB Serverless or Dedicated cluster within the organization. The request body specifies cluster configuration including cloud provider, regions, hardware, and plan type."
+        },
+        {
+          "info": {
+            "name": "Get a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves comprehensive information about a specific cluster identified by cluster_id, including its configuration, state, regions, version, and operational status."
+        },
+        {
+          "info": {
+            "name": "Update a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Modifies the configuration of an existing cluster, including scaling compute and storage resources, updating the CockroachDB version, or changing cluster settings. Only the fields specified in the request body are updated."
+        },
+        {
+          "info": {
+            "name": "Delete a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a cluster and all of its data. This operation cannot be undone. The cluster must not have delete protection enabled."
+        },
+        {
+          "info": {
+            "name": "Get connection string",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/connection-string",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "database",
+                "value": "",
+                "type": "query",
+                "description": "Name of the database to connect to."
+              },
+              {
+                "name": "sql_user",
+                "value": "",
+                "type": "query",
+                "description": "SQL username to include in the connection string."
+              },
+              {
+                "name": "os",
+                "value": "",
+                "type": "query",
+                "description": "Operating system for which to format the connection string. Accepted values are MAC, LINUX, WINDOWS."
+              }
+            ]
+          },
+          "docs": "Returns a formatted generic connection string for connecting to a cluster. Optionally scoped to a specific database, SQL user, and operating system format."
+        },
+        {
+          "info": {
+            "name": "List cluster nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/nodes",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "region_name",
+                "value": "",
+                "type": "query",
+                "description": "Filter nodes by the name of the cloud provider region."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of nodes for the specified cluster, optionally filtered by region name. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "List available regions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/available-regions",
+            "params": [
+              {
+                "name": "provider",
+                "value": "",
+                "type": "query",
+                "description": "Cloud provider to filter regions by. Accepted values are GCP, AWS, AZURE."
+              },
+              {
+                "name": "serverless",
+                "value": "",
+                "type": "query",
+                "description": "If true, only return regions that support serverless clusters."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              }
+            ]
+          },
+          "docs": "Returns a list of regions available for cluster or node creation, optionally filtered by cloud provider and whether serverless clusters are supported."
+        },
+        {
+          "info": {
+            "name": "List major cluster versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/cluster-versions",
+            "params": [
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              }
+            ]
+          },
+          "docs": "Returns a list of available major CockroachDB cluster versions that can be used when creating or upgrading clusters."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Databases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List databases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/databases",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of databases for the specified cluster. Supports pagination via page, limit, asOfTime, and sortOrder parameters."
+        },
+        {
+          "info": {
+            "name": "Create a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/databases",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new database within the specified cluster. Requires CLUSTER_ADMIN role at organization, folder, or cluster scope."
+        },
+        {
+          "info": {
+            "name": "Update a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/databases/:name",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the database."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the configuration of an existing database within the specified cluster. Requires CLUSTER_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Delete a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/databases/:name",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the database."
+              }
+            ]
+          },
+          "docs": "Deletes a database from the specified cluster by name. Requires CLUSTER_ADMIN role at organization, folder, or cluster scope."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "SQLUsers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List SQL users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/sql-users",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of SQL users for the specified cluster. Accessible to users with CLUSTER_ADMIN, CLUSTER_OPERATOR_WRITER, or CLUSTER_DEVELOPER roles."
+        },
+        {
+          "info": {
+            "name": "Create a SQL user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/sql-users",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new SQL user for the specified cluster. Requires CLUSTER_ADMIN role at organization, folder, or cluster scope."
+        },
+        {
+          "info": {
+            "name": "Delete a SQL user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/sql-users/:name",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username of the SQL user."
+              }
+            ]
+          },
+          "docs": "Deletes a SQL user from the specified cluster by username. Requires CLUSTER_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Update SQL user password",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/sql-users/:name/password",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "Username of the SQL user."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the password for the specified SQL user on the given cluster. Requires CLUSTER_ADMIN role at organization, folder, or cluster scope."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "APIKeys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List API keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/api-keys",
+            "params": [
+              {
+                "name": "service_account_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter API keys by the associated service account ID."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of API keys in the organization, optionally filtered by service account ID. Accessible to users with ORG_ADMIN or CLUSTER_ADMIN roles."
+        },
+        {
+          "info": {
+            "name": "Create an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/api-keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new API key associated with a service account. Requires ORG_ADMIN role. The secret is only returned in the response to this create request and cannot be retrieved again."
+        },
+        {
+          "info": {
+            "name": "Get an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/api-keys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific API key by ID. Accessible to users with ORG_ADMIN or CLUSTER_ADMIN roles."
+        },
+        {
+          "info": {
+            "name": "Update an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/api-keys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the metadata of an existing API key. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Delete an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/api-keys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Permanently deletes an API key by ID, revoking all access using that key. Requires ORG_ADMIN role."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "ServiceAccounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List service accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/service-accounts",
+            "params": [
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of service accounts in the organization. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "Create a service account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/service-accounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new service account for machine-to-machine authentication. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Get a service account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/service-accounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific service account by ID."
+        },
+        {
+          "info": {
+            "name": "Update a service account",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/service-accounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the name or description of an existing service account. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Delete a service account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/service-accounts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a service account by ID. All associated API keys are also revoked. Requires ORG_ADMIN role."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Folders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List folders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/folders",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "query",
+                "description": "Filter folders by path prefix."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of folders in the organization, optionally filtered by path. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "Create a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/folders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new folder for organizing clusters and resources within the organization. Requires FOLDER_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Get a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/folders/:folder_id",
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific folder by its ID."
+        },
+        {
+          "info": {
+            "name": "Update a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/folders/:folder_id",
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the name or parent of an existing folder. Requires FOLDER_ADMIN or FOLDER_MOVER role."
+        },
+        {
+          "info": {
+            "name": "Delete a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/folders/:folder_id",
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a folder by ID. Requires FOLDER_ADMIN role. The folder must be empty before deletion."
+        },
+        {
+          "info": {
+            "name": "List folder contents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/folders/:folder_id/contents",
+            "params": [
+              {
+                "name": "folder_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the folder."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns the contents of a specific folder, including clusters and sub-folders. Supports pagination."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "IPAllowlists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List IP allowlist entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/allowlist",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of IP allowlist entries for the specified cluster. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "Add IP allowlist entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/allowlist",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new CIDR-based IP allowlist entry to the specified cluster to authorize inbound connections from a network range."
+        },
+        {
+          "info": {
+            "name": "Update IP allowlist entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/allowlist/:cidr_ip/:cidr_mask",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "cidr_ip",
+                "value": "",
+                "type": "path",
+                "description": "IPv4 address part of the CIDR range."
+              },
+              {
+                "name": "cidr_mask",
+                "value": "",
+                "type": "path",
+                "description": "Prefix length of the CIDR range (e.g. 24 for /24)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the properties of an existing IP allowlist entry identified by CIDR IP and mask for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Delete IP allowlist entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/allowlist/:cidr_ip/:cidr_mask",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "cidr_ip",
+                "value": "",
+                "type": "path",
+                "description": "IPv4 address part of the CIDR range."
+              },
+              {
+                "name": "cidr_mask",
+                "value": "",
+                "type": "path",
+                "description": "Prefix length of the CIDR range (e.g. 24 for /24)."
+              }
+            ]
+          },
+          "docs": "Removes an IP allowlist entry from the cluster identified by CIDR IP address and mask."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "PrivateEndpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List private endpoint services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-services",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Returns a list of private endpoint services configured for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Create private endpoint services",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-services",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Creates private endpoint services for the specified cluster to enable VPC-level private connectivity."
+        },
+        {
+          "info": {
+            "name": "List private endpoint connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-connections",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Returns a list of private endpoint connections for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Add a private endpoint connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-connections",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new private endpoint connection for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Delete a private endpoint connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-connections/:endpoint_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the private endpoint connection."
+              }
+            ]
+          },
+          "docs": "Removes a specific private endpoint connection from the cluster."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "EgressRules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List egress rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/egress-rules",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of egress traffic rules configured for the specified cluster. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "Add an egress rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/egress-rules",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new egress traffic rule to the cluster to permit outbound connections to specified destinations."
+        },
+        {
+          "info": {
+            "name": "Get an egress rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the egress rule."
+              }
+            ]
+          },
+          "docs": "Retrieves details of a specific egress rule by ID for the given cluster."
+        },
+        {
+          "info": {
+            "name": "Update an egress rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the egress rule."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing egress rule configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Delete an egress rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "rule_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the egress rule."
+              },
+              {
+                "name": "idempotency_key",
+                "value": "",
+                "type": "query",
+                "description": "Optional key for idempotent deletion."
+              }
+            ]
+          },
+          "docs": "Removes an egress rule from the cluster. An optional idempotency key may be supplied."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "BackupRestore",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List backups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/backups",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Filter backups created at or after this RFC3339 timestamp."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "Filter backups created before this RFC3339 timestamp."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of backups for the specified cluster, optionally filtered by start and end time. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "Get backup configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/backups-config",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the backup configuration for the specified cluster, including retention period and backup frequency."
+        },
+        {
+          "info": {
+            "name": "Update backup configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/backups-config",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the backup configuration for the specified cluster, including retention period and backup frequency settings."
+        },
+        {
+          "info": {
+            "name": "List restores",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/restores",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Filter restores initiated at or after this RFC3339 timestamp."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "Filter restores initiated before this RFC3339 timestamp."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of restore operations for the specified cluster. Supports pagination and time-based filtering."
+        },
+        {
+          "info": {
+            "name": "Create a restore",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/restores",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates a restore operation to restore a cluster from a backup. The destination_cluster_id identifies the target cluster to restore into."
+        },
+        {
+          "info": {
+            "name": "Get a restore",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/restores/:restore_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "restore_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the restore operation."
+              }
+            ]
+          },
+          "docs": "Retrieves the status and details of a specific restore operation by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "LogExport",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get log export configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/logexport",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the current log export configuration for the specified cluster, including destination, group settings, and enabled status."
+        },
+        {
+          "info": {
+            "name": "Enable log export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/logexport",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Configures and enables log export for the specified cluster to an external destination such as AWS CloudWatch or GCP Cloud Logging."
+        },
+        {
+          "info": {
+            "name": "Disable log export",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/logexport",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Disables and removes the log export configuration for the specified cluster."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "MetricExport",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get CloudWatch metric export configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the CloudWatch metric export configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Enable CloudWatch metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enables metric export to AWS CloudWatch for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Disable CloudWatch metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Disables AWS CloudWatch metric export for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Get Datadog metric export configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/datadog",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the Datadog metric export configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Enable Datadog metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/datadog",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enables metric export to Datadog for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Disable Datadog metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/datadog",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Disables Datadog metric export for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Get Prometheus metric export configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/prometheus",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the Prometheus metric export configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Enable Prometheus metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/prometheus",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Enables Prometheus metric scraping endpoint for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Disable Prometheus metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/prometheus",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Disables Prometheus metric export for the specified cluster."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "CMEK",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get CMEK configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/cmek",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the customer-managed encryption key (CMEK) configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Enable CMEK",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/cmek",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enables customer-managed encryption keys for the specified cluster using the provided key specification."
+        },
+        {
+          "info": {
+            "name": "Update CMEK specification",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/cmek",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replaces the CMEK key specification for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Update CMEK status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/cmek",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the operational status of CMEK for the specified cluster, such as rotating or revoking encryption keys."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "RoleManagement",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List role grants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/roles",
+            "params": [
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of all role grants across the organization. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "Get all roles for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/roles/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              }
+            ]
+          },
+          "docs": "Returns all role grants assigned to the specified user across all resource scopes."
+        },
+        {
+          "info": {
+            "name": "Set roles for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cockroachlabs.cloud/api/v1/roles/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replaces all role grants for the specified user with the provided set of roles. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Add user to role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              },
+              {
+                "name": "resource_type",
+                "value": "",
+                "type": "path",
+                "description": "Type of resource the role is scoped to. Accepted values include ORGANIZATION, FOLDER, CLUSTER."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              },
+              {
+                "name": "role_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the role to grant or revoke."
+              }
+            ]
+          },
+          "docs": "Grants a specific role to a user for a particular resource. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Remove user from role",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the user."
+              },
+              {
+                "name": "resource_type",
+                "value": "",
+                "type": "path",
+                "description": "Type of resource the role is scoped to. Accepted values include ORGANIZATION, FOLDER, CLUSTER."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              },
+              {
+                "name": "role_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the role to grant or revoke."
+              }
+            ]
+          },
+          "docs": "Revokes a specific role from a user for a particular resource. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Get person users by email",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/users/persons-by-email",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Email address to look up."
+              }
+            ]
+          },
+          "docs": "Looks up person (human) user accounts by email address. Useful for resolving user IDs before assigning roles."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/invoices",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices by status. Accepted values are Finalized and Draft. If not specified, both types are returned."
+              }
+            ]
+          },
+          "docs": "Returns a list of invoices for the organization. Optionally filter by invoice status to retrieve only Finalized or Draft invoices."
+        },
+        {
+          "info": {
+            "name": "Get an invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/invoices/:invoice_id",
+            "params": [
+              {
+                "name": "invoice_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the invoice to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a specific invoice by its unique ID including line items and totals for the billing period."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "AuditLogs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List audit log events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/auditlogevents",
+            "params": [
+              {
+                "name": "starting_from",
+                "value": "",
+                "type": "query",
+                "description": "Exclusive timestamp for filtering audit log entries by creation time."
+              },
+              {
+                "name": "sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Pagination direction. Accepted values are ASC and DESC."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of entries to return per page."
+              }
+            ]
+          },
+          "docs": "Returns audit log events for the organization. Optionally filter by starting timestamp. Results are paginated by limit and ordered by sortOrder. Requires ORG_ADMIN role."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "JWTIssuers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List JWT issuers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers",
+            "params": [
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of JWT issuer configurations registered with the organization. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Add a JWT issuer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a new JWT issuer configuration for external identity provider integration. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Get a JWT issuer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieves a specific JWT issuer configuration by ID. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Update a JWT issuer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing JWT issuer configuration. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Delete a JWT issuer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Removes a JWT issuer configuration by ID. Requires ORG_ADMIN role."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "MaintenanceWindows",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get maintenance window",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/maintenance-window",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the maintenance window configuration for the specified cluster, defining when automatic upgrades and maintenance operations may occur."
+        },
+        {
+          "info": {
+            "name": "Set maintenance window",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/maintenance-window",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets or replaces the maintenance window configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Delete maintenance window",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/maintenance-window",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Removes the maintenance window configuration from the specified cluster, reverting to the default maintenance schedule."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "VersionDeferral",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get version deferral",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/version-deferral",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the version deferral policy for the specified cluster, indicating whether automatic version upgrades are deferred and for how long."
+        },
+        {
+          "info": {
+            "name": "Set version deferral",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/version-deferral",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the version deferral policy for the specified cluster to delay automatic CockroachDB version upgrades."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
