@@ -3,19 +3,12 @@
   "feeds": [
     {
       "source": "https://www.cockroachlabs.com/blog/",
-      "feed_url": "https://www.cockroachlabs.com/blog/",
-      "title": "",
+      "feed_url": "",
       "saved": 0,
-      "method": "none"
-    },
-    {
-      "source": "https://www.cockroachlabs.com/pricing/",
-      "feed_url": "https://www.cockroachlabs.com/pricing/",
-      "title": "",
-      "saved": 0,
-      "method": "none"
+      "method": "agent-scrape"
     }
   ],
-  "post_count": 59,
-  "fetched": "2026-06-14T20:42:17Z"
+  "post_count": 60,
+  "fetched": "2026-06-27T12:33:16Z",
+  "agent_pulled": "2026-06-27"
 }
