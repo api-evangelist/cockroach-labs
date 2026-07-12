@@ -96,6 +96,17 @@ apis:
       - Hot-range and session troubleshooting
       - Liveness probes for self-hosted CockroachDB
 common:
+  - type: TrustCenter
+    url: security/cockroach-labs-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/cockroach-labs-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/cockroach-labs-domain-security.yml
+  - type: Authentication
+    url: authentication/cockroach-labs-authentication.yml
+  - name: Agent Skills
+    url: https://github.com/cockroachlabs/cockroachdb-skills
+    type: AgentSkills
   - type: LinkedIn
     url: https://www.linkedin.com/company/cockroach-labs
   - type: Website

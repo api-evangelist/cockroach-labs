@@ -1,0 +1,25 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/cockroach-labs-cloud-api-openapi.yml, openapi/cockroach-labs-cluster-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console
+    under Organization Settings > API Access.
+  sources:
+  - openapi/cockroach-labs-cloud-api-openapi.yml
+- name: sessionAuth
+  type: apiKey
+  in: header
+  parameter: X-Cockroach-API-Session
+  description: Session token obtained from the /api/v2/login/ endpoint. Include this header
+    with all authenticated requests.
+  sources:
+  - openapi/cockroach-labs-cluster-api-openapi.yml
