@@ -96,6 +96,8 @@ apis:
       - Hot-range and session troubleshooting
       - Liveness probes for self-hosted CockroachDB
 common:
+  - type: AgenticAccess
+    url: agentic-access/cockroach-labs-agentic-access.yml
   - type: TrustCenter
     url: security/cockroach-labs-trust-center.yml
   - type: VulnerabilityDisclosure
