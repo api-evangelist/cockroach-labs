@@ -1,0 +1,167 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys LogExport API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: LogExport
+  description: Configure log export to external destinations such as AWS CloudWatch or GCP Cloud Logging.
+paths:
+  /api/v1/clusters/{cluster_id}/logexport:
+    get:
+      operationId: GetLogExportInfo
+      summary: Get log export configuration
+      description: Retrieves the current log export configuration for the specified cluster, including destination, group settings, and enabled status.
+      tags:
+      - LogExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Log export configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogExportClusterInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnableLogExport
+      summary: Enable log export
+      description: Configures and enables log export for the specified cluster to an external destination such as AWS CloudWatch or GCP Cloud Logging.
+      tags:
+      - LogExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableLogExportRequest'
+      responses:
+        '200':
+          description: Log export enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogExportClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeleteLogExport
+      summary: Disable log export
+      description: Disables and removes the log export configuration for the specified cluster.
+      tags:
+      - LogExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Log export disabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogExportClusterInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    EnableLogExportRequest:
+      type: object
+      description: Request body for enabling log export.
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Type of log export destination. Accepted values are AWS_CLOUDWATCH and GCP_CLOUD_LOGGING.
+          enum:
+          - AWS_CLOUDWATCH
+          - GCP_CLOUD_LOGGING
+        log_name:
+          type: string
+          description: Name for the log stream or log group.
+        groups:
+          type: array
+          description: Channel groups to export.
+          items:
+            type: object
+    LogExportClusterInfo:
+      type: object
+      description: Log export configuration and status for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this log export configuration applies to.
+        status:
+          type: string
+          description: Current status of the log export configuration.
+        spec:
+          type: object
+          description: Log export specification including destination and groups.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

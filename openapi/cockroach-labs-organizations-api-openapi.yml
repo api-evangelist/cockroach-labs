@@ -1,0 +1,94 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys Organizations API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Organizations
+  description: Retrieve information about the caller's CockroachDB Cloud organization.
+paths:
+  /api/v1/organization:
+    get:
+      operationId: GetOrganizationInfo
+      summary: Get organization information
+      description: Retrieves information about the caller's CockroachDB Cloud organization, including organization ID and name. Requires ORG_ADMIN or ORG_MEMBER role at organization scope.
+      tags:
+      - Organizations
+      responses:
+        '200':
+          description: Organization information retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  responses:
+    Forbidden:
+      description: The caller does not have permission to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    Organization:
+      type: object
+      description: Represents a CockroachDB Cloud organization, which is the top-level container for all clusters, users, and billing.
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the organization.
+        name:
+          type: string
+          description: Human-readable name of the organization.
+        label:
+          type: string
+          description: Short label for the organization.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the organization was created.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

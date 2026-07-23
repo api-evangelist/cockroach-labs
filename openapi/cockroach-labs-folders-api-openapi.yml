@@ -1,0 +1,312 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys Folders API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Folders
+  description: Organize clusters and other resources into hierarchical folder structures within the organization.
+paths:
+  /api/v1/folders:
+    get:
+      operationId: ListFolders
+      summary: List folders
+      description: Returns a list of folders in the organization, optionally filtered by path. Supports pagination.
+      tags:
+      - Folders
+      parameters:
+      - name: path
+        in: query
+        description: Filter folders by path prefix.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/paginationPage'
+      - $ref: '#/components/parameters/paginationLimit'
+      - $ref: '#/components/parameters/paginationAsOfTime'
+      - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of folders returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFoldersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: CreateFolder
+      summary: Create a folder
+      description: Creates a new folder for organizing clusters and resources within the organization. Requires FOLDER_ADMIN role.
+      tags:
+      - Folders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFolderRequest'
+      responses:
+        '200':
+          description: Folder created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/folders/{folder_id}:
+    get:
+      operationId: GetFolder
+      summary: Get a folder
+      description: Retrieves details of a specific folder by its ID.
+      tags:
+      - Folders
+      parameters:
+      - $ref: '#/components/parameters/folderId'
+      responses:
+        '200':
+          description: Folder retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: UpdateFolder
+      summary: Update a folder
+      description: Updates the name or parent of an existing folder. Requires FOLDER_ADMIN or FOLDER_MOVER role.
+      tags:
+      - Folders
+      parameters:
+      - $ref: '#/components/parameters/folderId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFolderSpecification'
+      responses:
+        '200':
+          description: Folder updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteFolder
+      summary: Delete a folder
+      description: Permanently deletes a folder by ID. Requires FOLDER_ADMIN role. The folder must be empty before deletion.
+      tags:
+      - Folders
+      parameters:
+      - $ref: '#/components/parameters/folderId'
+      responses:
+        '200':
+          description: Folder deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/folders/{folder_id}/contents:
+    get:
+      operationId: ListFolderContents
+      summary: List folder contents
+      description: Returns the contents of a specific folder, including clusters and sub-folders. Supports pagination.
+      tags:
+      - Folders
+      parameters:
+      - $ref: '#/components/parameters/folderId'
+      - $ref: '#/components/parameters/paginationPage'
+      - $ref: '#/components/parameters/paginationLimit'
+      - $ref: '#/components/parameters/paginationAsOfTime'
+      - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: Folder contents returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListFolderContentsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    CreateFolderRequest:
+      type: object
+      description: Request body for creating a new folder.
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Name for the new folder.
+        parent_id:
+          type: string
+          description: Parent folder ID to nest this folder under.
+    ListFoldersResponse:
+      type: object
+      description: Paginated list of folders.
+      properties:
+        folders:
+          type: array
+          description: Array of folder objects.
+          items:
+            $ref: '#/components/schemas/Folder'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    Folder:
+      type: object
+      description: Represents a folder used to organize clusters and resources within a CockroachDB Cloud organization.
+      properties:
+        resource_id:
+          type: string
+          description: Unique identifier of the folder.
+        name:
+          type: string
+          description: Human-readable name of the folder.
+        parent_id:
+          type: string
+          description: ID of the parent folder, if any.
+        path:
+          type: string
+          description: Full path to the folder.
+    ListFolderContentsResponse:
+      type: object
+      description: Contents of a folder including clusters and sub-folders.
+      properties:
+        resources:
+          type: array
+          description: Array of resource objects (clusters or folders).
+          items:
+            type: object
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    UpdateFolderSpecification:
+      type: object
+      description: Specification for updating a folder.
+      properties:
+        name:
+          type: string
+          description: New name for the folder.
+        parent_id:
+          type: string
+          description: New parent folder ID to move the folder to.
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    folderId:
+      name: folder_id
+      in: path
+      required: true
+      description: Unique identifier of the folder.
+      schema:
+        type: string
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

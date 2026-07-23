@@ -1,0 +1,136 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys Billing API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Billing
+  description: Retrieve invoices and billing information for the CockroachDB Cloud organization.
+paths:
+  /api/v1/invoices:
+    get:
+      operationId: ListInvoices
+      summary: List invoices
+      description: Returns a list of invoices for the organization. Optionally filter by invoice status to retrieve only Finalized or Draft invoices.
+      tags:
+      - Billing
+      parameters:
+      - name: status
+        in: query
+        description: Filter invoices by status. Accepted values are Finalized and Draft. If not specified, both types are returned.
+        schema:
+          type: string
+          enum:
+          - Finalized
+          - Draft
+      responses:
+        '200':
+          description: List of invoices returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListInvoicesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/invoices/{invoice_id}:
+    get:
+      operationId: GetInvoice
+      summary: Get an invoice
+      description: Retrieves a specific invoice by its unique ID including line items and totals for the billing period.
+      tags:
+      - Billing
+      parameters:
+      - name: invoice_id
+        in: path
+        required: true
+        description: Unique identifier of the invoice to retrieve.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Invoice retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ListInvoicesResponse:
+      type: object
+      description: List of invoices for the organization.
+      properties:
+        invoices:
+          type: array
+          description: Array of invoice objects.
+          items:
+            $ref: '#/components/schemas/Invoice'
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    Invoice:
+      type: object
+      description: A billing invoice for a CockroachDB Cloud organization.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the invoice.
+        status:
+          type: string
+          description: Status of the invoice. Values include Finalized and Draft.
+        period_start:
+          type: string
+          format: date-time
+          description: Start of the billing period covered by this invoice.
+        period_end:
+          type: string
+          format: date-time
+          description: End of the billing period covered by this invoice.
+        total_amount:
+          type: number
+          description: Total invoice amount in US cents.
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

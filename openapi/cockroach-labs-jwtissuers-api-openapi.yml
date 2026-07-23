@@ -1,0 +1,272 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys JWTIssuers API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: JWTIssuers
+  description: Manage JWT issuer configurations for external identity provider integrations.
+paths:
+  /api/v1/jwt-issuers:
+    get:
+      operationId: ListJWTIssuers
+      summary: List JWT issuers
+      description: Returns a list of JWT issuer configurations registered with the organization. Requires ORG_ADMIN role.
+      tags:
+      - JWTIssuers
+      parameters:
+      - $ref: '#/components/parameters/paginationPage'
+      - $ref: '#/components/parameters/paginationLimit'
+      - $ref: '#/components/parameters/paginationAsOfTime'
+      - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of JWT issuers returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListJWTIssuersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: AddJWTIssuer
+      summary: Add a JWT issuer
+      description: Registers a new JWT issuer configuration for external identity provider integration. Requires ORG_ADMIN role.
+      tags:
+      - JWTIssuers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddJWTIssuerRequest'
+      responses:
+        '200':
+          description: JWT issuer added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTIssuer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/jwt-issuers/{id}:
+    get:
+      operationId: GetJWTIssuer
+      summary: Get a JWT issuer
+      description: Retrieves a specific JWT issuer configuration by ID. Requires ORG_ADMIN role.
+      tags:
+      - JWTIssuers
+      parameters:
+      - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: JWT issuer retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTIssuer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: UpdateJWTIssuer
+      summary: Update a JWT issuer
+      description: Updates an existing JWT issuer configuration. Requires ORG_ADMIN role.
+      tags:
+      - JWTIssuers
+      parameters:
+      - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateJWTIssuerRequest'
+      responses:
+        '200':
+          description: JWT issuer updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTIssuer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteJWTIssuer
+      summary: Delete a JWT issuer
+      description: Removes a JWT issuer configuration by ID. Requires ORG_ADMIN role.
+      tags:
+      - JWTIssuers
+      parameters:
+      - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: JWT issuer deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JWTIssuer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    UpdateJWTIssuerRequest:
+      type: object
+      description: Request body for updating a JWT issuer.
+      properties:
+        issuer_url:
+          type: string
+          description: Updated URL of the JWT issuer.
+        jwks_id:
+          type: string
+          description: Updated JWKS identifier.
+    ListJWTIssuersResponse:
+      type: object
+      description: Paginated list of JWT issuers.
+      properties:
+        issuers:
+          type: array
+          description: Array of JWT issuer objects.
+          items:
+            $ref: '#/components/schemas/JWTIssuer'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    AddJWTIssuerRequest:
+      type: object
+      description: Request body for adding a JWT issuer.
+      required:
+      - issuer_url
+      - jwks_id
+      properties:
+        issuer_url:
+          type: string
+          description: URL of the JWT issuer.
+        jwks_id:
+          type: string
+          description: Identifier for the JSON Web Key Set.
+    JWTIssuer:
+      type: object
+      description: A JWT issuer configuration for external identity provider integration.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the JWT issuer.
+        issuer_url:
+          type: string
+          description: URL of the JWT issuer (identity provider).
+        jwks_id:
+          type: string
+          description: Identifier for the JSON Web Key Set.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+  parameters:
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+    resourceId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the resource.
+      schema:
+        type: string
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

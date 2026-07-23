@@ -1,0 +1,98 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys AuditLogs API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: AuditLogs
+  description: Retrieve audit log events for the organization to support compliance and security investigations.
+paths:
+  /api/v1/auditlogevents:
+    get:
+      operationId: ListAuditLogs
+      summary: List audit log events
+      description: Returns audit log events for the organization. Optionally filter by starting timestamp. Results are paginated by limit and ordered by sortOrder. Requires ORG_ADMIN role.
+      tags:
+      - AuditLogs
+      parameters:
+      - name: starting_from
+        in: query
+        description: Exclusive timestamp for filtering audit log entries by creation time.
+        schema:
+          type: string
+          format: date-time
+      - name: sort_order
+        in: query
+        description: Pagination direction. Accepted values are ASC and DESC.
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      - name: limit
+        in: query
+        description: Number of entries to return per page.
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 1000
+      responses:
+        '200':
+          description: Audit log events returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAuditLogsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    ListAuditLogsResponse:
+      type: object
+      description: Audit log events returned from the API.
+      properties:
+        entries:
+          type: array
+          description: Array of audit log entry objects.
+          items:
+            type: object
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

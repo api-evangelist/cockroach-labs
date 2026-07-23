@@ -1,0 +1,43 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys Rules API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Rules
+  description: Retrieve alerting rules templates for use with Prometheus-compatible alerting systems.
+paths:
+  /api/v2/rules/:
+    get:
+      operationId: GetAlertingRules
+      summary: Get alerting rules
+      description: Returns a Prometheus-compatible alerting rules template that can be used to configure alerting for CockroachDB cluster health and performance metrics. This endpoint does not require authentication.
+      tags:
+      - Rules
+      security: []
+      responses:
+        '200':
+          description: Alerting rules template returned successfully.
+          content:
+            application/yaml:
+              schema:
+                type: string
+                description: YAML-formatted Prometheus alerting rules template for monitoring CockroachDB cluster health.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

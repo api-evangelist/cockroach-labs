@@ -1,0 +1,314 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys MetricExport API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: MetricExport
+  description: Configure metric export integrations including AWS CloudWatch, Datadog, and Prometheus.
+paths:
+  /api/v1/clusters/{cluster_id}/metricexport/cloudwatch:
+    get:
+      operationId: GetCloudWatchMetricExportInfo
+      summary: Get CloudWatch metric export configuration
+      description: Retrieves the CloudWatch metric export configuration for the specified cluster.
+      tags:
+      - MetricExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: CloudWatch metric export configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudWatchMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnableCloudWatchMetricExport
+      summary: Enable CloudWatch metric export
+      description: Enables metric export to AWS CloudWatch for the specified cluster.
+      tags:
+      - MetricExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableCloudWatchMetricExportRequest'
+      responses:
+        '200':
+          description: CloudWatch metric export enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudWatchMetricExportInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeleteCloudWatchMetricExport
+      summary: Disable CloudWatch metric export
+      description: Disables AWS CloudWatch metric export for the specified cluster.
+      tags:
+      - MetricExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: CloudWatch metric export disabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudWatchMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/clusters/{cluster_id}/metricexport/datadog:
+    get:
+      operationId: GetDatadogMetricExportInfo
+      summary: Get Datadog metric export configuration
+      description: Retrieves the Datadog metric export configuration for the specified cluster.
+      tags:
+      - MetricExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Datadog metric export configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatadogMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnableDatadogMetricExport
+      summary: Enable Datadog metric export
+      description: Enables metric export to Datadog for the specified cluster.
+      tags:
+      - MetricExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableDatadogMetricExportRequest'
+      responses:
+        '200':
+          description: Datadog metric export enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatadogMetricExportInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeleteDatadogMetricExport
+      summary: Disable Datadog metric export
+      description: Disables Datadog metric export for the specified cluster.
+      tags:
+      - MetricExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Datadog metric export disabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatadogMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/clusters/{cluster_id}/metricexport/prometheus:
+    get:
+      operationId: GetPrometheusMetricExportInfo
+      summary: Get Prometheus metric export configuration
+      description: Retrieves the Prometheus metric export configuration for the specified cluster.
+      tags:
+      - MetricExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Prometheus metric export configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrometheusMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnablePrometheusMetricExport
+      summary: Enable Prometheus metric export
+      description: Enables Prometheus metric scraping endpoint for the specified cluster.
+      tags:
+      - MetricExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Prometheus metric export enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrometheusMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeletePrometheusMetricExport
+      summary: Disable Prometheus metric export
+      description: Disables Prometheus metric export for the specified cluster.
+      tags:
+      - MetricExport
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Prometheus metric export disabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrometheusMetricExportInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    EnableCloudWatchMetricExportRequest:
+      type: object
+      description: Request body for enabling AWS CloudWatch metric export.
+      required:
+      - role_arn
+      properties:
+        role_arn:
+          type: string
+          description: AWS IAM role ARN to assume for CloudWatch metric publishing.
+        target_region:
+          type: string
+          description: AWS region where metrics should be exported.
+    EnableDatadogMetricExportRequest:
+      type: object
+      description: Request body for enabling Datadog metric export.
+      required:
+      - api_key
+      properties:
+        api_key:
+          type: string
+          description: Datadog API key for authentication.
+        site:
+          type: string
+          description: Datadog site endpoint (e.g. US1, EU1).
+    CloudWatchMetricExportInfo:
+      type: object
+      description: AWS CloudWatch metric export configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this configuration applies to.
+        status:
+          type: string
+          description: Current status of CloudWatch metric export.
+        role_arn:
+          type: string
+          description: AWS IAM role ARN used for CloudWatch metric export.
+    PrometheusMetricExportInfo:
+      type: object
+      description: Prometheus metric export configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this configuration applies to.
+        status:
+          type: string
+          description: Current status of Prometheus metric export.
+    DatadogMetricExportInfo:
+      type: object
+      description: Datadog metric export configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this configuration applies to.
+        status:
+          type: string
+          description: Current status of Datadog metric export.
+        site:
+          type: string
+          description: Datadog site to export metrics to.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

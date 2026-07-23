@@ -1,0 +1,204 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys CMEK API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: CMEK
+  description: Manage customer-managed encryption keys (CMEK) for encrypting cluster data at rest using customer-controlled keys.
+paths:
+  /api/v1/clusters/{cluster_id}/cmek:
+    get:
+      operationId: GetCMEKClusterInfo
+      summary: Get CMEK configuration
+      description: Retrieves the customer-managed encryption key (CMEK) configuration for the specified cluster.
+      tags:
+      - CMEK
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: CMEK configuration retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: EnableCMEKSpec
+      summary: Enable CMEK
+      description: Enables customer-managed encryption keys for the specified cluster using the provided key specification.
+      tags:
+      - CMEK
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CMEKClusterSpecification'
+      responses:
+        '200':
+          description: CMEK enabled successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    put:
+      operationId: UpdateCMEKSpec
+      summary: Update CMEK specification
+      description: Replaces the CMEK key specification for the specified cluster.
+      tags:
+      - CMEK
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CMEKClusterSpecification'
+      responses:
+        '200':
+          description: CMEK specification updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    patch:
+      operationId: UpdateCMEKStatus
+      summary: Update CMEK status
+      description: Updates the operational status of CMEK for the specified cluster, such as rotating or revoking encryption keys.
+      tags:
+      - CMEK
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCMEKStatusRequest'
+      responses:
+        '200':
+          description: CMEK status updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    UpdateCMEKStatusRequest:
+      type: object
+      description: Request body for updating CMEK operational status.
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          description: New CMEK status. Accepted values include REVOKE and ROTATE.
+    CMEKClusterSpecification:
+      type: object
+      description: Specification defining the customer-managed encryption key configuration for a CockroachDB cluster.
+      required:
+      - region_specs
+      properties:
+        region_specs:
+          type: array
+          description: Per-region CMEK key specifications.
+          items:
+            type: object
+            properties:
+              region:
+                type: string
+                description: Cloud region the key applies to.
+              key:
+                type: object
+                description: Key specification including type and URI.
+    CMEKClusterInfo:
+      type: object
+      description: Customer-managed encryption key configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this CMEK configuration applies to.
+        status:
+          type: string
+          description: Current CMEK operational status.
+        spec:
+          $ref: '#/components/schemas/CMEKClusterSpecification'
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

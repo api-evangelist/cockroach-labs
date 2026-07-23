@@ -1,0 +1,155 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys Sessions API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Sessions
+  description: List active SQL sessions across all nodes of the cluster, with optional filtering by username.
+paths:
+  /api/v2/sessions/:
+    get:
+      operationId: ListSessions
+      summary: List sessions
+      description: Returns a list of all active SQL sessions across all nodes of the cluster. Optionally filter by username to return only sessions for a specific SQL user. Supports pagination via limit and start parameters. Requires admin authentication.
+      tags:
+      - Sessions
+      parameters:
+      - name: username
+        in: query
+        description: Filter sessions by SQL username.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/limit'
+      - name: start
+        in: query
+        description: Pagination cursor for the starting position in the result set.
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: List of active sessions returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSessionsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+components:
+  responses:
+    Forbidden:
+      description: The authenticated user does not have admin privileges required to access this endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ListSessionsResponse:
+      type: object
+      description: List of active SQL sessions across all cluster nodes.
+      properties:
+        sessions:
+          type: array
+          description: Array of active session objects.
+          items:
+            $ref: '#/components/schemas/Session'
+        errors:
+          type: array
+          description: Errors encountered while collecting session data from individual nodes. Sessions from healthy nodes are still returned.
+          items:
+            type: object
+            properties:
+              node_id:
+                type: integer
+                description: Node ID that returned an error.
+              message:
+                type: string
+                description: Error message from the node.
+        next:
+          type: integer
+          description: Pagination cursor for the next page of session results.
+    Session:
+      type: object
+      description: An active SQL session on the CockroachDB cluster, representing a connection from a client application.
+      properties:
+        node_id:
+          type: integer
+          description: Node ID where this session is being served.
+        username:
+          type: string
+          description: SQL username of the session.
+        client_address:
+          type: string
+          description: Network address of the client (host:port).
+        application_name:
+          type: string
+          description: Application name reported by the SQL client driver.
+        start:
+          type: string
+          format: date-time
+          description: Timestamp when the session was established.
+        last_active_query:
+          type: string
+          description: Most recently executed SQL query in this session.
+        id:
+          type: string
+          description: Unique identifier of the session.
+        alloc_bytes:
+          type: integer
+          format: int64
+          description: Memory allocated by this session in bytes.
+        max_alloc_bytes:
+          type: integer
+          format: int64
+          description: Peak memory allocation for this session in bytes.
+        active_queries:
+          type: array
+          description: Currently executing queries within this session.
+          items:
+            type: object
+        active_txn:
+          type: object
+          description: Currently active transaction within this session, if any.
+    Error:
+      type: object
+      description: Standard error response returned by the Cluster API.
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the error.
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of results to return in a single response.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

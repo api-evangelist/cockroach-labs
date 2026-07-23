@@ -1,0 +1,114 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys Auth API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: Auth
+  description: Authenticate to the Cluster API by creating and terminating API sessions. Session tokens are passed via the X-Cockroach-API-Session header on subsequent requests.
+paths:
+  /api/v2/login/:
+    post:
+      operationId: Login
+      summary: Create a session
+      description: Creates an authenticated API session by supplying valid SQL username and password credentials. Returns a session token in the X-Cockroach-API-Session response header. This token must be included as the X-Cockroach-API-Session header on all subsequent requests to authenticated endpoints.
+      tags:
+      - Auth
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Session created successfully. The session token is returned in the X-Cockroach-API-Session response header.
+          headers:
+            X-Cockroach-API-Session:
+              description: Session token to use for authenticating subsequent requests.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v2/logout/:
+    post:
+      operationId: Logout
+      summary: Terminate a session
+      description: Terminates a previously established API session, invalidating the session token. The X-Cockroach-API-Session header must be included with the session token to revoke.
+      tags:
+      - Auth
+      responses:
+        '200':
+          description: Session terminated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      description: Credentials for authenticating to the Cluster API.
+      required:
+      - username
+      - password
+      properties:
+        username:
+          type: string
+          description: SQL username to authenticate with.
+        password:
+          type: string
+          description: Password for the SQL user.
+          format: password
+    LogoutResponse:
+      type: object
+      description: Response from a logout request confirming session termination.
+      properties:
+        logged_out:
+          type: boolean
+          description: True if the session was successfully terminated.
+    LoginResponse:
+      type: object
+      description: Response from a successful login request.
+      properties:
+        session:
+          type: string
+          description: Session token. Also returned in the X-Cockroach-API-Session response header for convenience.
+    Error:
+      type: object
+      description: Standard error response returned by the Cluster API.
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the error.
+  responses:
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

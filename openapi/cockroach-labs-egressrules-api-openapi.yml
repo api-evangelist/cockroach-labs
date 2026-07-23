@@ -1,0 +1,313 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys EgressRules API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: EgressRules
+  description: Configure egress traffic rules and egress private endpoints for outbound cluster network traffic.
+paths:
+  /api/v1/clusters/{cluster_id}/networking/egress-rules:
+    get:
+      operationId: ListEgressRules
+      summary: List egress rules
+      description: Returns a list of egress traffic rules configured for the specified cluster. Supports pagination.
+      tags:
+      - EgressRules
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      - $ref: '#/components/parameters/paginationPage'
+      - $ref: '#/components/parameters/paginationLimit'
+      - $ref: '#/components/parameters/paginationAsOfTime'
+      - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of egress rules returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListEgressRulesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: AddEgressRule
+      summary: Add an egress rule
+      description: Adds a new egress traffic rule to the cluster to permit outbound connections to specified destinations.
+      tags:
+      - EgressRules
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEgressRuleRequest'
+      responses:
+        '200':
+          description: Egress rule added successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EgressRule'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/clusters/{cluster_id}/networking/egress-rules/{rule_id}:
+    get:
+      operationId: GetEgressRule
+      summary: Get an egress rule
+      description: Retrieves details of a specific egress rule by ID for the given cluster.
+      tags:
+      - EgressRules
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      - $ref: '#/components/parameters/ruleId'
+      responses:
+        '200':
+          description: Egress rule retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EgressRule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: EditEgressRule
+      summary: Update an egress rule
+      description: Updates an existing egress rule configuration for the specified cluster.
+      tags:
+      - EgressRules
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      - $ref: '#/components/parameters/ruleId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditEgressRuleRequest'
+      responses:
+        '200':
+          description: Egress rule updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EgressRule'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteEgressRule
+      summary: Delete an egress rule
+      description: Removes an egress rule from the cluster. An optional idempotency key may be supplied.
+      tags:
+      - EgressRules
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      - $ref: '#/components/parameters/ruleId'
+      - name: idempotency_key
+        in: query
+        description: Optional key for idempotent deletion.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Egress rule deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EgressRule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    AddEgressRuleRequest:
+      type: object
+      description: Request body for adding an egress rule.
+      required:
+      - name
+      - destination
+      properties:
+        name:
+          type: string
+          description: Name for the new egress rule.
+        destination:
+          type: string
+          description: Destination FQDN or CIDR to allow outbound traffic to.
+        ports:
+          type: array
+          description: List of destination ports to allow.
+          items:
+            type: integer
+        type:
+          type: string
+          description: Rule type. Accepted values are FQDN and CIDR.
+    EditEgressRuleRequest:
+      type: object
+      description: Request body for updating an egress rule.
+      properties:
+        name:
+          type: string
+          description: New name for the egress rule.
+        destination:
+          type: string
+          description: New destination FQDN or CIDR for the rule.
+        ports:
+          type: array
+          description: Updated list of destination ports.
+          items:
+            type: integer
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    EgressRule:
+      type: object
+      description: Represents an egress traffic rule controlling outbound connections from a CockroachDB cluster.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the egress rule.
+        name:
+          type: string
+          description: Human-readable name of the egress rule.
+        destination:
+          type: string
+          description: Destination hostname or CIDR for allowed outbound traffic.
+        ports:
+          type: array
+          description: List of destination port numbers allowed by this rule.
+          items:
+            type: integer
+        type:
+          type: string
+          description: Type of egress rule (FQDN or CIDR).
+    ListEgressRulesResponse:
+      type: object
+      description: Paginated list of egress rules for a cluster.
+      properties:
+        rules:
+          type: array
+          description: Array of egress rule objects.
+          items:
+            $ref: '#/components/schemas/EgressRule'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+  parameters:
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    ruleId:
+      name: rule_id
+      in: path
+      required: true
+      description: Unique identifier of the egress rule.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

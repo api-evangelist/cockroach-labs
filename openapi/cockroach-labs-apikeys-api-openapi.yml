@@ -1,0 +1,287 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: APIKeys
+  description: Manage API keys for programmatic access, including creation, retrieval, listing, updating, and deletion.
+paths:
+  /api/v1/api-keys:
+    get:
+      operationId: ListApiKeys
+      summary: List API keys
+      description: Returns a list of API keys in the organization, optionally filtered by service account ID. Accessible to users with ORG_ADMIN or CLUSTER_ADMIN roles.
+      tags:
+      - APIKeys
+      parameters:
+      - name: service_account_id
+        in: query
+        description: Filter API keys by the associated service account ID.
+        schema:
+          type: string
+      - $ref: '#/components/parameters/paginationPage'
+      - $ref: '#/components/parameters/paginationLimit'
+      - $ref: '#/components/parameters/paginationAsOfTime'
+      - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of API keys returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListApiKeysResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: CreateApiKey
+      summary: Create an API key
+      description: Creates a new API key associated with a service account. Requires ORG_ADMIN role. The secret is only returned in the response to this create request and cannot be retrieved again.
+      tags:
+      - APIKeys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '200':
+          description: API key created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateApiKeyResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/api-keys/{id}:
+    get:
+      operationId: GetApiKey
+      summary: Get an API key
+      description: Retrieves details of a specific API key by ID. Accessible to users with ORG_ADMIN or CLUSTER_ADMIN roles.
+      tags:
+      - APIKeys
+      parameters:
+      - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: API key retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: UpdateApiKey
+      summary: Update an API key
+      description: Updates the metadata of an existing API key. Requires ORG_ADMIN role.
+      tags:
+      - APIKeys
+      parameters:
+      - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApiKeySpecification'
+      responses:
+        '200':
+          description: API key updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: DeleteApiKey
+      summary: Delete an API key
+      description: Permanently deletes an API key by ID, revoking all access using that key. Requires ORG_ADMIN role.
+      tags:
+      - APIKeys
+      parameters:
+      - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: API key deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    UpdateApiKeySpecification:
+      type: object
+      description: Specification for updating an API key's metadata.
+      properties:
+        name:
+          type: string
+          description: New name for the API key.
+    ApiKey:
+      type: object
+      description: Represents an API key used for authenticating requests to the CockroachDB Cloud API.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the API key.
+        name:
+          type: string
+          description: Human-readable name of the API key.
+        service_account_id:
+          type: string
+          description: Service account associated with this API key.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the API key was created.
+    CreateApiKeyResponse:
+      type: object
+      description: Response from creating an API key. Contains the key secret which is only returned once and cannot be retrieved again.
+      properties:
+        api_key:
+          $ref: '#/components/schemas/ApiKey'
+        secret:
+          type: string
+          description: The secret value of the API key. Only returned on creation and not retrievable afterward.
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    CreateApiKeyRequest:
+      type: object
+      description: Request body for creating a new API key.
+      required:
+      - name
+      - service_account_id
+      properties:
+        name:
+          type: string
+          description: Name for the new API key.
+        service_account_id:
+          type: string
+          description: ID of the service account to associate the key with.
+    ListApiKeysResponse:
+      type: object
+      description: Paginated list of API keys.
+      properties:
+        api_keys:
+          type: array
+          description: Array of API key objects.
+          items:
+            $ref: '#/components/schemas/ApiKey'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+  parameters:
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+    resourceId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the resource.
+      schema:
+        type: string
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

@@ -1,0 +1,125 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys VersionDeferral API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: VersionDeferral
+  description: Manage cluster version deferral policies to delay automatic CockroachDB version upgrades.
+paths:
+  /api/v1/clusters/{cluster_id}/version-deferral:
+    get:
+      operationId: GetClusterVersionDeferral
+      summary: Get version deferral
+      description: Retrieves the version deferral policy for the specified cluster, indicating whether automatic version upgrades are deferred and for how long.
+      tags:
+      - VersionDeferral
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Version deferral policy retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterVersionDeferral'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: SetClusterVersionDeferral
+      summary: Set version deferral
+      description: Sets the version deferral policy for the specified cluster to delay automatic CockroachDB version upgrades.
+      tags:
+      - VersionDeferral
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterVersionDeferral'
+      responses:
+        '200':
+          description: Version deferral policy set successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterVersionDeferral'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ClusterVersionDeferral:
+      type: object
+      description: Version deferral policy for a cluster, controlling whether automatic CockroachDB version upgrades are deferred.
+      properties:
+        deferral_policy:
+          type: string
+          description: Deferral policy. Values include NOT_DEFERRED (upgrades proceed immediately) and FIXED_DEFERRAL (upgrades are delayed).
+          enum:
+          - NOT_DEFERRED
+          - FIXED_DEFERRAL
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

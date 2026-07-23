@@ -1,0 +1,263 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys SQLUsers API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: SQLUsers
+  description: Manage SQL users for a cluster, including creating users, listing users, and updating SQL user passwords.
+paths:
+  /api/v1/clusters/{cluster_id}/sql-users:
+    get:
+      operationId: ListSQLUsers
+      summary: List SQL users
+      description: Returns a list of SQL users for the specified cluster. Accessible to users with CLUSTER_ADMIN, CLUSTER_OPERATOR_WRITER, or CLUSTER_DEVELOPER roles.
+      tags:
+      - SQLUsers
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      - $ref: '#/components/parameters/paginationPage'
+      - $ref: '#/components/parameters/paginationLimit'
+      - $ref: '#/components/parameters/paginationAsOfTime'
+      - $ref: '#/components/parameters/paginationSortOrder'
+      responses:
+        '200':
+          description: List of SQL users returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSQLUsersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: CreateSQLUser
+      summary: Create a SQL user
+      description: Creates a new SQL user for the specified cluster. Requires CLUSTER_ADMIN role at organization, folder, or cluster scope.
+      tags:
+      - SQLUsers
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSQLUserRequest'
+      responses:
+        '200':
+          description: SQL user created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLUser'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/clusters/{cluster_id}/sql-users/{name}:
+    delete:
+      operationId: DeleteSQLUser
+      summary: Delete a SQL user
+      description: Deletes a SQL user from the specified cluster by username. Requires CLUSTER_ADMIN role.
+      tags:
+      - SQLUsers
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      - $ref: '#/components/parameters/sqlUserName'
+      responses:
+        '200':
+          description: SQL user deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLUser'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/clusters/{cluster_id}/sql-users/{name}/password:
+    put:
+      operationId: UpdateSQLUserPassword
+      summary: Update SQL user password
+      description: Updates the password for the specified SQL user on the given cluster. Requires CLUSTER_ADMIN role at organization, folder, or cluster scope.
+      tags:
+      - SQLUsers
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      - $ref: '#/components/parameters/sqlUserName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSQLUserPasswordRequest'
+      responses:
+        '200':
+          description: SQL user password updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLUser'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    sqlUserName:
+      name: name
+      in: path
+      required: true
+      description: Username of the SQL user.
+      schema:
+        type: string
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    CreateSQLUserRequest:
+      type: object
+      description: Request body for creating a new SQL user.
+      required:
+      - name
+      - password
+      properties:
+        name:
+          type: string
+          description: Username for the new SQL user.
+        password:
+          type: string
+          description: Initial password for the SQL user.
+          format: password
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    UpdateSQLUserPasswordRequest:
+      type: object
+      description: Request body for updating a SQL user's password.
+      required:
+      - password
+      properties:
+        password:
+          type: string
+          description: New password for the SQL user.
+          format: password
+    SQLUser:
+      type: object
+      description: Represents a SQL user on a CockroachDB cluster.
+      properties:
+        name:
+          type: string
+          description: Username of the SQL user.
+    ListSQLUsersResponse:
+      type: object
+      description: Paginated list of SQL users for a cluster.
+      properties:
+        users:
+          type: array
+          description: Array of SQL user objects.
+          items:
+            $ref: '#/components/schemas/SQLUser'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api

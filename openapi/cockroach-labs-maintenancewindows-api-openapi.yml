@@ -1,0 +1,148 @@
+openapi: 3.1.0
+info:
+  title: CockroachDB Cloud APIKeys MaintenanceWindows API
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  version: '2024-09-16'
+  contact:
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+servers:
+- url: https://cockroachlabs.cloud
+  description: CockroachDB Cloud Production Server
+security:
+- bearerAuth: []
+tags:
+- name: MaintenanceWindows
+  description: Configure maintenance windows and blackout periods for cluster upgrade scheduling.
+paths:
+  /api/v1/clusters/{cluster_id}/maintenance-window:
+    get:
+      operationId: GetMaintenanceWindow
+      summary: Get maintenance window
+      description: Retrieves the maintenance window configuration for the specified cluster, defining when automatic upgrades and maintenance operations may occur.
+      tags:
+      - MaintenanceWindows
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Maintenance window retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceWindow'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: SetMaintenanceWindow
+      summary: Set maintenance window
+      description: Sets or replaces the maintenance window configuration for the specified cluster.
+      tags:
+      - MaintenanceWindows
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceWindow'
+      responses:
+        '200':
+          description: Maintenance window set successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceWindow'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: DeleteMaintenanceWindow
+      summary: Delete maintenance window
+      description: Removes the maintenance window configuration from the specified cluster, reverting to the default maintenance schedule.
+      tags:
+      - MaintenanceWindows
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      responses:
+        '200':
+          description: Maintenance window deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceWindow'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    MaintenanceWindow:
+      type: object
+      description: Defines the time window during which CockroachDB Cloud may perform automatic maintenance and version upgrade operations on a cluster.
+      properties:
+        day_of_week:
+          type: integer
+          description: Day of the week for maintenance. 0=Sunday, 6=Saturday.
+          minimum: 0
+          maximum: 6
+        start_hour:
+          type: integer
+          description: Hour of day (UTC) when the maintenance window begins.
+          minimum: 0
+          maximum: 23
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+externalDocs:
+  description: CockroachDB Cloud API Documentation
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
