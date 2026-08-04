@@ -1,0 +1,229 @@
+{
+  "info": {
+    "_postman_id": "56c0d301-ab21-4387-ac4f-0324373b063f",
+    "name": "CockroachDB Cloud APIKeys AuditLogs API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:05.000Z",
+    "updatedAt": "2026-07-28T01:23:05.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-56c0d301-ab21-4387-ac4f-0324373b063f"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "auditlogevents",
+              "item": [
+                {
+                  "name": "List audit log events",
+                  "id": "80a9c69b-6ccf-44f4-beff-777a63211a84",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/auditlogevents?starting_from=<dateTime>&sort_order=DESC&limit=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "auditlogevents"
+                      ],
+                      "query": [
+                        {
+                          "description": "Exclusive timestamp for filtering audit log entries by creation time.",
+                          "key": "starting_from",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Pagination direction. Accepted values are ASC and DESC.",
+                          "key": "sort_order",
+                          "value": "DESC"
+                        },
+                        {
+                          "description": "Number of entries to return per page.",
+                          "key": "limit",
+                          "value": "<integer>"
+                        }
+                      ]
+                    },
+                    "description": "Returns audit log events for the organization. Optionally filter by starting timestamp. Results are paginated by limit and ordered by sortOrder. Requires ORG_ADMIN role."
+                  },
+                  "response": [
+                    {
+                      "id": "7caa0973-496a-4af7-b997-ed01a210c234",
+                      "name": "Audit log events returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/auditlogevents?starting_from=<dateTime>&sort_order=DESC&limit=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "auditlogevents"
+                          ],
+                          "query": [
+                            {
+                              "description": "Exclusive timestamp for filtering audit log entries by creation time.",
+                              "key": "starting_from",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Pagination direction. Accepted values are ASC and DESC.",
+                              "key": "sort_order",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "Number of entries to return per page.",
+                              "key": "limit",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{}",
+                      "createdAt": "2026-07-28T01:23:05.000Z",
+                      "updatedAt": "2026-07-28T01:23:05.000Z",
+                      "uid": "35240-7caa0973-496a-4af7-b997-ed01a210c234"
+                    },
+                    {
+                      "id": "36c4b805-bd14-45a4-88e3-f6050531118f",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/auditlogevents?starting_from=<dateTime>&sort_order=DESC&limit=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "auditlogevents"
+                          ],
+                          "query": [
+                            {
+                              "description": "Exclusive timestamp for filtering audit log entries by creation time.",
+                              "key": "starting_from",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Pagination direction. Accepted values are ASC and DESC.",
+                              "key": "sort_order",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "Number of entries to return per page.",
+                              "key": "limit",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:05.000Z",
+                      "updatedAt": "2026-07-28T01:23:05.000Z",
+                      "uid": "35240-36c4b805-bd14-45a4-88e3-f6050531118f"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:05.000Z",
+                  "updatedAt": "2026-07-28T01:23:05.000Z",
+                  "uid": "35240-80a9c69b-6ccf-44f4-beff-777a63211a84"
+                }
+              ],
+              "id": "90731d57-1b06-4a18-b03c-8d2d4b681b45",
+              "createdAt": "2026-07-28T01:23:05.000Z",
+              "updatedAt": "2026-07-28T01:23:05.000Z",
+              "uid": "35240-90731d57-1b06-4a18-b03c-8d2d4b681b45"
+            }
+          ],
+          "id": "a46b7aba-fa4c-4e57-acd5-b680ae8e6993",
+          "createdAt": "2026-07-28T01:23:05.000Z",
+          "updatedAt": "2026-07-28T01:23:05.000Z",
+          "uid": "35240-a46b7aba-fa4c-4e57-acd5-b680ae8e6993"
+        }
+      ],
+      "id": "237d452f-6b8d-4460-9a37-70add6002d4e",
+      "createdAt": "2026-07-28T01:23:05.000Z",
+      "updatedAt": "2026-07-28T01:23:05.000Z",
+      "uid": "35240-237d452f-6b8d-4460-9a37-70add6002d4e"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

@@ -1,0 +1,1478 @@
+{
+  "info": {
+    "_postman_id": "a6d2c07a-dae0-49f1-a28b-15d122b22f0e",
+    "name": "CockroachDB Cloud APIKeys Folders API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:29.000Z",
+    "updatedAt": "2026-07-28T01:23:30.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a6d2c07a-dae0-49f1-a28b-15d122b22f0e"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "folders",
+              "item": [
+                {
+                  "name": "{folder_id}",
+                  "item": [
+                    {
+                      "name": "contents",
+                      "item": [
+                        {
+                          "name": "List folder contents",
+                          "id": "371e14e2-eaca-43bd-b83d-bd88059e4006",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id/contents?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id",
+                                "contents"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Page number for paginated results, starting from 1.",
+                                  "key": "pagination.page",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Maximum number of results to return per page.",
+                                  "key": "pagination.limit",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                  "key": "pagination.as_of_time",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                  "key": "pagination.sort_order",
+                                  "value": "ASC"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "3846859e-4c46-4cba-9506-e4168b8a3be6",
+                                  "key": "folder_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the folder."
+                                }
+                              ]
+                            },
+                            "description": "Returns the contents of a specific folder, including clusters and sub-folders. Supports pagination."
+                          },
+                          "response": [
+                            {
+                              "id": "81e421eb-5d23-440a-b86b-b5fcd548e8ba",
+                              "name": "Folder contents returned successfully.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/folders/:folder_id/contents?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "folders",
+                                    ":folder_id",
+                                    "contents"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Page number for paginated results, starting from 1.",
+                                      "key": "pagination.page",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return per page.",
+                                      "key": "pagination.limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                      "key": "pagination.as_of_time",
+                                      "value": "<dateTime>"
+                                    },
+                                    {
+                                      "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                      "key": "pagination.sort_order",
+                                      "value": "ASC"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "folder_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{}",
+                              "createdAt": "2026-07-28T01:23:30.000Z",
+                              "updatedAt": "2026-07-28T01:23:30.000Z",
+                              "uid": "35240-81e421eb-5d23-440a-b86b-b5fcd548e8ba"
+                            },
+                            {
+                              "id": "b0233edb-edda-4dc2-b90c-4bc6d423555d",
+                              "name": "Authentication credentials are missing or invalid.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/folders/:folder_id/contents?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "folders",
+                                    ":folder_id",
+                                    "contents"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Page number for paginated results, starting from 1.",
+                                      "key": "pagination.page",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return per page.",
+                                      "key": "pagination.limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                      "key": "pagination.as_of_time",
+                                      "value": "<dateTime>"
+                                    },
+                                    {
+                                      "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                      "key": "pagination.sort_order",
+                                      "value": "ASC"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "folder_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:30.000Z",
+                              "updatedAt": "2026-07-28T01:23:30.000Z",
+                              "uid": "35240-b0233edb-edda-4dc2-b90c-4bc6d423555d"
+                            },
+                            {
+                              "id": "63035b05-ea19-4c02-a304-cff41ae86e4b",
+                              "name": "The requested resource was not found.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/folders/:folder_id/contents?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "folders",
+                                    ":folder_id",
+                                    "contents"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Page number for paginated results, starting from 1.",
+                                      "key": "pagination.page",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return per page.",
+                                      "key": "pagination.limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                      "key": "pagination.as_of_time",
+                                      "value": "<dateTime>"
+                                    },
+                                    {
+                                      "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                      "key": "pagination.sort_order",
+                                      "value": "ASC"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "folder_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:30.000Z",
+                              "updatedAt": "2026-07-28T01:23:30.000Z",
+                              "uid": "35240-63035b05-ea19-4c02-a304-cff41ae86e4b"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-371e14e2-eaca-43bd-b83d-bd88059e4006"
+                        }
+                      ],
+                      "id": "e8483c87-b4df-4e29-a747-8d99590d704e",
+                      "createdAt": "2026-07-28T01:23:30.000Z",
+                      "updatedAt": "2026-07-28T01:23:30.000Z",
+                      "uid": "35240-e8483c87-b4df-4e29-a747-8d99590d704e"
+                    },
+                    {
+                      "name": "Get a folder",
+                      "id": "c791d2b9-76b0-4998-a4d0-99062716ae95",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "folders",
+                            ":folder_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "31866b40-7d5b-4c9d-8fb9-d60b82b90ce6",
+                              "key": "folder_id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the folder."
+                            }
+                          ]
+                        },
+                        "description": "Retrieves details of a specific folder by its ID."
+                      },
+                      "response": [
+                        {
+                          "id": "81dde23d-955f-45e4-808e-e1aab97f1e38",
+                          "name": "Folder retrieved successfully.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"resource_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\",\n  \"path\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-81dde23d-955f-45e4-808e-e1aab97f1e38"
+                        },
+                        {
+                          "id": "7faa8dee-45f2-4ea9-87a1-7bc5633f874f",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-7faa8dee-45f2-4ea9-87a1-7bc5633f874f"
+                        },
+                        {
+                          "id": "4df27632-d028-492a-9ae3-a36548100b73",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-4df27632-d028-492a-9ae3-a36548100b73"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:30.000Z",
+                      "updatedAt": "2026-07-28T01:23:30.000Z",
+                      "uid": "35240-c791d2b9-76b0-4998-a4d0-99062716ae95"
+                    },
+                    {
+                      "name": "Update a folder",
+                      "id": "4c5c06b4-673c-446f-8753-d954f9a15249",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "folders",
+                            ":folder_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "f7498773-0395-40e6-ab86-12cb88827235",
+                              "key": "folder_id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the folder."
+                            }
+                          ]
+                        },
+                        "description": "Updates the name or parent of an existing folder. Requires FOLDER_ADMIN or FOLDER_MOVER role."
+                      },
+                      "response": [
+                        {
+                          "id": "7da437fa-58b5-4735-9487-7c858b9e031a",
+                          "name": "Folder updated successfully.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"resource_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\",\n  \"path\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-7da437fa-58b5-4735-9487-7c858b9e031a"
+                        },
+                        {
+                          "id": "80177c4c-274d-453c-9aa2-d84d9d5b5971",
+                          "name": "The request body or parameters are invalid.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-80177c4c-274d-453c-9aa2-d84d9d5b5971"
+                        },
+                        {
+                          "id": "9c819859-6957-430a-96d9-9d91593d8073",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-9c819859-6957-430a-96d9-9d91593d8073"
+                        },
+                        {
+                          "id": "e58ce38a-e148-48b0-9beb-025ad2e1e378",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-e58ce38a-e148-48b0-9beb-025ad2e1e378"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:30.000Z",
+                      "updatedAt": "2026-07-28T01:23:30.000Z",
+                      "uid": "35240-4c5c06b4-673c-446f-8753-d954f9a15249"
+                    },
+                    {
+                      "name": "Delete a folder",
+                      "id": "d1249517-d50e-4edc-8805-4e5900816ac4",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "folders",
+                            ":folder_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "772da305-952e-41df-a1f4-758f61d8b310",
+                              "key": "folder_id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the folder."
+                            }
+                          ]
+                        },
+                        "description": "Permanently deletes a folder by ID. Requires FOLDER_ADMIN role. The folder must be empty before deletion."
+                      },
+                      "response": [
+                        {
+                          "id": "0a787196-5214-4635-8f8f-72b1225b37a2",
+                          "name": "Folder deleted successfully.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"resource_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\",\n  \"path\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-0a787196-5214-4635-8f8f-72b1225b37a2"
+                        },
+                        {
+                          "id": "3d79750a-0b99-436f-bfc8-c0ff7b637d85",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-3d79750a-0b99-436f-bfc8-c0ff7b637d85"
+                        },
+                        {
+                          "id": "c658ba0a-ef43-4bc9-8fce-de2f8da67444",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/folders/:folder_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "folders",
+                                ":folder_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "folder_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:30.000Z",
+                          "updatedAt": "2026-07-28T01:23:30.000Z",
+                          "uid": "35240-c658ba0a-ef43-4bc9-8fce-de2f8da67444"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:30.000Z",
+                      "updatedAt": "2026-07-28T01:23:30.000Z",
+                      "uid": "35240-d1249517-d50e-4edc-8805-4e5900816ac4"
+                    }
+                  ],
+                  "id": "762f814f-fac3-4233-a12b-2cc717d133ac",
+                  "createdAt": "2026-07-28T01:23:30.000Z",
+                  "updatedAt": "2026-07-28T01:23:30.000Z",
+                  "uid": "35240-762f814f-fac3-4233-a12b-2cc717d133ac"
+                },
+                {
+                  "name": "List folders",
+                  "id": "d675b7c7-7bdd-4e3a-afc7-2bfcb29e1291",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/folders?path=<string>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "folders"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter folders by path prefix.",
+                          "key": "path",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Page number for paginated results, starting from 1.",
+                          "key": "pagination.page",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return per page.",
+                          "key": "pagination.limit",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                          "key": "pagination.as_of_time",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                          "key": "pagination.sort_order",
+                          "value": "ASC"
+                        }
+                      ]
+                    },
+                    "description": "Returns a list of folders in the organization, optionally filtered by path. Supports pagination."
+                  },
+                  "response": [
+                    {
+                      "id": "f98cd832-6286-4c1d-bbe0-fb889b3b3a5c",
+                      "name": "List of folders returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/folders?path=<string>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "folders"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter folders by path prefix.",
+                              "key": "path",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                              "key": "pagination.as_of_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                              "key": "pagination.sort_order",
+                              "value": "ASC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"folders\": [\n    {\n      \"resource_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"parent_id\": \"<string>\",\n      \"path\": \"<string>\"\n    },\n    {\n      \"resource_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"parent_id\": \"<string>\",\n      \"path\": \"<string>\"\n    }\n  ],\n  \"pagination\": {\n    \"next\": \"<string>\",\n    \"last\": \"<string>\",\n    \"time\": \"<dateTime>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:23:30.000Z",
+                      "updatedAt": "2026-07-28T01:23:30.000Z",
+                      "uid": "35240-f98cd832-6286-4c1d-bbe0-fb889b3b3a5c"
+                    },
+                    {
+                      "id": "6947940f-8718-44a7-8649-0ab47238cad9",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/folders?path=<string>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "folders"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter folders by path prefix.",
+                              "key": "path",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                              "key": "pagination.as_of_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                              "key": "pagination.sort_order",
+                              "value": "ASC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:30.000Z",
+                      "updatedAt": "2026-07-28T01:23:30.000Z",
+                      "uid": "35240-6947940f-8718-44a7-8649-0ab47238cad9"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:30.000Z",
+                  "updatedAt": "2026-07-28T01:23:30.000Z",
+                  "uid": "35240-d675b7c7-7bdd-4e3a-afc7-2bfcb29e1291"
+                },
+                {
+                  "name": "Create a folder",
+                  "id": "5d46555e-9038-46b8-866b-ef8cd6b5b411",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/folders",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "folders"
+                      ]
+                    },
+                    "description": "Creates a new folder for organizing clusters and resources within the organization. Requires FOLDER_ADMIN role."
+                  },
+                  "response": [
+                    {
+                      "id": "4c659ba4-43e0-44e7-91d3-4c4705428ac2",
+                      "name": "Folder created successfully.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/folders",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "folders"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"resource_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\",\n  \"path\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:30.000Z",
+                      "updatedAt": "2026-07-28T01:23:30.000Z",
+                      "uid": "35240-4c659ba4-43e0-44e7-91d3-4c4705428ac2"
+                    },
+                    {
+                      "id": "39222d45-3724-4955-aec6-8ac55e3bfd19",
+                      "name": "The request body or parameters are invalid.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/folders",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "folders"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:30.000Z",
+                      "updatedAt": "2026-07-28T01:23:30.000Z",
+                      "uid": "35240-39222d45-3724-4955-aec6-8ac55e3bfd19"
+                    },
+                    {
+                      "id": "8c968819-5af4-41ab-a1e8-d5e9a2e7efe1",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"parent_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/folders",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "folders"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:30.000Z",
+                      "updatedAt": "2026-07-28T01:23:30.000Z",
+                      "uid": "35240-8c968819-5af4-41ab-a1e8-d5e9a2e7efe1"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:30.000Z",
+                  "updatedAt": "2026-07-28T01:23:30.000Z",
+                  "uid": "35240-5d46555e-9038-46b8-866b-ef8cd6b5b411"
+                }
+              ],
+              "id": "0ef0ab3b-b813-4b07-b8c4-99cbc9f82025",
+              "createdAt": "2026-07-28T01:23:30.000Z",
+              "updatedAt": "2026-07-28T01:23:30.000Z",
+              "uid": "35240-0ef0ab3b-b813-4b07-b8c4-99cbc9f82025"
+            }
+          ],
+          "id": "bef40d2a-85dc-41e4-88bd-b5da3410a2b4",
+          "createdAt": "2026-07-28T01:23:30.000Z",
+          "updatedAt": "2026-07-28T01:23:30.000Z",
+          "uid": "35240-bef40d2a-85dc-41e4-88bd-b5da3410a2b4"
+        }
+      ],
+      "id": "25772fd7-41f4-465a-b81c-b1953da0335c",
+      "createdAt": "2026-07-28T01:23:30.000Z",
+      "updatedAt": "2026-07-28T01:23:30.000Z",
+      "uid": "35240-25772fd7-41f4-465a-b81c-b1953da0335c"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

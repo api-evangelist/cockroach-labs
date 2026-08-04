@@ -1,0 +1,719 @@
+{
+  "info": {
+    "_postman_id": "a396807b-7ec5-4232-b2b3-3af435c5ec52",
+    "name": "CockroachDB Cloud APIKeys MaintenanceWindows API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:35.000Z",
+    "updatedAt": "2026-07-28T01:23:35.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a396807b-7ec5-4232-b2b3-3af435c5ec52"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "clusters",
+              "item": [
+                {
+                  "name": "{cluster_id}",
+                  "item": [
+                    {
+                      "name": "maintenance-window",
+                      "item": [
+                        {
+                          "name": "Get maintenance window",
+                          "id": "d9f5e94e-d53a-4429-9fdd-6b8a5f2ab0e2",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id",
+                                "maintenance-window"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "3ffd5bb7-7f4c-416d-9cc1-d691fceaf4a7",
+                                  "key": "cluster_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                }
+                              ]
+                            },
+                            "description": "Retrieves the maintenance window configuration for the specified cluster, defining when automatic upgrades and maintenance operations may occur."
+                          },
+                          "response": [
+                            {
+                              "id": "d9e6647a-9c9e-489a-96a1-c77e940deb8d",
+                              "name": "Maintenance window retrieved successfully.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "maintenance-window"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"day_of_week\": \"<integer>\",\n  \"start_hour\": \"<integer>\"\n}",
+                              "createdAt": "2026-07-28T01:23:36.000Z",
+                              "updatedAt": "2026-07-28T01:23:36.000Z",
+                              "uid": "35240-d9e6647a-9c9e-489a-96a1-c77e940deb8d"
+                            },
+                            {
+                              "id": "7543558e-6fd9-4eb2-b4d9-6e3b28732cac",
+                              "name": "Authentication credentials are missing or invalid.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "maintenance-window"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:36.000Z",
+                              "updatedAt": "2026-07-28T01:23:36.000Z",
+                              "uid": "35240-7543558e-6fd9-4eb2-b4d9-6e3b28732cac"
+                            },
+                            {
+                              "id": "39d6959c-3738-4e57-a4be-7239ec0c06c5",
+                              "name": "The requested resource was not found.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "maintenance-window"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:36.000Z",
+                              "updatedAt": "2026-07-28T01:23:36.000Z",
+                              "uid": "35240-39d6959c-3738-4e57-a4be-7239ec0c06c5"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:23:36.000Z",
+                          "updatedAt": "2026-07-28T01:23:36.000Z",
+                          "uid": "35240-d9f5e94e-d53a-4429-9fdd-6b8a5f2ab0e2"
+                        },
+                        {
+                          "name": "Set maintenance window",
+                          "id": "1d741c9c-ea6a-4188-807a-687b3fdee489",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"day_of_week\": \"<integer>\",\n  \"start_hour\": \"<integer>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id",
+                                "maintenance-window"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "c47ae60e-00c2-4644-b613-abb4535b47a9",
+                                  "key": "cluster_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                }
+                              ]
+                            },
+                            "description": "Sets or replaces the maintenance window configuration for the specified cluster."
+                          },
+                          "response": [
+                            {
+                              "id": "8d97f34f-1799-4b7c-a47f-9e7496186695",
+                              "name": "Maintenance window set successfully.",
+                              "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"day_of_week\": \"<integer>\",\n  \"start_hour\": \"<integer>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "maintenance-window"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"day_of_week\": \"<integer>\",\n  \"start_hour\": \"<integer>\"\n}",
+                              "createdAt": "2026-07-28T01:23:36.000Z",
+                              "updatedAt": "2026-07-28T01:23:36.000Z",
+                              "uid": "35240-8d97f34f-1799-4b7c-a47f-9e7496186695"
+                            },
+                            {
+                              "id": "63a49643-bd69-4268-959d-19151e510f25",
+                              "name": "The request body or parameters are invalid.",
+                              "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"day_of_week\": \"<integer>\",\n  \"start_hour\": \"<integer>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "maintenance-window"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:36.000Z",
+                              "updatedAt": "2026-07-28T01:23:36.000Z",
+                              "uid": "35240-63a49643-bd69-4268-959d-19151e510f25"
+                            },
+                            {
+                              "id": "3d1d1f00-dd97-49de-87a4-feaf4fdd179d",
+                              "name": "Authentication credentials are missing or invalid.",
+                              "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"day_of_week\": \"<integer>\",\n  \"start_hour\": \"<integer>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "maintenance-window"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:36.000Z",
+                              "updatedAt": "2026-07-28T01:23:36.000Z",
+                              "uid": "35240-3d1d1f00-dd97-49de-87a4-feaf4fdd179d"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:23:36.000Z",
+                          "updatedAt": "2026-07-28T01:23:36.000Z",
+                          "uid": "35240-1d741c9c-ea6a-4188-807a-687b3fdee489"
+                        },
+                        {
+                          "name": "Delete maintenance window",
+                          "id": "4122b68d-e1c0-4b97-9aa6-18455e750847",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id",
+                                "maintenance-window"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "b67d9a72-515b-4f87-8373-4b7f040f8987",
+                                  "key": "cluster_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                }
+                              ]
+                            },
+                            "description": "Removes the maintenance window configuration from the specified cluster, reverting to the default maintenance schedule."
+                          },
+                          "response": [
+                            {
+                              "id": "4e6a1a76-0046-4793-84d8-3f522b52fe6a",
+                              "name": "Maintenance window deleted successfully.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "maintenance-window"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"day_of_week\": \"<integer>\",\n  \"start_hour\": \"<integer>\"\n}",
+                              "createdAt": "2026-07-28T01:23:36.000Z",
+                              "updatedAt": "2026-07-28T01:23:36.000Z",
+                              "uid": "35240-4e6a1a76-0046-4793-84d8-3f522b52fe6a"
+                            },
+                            {
+                              "id": "74c415e7-ec3d-4ce3-be44-0b648b58bddd",
+                              "name": "Authentication credentials are missing or invalid.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "maintenance-window"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:36.000Z",
+                              "updatedAt": "2026-07-28T01:23:36.000Z",
+                              "uid": "35240-74c415e7-ec3d-4ce3-be44-0b648b58bddd"
+                            },
+                            {
+                              "id": "8b7eec24-0226-4064-a983-51a8cba604e5",
+                              "name": "The requested resource was not found.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/maintenance-window",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "maintenance-window"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:36.000Z",
+                              "updatedAt": "2026-07-28T01:23:36.000Z",
+                              "uid": "35240-8b7eec24-0226-4064-a983-51a8cba604e5"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:23:36.000Z",
+                          "updatedAt": "2026-07-28T01:23:36.000Z",
+                          "uid": "35240-4122b68d-e1c0-4b97-9aa6-18455e750847"
+                        }
+                      ],
+                      "id": "566b0692-7f9a-45dd-a9a2-73420ad8d6dc",
+                      "createdAt": "2026-07-28T01:23:36.000Z",
+                      "updatedAt": "2026-07-28T01:23:36.000Z",
+                      "uid": "35240-566b0692-7f9a-45dd-a9a2-73420ad8d6dc"
+                    }
+                  ],
+                  "id": "7040c313-fb9b-4305-8993-e7628a09c8a1",
+                  "createdAt": "2026-07-28T01:23:36.000Z",
+                  "updatedAt": "2026-07-28T01:23:36.000Z",
+                  "uid": "35240-7040c313-fb9b-4305-8993-e7628a09c8a1"
+                }
+              ],
+              "id": "12c36db7-ff77-4281-93f0-1ec916223b4c",
+              "createdAt": "2026-07-28T01:23:36.000Z",
+              "updatedAt": "2026-07-28T01:23:36.000Z",
+              "uid": "35240-12c36db7-ff77-4281-93f0-1ec916223b4c"
+            }
+          ],
+          "id": "1c19d751-46bc-42b8-bd0a-2d9b4749bad1",
+          "createdAt": "2026-07-28T01:23:36.000Z",
+          "updatedAt": "2026-07-28T01:23:36.000Z",
+          "uid": "35240-1c19d751-46bc-42b8-bd0a-2d9b4749bad1"
+        }
+      ],
+      "id": "d18a6adb-adea-4172-af94-190478658c5a",
+      "createdAt": "2026-07-28T01:23:36.000Z",
+      "updatedAt": "2026-07-28T01:23:36.000Z",
+      "uid": "35240-d18a6adb-adea-4172-af94-190478658c5a"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

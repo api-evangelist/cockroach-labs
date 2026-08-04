@@ -1,0 +1,1170 @@
+{
+  "info": {
+    "_postman_id": "fef1e33d-e8ff-4e7c-9c12-6ba109b3d02d",
+    "name": "CockroachDB Cloud APIKeys JWTIssuers API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:33.000Z",
+    "updatedAt": "2026-07-28T01:23:33.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-fef1e33d-e8ff-4e7c-9c12-6ba109b3d02d"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "jwt-issuers",
+              "item": [
+                {
+                  "name": "{id}",
+                  "item": [
+                    {
+                      "name": "Get a JWT issuer",
+                      "id": "fa76ec4d-d5ad-4eb0-ad4c-08f87c9df167",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "jwt-issuers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "9e2c2174-e657-4f8e-830c-d49cf9d70fe0",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the resource."
+                            }
+                          ]
+                        },
+                        "description": "Retrieves a specific JWT issuer configuration by ID. Requires ORG_ADMIN role."
+                      },
+                      "response": [
+                        {
+                          "id": "96be3618-c7f9-423c-a0ab-3d05168359b5",
+                          "name": "JWT issuer retrieved successfully.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<string>\",\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-96be3618-c7f9-423c-a0ab-3d05168359b5"
+                        },
+                        {
+                          "id": "732b7103-8115-4b7f-afdd-ce5049e064c9",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-732b7103-8115-4b7f-afdd-ce5049e064c9"
+                        },
+                        {
+                          "id": "4b08f404-6323-4cde-88c6-b3e064f7a8cb",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-4b08f404-6323-4cde-88c6-b3e064f7a8cb"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:34.000Z",
+                      "updatedAt": "2026-07-28T01:23:34.000Z",
+                      "uid": "35240-fa76ec4d-d5ad-4eb0-ad4c-08f87c9df167"
+                    },
+                    {
+                      "name": "Update a JWT issuer",
+                      "id": "e444e891-7d88-4fc4-9b7c-9794f5f729cf",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "jwt-issuers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "bcb1f6d7-b16b-4350-b0a9-cb25059aba64",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the resource."
+                            }
+                          ]
+                        },
+                        "description": "Updates an existing JWT issuer configuration. Requires ORG_ADMIN role."
+                      },
+                      "response": [
+                        {
+                          "id": "58fc6399-7864-469e-90fc-3e36bdd23cc8",
+                          "name": "JWT issuer updated successfully.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<string>\",\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-58fc6399-7864-469e-90fc-3e36bdd23cc8"
+                        },
+                        {
+                          "id": "bd85ad11-2fe1-43dc-83c0-362e771188e7",
+                          "name": "The request body or parameters are invalid.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-bd85ad11-2fe1-43dc-83c0-362e771188e7"
+                        },
+                        {
+                          "id": "6fd48093-6ec5-4728-8e21-69d14d12bc0a",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-6fd48093-6ec5-4728-8e21-69d14d12bc0a"
+                        },
+                        {
+                          "id": "05e39294-9cae-470a-be06-9e108df4c2fa",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-05e39294-9cae-470a-be06-9e108df4c2fa"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:34.000Z",
+                      "updatedAt": "2026-07-28T01:23:34.000Z",
+                      "uid": "35240-e444e891-7d88-4fc4-9b7c-9794f5f729cf"
+                    },
+                    {
+                      "name": "Delete a JWT issuer",
+                      "id": "4df610b1-9653-4b65-95df-685cffd55ec3",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "jwt-issuers",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "053607bf-63f9-491a-bcd9-721078117910",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the resource."
+                            }
+                          ]
+                        },
+                        "description": "Removes a JWT issuer configuration by ID. Requires ORG_ADMIN role."
+                      },
+                      "response": [
+                        {
+                          "id": "e4ddac1a-3da4-4872-a21a-3062e413c1c2",
+                          "name": "JWT issuer deleted successfully.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<string>\",\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-e4ddac1a-3da4-4872-a21a-3062e413c1c2"
+                        },
+                        {
+                          "id": "c964ff2a-71a9-447c-b433-b546deb3f376",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-c964ff2a-71a9-447c-b433-b546deb3f376"
+                        },
+                        {
+                          "id": "c5b2ddab-f9bb-43e4-a5e7-381c639aeb89",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/jwt-issuers/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "jwt-issuers",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:34.000Z",
+                          "updatedAt": "2026-07-28T01:23:34.000Z",
+                          "uid": "35240-c5b2ddab-f9bb-43e4-a5e7-381c639aeb89"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:34.000Z",
+                      "updatedAt": "2026-07-28T01:23:34.000Z",
+                      "uid": "35240-4df610b1-9653-4b65-95df-685cffd55ec3"
+                    }
+                  ],
+                  "id": "99238ecc-794f-420b-931f-f4c25fd43a88",
+                  "createdAt": "2026-07-28T01:23:33.000Z",
+                  "updatedAt": "2026-07-28T01:23:33.000Z",
+                  "uid": "35240-99238ecc-794f-420b-931f-f4c25fd43a88"
+                },
+                {
+                  "name": "List JWT issuers",
+                  "id": "d93be38b-5542-4c4e-8460-84cfa2d55707",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/jwt-issuers?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "jwt-issuers"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for paginated results, starting from 1.",
+                          "key": "pagination.page",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return per page.",
+                          "key": "pagination.limit",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                          "key": "pagination.as_of_time",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                          "key": "pagination.sort_order",
+                          "value": "ASC"
+                        }
+                      ]
+                    },
+                    "description": "Returns a list of JWT issuer configurations registered with the organization. Requires ORG_ADMIN role."
+                  },
+                  "response": [
+                    {
+                      "id": "6112da3e-38cc-4a72-9107-c4e3dbeb3944",
+                      "name": "List of JWT issuers returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/jwt-issuers?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "jwt-issuers"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                              "key": "pagination.as_of_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                              "key": "pagination.sort_order",
+                              "value": "ASC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"issuers\": [\n    {\n      \"id\": \"<string>\",\n      \"issuer_url\": \"<string>\",\n      \"jwks_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"issuer_url\": \"<string>\",\n      \"jwks_id\": \"<string>\"\n    }\n  ],\n  \"pagination\": {\n    \"next\": \"<string>\",\n    \"last\": \"<string>\",\n    \"time\": \"<dateTime>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:23:34.000Z",
+                      "updatedAt": "2026-07-28T01:23:34.000Z",
+                      "uid": "35240-6112da3e-38cc-4a72-9107-c4e3dbeb3944"
+                    },
+                    {
+                      "id": "7aada742-30be-4c12-94fe-0e02ec699699",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/jwt-issuers?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "jwt-issuers"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                              "key": "pagination.as_of_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                              "key": "pagination.sort_order",
+                              "value": "ASC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:34.000Z",
+                      "updatedAt": "2026-07-28T01:23:34.000Z",
+                      "uid": "35240-7aada742-30be-4c12-94fe-0e02ec699699"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:34.000Z",
+                  "updatedAt": "2026-07-28T01:23:34.000Z",
+                  "uid": "35240-d93be38b-5542-4c4e-8460-84cfa2d55707"
+                },
+                {
+                  "name": "Add a JWT issuer",
+                  "id": "a21b543d-ffcc-4159-8349-980a0ea20f7b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/jwt-issuers",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "jwt-issuers"
+                      ]
+                    },
+                    "description": "Registers a new JWT issuer configuration for external identity provider integration. Requires ORG_ADMIN role."
+                  },
+                  "response": [
+                    {
+                      "id": "1eb7f301-2d66-4385-b498-f165a24ae878",
+                      "name": "JWT issuer added successfully.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/jwt-issuers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "jwt-issuers"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<string>\",\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:34.000Z",
+                      "updatedAt": "2026-07-28T01:23:34.000Z",
+                      "uid": "35240-1eb7f301-2d66-4385-b498-f165a24ae878"
+                    },
+                    {
+                      "id": "0791731b-7e33-4df0-959e-01b81ca436b4",
+                      "name": "The request body or parameters are invalid.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/jwt-issuers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "jwt-issuers"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:34.000Z",
+                      "updatedAt": "2026-07-28T01:23:34.000Z",
+                      "uid": "35240-0791731b-7e33-4df0-959e-01b81ca436b4"
+                    },
+                    {
+                      "id": "ddc70495-d411-42f9-bfe9-8992089b4bd0",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"issuer_url\": \"<string>\",\n  \"jwks_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/jwt-issuers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "jwt-issuers"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:34.000Z",
+                      "updatedAt": "2026-07-28T01:23:34.000Z",
+                      "uid": "35240-ddc70495-d411-42f9-bfe9-8992089b4bd0"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:34.000Z",
+                  "updatedAt": "2026-07-28T01:23:34.000Z",
+                  "uid": "35240-a21b543d-ffcc-4159-8349-980a0ea20f7b"
+                }
+              ],
+              "id": "6378ef4f-72a7-4807-a533-d4bde223b1ca",
+              "createdAt": "2026-07-28T01:23:33.000Z",
+              "updatedAt": "2026-07-28T01:23:33.000Z",
+              "uid": "35240-6378ef4f-72a7-4807-a533-d4bde223b1ca"
+            }
+          ],
+          "id": "9a2d3659-8949-4996-aee2-02b82afb2328",
+          "createdAt": "2026-07-28T01:23:33.000Z",
+          "updatedAt": "2026-07-28T01:23:33.000Z",
+          "uid": "35240-9a2d3659-8949-4996-aee2-02b82afb2328"
+        }
+      ],
+      "id": "bb0e4c76-e0a8-4dea-b5b7-05b0fb8f43b9",
+      "createdAt": "2026-07-28T01:23:33.000Z",
+      "updatedAt": "2026-07-28T01:23:33.000Z",
+      "uid": "35240-bb0e4c76-e0a8-4dea-b5b7-05b0fb8f43b9"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "info": {
+    "_postman_id": "7372cca1-4bba-424f-bdaa-28dcc5cf3526",
+    "name": "CockroachDB Cloud APIKeys Rules API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:59.000Z",
+    "updatedAt": "2026-07-28T01:23:59.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-7372cca1-4bba-424f-bdaa-28dcc5cf3526"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v2",
+          "item": [
+            {
+              "name": "rules",
+              "item": [
+                {
+                  "name": "Get alerting rules",
+                  "id": "dcdba383-aa20-4663-8526-a5dfb2bf4c08",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/yaml"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v2/rules/",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v2",
+                        "rules",
+                        ""
+                      ]
+                    },
+                    "description": "Returns a Prometheus-compatible alerting rules template that can be used to configure alerting for CockroachDB cluster health and performance metrics. This endpoint does not require authentication."
+                  },
+                  "response": [
+                    {
+                      "id": "e2fcc3ca-7867-48e1-98be-a19a285ef064",
+                      "name": "Alerting rules template returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/yaml"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v2/rules/",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "rules",
+                            ""
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/yaml"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "<string>",
+                      "createdAt": "2026-07-28T01:24:00.000Z",
+                      "updatedAt": "2026-07-28T01:24:00.000Z",
+                      "uid": "35240-e2fcc3ca-7867-48e1-98be-a19a285ef064"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:00.000Z",
+                  "updatedAt": "2026-07-28T01:24:00.000Z",
+                  "uid": "35240-dcdba383-aa20-4663-8526-a5dfb2bf4c08"
+                }
+              ],
+              "id": "82cee312-4978-45d7-b762-1a43021d3e66",
+              "createdAt": "2026-07-28T01:24:00.000Z",
+              "updatedAt": "2026-07-28T01:24:00.000Z",
+              "uid": "35240-82cee312-4978-45d7-b762-1a43021d3e66"
+            }
+          ],
+          "id": "29f1b068-6d84-4e47-bedc-e35618f369d3",
+          "createdAt": "2026-07-28T01:24:00.000Z",
+          "updatedAt": "2026-07-28T01:24:00.000Z",
+          "uid": "35240-29f1b068-6d84-4e47-bedc-e35618f369d3"
+        }
+      ],
+      "id": "06f64bf6-ea97-41b1-8f9a-9444e0bef0c1",
+      "createdAt": "2026-07-28T01:24:00.000Z",
+      "updatedAt": "2026-07-28T01:24:00.000Z",
+      "uid": "35240-06f64bf6-ea97-41b1-8f9a-9444e0bef0c1"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

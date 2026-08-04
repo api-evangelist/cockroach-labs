@@ -1,0 +1,1448 @@
+{
+  "info": {
+    "_postman_id": "ecdb4563-bc70-419e-92e6-acefbf96e236",
+    "name": "CockroachDB Cloud APIKeys EgressRules API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:28.000Z",
+    "updatedAt": "2026-07-28T01:23:29.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ecdb4563-bc70-419e-92e6-acefbf96e236"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "clusters",
+              "item": [
+                {
+                  "name": "{cluster_id}",
+                  "item": [
+                    {
+                      "name": "networking",
+                      "item": [
+                        {
+                          "name": "egress-rules",
+                          "item": [
+                            {
+                              "name": "{rule_id}",
+                              "item": [
+                                {
+                                  "name": "Get an egress rule",
+                                  "id": "4684fb83-2535-44fd-b164-20f27c069c87",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "networking",
+                                        "egress-rules",
+                                        ":rule_id"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "31439fe1-5b08-47dc-853f-ff3c7291da70",
+                                          "key": "cluster_id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                        },
+                                        {
+                                          "id": "671c925d-e8cc-44a5-9c81-c81693b1bdf5",
+                                          "key": "rule_id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the egress rule."
+                                        }
+                                      ]
+                                    },
+                                    "description": "Retrieves details of a specific egress rule by ID for the given cluster."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "9977d3a5-afb9-41ce-8c29-606c9c615c02",
+                                      "name": "Egress rule retrieved successfully.",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"type\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-9977d3a5-afb9-41ce-8c29-606c9c615c02"
+                                    },
+                                    {
+                                      "id": "b3ec14e7-f5b8-482b-b410-0b95495f2ca7",
+                                      "name": "Authentication credentials are missing or invalid.",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Unauthorized",
+                                      "code": 401,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-b3ec14e7-f5b8-482b-b410-0b95495f2ca7"
+                                    },
+                                    {
+                                      "id": "ed935f88-5a68-4c73-9af1-d78a5e4a34e7",
+                                      "name": "The requested resource was not found.",
+                                      "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Not Found",
+                                      "code": 404,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-ed935f88-5a68-4c73-9af1-d78a5e4a34e7"
+                                    }
+                                  ],
+                                  "createdAt": "2026-07-28T01:23:29.000Z",
+                                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                                  "uid": "35240-4684fb83-2535-44fd-b164-20f27c069c87"
+                                },
+                                {
+                                  "name": "Update an egress rule",
+                                  "id": "c7de4856-f509-423f-97d3-f8cc39348791",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "PATCH",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ]\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "networking",
+                                        "egress-rules",
+                                        ":rule_id"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "d6e953ad-8ace-43f8-93a3-78d8c7280c9e",
+                                          "key": "cluster_id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                        },
+                                        {
+                                          "id": "78e84a5a-78c1-4ed5-a4eb-896e1fcd7645",
+                                          "key": "rule_id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the egress rule."
+                                        }
+                                      ]
+                                    },
+                                    "description": "Updates an existing egress rule configuration for the specified cluster."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "77bc14c7-9011-44ab-bddc-1f135aaf1f29",
+                                      "name": "Egress rule updated successfully.",
+                                      "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                          {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "body": {
+                                          "mode": "raw",
+                                          "raw": "{\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ]\n}",
+                                          "options": {
+                                            "raw": {
+                                              "headerFamily": "json",
+                                              "language": "json"
+                                            }
+                                          }
+                                        },
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"type\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-77bc14c7-9011-44ab-bddc-1f135aaf1f29"
+                                    },
+                                    {
+                                      "id": "35cd982b-5b5d-4073-a242-51cac453131d",
+                                      "name": "The request body or parameters are invalid.",
+                                      "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                          {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "body": {
+                                          "mode": "raw",
+                                          "raw": "{\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ]\n}",
+                                          "options": {
+                                            "raw": {
+                                              "headerFamily": "json",
+                                              "language": "json"
+                                            }
+                                          }
+                                        },
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Bad Request",
+                                      "code": 400,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-35cd982b-5b5d-4073-a242-51cac453131d"
+                                    },
+                                    {
+                                      "id": "e02f7ed9-dc8d-4d89-8b09-9e2249f449dc",
+                                      "name": "Authentication credentials are missing or invalid.",
+                                      "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                          {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "body": {
+                                          "mode": "raw",
+                                          "raw": "{\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ]\n}",
+                                          "options": {
+                                            "raw": {
+                                              "headerFamily": "json",
+                                              "language": "json"
+                                            }
+                                          }
+                                        },
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Unauthorized",
+                                      "code": 401,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-e02f7ed9-dc8d-4d89-8b09-9e2249f449dc"
+                                    },
+                                    {
+                                      "id": "fa6b8aae-dca5-4f80-aa59-11719c4cdf1a",
+                                      "name": "The requested resource was not found.",
+                                      "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                          {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "body": {
+                                          "mode": "raw",
+                                          "raw": "{\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ]\n}",
+                                          "options": {
+                                            "raw": {
+                                              "headerFamily": "json",
+                                              "language": "json"
+                                            }
+                                          }
+                                        },
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Not Found",
+                                      "code": 404,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-fa6b8aae-dca5-4f80-aa59-11719c4cdf1a"
+                                    }
+                                  ],
+                                  "createdAt": "2026-07-28T01:23:29.000Z",
+                                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                                  "uid": "35240-c7de4856-f509-423f-97d3-f8cc39348791"
+                                },
+                                {
+                                  "name": "Delete an egress rule",
+                                  "id": "5e6f28c8-6329-4f56-8b05-b938004d242e",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id?idempotency_key=<string>",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "networking",
+                                        "egress-rules",
+                                        ":rule_id"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "Optional key for idempotent deletion.",
+                                          "key": "idempotency_key",
+                                          "value": "<string>"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "c0e39df1-662a-4616-b655-9ff8a268cdde",
+                                          "key": "cluster_id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                        },
+                                        {
+                                          "id": "748fb2e0-b0cb-4983-b26a-7fc1247fde74",
+                                          "key": "rule_id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the egress rule."
+                                        }
+                                      ]
+                                    },
+                                    "description": "Removes an egress rule from the cluster. An optional idempotency key may be supplied."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "720e1223-bab2-46d5-9cd8-2de67cd3c1d1",
+                                      "name": "Egress rule deleted successfully.",
+                                      "originalRequest": {
+                                        "method": "DELETE",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id?idempotency_key=<string>",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "query": [
+                                            {
+                                              "description": "Optional key for idempotent deletion.",
+                                              "key": "idempotency_key",
+                                              "value": "<string>"
+                                            }
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"type\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-720e1223-bab2-46d5-9cd8-2de67cd3c1d1"
+                                    },
+                                    {
+                                      "id": "58f03073-3334-4de5-adef-f4a8b37a6764",
+                                      "name": "Authentication credentials are missing or invalid.",
+                                      "originalRequest": {
+                                        "method": "DELETE",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id?idempotency_key=<string>",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "query": [
+                                            {
+                                              "description": "Optional key for idempotent deletion.",
+                                              "key": "idempotency_key",
+                                              "value": "<string>"
+                                            }
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Unauthorized",
+                                      "code": 401,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-58f03073-3334-4de5-adef-f4a8b37a6764"
+                                    },
+                                    {
+                                      "id": "b9be015d-3230-4f43-897f-5c09a1f2e60e",
+                                      "name": "The requested resource was not found.",
+                                      "originalRequest": {
+                                        "method": "DELETE",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules/:rule_id?idempotency_key=<string>",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "clusters",
+                                            ":cluster_id",
+                                            "networking",
+                                            "egress-rules",
+                                            ":rule_id"
+                                          ],
+                                          "query": [
+                                            {
+                                              "description": "Optional key for idempotent deletion.",
+                                              "key": "idempotency_key",
+                                              "value": "<string>"
+                                            }
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "cluster_id"
+                                            },
+                                            {
+                                              "key": "rule_id"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Not Found",
+                                      "code": 404,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:29.000Z",
+                                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                                      "uid": "35240-b9be015d-3230-4f43-897f-5c09a1f2e60e"
+                                    }
+                                  ],
+                                  "createdAt": "2026-07-28T01:23:29.000Z",
+                                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                                  "uid": "35240-5e6f28c8-6329-4f56-8b05-b938004d242e"
+                                }
+                              ],
+                              "id": "aae6004c-4fbc-499e-b776-a4641abc9b02",
+                              "createdAt": "2026-07-28T01:23:29.000Z",
+                              "updatedAt": "2026-07-28T01:23:29.000Z",
+                              "uid": "35240-aae6004c-4fbc-499e-b776-a4641abc9b02"
+                            },
+                            {
+                              "name": "List egress rules",
+                              "id": "e23a8131-2440-4cfa-9fef-ff404e9d004b",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=DESC",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "networking",
+                                    "egress-rules"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Page number for paginated results, starting from 1.",
+                                      "key": "pagination.page",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return per page.",
+                                      "key": "pagination.limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                      "key": "pagination.as_of_time",
+                                      "value": "<dateTime>"
+                                    },
+                                    {
+                                      "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                      "key": "pagination.sort_order",
+                                      "value": "DESC"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "ba828941-914c-4735-95fe-aff143d87fa4",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Returns a list of egress traffic rules configured for the specified cluster. Supports pagination."
+                              },
+                              "response": [
+                                {
+                                  "id": "1d3c6d08-2ea2-4da4-a7be-e7c820ef399a",
+                                  "name": "List of egress rules returned successfully.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=DESC",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "networking",
+                                        "egress-rules"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "Page number for paginated results, starting from 1.",
+                                          "key": "pagination.page",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Maximum number of results to return per page.",
+                                          "key": "pagination.limit",
+                                          "value": "<integer>"
+                                        },
+                                        {
+                                          "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                          "key": "pagination.as_of_time",
+                                          "value": "<dateTime>"
+                                        },
+                                        {
+                                          "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                          "key": "pagination.sort_order",
+                                          "value": "DESC"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"rules\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"destination\": \"<string>\",\n      \"ports\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"type\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"destination\": \"<string>\",\n      \"ports\": [\n        \"<integer>\",\n        \"<integer>\"\n      ],\n      \"type\": \"<string>\"\n    }\n  ],\n  \"pagination\": {\n    \"next\": \"<string>\",\n    \"last\": \"<string>\",\n    \"time\": \"<dateTime>\"\n  }\n}",
+                                  "createdAt": "2026-07-28T01:23:29.000Z",
+                                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                                  "uid": "35240-1d3c6d08-2ea2-4da4-a7be-e7c820ef399a"
+                                },
+                                {
+                                  "id": "de0856ce-c705-492a-ac90-1030d2701b2e",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=DESC",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "networking",
+                                        "egress-rules"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "Page number for paginated results, starting from 1.",
+                                          "key": "pagination.page",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Maximum number of results to return per page.",
+                                          "key": "pagination.limit",
+                                          "value": "<integer>"
+                                        },
+                                        {
+                                          "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                          "key": "pagination.as_of_time",
+                                          "value": "<dateTime>"
+                                        },
+                                        {
+                                          "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                          "key": "pagination.sort_order",
+                                          "value": "DESC"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:29.000Z",
+                                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                                  "uid": "35240-de0856ce-c705-492a-ac90-1030d2701b2e"
+                                },
+                                {
+                                  "id": "9c400aa0-2fde-422e-9623-bfaa0d53f562",
+                                  "name": "The requested resource was not found.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=DESC",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "networking",
+                                        "egress-rules"
+                                      ],
+                                      "query": [
+                                        {
+                                          "description": "Page number for paginated results, starting from 1.",
+                                          "key": "pagination.page",
+                                          "value": "<string>"
+                                        },
+                                        {
+                                          "description": "Maximum number of results to return per page.",
+                                          "key": "pagination.limit",
+                                          "value": "<integer>"
+                                        },
+                                        {
+                                          "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                          "key": "pagination.as_of_time",
+                                          "value": "<dateTime>"
+                                        },
+                                        {
+                                          "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                          "key": "pagination.sort_order",
+                                          "value": "DESC"
+                                        }
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:29.000Z",
+                                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                                  "uid": "35240-9c400aa0-2fde-422e-9623-bfaa0d53f562"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:29.000Z",
+                              "updatedAt": "2026-07-28T01:23:29.000Z",
+                              "uid": "35240-e23a8131-2440-4cfa-9fef-ff404e9d004b"
+                            },
+                            {
+                              "name": "Add an egress rule",
+                              "id": "5a6da63e-b44e-4cd5-9aa0-db4029c6a4e0",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"type\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "networking",
+                                    "egress-rules"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "27a3271c-5477-4d58-ba84-35145493a971",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Adds a new egress traffic rule to the cluster to permit outbound connections to specified destinations."
+                              },
+                              "response": [
+                                {
+                                  "id": "b9584a66-a082-4c50-b2bd-c2d459904eeb",
+                                  "name": "Egress rule added successfully.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"type\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "networking",
+                                        "egress-rules"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"type\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:29.000Z",
+                                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                                  "uid": "35240-b9584a66-a082-4c50-b2bd-c2d459904eeb"
+                                },
+                                {
+                                  "id": "571507e7-dfdd-49a5-b516-83d8a33426ba",
+                                  "name": "The request body or parameters are invalid.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"type\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "networking",
+                                        "egress-rules"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Bad Request",
+                                  "code": 400,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:29.000Z",
+                                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                                  "uid": "35240-571507e7-dfdd-49a5-b516-83d8a33426ba"
+                                },
+                                {
+                                  "id": "95529653-5835-4d70-b918-303bdc735eeb",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"name\": \"<string>\",\n  \"destination\": \"<string>\",\n  \"ports\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"type\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/networking/egress-rules",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "networking",
+                                        "egress-rules"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:29.000Z",
+                                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                                  "uid": "35240-95529653-5835-4d70-b918-303bdc735eeb"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:29.000Z",
+                              "updatedAt": "2026-07-28T01:23:29.000Z",
+                              "uid": "35240-5a6da63e-b44e-4cd5-9aa0-db4029c6a4e0"
+                            }
+                          ],
+                          "id": "f48f98b7-6adb-4397-ba0b-d80cf009ccaa",
+                          "createdAt": "2026-07-28T01:23:29.000Z",
+                          "updatedAt": "2026-07-28T01:23:29.000Z",
+                          "uid": "35240-f48f98b7-6adb-4397-ba0b-d80cf009ccaa"
+                        }
+                      ],
+                      "id": "30a2b012-5e45-43f1-b677-93516b5efcec",
+                      "createdAt": "2026-07-28T01:23:29.000Z",
+                      "updatedAt": "2026-07-28T01:23:29.000Z",
+                      "uid": "35240-30a2b012-5e45-43f1-b677-93516b5efcec"
+                    }
+                  ],
+                  "id": "c9fea1a0-dc3a-41c1-9745-e4486ad7e5d7",
+                  "createdAt": "2026-07-28T01:23:29.000Z",
+                  "updatedAt": "2026-07-28T01:23:29.000Z",
+                  "uid": "35240-c9fea1a0-dc3a-41c1-9745-e4486ad7e5d7"
+                }
+              ],
+              "id": "73f2a566-8440-4203-940d-2210953be6c4",
+              "createdAt": "2026-07-28T01:23:29.000Z",
+              "updatedAt": "2026-07-28T01:23:29.000Z",
+              "uid": "35240-73f2a566-8440-4203-940d-2210953be6c4"
+            }
+          ],
+          "id": "ce4f07cd-59c0-4bac-bc59-826daaad2293",
+          "createdAt": "2026-07-28T01:23:29.000Z",
+          "updatedAt": "2026-07-28T01:23:29.000Z",
+          "uid": "35240-ce4f07cd-59c0-4bac-bc59-826daaad2293"
+        }
+      ],
+      "id": "ae87f0fa-8485-4c6c-9577-58a716b44d37",
+      "createdAt": "2026-07-28T01:23:29.000Z",
+      "updatedAt": "2026-07-28T01:23:29.000Z",
+      "uid": "35240-ae87f0fa-8485-4c6c-9577-58a716b44d37"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

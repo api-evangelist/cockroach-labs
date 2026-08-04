@@ -1,0 +1,2136 @@
+{
+  "info": {
+    "_postman_id": "c1623cd3-a4fd-4334-ad26-f2427ca533dc",
+    "name": "CockroachDB Cloud APIKeys Clusters API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:25.000Z",
+    "updatedAt": "2026-07-28T01:23:25.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-c1623cd3-a4fd-4334-ad26-f2427ca533dc"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "clusters",
+              "item": [
+                {
+                  "name": "{cluster_id}",
+                  "item": [
+                    {
+                      "name": "connection-string",
+                      "item": [
+                        {
+                          "name": "Get connection string",
+                          "id": "388576b1-dc01-4196-9f14-96a043d74e79",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/connection-string?database=<string>&sql_user=<string>&os=LINUX",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id",
+                                "connection-string"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Name of the database to connect to.",
+                                  "key": "database",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "SQL username to include in the connection string.",
+                                  "key": "sql_user",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Operating system for which to format the connection string. Accepted values are MAC, LINUX, WINDOWS.",
+                                  "key": "os",
+                                  "value": "LINUX"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "9a5560e1-be03-42f5-8aad-d7eae763da06",
+                                  "key": "cluster_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                }
+                              ]
+                            },
+                            "description": "Returns a formatted generic connection string for connecting to a cluster. Optionally scoped to a specific database, SQL user, and operating system format."
+                          },
+                          "response": [
+                            {
+                              "id": "675c9b0a-58f2-4dfb-8329-fa4a019a1733",
+                              "name": "Connection string returned successfully.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/connection-string?database=<string>&sql_user=<string>&os=LINUX",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "connection-string"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Name of the database to connect to.",
+                                      "key": "database",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "SQL username to include in the connection string.",
+                                      "key": "sql_user",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Operating system for which to format the connection string. Accepted values are MAC, LINUX, WINDOWS.",
+                                      "key": "os",
+                                      "value": "LINUX"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"connection_string\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:26.000Z",
+                              "updatedAt": "2026-07-28T01:23:26.000Z",
+                              "uid": "35240-675c9b0a-58f2-4dfb-8329-fa4a019a1733"
+                            },
+                            {
+                              "id": "688d1603-479f-464c-a1a7-a09bc4ba0579",
+                              "name": "Authentication credentials are missing or invalid.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/connection-string?database=<string>&sql_user=<string>&os=LINUX",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "connection-string"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Name of the database to connect to.",
+                                      "key": "database",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "SQL username to include in the connection string.",
+                                      "key": "sql_user",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Operating system for which to format the connection string. Accepted values are MAC, LINUX, WINDOWS.",
+                                      "key": "os",
+                                      "value": "LINUX"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:26.000Z",
+                              "updatedAt": "2026-07-28T01:23:26.000Z",
+                              "uid": "35240-688d1603-479f-464c-a1a7-a09bc4ba0579"
+                            },
+                            {
+                              "id": "814e7142-cbaf-401a-aa09-93863dd0b5b0",
+                              "name": "The requested resource was not found.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/connection-string?database=<string>&sql_user=<string>&os=LINUX",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "connection-string"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Name of the database to connect to.",
+                                      "key": "database",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "SQL username to include in the connection string.",
+                                      "key": "sql_user",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Operating system for which to format the connection string. Accepted values are MAC, LINUX, WINDOWS.",
+                                      "key": "os",
+                                      "value": "LINUX"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:26.000Z",
+                              "updatedAt": "2026-07-28T01:23:26.000Z",
+                              "uid": "35240-814e7142-cbaf-401a-aa09-93863dd0b5b0"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-388576b1-dc01-4196-9f14-96a043d74e79"
+                        }
+                      ],
+                      "id": "d935d2ef-1f8c-4e63-beab-50039e4eed00",
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-d935d2ef-1f8c-4e63-beab-50039e4eed00"
+                    },
+                    {
+                      "name": "nodes",
+                      "item": [
+                        {
+                          "name": "List cluster nodes",
+                          "id": "2e676823-ea88-47c2-afd2-d39b7516d9d0",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/nodes?region_name=<string>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id",
+                                "nodes"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter nodes by the name of the cloud provider region.",
+                                  "key": "region_name",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Page number for paginated results, starting from 1.",
+                                  "key": "pagination.page",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Maximum number of results to return per page.",
+                                  "key": "pagination.limit",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                  "key": "pagination.as_of_time",
+                                  "value": "<dateTime>"
+                                },
+                                {
+                                  "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                  "key": "pagination.sort_order",
+                                  "value": "ASC"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "fdbd5dca-7f3a-497e-bdcc-6772a0e4fc05",
+                                  "key": "cluster_id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                }
+                              ]
+                            },
+                            "description": "Returns a list of nodes for the specified cluster, optionally filtered by region name. Supports pagination."
+                          },
+                          "response": [
+                            {
+                              "id": "0df5d19d-6798-44c9-bcf1-2ecf4825571b",
+                              "name": "List of cluster nodes returned successfully.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/nodes?region_name=<string>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "nodes"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter nodes by the name of the cloud provider region.",
+                                      "key": "region_name",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Page number for paginated results, starting from 1.",
+                                      "key": "pagination.page",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return per page.",
+                                      "key": "pagination.limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                      "key": "pagination.as_of_time",
+                                      "value": "<dateTime>"
+                                    },
+                                    {
+                                      "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                      "key": "pagination.sort_order",
+                                      "value": "ASC"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"nodes\": [\n    {\n      \"name\": \"<string>\",\n      \"region_name\": \"<string>\",\n      \"status\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"region_name\": \"<string>\",\n      \"status\": \"<string>\"\n    }\n  ],\n  \"pagination\": {\n    \"next\": \"<string>\",\n    \"last\": \"<string>\",\n    \"time\": \"<dateTime>\"\n  }\n}",
+                              "createdAt": "2026-07-28T01:23:26.000Z",
+                              "updatedAt": "2026-07-28T01:23:26.000Z",
+                              "uid": "35240-0df5d19d-6798-44c9-bcf1-2ecf4825571b"
+                            },
+                            {
+                              "id": "600f8301-b274-46aa-b655-f72dde28ae5d",
+                              "name": "Authentication credentials are missing or invalid.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/nodes?region_name=<string>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "nodes"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter nodes by the name of the cloud provider region.",
+                                      "key": "region_name",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Page number for paginated results, starting from 1.",
+                                      "key": "pagination.page",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return per page.",
+                                      "key": "pagination.limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                      "key": "pagination.as_of_time",
+                                      "value": "<dateTime>"
+                                    },
+                                    {
+                                      "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                      "key": "pagination.sort_order",
+                                      "value": "ASC"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:26.000Z",
+                              "updatedAt": "2026-07-28T01:23:26.000Z",
+                              "uid": "35240-600f8301-b274-46aa-b655-f72dde28ae5d"
+                            },
+                            {
+                              "id": "5f4088ae-43c1-434e-b54b-99bc0d3a524f",
+                              "name": "The requested resource was not found.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/nodes?region_name=<string>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "nodes"
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Filter nodes by the name of the cloud provider region.",
+                                      "key": "region_name",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Page number for paginated results, starting from 1.",
+                                      "key": "pagination.page",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return per page.",
+                                      "key": "pagination.limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                                      "key": "pagination.as_of_time",
+                                      "value": "<dateTime>"
+                                    },
+                                    {
+                                      "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                                      "key": "pagination.sort_order",
+                                      "value": "ASC"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "cluster_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:26.000Z",
+                              "updatedAt": "2026-07-28T01:23:26.000Z",
+                              "uid": "35240-5f4088ae-43c1-434e-b54b-99bc0d3a524f"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-2e676823-ea88-47c2-afd2-d39b7516d9d0"
+                        }
+                      ],
+                      "id": "36e649fa-5812-45d9-a3ef-f6900e9fc894",
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-36e649fa-5812-45d9-a3ef-f6900e9fc894"
+                    },
+                    {
+                      "name": "Get a cluster",
+                      "id": "16d9bbea-8104-4d6b-bc9a-04fe5eb93f09",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "clusters",
+                            ":cluster_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "05e1773d-c84c-4817-aa0b-5e40563455da",
+                              "key": "cluster_id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                            }
+                          ]
+                        },
+                        "description": "Retrieves comprehensive information about a specific cluster identified by cluster_id, including its configuration, state, regions, version, and operational status."
+                      },
+                      "response": [
+                        {
+                          "id": "6be7a8d5-a337-40ad-80c3-41e04c5cc659",
+                          "name": "Cluster information retrieved successfully.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"cloud_provider\": \"AWS\",\n  \"state\": \"<string>\",\n  \"operation_status\": \"<string>\",\n  \"plan\": \"SERVERLESS\",\n  \"regions\": [\n    {\n      \"name\": \"<string>\",\n      \"sql_dns\": \"<string>\",\n      \"node_count\": \"<integer>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"sql_dns\": \"<string>\",\n      \"node_count\": \"<integer>\"\n    }\n  ],\n  \"cockroach_version\": \"<string>\",\n  \"creator_id\": \"<string>\",\n  \"config\": {\n    \"serverless\": {\n      \"spend_limit\": \"<integer>\",\n      \"routing_id\": \"<string>\",\n      \"usage_limits\": {}\n    },\n    \"dedicated\": {\n      \"machine_type\": \"<string>\",\n      \"num_virtual_cpus\": \"<integer>\",\n      \"storage_gib\": \"<integer>\",\n      \"memory_gib\": \"<number>\",\n      \"disk_iops\": \"<integer>\"\n    }\n  },\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\",\n  \"deleted_at\": \"<dateTime>\",\n  \"sql_dns\": \"<string>\",\n  \"upgrade_status\": \"<string>\",\n  \"account_id\": \"<string>\",\n  \"parent_id\": \"<string>\",\n  \"labels\": {\n    \"nostrud_6\": \"<string>\"\n  },\n  \"delete_protection\": \"<string>\",\n  \"egress_traffic_policy\": \"<string>\",\n  \"network_visibility\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-6be7a8d5-a337-40ad-80c3-41e04c5cc659"
+                        },
+                        {
+                          "id": "06eff79d-6004-4200-85d0-e988e4de56a9",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-06eff79d-6004-4200-85d0-e988e4de56a9"
+                        },
+                        {
+                          "id": "e37e2993-5957-43c5-8997-a0c3dbd86458",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-e37e2993-5957-43c5-8997-a0c3dbd86458"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-16d9bbea-8104-4d6b-bc9a-04fe5eb93f09"
+                    },
+                    {
+                      "name": "Update a cluster",
+                      "id": "b04c6e14-f65b-4b8c-893e-e3ade599b363",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"dedicated\": {},\n  \"serverless\": {},\n  \"cockroach_version\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "clusters",
+                            ":cluster_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "c73efba9-68be-4f3b-9c65-3e8a9c7518d9",
+                              "key": "cluster_id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                            }
+                          ]
+                        },
+                        "description": "Modifies the configuration of an existing cluster, including scaling compute and storage resources, updating the CockroachDB version, or changing cluster settings. Only the fields specified in the request body are updated."
+                      },
+                      "response": [
+                        {
+                          "id": "7620c90b-f335-4137-8b96-50ebcbfe2edf",
+                          "name": "Cluster updated successfully.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"dedicated\": {},\n  \"serverless\": {},\n  \"cockroach_version\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"cloud_provider\": \"AWS\",\n  \"state\": \"<string>\",\n  \"operation_status\": \"<string>\",\n  \"plan\": \"SERVERLESS\",\n  \"regions\": [\n    {\n      \"name\": \"<string>\",\n      \"sql_dns\": \"<string>\",\n      \"node_count\": \"<integer>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"sql_dns\": \"<string>\",\n      \"node_count\": \"<integer>\"\n    }\n  ],\n  \"cockroach_version\": \"<string>\",\n  \"creator_id\": \"<string>\",\n  \"config\": {\n    \"serverless\": {\n      \"spend_limit\": \"<integer>\",\n      \"routing_id\": \"<string>\",\n      \"usage_limits\": {}\n    },\n    \"dedicated\": {\n      \"machine_type\": \"<string>\",\n      \"num_virtual_cpus\": \"<integer>\",\n      \"storage_gib\": \"<integer>\",\n      \"memory_gib\": \"<number>\",\n      \"disk_iops\": \"<integer>\"\n    }\n  },\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\",\n  \"deleted_at\": \"<dateTime>\",\n  \"sql_dns\": \"<string>\",\n  \"upgrade_status\": \"<string>\",\n  \"account_id\": \"<string>\",\n  \"parent_id\": \"<string>\",\n  \"labels\": {\n    \"nostrud_6\": \"<string>\"\n  },\n  \"delete_protection\": \"<string>\",\n  \"egress_traffic_policy\": \"<string>\",\n  \"network_visibility\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-7620c90b-f335-4137-8b96-50ebcbfe2edf"
+                        },
+                        {
+                          "id": "631c31c6-92b9-4946-aaa2-99eaffe82c57",
+                          "name": "The request body or parameters are invalid.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"dedicated\": {},\n  \"serverless\": {},\n  \"cockroach_version\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-631c31c6-92b9-4946-aaa2-99eaffe82c57"
+                        },
+                        {
+                          "id": "7750732f-a101-4c12-a359-5da488184ba4",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"dedicated\": {},\n  \"serverless\": {},\n  \"cockroach_version\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-7750732f-a101-4c12-a359-5da488184ba4"
+                        },
+                        {
+                          "id": "5ce48c26-5511-412e-8750-bfea5a67299b",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"dedicated\": {},\n  \"serverless\": {},\n  \"cockroach_version\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-5ce48c26-5511-412e-8750-bfea5a67299b"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-b04c6e14-f65b-4b8c-893e-e3ade599b363"
+                    },
+                    {
+                      "name": "Delete a cluster",
+                      "id": "88f244b0-bb8c-4b0a-80d3-66122ccbd5dd",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "clusters",
+                            ":cluster_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "8065fe74-01d7-472a-9717-734c08f8db81",
+                              "key": "cluster_id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                            }
+                          ]
+                        },
+                        "description": "Permanently deletes a cluster and all of its data. This operation cannot be undone. The cluster must not have delete protection enabled."
+                      },
+                      "response": [
+                        {
+                          "id": "731ae762-3b3e-400e-b608-dc5b939905e6",
+                          "name": "Cluster deleted successfully.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"cloud_provider\": \"AWS\",\n  \"state\": \"<string>\",\n  \"operation_status\": \"<string>\",\n  \"plan\": \"SERVERLESS\",\n  \"regions\": [\n    {\n      \"name\": \"<string>\",\n      \"sql_dns\": \"<string>\",\n      \"node_count\": \"<integer>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"sql_dns\": \"<string>\",\n      \"node_count\": \"<integer>\"\n    }\n  ],\n  \"cockroach_version\": \"<string>\",\n  \"creator_id\": \"<string>\",\n  \"config\": {\n    \"serverless\": {\n      \"spend_limit\": \"<integer>\",\n      \"routing_id\": \"<string>\",\n      \"usage_limits\": {}\n    },\n    \"dedicated\": {\n      \"machine_type\": \"<string>\",\n      \"num_virtual_cpus\": \"<integer>\",\n      \"storage_gib\": \"<integer>\",\n      \"memory_gib\": \"<number>\",\n      \"disk_iops\": \"<integer>\"\n    }\n  },\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\",\n  \"deleted_at\": \"<dateTime>\",\n  \"sql_dns\": \"<string>\",\n  \"upgrade_status\": \"<string>\",\n  \"account_id\": \"<string>\",\n  \"parent_id\": \"<string>\",\n  \"labels\": {\n    \"nostrud_6\": \"<string>\"\n  },\n  \"delete_protection\": \"<string>\",\n  \"egress_traffic_policy\": \"<string>\",\n  \"network_visibility\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-731ae762-3b3e-400e-b608-dc5b939905e6"
+                        },
+                        {
+                          "id": "8faf02a1-36a5-4d47-8f00-0634b3111dc0",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-8faf02a1-36a5-4d47-8f00-0634b3111dc0"
+                        },
+                        {
+                          "id": "0ee855e7-de6a-4468-9093-0c3c06f38ac7",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                ":cluster_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "cluster_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-0ee855e7-de6a-4468-9093-0c3c06f38ac7"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-88f244b0-bb8c-4b0a-80d3-66122ccbd5dd"
+                    }
+                  ],
+                  "id": "e95e117a-2fbd-4552-b674-da9466754e18",
+                  "createdAt": "2026-07-28T01:23:26.000Z",
+                  "updatedAt": "2026-07-28T01:23:26.000Z",
+                  "uid": "35240-e95e117a-2fbd-4552-b674-da9466754e18"
+                },
+                {
+                  "name": "available-regions",
+                  "item": [
+                    {
+                      "name": "List available regions",
+                      "id": "21446d1f-fbcd-4f8e-9b7a-ce1218ecce92",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/clusters/available-regions?provider=AWS&serverless=<boolean>&pagination.page=<string>&pagination.limit=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "clusters",
+                            "available-regions"
+                          ],
+                          "query": [
+                            {
+                              "description": "Cloud provider to filter regions by. Accepted values are GCP, AWS, AZURE.",
+                              "key": "provider",
+                              "value": "AWS"
+                            },
+                            {
+                              "description": "If true, only return regions that support serverless clusters.",
+                              "key": "serverless",
+                              "value": "<boolean>"
+                            },
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            }
+                          ]
+                        },
+                        "description": "Returns a list of regions available for cluster or node creation, optionally filtered by cloud provider and whether serverless clusters are supported."
+                      },
+                      "response": [
+                        {
+                          "id": "9c5ab127-e556-4c5f-8f2c-588714248521",
+                          "name": "Available regions returned successfully.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/available-regions?provider=AWS&serverless=<boolean>&pagination.page=<string>&pagination.limit=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                "available-regions"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Cloud provider to filter regions by. Accepted values are GCP, AWS, AZURE.",
+                                  "key": "provider",
+                                  "value": "AWS"
+                                },
+                                {
+                                  "description": "If true, only return regions that support serverless clusters.",
+                                  "key": "serverless",
+                                  "value": "<boolean>"
+                                },
+                                {
+                                  "description": "Page number for paginated results, starting from 1.",
+                                  "key": "pagination.page",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Maximum number of results to return per page.",
+                                  "key": "pagination.limit",
+                                  "value": "<integer>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"regions\": [\n    {\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"serverless\": \"<boolean>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"provider\": \"<string>\",\n      \"serverless\": \"<boolean>\"\n    }\n  ],\n  \"pagination\": {\n    \"next\": \"<string>\",\n    \"last\": \"<string>\",\n    \"time\": \"<dateTime>\"\n  }\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-9c5ab127-e556-4c5f-8f2c-588714248521"
+                        },
+                        {
+                          "id": "78a6ed5b-bfc4-463d-a654-58607b797b98",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/clusters/available-regions?provider=AWS&serverless=<boolean>&pagination.page=<string>&pagination.limit=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "clusters",
+                                "available-regions"
+                              ],
+                              "query": [
+                                {
+                                  "description": "Cloud provider to filter regions by. Accepted values are GCP, AWS, AZURE.",
+                                  "key": "provider",
+                                  "value": "AWS"
+                                },
+                                {
+                                  "description": "If true, only return regions that support serverless clusters.",
+                                  "key": "serverless",
+                                  "value": "<boolean>"
+                                },
+                                {
+                                  "description": "Page number for paginated results, starting from 1.",
+                                  "key": "pagination.page",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Maximum number of results to return per page.",
+                                  "key": "pagination.limit",
+                                  "value": "<integer>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:26.000Z",
+                          "updatedAt": "2026-07-28T01:23:26.000Z",
+                          "uid": "35240-78a6ed5b-bfc4-463d-a654-58607b797b98"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-21446d1f-fbcd-4f8e-9b7a-ce1218ecce92"
+                    }
+                  ],
+                  "id": "3cdb60f2-f2c8-423c-83b7-e02ee8badad8",
+                  "createdAt": "2026-07-28T01:23:26.000Z",
+                  "updatedAt": "2026-07-28T01:23:26.000Z",
+                  "uid": "35240-3cdb60f2-f2c8-423c-83b7-e02ee8badad8"
+                },
+                {
+                  "name": "List clusters",
+                  "id": "4ab47a7e-0bef-4599-865b-a2f6c228f615",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/clusters?show_inactive=<boolean>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "clusters"
+                      ],
+                      "query": [
+                        {
+                          "description": "If true, inactive clusters are included in the response.",
+                          "key": "show_inactive",
+                          "value": "<boolean>"
+                        },
+                        {
+                          "description": "Page number for paginated results, starting from 1.",
+                          "key": "pagination.page",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return per page.",
+                          "key": "pagination.limit",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                          "key": "pagination.as_of_time",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                          "key": "pagination.sort_order",
+                          "value": "ASC"
+                        }
+                      ]
+                    },
+                    "description": "Returns a list of clusters in the organization. Inactive clusters can optionally be included using the showInactive query parameter. Supports pagination via page, limit, asOfTime, and sortOrder parameters."
+                  },
+                  "response": [
+                    {
+                      "id": "20462138-4732-4ffa-bc35-a7b1be3aafe1",
+                      "name": "List of clusters returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/clusters?show_inactive=<boolean>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "clusters"
+                          ],
+                          "query": [
+                            {
+                              "description": "If true, inactive clusters are included in the response.",
+                              "key": "show_inactive",
+                              "value": "<boolean>"
+                            },
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                              "key": "pagination.as_of_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                              "key": "pagination.sort_order",
+                              "value": "ASC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"clusters\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"cloud_provider\": \"AWS\",\n      \"state\": \"<string>\",\n      \"operation_status\": \"<string>\",\n      \"plan\": \"SERVERLESS\",\n      \"regions\": [\n        {\n          \"name\": \"<string>\",\n          \"sql_dns\": \"<string>\",\n          \"node_count\": \"<integer>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"sql_dns\": \"<string>\",\n          \"node_count\": \"<integer>\"\n        }\n      ],\n      \"cockroach_version\": \"<string>\",\n      \"creator_id\": \"<string>\",\n      \"config\": {\n        \"serverless\": {\n          \"spend_limit\": \"<integer>\",\n          \"routing_id\": \"<string>\",\n          \"usage_limits\": {}\n        },\n        \"dedicated\": {\n          \"machine_type\": \"<string>\",\n          \"num_virtual_cpus\": \"<integer>\",\n          \"storage_gib\": \"<integer>\",\n          \"memory_gib\": \"<number>\",\n          \"disk_iops\": \"<integer>\"\n        }\n      },\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\",\n      \"deleted_at\": \"<dateTime>\",\n      \"sql_dns\": \"<string>\",\n      \"upgrade_status\": \"<string>\",\n      \"account_id\": \"<string>\",\n      \"parent_id\": \"<string>\",\n      \"labels\": {\n        \"cillume\": \"<string>\",\n        \"proident_c\": \"<string>\"\n      },\n      \"delete_protection\": \"<string>\",\n      \"egress_traffic_policy\": \"<string>\",\n      \"network_visibility\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"cloud_provider\": \"AZURE\",\n      \"state\": \"<string>\",\n      \"operation_status\": \"<string>\",\n      \"plan\": \"SERVERLESS\",\n      \"regions\": [\n        {\n          \"name\": \"<string>\",\n          \"sql_dns\": \"<string>\",\n          \"node_count\": \"<integer>\"\n        },\n        {\n          \"name\": \"<string>\",\n          \"sql_dns\": \"<string>\",\n          \"node_count\": \"<integer>\"\n        }\n      ],\n      \"cockroach_version\": \"<string>\",\n      \"creator_id\": \"<string>\",\n      \"config\": {\n        \"serverless\": {\n          \"spend_limit\": \"<integer>\",\n          \"routing_id\": \"<string>\",\n          \"usage_limits\": {}\n        },\n        \"dedicated\": {\n          \"machine_type\": \"<string>\",\n          \"num_virtual_cpus\": \"<integer>\",\n          \"storage_gib\": \"<integer>\",\n          \"memory_gib\": \"<number>\",\n          \"disk_iops\": \"<integer>\"\n        }\n      },\n      \"created_at\": \"<dateTime>\",\n      \"updated_at\": \"<dateTime>\",\n      \"deleted_at\": \"<dateTime>\",\n      \"sql_dns\": \"<string>\",\n      \"upgrade_status\": \"<string>\",\n      \"account_id\": \"<string>\",\n      \"parent_id\": \"<string>\",\n      \"labels\": {\n        \"sint29a\": \"<string>\",\n        \"aute2\": \"<string>\"\n      },\n      \"delete_protection\": \"<string>\",\n      \"egress_traffic_policy\": \"<string>\",\n      \"network_visibility\": \"<string>\"\n    }\n  ],\n  \"pagination\": {\n    \"next\": \"<string>\",\n    \"last\": \"<string>\",\n    \"time\": \"<dateTime>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-20462138-4732-4ffa-bc35-a7b1be3aafe1"
+                    },
+                    {
+                      "id": "358b6697-16f1-4d27-a11c-d85e29f187e5",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/clusters?show_inactive=<boolean>&pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "clusters"
+                          ],
+                          "query": [
+                            {
+                              "description": "If true, inactive clusters are included in the response.",
+                              "key": "show_inactive",
+                              "value": "<boolean>"
+                            },
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                              "key": "pagination.as_of_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                              "key": "pagination.sort_order",
+                              "value": "ASC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-358b6697-16f1-4d27-a11c-d85e29f187e5"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:26.000Z",
+                  "updatedAt": "2026-07-28T01:23:26.000Z",
+                  "uid": "35240-4ab47a7e-0bef-4599-865b-a2f6c228f615"
+                },
+                {
+                  "name": "Create a cluster",
+                  "id": "b93008c9-a018-4fa0-a8a9-1166240d80d4",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"provider\": \"GCP\",\n  \"spec\": {},\n  \"regions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"parent_id\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/clusters",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "clusters"
+                      ]
+                    },
+                    "description": "Creates and initializes a new CockroachDB Serverless or Dedicated cluster within the organization. The request body specifies cluster configuration including cloud provider, regions, hardware, and plan type."
+                  },
+                  "response": [
+                    {
+                      "id": "0ff2dcd2-dc40-4d77-a466-55e5d02a67a7",
+                      "name": "Cluster created successfully.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"provider\": \"GCP\",\n  \"spec\": {},\n  \"regions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"parent_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/clusters",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "clusters"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"cloud_provider\": \"AWS\",\n  \"state\": \"<string>\",\n  \"operation_status\": \"<string>\",\n  \"plan\": \"SERVERLESS\",\n  \"regions\": [\n    {\n      \"name\": \"<string>\",\n      \"sql_dns\": \"<string>\",\n      \"node_count\": \"<integer>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"sql_dns\": \"<string>\",\n      \"node_count\": \"<integer>\"\n    }\n  ],\n  \"cockroach_version\": \"<string>\",\n  \"creator_id\": \"<string>\",\n  \"config\": {\n    \"serverless\": {\n      \"spend_limit\": \"<integer>\",\n      \"routing_id\": \"<string>\",\n      \"usage_limits\": {}\n    },\n    \"dedicated\": {\n      \"machine_type\": \"<string>\",\n      \"num_virtual_cpus\": \"<integer>\",\n      \"storage_gib\": \"<integer>\",\n      \"memory_gib\": \"<number>\",\n      \"disk_iops\": \"<integer>\"\n    }\n  },\n  \"created_at\": \"<dateTime>\",\n  \"updated_at\": \"<dateTime>\",\n  \"deleted_at\": \"<dateTime>\",\n  \"sql_dns\": \"<string>\",\n  \"upgrade_status\": \"<string>\",\n  \"account_id\": \"<string>\",\n  \"parent_id\": \"<string>\",\n  \"labels\": {\n    \"nostrud_6\": \"<string>\"\n  },\n  \"delete_protection\": \"<string>\",\n  \"egress_traffic_policy\": \"<string>\",\n  \"network_visibility\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-0ff2dcd2-dc40-4d77-a466-55e5d02a67a7"
+                    },
+                    {
+                      "id": "b2692ca2-7409-4fab-b768-d60a0923fbc8",
+                      "name": "The request body or parameters are invalid.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"provider\": \"GCP\",\n  \"spec\": {},\n  \"regions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"parent_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/clusters",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "clusters"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-b2692ca2-7409-4fab-b768-d60a0923fbc8"
+                    },
+                    {
+                      "id": "7a6aa002-7fc6-42d5-ab8a-d4df0d4741c0",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"provider\": \"GCP\",\n  \"spec\": {},\n  \"regions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"parent_id\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/clusters",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "clusters"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-7a6aa002-7fc6-42d5-ab8a-d4df0d4741c0"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:26.000Z",
+                  "updatedAt": "2026-07-28T01:23:26.000Z",
+                  "uid": "35240-b93008c9-a018-4fa0-a8a9-1166240d80d4"
+                }
+              ],
+              "id": "e7d9db86-2171-48a3-b25d-10181b8f7422",
+              "createdAt": "2026-07-28T01:23:26.000Z",
+              "updatedAt": "2026-07-28T01:23:26.000Z",
+              "uid": "35240-e7d9db86-2171-48a3-b25d-10181b8f7422"
+            },
+            {
+              "name": "cluster-versions",
+              "item": [
+                {
+                  "name": "List major cluster versions",
+                  "id": "5080652c-247d-49c6-8119-b5edd5c7a585",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/cluster-versions?pagination.page=<string>&pagination.limit=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "cluster-versions"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for paginated results, starting from 1.",
+                          "key": "pagination.page",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return per page.",
+                          "key": "pagination.limit",
+                          "value": "<integer>"
+                        }
+                      ]
+                    },
+                    "description": "Returns a list of available major CockroachDB cluster versions that can be used when creating or upgrading clusters."
+                  },
+                  "response": [
+                    {
+                      "id": "5803d893-2e7f-48c0-a50d-4edbdd777e91",
+                      "name": "Available cluster versions returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/cluster-versions?pagination.page=<string>&pagination.limit=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "cluster-versions"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"versions\": [\n    {\n      \"version\": \"<string>\"\n    },\n    {\n      \"version\": \"<string>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-5803d893-2e7f-48c0-a50d-4edbdd777e91"
+                    },
+                    {
+                      "id": "4c8ba976-5cf1-4dce-bae4-92fa99c272ab",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/cluster-versions?pagination.page=<string>&pagination.limit=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "cluster-versions"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:26.000Z",
+                      "updatedAt": "2026-07-28T01:23:26.000Z",
+                      "uid": "35240-4c8ba976-5cf1-4dce-bae4-92fa99c272ab"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:26.000Z",
+                  "updatedAt": "2026-07-28T01:23:26.000Z",
+                  "uid": "35240-5080652c-247d-49c6-8119-b5edd5c7a585"
+                }
+              ],
+              "id": "4b4e3273-cc39-4297-a684-320b10a17b60",
+              "createdAt": "2026-07-28T01:23:26.000Z",
+              "updatedAt": "2026-07-28T01:23:26.000Z",
+              "uid": "35240-4b4e3273-cc39-4297-a684-320b10a17b60"
+            }
+          ],
+          "id": "b613a9e0-050c-44d6-87c1-7c9fcf7bf821",
+          "createdAt": "2026-07-28T01:23:26.000Z",
+          "updatedAt": "2026-07-28T01:23:26.000Z",
+          "uid": "35240-b613a9e0-050c-44d6-87c1-7c9fcf7bf821"
+        }
+      ],
+      "id": "27bcc48f-540b-488f-b881-fd3afe0b17cf",
+      "createdAt": "2026-07-28T01:23:26.000Z",
+      "updatedAt": "2026-07-28T01:23:26.000Z",
+      "uid": "35240-27bcc48f-540b-488f-b881-fd3afe0b17cf"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

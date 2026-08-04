@@ -1,0 +1,222 @@
+{
+  "info": {
+    "_postman_id": "d3094788-79b3-453d-a973-305518d6f4be",
+    "name": "CockroachDB Cloud APIKeys Organizations API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:38.000Z",
+    "updatedAt": "2026-07-28T01:23:38.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-d3094788-79b3-453d-a973-305518d6f4be"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "organization",
+              "item": [
+                {
+                  "name": "Get organization information",
+                  "id": "7c8f472e-9f6e-429a-9d6c-e0dc6167a0d8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/organization",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "organization"
+                      ]
+                    },
+                    "description": "Retrieves information about the caller's CockroachDB Cloud organization, including organization ID and name. Requires ORG_ADMIN or ORG_MEMBER role at organization scope."
+                  },
+                  "response": [
+                    {
+                      "id": "e418f57c-d688-4505-8fac-1462f457fe8c",
+                      "name": "Organization information retrieved successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/organization",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "organization"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"label\": \"<string>\",\n  \"created_at\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T01:23:39.000Z",
+                      "updatedAt": "2026-07-28T01:23:39.000Z",
+                      "uid": "35240-e418f57c-d688-4505-8fac-1462f457fe8c"
+                    },
+                    {
+                      "id": "075c0fd7-5b6b-4e2f-9bac-b01e2bd8e514",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/organization",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "organization"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:39.000Z",
+                      "updatedAt": "2026-07-28T01:23:39.000Z",
+                      "uid": "35240-075c0fd7-5b6b-4e2f-9bac-b01e2bd8e514"
+                    },
+                    {
+                      "id": "7249ef4a-830e-4c6f-8fc2-b15550212113",
+                      "name": "The caller does not have permission to perform this operation.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/organization",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "organization"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:39.000Z",
+                      "updatedAt": "2026-07-28T01:23:39.000Z",
+                      "uid": "35240-7249ef4a-830e-4c6f-8fc2-b15550212113"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:39.000Z",
+                  "updatedAt": "2026-07-28T01:23:39.000Z",
+                  "uid": "35240-7c8f472e-9f6e-429a-9d6c-e0dc6167a0d8"
+                }
+              ],
+              "id": "cb631c13-58d9-49a8-acad-6e9de74e6916",
+              "createdAt": "2026-07-28T01:23:39.000Z",
+              "updatedAt": "2026-07-28T01:23:39.000Z",
+              "uid": "35240-cb631c13-58d9-49a8-acad-6e9de74e6916"
+            }
+          ],
+          "id": "a5989a58-6de3-4233-a4b6-34d99279ac1f",
+          "createdAt": "2026-07-28T01:23:39.000Z",
+          "updatedAt": "2026-07-28T01:23:39.000Z",
+          "uid": "35240-a5989a58-6de3-4233-a4b6-34d99279ac1f"
+        }
+      ],
+      "id": "3a90f322-942f-4d9d-90a8-20c9ef863e3d",
+      "createdAt": "2026-07-28T01:23:39.000Z",
+      "updatedAt": "2026-07-28T01:23:39.000Z",
+      "uid": "35240-3a90f322-942f-4d9d-90a8-20c9ef863e3d"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

@@ -1,0 +1,294 @@
+{
+  "info": {
+    "_postman_id": "a77310b4-d5ab-4c6b-aecd-9ed533a2573c",
+    "name": "CockroachDB Cloud APIKeys Sessions API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:24:10.000Z",
+    "updatedAt": "2026-07-28T01:24:10.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a77310b4-d5ab-4c6b-aecd-9ed533a2573c"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v2",
+          "item": [
+            {
+              "name": "sessions",
+              "item": [
+                {
+                  "name": "List sessions",
+                  "id": "dee4a26d-913b-47b0-9dc8-a7ffa4291bcb",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v2/sessions/?username=<string>&limit=<integer>&start=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v2",
+                        "sessions",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter sessions by SQL username.",
+                          "key": "username",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return in a single response.",
+                          "key": "limit",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Pagination cursor for the starting position in the result set.",
+                          "key": "start",
+                          "value": "<integer>"
+                        }
+                      ]
+                    },
+                    "description": "Returns a list of all active SQL sessions across all nodes of the cluster. Optionally filter by username to return only sessions for a specific SQL user. Supports pagination via limit and start parameters. Requires admin authentication."
+                  },
+                  "response": [
+                    {
+                      "id": "c0ce9598-15d8-466a-92c4-eb3346e7860c",
+                      "name": "List of active sessions returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v2/sessions/?username=<string>&limit=<integer>&start=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "sessions",
+                            ""
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter sessions by SQL username.",
+                              "key": "username",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return in a single response.",
+                              "key": "limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Pagination cursor for the starting position in the result set.",
+                              "key": "start",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"sessions\": [\n    {\n      \"node_id\": \"<integer>\",\n      \"username\": \"<string>\",\n      \"client_address\": \"<string>\",\n      \"application_name\": \"<string>\",\n      \"start\": \"<dateTime>\",\n      \"last_active_query\": \"<string>\",\n      \"id\": \"<string>\",\n      \"alloc_bytes\": \"<long>\",\n      \"max_alloc_bytes\": \"<long>\",\n      \"active_txn\": {}\n    },\n    {\n      \"node_id\": \"<integer>\",\n      \"username\": \"<string>\",\n      \"client_address\": \"<string>\",\n      \"application_name\": \"<string>\",\n      \"start\": \"<dateTime>\",\n      \"last_active_query\": \"<string>\",\n      \"id\": \"<string>\",\n      \"alloc_bytes\": \"<long>\",\n      \"max_alloc_bytes\": \"<long>\",\n      \"active_txn\": {}\n    }\n  ],\n  \"errors\": [\n    {\n      \"node_id\": \"<integer>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"node_id\": \"<integer>\",\n      \"message\": \"<string>\"\n    }\n  ],\n  \"next\": \"<integer>\"\n}",
+                      "createdAt": "2026-07-28T01:24:10.000Z",
+                      "updatedAt": "2026-07-28T01:24:10.000Z",
+                      "uid": "35240-c0ce9598-15d8-466a-92c4-eb3346e7860c"
+                    },
+                    {
+                      "id": "69546aa2-d26a-4c43-b4ab-84186a3bc8f3",
+                      "name": "Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v2/sessions/?username=<string>&limit=<integer>&start=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "sessions",
+                            ""
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter sessions by SQL username.",
+                              "key": "username",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return in a single response.",
+                              "key": "limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Pagination cursor for the starting position in the result set.",
+                              "key": "start",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:24:10.000Z",
+                      "updatedAt": "2026-07-28T01:24:10.000Z",
+                      "uid": "35240-69546aa2-d26a-4c43-b4ab-84186a3bc8f3"
+                    },
+                    {
+                      "id": "1adccd86-f913-49b8-9975-b25e024a61c0",
+                      "name": "The authenticated user does not have admin privileges required to access this endpoint.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v2/sessions/?username=<string>&limit=<integer>&start=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "sessions",
+                            ""
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter sessions by SQL username.",
+                              "key": "username",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return in a single response.",
+                              "key": "limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Pagination cursor for the starting position in the result set.",
+                              "key": "start",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:24:10.000Z",
+                      "updatedAt": "2026-07-28T01:24:10.000Z",
+                      "uid": "35240-1adccd86-f913-49b8-9975-b25e024a61c0"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:24:10.000Z",
+                  "updatedAt": "2026-07-28T01:24:10.000Z",
+                  "uid": "35240-dee4a26d-913b-47b0-9dc8-a7ffa4291bcb"
+                }
+              ],
+              "id": "b77d5622-a2b7-4ffb-93f4-cd5083864fef",
+              "createdAt": "2026-07-28T01:24:10.000Z",
+              "updatedAt": "2026-07-28T01:24:10.000Z",
+              "uid": "35240-b77d5622-a2b7-4ffb-93f4-cd5083864fef"
+            }
+          ],
+          "id": "16179022-301d-4d8f-90b8-a8737d0b5634",
+          "createdAt": "2026-07-28T01:24:10.000Z",
+          "updatedAt": "2026-07-28T01:24:10.000Z",
+          "uid": "35240-16179022-301d-4d8f-90b8-a8737d0b5634"
+        }
+      ],
+      "id": "1f390a07-cdaf-408d-9a00-7d0a07de7b36",
+      "createdAt": "2026-07-28T01:24:10.000Z",
+      "updatedAt": "2026-07-28T01:24:10.000Z",
+      "uid": "35240-1f390a07-cdaf-408d-9a00-7d0a07de7b36"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

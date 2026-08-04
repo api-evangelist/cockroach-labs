@@ -1,0 +1,1389 @@
+{
+  "info": {
+    "_postman_id": "0edbb275-ffb8-47dd-9567-c0e63bf97eb5",
+    "name": "CockroachDB Cloud APIKeys RoleManagement API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:42.000Z",
+    "updatedAt": "2026-07-28T01:23:42.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-0edbb275-ffb8-47dd-9567-c0e63bf97eb5"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "roles",
+              "item": [
+                {
+                  "name": "{user_id}",
+                  "item": [
+                    {
+                      "name": "{resource_type}",
+                      "item": [
+                        {
+                          "name": "{resource_id}",
+                          "item": [
+                            {
+                              "name": "{role_name}",
+                              "item": [
+                                {
+                                  "name": "Add user to role",
+                                  "id": "fc706209-02aa-495b-b6b4-bfca11629699",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "roles",
+                                        ":user_id",
+                                        ":resource_type",
+                                        ":resource_id",
+                                        ":role_name"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "819eaff6-699e-41e7-ab42-7484daa75c48",
+                                          "key": "user_id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the user."
+                                        },
+                                        {
+                                          "id": "8f406bfc-cec9-434f-b70f-84bf2e865ccd",
+                                          "key": "resource_type",
+                                          "value": "FOLDER",
+                                          "description": "(Required) Type of resource the role is scoped to. Accepted values include ORGANIZATION, FOLDER, CLUSTER."
+                                        },
+                                        {
+                                          "id": "6da9a34e-dc29-44cd-bffa-de8a853a55f8",
+                                          "key": "resource_id"
+                                        },
+                                        {
+                                          "id": "300d88bc-af97-4409-834d-1db06ec0c594",
+                                          "key": "role_name",
+                                          "value": "<string>",
+                                          "description": "(Required) Name of the role to grant or revoke."
+                                        },
+                                        {
+                                          "id": "0b79be74-6b1c-424c-af6a-b882705784b3",
+                                          "key": "id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the resource."
+                                        }
+                                      ]
+                                    },
+                                    "description": "Grants a specific role to a user for a particular resource. Requires ORG_ADMIN role."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "dacdf258-1e00-47c4-ad93-c0198f3377fa",
+                                      "name": "User added to role successfully.",
+                                      "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "roles",
+                                            ":user_id",
+                                            ":resource_type",
+                                            ":resource_id",
+                                            ":role_name"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "user_id"
+                                            },
+                                            {
+                                              "key": "resource_type"
+                                            },
+                                            {
+                                              "key": "resource_id"
+                                            },
+                                            {
+                                              "key": "role_name"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{}",
+                                      "createdAt": "2026-07-28T01:23:43.000Z",
+                                      "updatedAt": "2026-07-28T01:23:43.000Z",
+                                      "uid": "35240-dacdf258-1e00-47c4-ad93-c0198f3377fa"
+                                    },
+                                    {
+                                      "id": "ef6dcd92-3f9a-49fe-89bc-3de154bd5e7f",
+                                      "name": "Authentication credentials are missing or invalid.",
+                                      "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "roles",
+                                            ":user_id",
+                                            ":resource_type",
+                                            ":resource_id",
+                                            ":role_name"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "user_id"
+                                            },
+                                            {
+                                              "key": "resource_type"
+                                            },
+                                            {
+                                              "key": "resource_id"
+                                            },
+                                            {
+                                              "key": "role_name"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Unauthorized",
+                                      "code": 401,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:43.000Z",
+                                      "updatedAt": "2026-07-28T01:23:43.000Z",
+                                      "uid": "35240-ef6dcd92-3f9a-49fe-89bc-3de154bd5e7f"
+                                    },
+                                    {
+                                      "id": "88fe7848-020f-46c8-9849-1808f09f5c07",
+                                      "name": "The requested resource was not found.",
+                                      "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "roles",
+                                            ":user_id",
+                                            ":resource_type",
+                                            ":resource_id",
+                                            ":role_name"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "user_id"
+                                            },
+                                            {
+                                              "key": "resource_type"
+                                            },
+                                            {
+                                              "key": "resource_id"
+                                            },
+                                            {
+                                              "key": "role_name"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Not Found",
+                                      "code": 404,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:43.000Z",
+                                      "updatedAt": "2026-07-28T01:23:43.000Z",
+                                      "uid": "35240-88fe7848-020f-46c8-9849-1808f09f5c07"
+                                    }
+                                  ],
+                                  "createdAt": "2026-07-28T01:23:42.000Z",
+                                  "updatedAt": "2026-07-28T01:23:42.000Z",
+                                  "uid": "35240-fc706209-02aa-495b-b6b4-bfca11629699"
+                                },
+                                {
+                                  "name": "Remove user from role",
+                                  "id": "c81210cb-887e-4ebc-88e8-e12fdd06e863",
+                                  "protocolProfileBehavior": {
+                                    "disableBodyPruning": true
+                                  },
+                                  "request": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "roles",
+                                        ":user_id",
+                                        ":resource_type",
+                                        ":resource_id",
+                                        ":role_name"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "id": "0990f5e1-045b-4d6e-8d08-c3060f208782",
+                                          "key": "user_id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the user."
+                                        },
+                                        {
+                                          "id": "cff6d3d0-f6de-4715-8573-b8b6ef535d1b",
+                                          "key": "resource_type",
+                                          "value": "FOLDER",
+                                          "description": "(Required) Type of resource the role is scoped to. Accepted values include ORGANIZATION, FOLDER, CLUSTER."
+                                        },
+                                        {
+                                          "id": "18a1d055-320a-47db-ad1d-873ec28e9ed7",
+                                          "key": "resource_id"
+                                        },
+                                        {
+                                          "id": "12942af9-9b67-4909-b4ae-04db52f9c382",
+                                          "key": "role_name",
+                                          "value": "<string>",
+                                          "description": "(Required) Name of the role to grant or revoke."
+                                        },
+                                        {
+                                          "id": "c8c90d14-fca4-4c7d-bb48-740586c01544",
+                                          "key": "id",
+                                          "value": "<string>",
+                                          "description": "(Required) Unique identifier of the resource."
+                                        }
+                                      ]
+                                    },
+                                    "description": "Revokes a specific role from a user for a particular resource. Requires ORG_ADMIN role."
+                                  },
+                                  "response": [
+                                    {
+                                      "id": "28ec02b8-124d-4a01-8846-c15a7053211d",
+                                      "name": "User removed from role successfully.",
+                                      "originalRequest": {
+                                        "method": "DELETE",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "roles",
+                                            ":user_id",
+                                            ":resource_type",
+                                            ":resource_id",
+                                            ":role_name"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "user_id"
+                                            },
+                                            {
+                                              "key": "resource_type"
+                                            },
+                                            {
+                                              "key": "resource_id"
+                                            },
+                                            {
+                                              "key": "role_name"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "OK",
+                                      "code": 200,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{}",
+                                      "createdAt": "2026-07-28T01:23:43.000Z",
+                                      "updatedAt": "2026-07-28T01:23:43.000Z",
+                                      "uid": "35240-28ec02b8-124d-4a01-8846-c15a7053211d"
+                                    },
+                                    {
+                                      "id": "01402417-f878-472f-bba0-3ffbaefbb5fc",
+                                      "name": "Authentication credentials are missing or invalid.",
+                                      "originalRequest": {
+                                        "method": "DELETE",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "roles",
+                                            ":user_id",
+                                            ":resource_type",
+                                            ":resource_id",
+                                            ":role_name"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "user_id"
+                                            },
+                                            {
+                                              "key": "resource_type"
+                                            },
+                                            {
+                                              "key": "resource_id"
+                                            },
+                                            {
+                                              "key": "role_name"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Unauthorized",
+                                      "code": 401,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:43.000Z",
+                                      "updatedAt": "2026-07-28T01:23:43.000Z",
+                                      "uid": "35240-01402417-f878-472f-bba0-3ffbaefbb5fc"
+                                    },
+                                    {
+                                      "id": "c0461043-b716-4c28-af5c-a190feb1737b",
+                                      "name": "The requested resource was not found.",
+                                      "originalRequest": {
+                                        "method": "DELETE",
+                                        "header": [
+                                          {
+                                            "key": "Accept",
+                                            "value": "application/json"
+                                          },
+                                          {
+                                            "description": "Added as a part of security scheme: bearer",
+                                            "key": "Authorization",
+                                            "value": "Bearer <token>"
+                                          }
+                                        ],
+                                        "url": {
+                                          "raw": "{{baseUrl}}/api/v1/roles/:user_id/:resource_type/:resource_id/:role_name",
+                                          "host": [
+                                            "{{baseUrl}}"
+                                          ],
+                                          "path": [
+                                            "api",
+                                            "v1",
+                                            "roles",
+                                            ":user_id",
+                                            ":resource_type",
+                                            ":resource_id",
+                                            ":role_name"
+                                          ],
+                                          "variable": [
+                                            {
+                                              "key": "user_id"
+                                            },
+                                            {
+                                              "key": "resource_type"
+                                            },
+                                            {
+                                              "key": "resource_id"
+                                            },
+                                            {
+                                              "key": "role_name"
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      "status": "Not Found",
+                                      "code": 404,
+                                      "_postman_previewlanguage": "json",
+                                      "header": [
+                                        {
+                                          "key": "Content-Type",
+                                          "value": "application/json"
+                                        }
+                                      ],
+                                      "cookie": [],
+                                      "responseTime": null,
+                                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                      "createdAt": "2026-07-28T01:23:43.000Z",
+                                      "updatedAt": "2026-07-28T01:23:43.000Z",
+                                      "uid": "35240-c0461043-b716-4c28-af5c-a190feb1737b"
+                                    }
+                                  ],
+                                  "createdAt": "2026-07-28T01:23:42.000Z",
+                                  "updatedAt": "2026-07-28T01:23:42.000Z",
+                                  "uid": "35240-c81210cb-887e-4ebc-88e8-e12fdd06e863"
+                                }
+                              ],
+                              "id": "1a0d8b80-b101-43ff-9f84-39fe80debc1f",
+                              "createdAt": "2026-07-28T01:23:42.000Z",
+                              "updatedAt": "2026-07-28T01:23:42.000Z",
+                              "uid": "35240-1a0d8b80-b101-43ff-9f84-39fe80debc1f"
+                            }
+                          ],
+                          "id": "2b05b028-944b-4d73-b6ad-87a4e18f7591",
+                          "createdAt": "2026-07-28T01:23:42.000Z",
+                          "updatedAt": "2026-07-28T01:23:42.000Z",
+                          "uid": "35240-2b05b028-944b-4d73-b6ad-87a4e18f7591"
+                        }
+                      ],
+                      "id": "d4b061e8-31ed-4838-a398-057ecf23c038",
+                      "createdAt": "2026-07-28T01:23:42.000Z",
+                      "updatedAt": "2026-07-28T01:23:42.000Z",
+                      "uid": "35240-d4b061e8-31ed-4838-a398-057ecf23c038"
+                    },
+                    {
+                      "name": "Get all roles for a user",
+                      "id": "fdba515e-90ea-43f9-8eae-981fdcae2260",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/roles/:user_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "roles",
+                            ":user_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "c04a8031-6d68-4a4c-8cba-58b8a2d1aced",
+                              "key": "user_id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the user."
+                            }
+                          ]
+                        },
+                        "description": "Returns all role grants assigned to the specified user across all resource scopes."
+                      },
+                      "response": [
+                        {
+                          "id": "a0bb355a-c78b-4c12-a3f1-3aaa5eadbe21",
+                          "name": "User roles retrieved successfully.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/roles/:user_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "roles",
+                                ":user_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "user_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{}",
+                          "createdAt": "2026-07-28T01:23:43.000Z",
+                          "updatedAt": "2026-07-28T01:23:43.000Z",
+                          "uid": "35240-a0bb355a-c78b-4c12-a3f1-3aaa5eadbe21"
+                        },
+                        {
+                          "id": "89d5f414-7adf-4b39-9a16-f38842612525",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/roles/:user_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "roles",
+                                ":user_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "user_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:43.000Z",
+                          "updatedAt": "2026-07-28T01:23:43.000Z",
+                          "uid": "35240-89d5f414-7adf-4b39-9a16-f38842612525"
+                        },
+                        {
+                          "id": "ad5e2d69-3200-4ccf-9d0d-3bd0651652ba",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/roles/:user_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "roles",
+                                ":user_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "user_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:43.000Z",
+                          "updatedAt": "2026-07-28T01:23:43.000Z",
+                          "uid": "35240-ad5e2d69-3200-4ccf-9d0d-3bd0651652ba"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:42.000Z",
+                      "updatedAt": "2026-07-28T01:23:42.000Z",
+                      "uid": "35240-fdba515e-90ea-43f9-8eae-981fdcae2260"
+                    },
+                    {
+                      "name": "Set roles for a user",
+                      "id": "1f522881-d178-45ae-b3ed-12304fd80d1a",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"roles\": []\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/roles/:user_id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "roles",
+                            ":user_id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "7bd2a1a2-064d-427f-b908-6d84e324bd6a",
+                              "key": "user_id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the user."
+                            }
+                          ]
+                        },
+                        "description": "Replaces all role grants for the specified user with the provided set of roles. Requires ORG_ADMIN role."
+                      },
+                      "response": [
+                        {
+                          "id": "c04952b9-caf7-4f36-affa-434a074e7028",
+                          "name": "User roles updated successfully.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"roles\": []\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/roles/:user_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "roles",
+                                ":user_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "user_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{}",
+                          "createdAt": "2026-07-28T01:23:43.000Z",
+                          "updatedAt": "2026-07-28T01:23:43.000Z",
+                          "uid": "35240-c04952b9-caf7-4f36-affa-434a074e7028"
+                        },
+                        {
+                          "id": "936bdf6a-f2b0-4482-a2c8-36eabda3df9e",
+                          "name": "The request body or parameters are invalid.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"roles\": []\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/roles/:user_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "roles",
+                                ":user_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "user_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:43.000Z",
+                          "updatedAt": "2026-07-28T01:23:43.000Z",
+                          "uid": "35240-936bdf6a-f2b0-4482-a2c8-36eabda3df9e"
+                        },
+                        {
+                          "id": "84bb161f-dd64-4901-9906-08cea7c85638",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"roles\": []\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/roles/:user_id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "roles",
+                                ":user_id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "user_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:43.000Z",
+                          "updatedAt": "2026-07-28T01:23:43.000Z",
+                          "uid": "35240-84bb161f-dd64-4901-9906-08cea7c85638"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:42.000Z",
+                      "updatedAt": "2026-07-28T01:23:42.000Z",
+                      "uid": "35240-1f522881-d178-45ae-b3ed-12304fd80d1a"
+                    }
+                  ],
+                  "id": "589166d9-ca51-45c4-8afd-469bc4bef81c",
+                  "createdAt": "2026-07-28T01:23:42.000Z",
+                  "updatedAt": "2026-07-28T01:23:42.000Z",
+                  "uid": "35240-589166d9-ca51-45c4-8afd-469bc4bef81c"
+                },
+                {
+                  "name": "List role grants",
+                  "id": "0f37a613-ed15-41de-b96e-feb433f87132",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/roles?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "roles"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for paginated results, starting from 1.",
+                          "key": "pagination.page",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Maximum number of results to return per page.",
+                          "key": "pagination.limit",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                          "key": "pagination.as_of_time",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                          "key": "pagination.sort_order",
+                          "value": "ASC"
+                        }
+                      ]
+                    },
+                    "description": "Returns a list of all role grants across the organization. Supports pagination."
+                  },
+                  "response": [
+                    {
+                      "id": "38d5d556-9117-44e5-9871-5f467ad075b4",
+                      "name": "List of role grants returned successfully.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/roles?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "roles"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                              "key": "pagination.as_of_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                              "key": "pagination.sort_order",
+                              "value": "ASC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"pagination\": {\n    \"next\": \"<string>\",\n    \"last\": \"<string>\",\n    \"time\": \"<dateTime>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:23:43.000Z",
+                      "updatedAt": "2026-07-28T01:23:43.000Z",
+                      "uid": "35240-38d5d556-9117-44e5-9871-5f467ad075b4"
+                    },
+                    {
+                      "id": "b204e9e5-7fe3-4aef-b0f7-949f9398cabb",
+                      "name": "Authentication credentials are missing or invalid.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/roles?pagination.page=<string>&pagination.limit=<integer>&pagination.as_of_time=<dateTime>&pagination.sort_order=ASC",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "roles"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for paginated results, starting from 1.",
+                              "key": "pagination.page",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Maximum number of results to return per page.",
+                              "key": "pagination.limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).",
+                              "key": "pagination.as_of_time",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Sort direction for paginated results. Accepted values are ASC and DESC.",
+                              "key": "pagination.sort_order",
+                              "value": "ASC"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:23:43.000Z",
+                      "updatedAt": "2026-07-28T01:23:43.000Z",
+                      "uid": "35240-b204e9e5-7fe3-4aef-b0f7-949f9398cabb"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:23:42.000Z",
+                  "updatedAt": "2026-07-28T01:23:42.000Z",
+                  "uid": "35240-0f37a613-ed15-41de-b96e-feb433f87132"
+                }
+              ],
+              "id": "a817233e-2090-47da-9691-5580c8a66b7f",
+              "createdAt": "2026-07-28T01:23:42.000Z",
+              "updatedAt": "2026-07-28T01:23:42.000Z",
+              "uid": "35240-a817233e-2090-47da-9691-5580c8a66b7f"
+            },
+            {
+              "name": "users",
+              "item": [
+                {
+                  "name": "persons-by-email",
+                  "item": [
+                    {
+                      "name": "Get person users by email",
+                      "id": "524a1c83-482c-477c-915a-aa97b2ec1e7c",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/users/persons-by-email?email=<email>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "users",
+                            "persons-by-email"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Email address to look up.",
+                              "key": "email",
+                              "value": "<email>"
+                            }
+                          ]
+                        },
+                        "description": "Looks up person (human) user accounts by email address. Useful for resolving user IDs before assigning roles."
+                      },
+                      "response": [
+                        {
+                          "id": "45593a0d-5dcf-4361-b08b-d13edde17bf4",
+                          "name": "User accounts returned successfully.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/users/persons-by-email?email=<email>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                "persons-by-email"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Email address to look up.",
+                                  "key": "email",
+                                  "value": "<email>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{}",
+                          "createdAt": "2026-07-28T01:23:43.000Z",
+                          "updatedAt": "2026-07-28T01:23:43.000Z",
+                          "uid": "35240-45593a0d-5dcf-4361-b08b-d13edde17bf4"
+                        },
+                        {
+                          "id": "49f134d4-c216-44a4-95ea-1ce9674ec0fb",
+                          "name": "Authentication credentials are missing or invalid.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/users/persons-by-email?email=<email>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                "persons-by-email"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Email address to look up.",
+                                  "key": "email",
+                                  "value": "<email>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:43.000Z",
+                          "updatedAt": "2026-07-28T01:23:43.000Z",
+                          "uid": "35240-49f134d4-c216-44a4-95ea-1ce9674ec0fb"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:42.000Z",
+                      "updatedAt": "2026-07-28T01:23:42.000Z",
+                      "uid": "35240-524a1c83-482c-477c-915a-aa97b2ec1e7c"
+                    }
+                  ],
+                  "id": "ceb703bc-026b-4c7e-a3d9-b13c7538b983",
+                  "createdAt": "2026-07-28T01:23:42.000Z",
+                  "updatedAt": "2026-07-28T01:23:42.000Z",
+                  "uid": "35240-ceb703bc-026b-4c7e-a3d9-b13c7538b983"
+                }
+              ],
+              "id": "f228cb54-d15b-41b5-bc1a-249770c3adc1",
+              "createdAt": "2026-07-28T01:23:42.000Z",
+              "updatedAt": "2026-07-28T01:23:42.000Z",
+              "uid": "35240-f228cb54-d15b-41b5-bc1a-249770c3adc1"
+            }
+          ],
+          "id": "1ba1c246-35c0-4d12-a66c-a3c215b9d99c",
+          "createdAt": "2026-07-28T01:23:42.000Z",
+          "updatedAt": "2026-07-28T01:23:42.000Z",
+          "uid": "35240-1ba1c246-35c0-4d12-a66c-a3c215b9d99c"
+        }
+      ],
+      "id": "d6610514-ac26-457d-9921-65d98f05a0ff",
+      "createdAt": "2026-07-28T01:23:42.000Z",
+      "updatedAt": "2026-07-28T01:23:42.000Z",
+      "uid": "35240-d6610514-ac26-457d-9921-65d98f05a0ff"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

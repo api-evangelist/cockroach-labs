@@ -1,0 +1,927 @@
+{
+  "info": {
+    "_postman_id": "650263d9-938f-4f30-b8cc-c7cfd7d2f20d",
+    "name": "CockroachDB Cloud APIKeys Ranges API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:41.000Z",
+    "updatedAt": "2026-07-28T01:23:41.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-650263d9-938f-4f30-b8cc-c7cfd7d2f20d"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v2",
+          "item": [
+            {
+              "name": "nodes",
+              "item": [
+                {
+                  "name": "{node_id}",
+                  "item": [
+                    {
+                      "name": "ranges",
+                      "item": [
+                        {
+                          "name": "List ranges for a node",
+                          "id": "ddbd5cb5-129e-4ba5-a9d3-22af1c22b826",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v2/nodes/:node_id/ranges/?ranges=<string>&limit=<integer>&offset=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v2",
+                                "nodes",
+                                ":node_id",
+                                "ranges",
+                                ""
+                              ],
+                              "query": [
+                                {
+                                  "description": "Comma-separated list of range IDs to filter results. If omitted, all ranges on the node are returned.",
+                                  "key": "ranges",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "description": "Maximum number of results to return in a single response.",
+                                  "key": "limit",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Number of results to skip before returning data. Used for offset-based pagination.",
+                                  "key": "offset",
+                                  "value": "<integer>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "536091e8-0e4f-4423-840e-432465a86622",
+                                  "key": "node_id",
+                                  "value": "<integer>",
+                                  "description": "(Required) Numeric identifier of the CockroachDB node."
+                                }
+                              ]
+                            },
+                            "description": "Returns information about ranges stored on the specified node. If a list of range IDs is provided via the ranges query parameter, only information about those specific ranges is returned. Requires admin authentication."
+                          },
+                          "response": [
+                            {
+                              "id": "2ca083d7-e639-457f-8a7c-c137c6f2f717",
+                              "name": "Range information for the node returned successfully.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v2/nodes/:node_id/ranges/?ranges=<string>&limit=<integer>&offset=<integer>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v2",
+                                    "nodes",
+                                    ":node_id",
+                                    "ranges",
+                                    ""
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Comma-separated list of range IDs to filter results. If omitted, all ranges on the node are returned.",
+                                      "key": "ranges",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return in a single response.",
+                                      "key": "limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Number of results to skip before returning data. Used for offset-based pagination.",
+                                      "key": "offset",
+                                      "value": "<integer>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "node_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"ranges\": [\n    {\n      \"desc\": {\n        \"range_id\": \"<long>\",\n        \"start_key\": \"<string>\",\n        \"end_key\": \"<string>\",\n        \"internal_replicas\": [\n          {\n            \"node_id\": \"<integer>\",\n            \"store_id\": \"<integer>\",\n            \"replica_id\": \"<integer>\"\n          },\n          {\n            \"node_id\": \"<integer>\",\n            \"store_id\": \"<integer>\",\n            \"replica_id\": \"<integer>\"\n          }\n        ]\n      },\n      \"span\": {},\n      \"source_node_id\": \"<integer>\",\n      \"source_store_id\": \"<integer>\",\n      \"error_message\": \"<string>\",\n      \"lease_holder\": \"<integer>\",\n      \"raft_state\": \"<string>\",\n      \"stats\": {}\n    },\n    {\n      \"desc\": {\n        \"range_id\": \"<long>\",\n        \"start_key\": \"<string>\",\n        \"end_key\": \"<string>\",\n        \"internal_replicas\": [\n          {\n            \"node_id\": \"<integer>\",\n            \"store_id\": \"<integer>\",\n            \"replica_id\": \"<integer>\"\n          },\n          {\n            \"node_id\": \"<integer>\",\n            \"store_id\": \"<integer>\",\n            \"replica_id\": \"<integer>\"\n          }\n        ]\n      },\n      \"span\": {},\n      \"source_node_id\": \"<integer>\",\n      \"source_store_id\": \"<integer>\",\n      \"error_message\": \"<string>\",\n      \"lease_holder\": \"<integer>\",\n      \"raft_state\": \"<string>\",\n      \"stats\": {}\n    }\n  ],\n  \"next\": \"<integer>\"\n}",
+                              "createdAt": "2026-07-28T01:23:41.000Z",
+                              "updatedAt": "2026-07-28T01:23:41.000Z",
+                              "uid": "35240-2ca083d7-e639-457f-8a7c-c137c6f2f717"
+                            },
+                            {
+                              "id": "95501f3d-51d5-48a5-a113-9960cd4ffc2b",
+                              "name": "Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v2/nodes/:node_id/ranges/?ranges=<string>&limit=<integer>&offset=<integer>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v2",
+                                    "nodes",
+                                    ":node_id",
+                                    "ranges",
+                                    ""
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Comma-separated list of range IDs to filter results. If omitted, all ranges on the node are returned.",
+                                      "key": "ranges",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return in a single response.",
+                                      "key": "limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Number of results to skip before returning data. Used for offset-based pagination.",
+                                      "key": "offset",
+                                      "value": "<integer>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "node_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:41.000Z",
+                              "updatedAt": "2026-07-28T01:23:41.000Z",
+                              "uid": "35240-95501f3d-51d5-48a5-a113-9960cd4ffc2b"
+                            },
+                            {
+                              "id": "a8baab52-dcb4-4971-a3da-b89d53ffd0c1",
+                              "name": "The authenticated user does not have admin privileges required to access this endpoint.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v2/nodes/:node_id/ranges/?ranges=<string>&limit=<integer>&offset=<integer>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v2",
+                                    "nodes",
+                                    ":node_id",
+                                    "ranges",
+                                    ""
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Comma-separated list of range IDs to filter results. If omitted, all ranges on the node are returned.",
+                                      "key": "ranges",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return in a single response.",
+                                      "key": "limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Number of results to skip before returning data. Used for offset-based pagination.",
+                                      "key": "offset",
+                                      "value": "<integer>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "node_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:41.000Z",
+                              "updatedAt": "2026-07-28T01:23:41.000Z",
+                              "uid": "35240-a8baab52-dcb4-4971-a3da-b89d53ffd0c1"
+                            },
+                            {
+                              "id": "dedc5fee-b619-4c9b-a919-346ca7ea37c0",
+                              "name": "The requested resource was not found.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v2/nodes/:node_id/ranges/?ranges=<string>&limit=<integer>&offset=<integer>",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v2",
+                                    "nodes",
+                                    ":node_id",
+                                    "ranges",
+                                    ""
+                                  ],
+                                  "query": [
+                                    {
+                                      "description": "Comma-separated list of range IDs to filter results. If omitted, all ranges on the node are returned.",
+                                      "key": "ranges",
+                                      "value": "<string>"
+                                    },
+                                    {
+                                      "description": "Maximum number of results to return in a single response.",
+                                      "key": "limit",
+                                      "value": "<integer>"
+                                    },
+                                    {
+                                      "description": "Number of results to skip before returning data. Used for offset-based pagination.",
+                                      "key": "offset",
+                                      "value": "<integer>"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "node_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:23:41.000Z",
+                              "updatedAt": "2026-07-28T01:23:41.000Z",
+                              "uid": "35240-dedc5fee-b619-4c9b-a919-346ca7ea37c0"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:23:41.000Z",
+                          "updatedAt": "2026-07-28T01:23:41.000Z",
+                          "uid": "35240-ddbd5cb5-129e-4ba5-a9d3-22af1c22b826"
+                        }
+                      ],
+                      "id": "0658f10e-ab04-4ef3-8423-f6fb34d41fc3",
+                      "createdAt": "2026-07-28T01:23:41.000Z",
+                      "updatedAt": "2026-07-28T01:23:41.000Z",
+                      "uid": "35240-0658f10e-ab04-4ef3-8423-f6fb34d41fc3"
+                    }
+                  ],
+                  "id": "71610f0e-313a-4bfa-bc21-2dfce5e535a1",
+                  "createdAt": "2026-07-28T01:23:41.000Z",
+                  "updatedAt": "2026-07-28T01:23:41.000Z",
+                  "uid": "35240-71610f0e-313a-4bfa-bc21-2dfce5e535a1"
+                }
+              ],
+              "id": "fdc118d9-2106-4d49-af7a-a7a031dc2af0",
+              "createdAt": "2026-07-28T01:23:41.000Z",
+              "updatedAt": "2026-07-28T01:23:41.000Z",
+              "uid": "35240-fdc118d9-2106-4d49-af7a-a7a031dc2af0"
+            },
+            {
+              "name": "ranges",
+              "item": [
+                {
+                  "name": "hot",
+                  "item": [
+                    {
+                      "name": "List hot ranges",
+                      "id": "23d00e6e-1ab6-4654-a58e-206705542a7b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v2/ranges/hot/?node_id=<integer>&limit=<integer>&start=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "ranges",
+                            "hot",
+                            ""
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter hot ranges by the ID of the node to query. If omitted, hot ranges across all nodes are returned.",
+                              "key": "node_id",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Maximum number of results to return in a single response.",
+                              "key": "limit",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "Pagination cursor for the starting position in the result set.",
+                              "key": "start",
+                              "value": "<integer>"
+                            }
+                          ]
+                        },
+                        "description": "Returns information about hot ranges across the cluster, ranked by query activity. Optionally filter by node ID to return only hot ranges on a specific node. Requires admin authentication."
+                      },
+                      "response": [
+                        {
+                          "id": "5b3729aa-b5c3-4d3f-acf9-e438a5e345d6",
+                          "name": "Hot ranges returned successfully.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v2/ranges/hot/?node_id=<integer>&limit=<integer>&start=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v2",
+                                "ranges",
+                                "hot",
+                                ""
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter hot ranges by the ID of the node to query. If omitted, hot ranges across all nodes are returned.",
+                                  "key": "node_id",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Maximum number of results to return in a single response.",
+                                  "key": "limit",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Pagination cursor for the starting position in the result set.",
+                                  "key": "start",
+                                  "value": "<integer>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"ranges\": [\n    {\n      \"range_id\": \"<long>\",\n      \"node_id\": \"<integer>\",\n      \"qps\": \"<double>\",\n      \"table_name\": \"<string>\",\n      \"db_name\": \"<string>\",\n      \"index_name\": \"<string>\",\n      \"schema_name\": \"<string>\"\n    },\n    {\n      \"range_id\": \"<long>\",\n      \"node_id\": \"<integer>\",\n      \"qps\": \"<double>\",\n      \"table_name\": \"<string>\",\n      \"db_name\": \"<string>\",\n      \"index_name\": \"<string>\",\n      \"schema_name\": \"<string>\"\n    }\n  ],\n  \"next\": \"<integer>\"\n}",
+                          "createdAt": "2026-07-28T01:23:41.000Z",
+                          "updatedAt": "2026-07-28T01:23:41.000Z",
+                          "uid": "35240-5b3729aa-b5c3-4d3f-acf9-e438a5e345d6"
+                        },
+                        {
+                          "id": "6fc80575-2913-4438-a38f-43e70117b006",
+                          "name": "Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v2/ranges/hot/?node_id=<integer>&limit=<integer>&start=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v2",
+                                "ranges",
+                                "hot",
+                                ""
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter hot ranges by the ID of the node to query. If omitted, hot ranges across all nodes are returned.",
+                                  "key": "node_id",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Maximum number of results to return in a single response.",
+                                  "key": "limit",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Pagination cursor for the starting position in the result set.",
+                                  "key": "start",
+                                  "value": "<integer>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:41.000Z",
+                          "updatedAt": "2026-07-28T01:23:41.000Z",
+                          "uid": "35240-6fc80575-2913-4438-a38f-43e70117b006"
+                        },
+                        {
+                          "id": "f15f818c-50da-49cb-b122-1ff7ea2ad41b",
+                          "name": "The authenticated user does not have admin privileges required to access this endpoint.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v2/ranges/hot/?node_id=<integer>&limit=<integer>&start=<integer>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v2",
+                                "ranges",
+                                "hot",
+                                ""
+                              ],
+                              "query": [
+                                {
+                                  "description": "Filter hot ranges by the ID of the node to query. If omitted, hot ranges across all nodes are returned.",
+                                  "key": "node_id",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Maximum number of results to return in a single response.",
+                                  "key": "limit",
+                                  "value": "<integer>"
+                                },
+                                {
+                                  "description": "Pagination cursor for the starting position in the result set.",
+                                  "key": "start",
+                                  "value": "<integer>"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:41.000Z",
+                          "updatedAt": "2026-07-28T01:23:41.000Z",
+                          "uid": "35240-f15f818c-50da-49cb-b122-1ff7ea2ad41b"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:41.000Z",
+                      "updatedAt": "2026-07-28T01:23:41.000Z",
+                      "uid": "35240-23d00e6e-1ab6-4654-a58e-206705542a7b"
+                    }
+                  ],
+                  "id": "c795ce1d-bf32-4120-a146-03e7b592c583",
+                  "createdAt": "2026-07-28T01:23:41.000Z",
+                  "updatedAt": "2026-07-28T01:23:41.000Z",
+                  "uid": "35240-c795ce1d-bf32-4120-a146-03e7b592c583"
+                },
+                {
+                  "name": "{range_id}",
+                  "item": [
+                    {
+                      "name": "Get a range",
+                      "id": "11ee2b7b-67ea-4039-a693-0f7c6a10244b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v2/ranges/:range_id/",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v2",
+                            "ranges",
+                            ":range_id",
+                            ""
+                          ],
+                          "variable": [
+                            {
+                              "id": "c521cb48-b867-49fe-930c-b430643c9e94",
+                              "key": "range_id",
+                              "value": "<long>",
+                              "description": "(Required) Numeric identifier of the range."
+                            }
+                          ]
+                        },
+                        "description": "Retrieves detailed information about a specific range identified by range_id, including replica placement, lease holder, and statistics. Requires admin authentication."
+                      },
+                      "response": [
+                        {
+                          "id": "73922ae1-0398-4f8c-93f3-093a952570ae",
+                          "name": "Range information returned successfully.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v2/ranges/:range_id/",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v2",
+                                "ranges",
+                                ":range_id",
+                                ""
+                              ],
+                              "variable": [
+                                {
+                                  "key": "range_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"range_id\": \"<long>\",\n  \"responses_by_node_id\": {\n    \"est_d\": {\n      \"desc\": {\n        \"range_id\": \"<long>\",\n        \"start_key\": \"<string>\",\n        \"end_key\": \"<string>\",\n        \"internal_replicas\": [\n          {\n            \"node_id\": \"<integer>\",\n            \"store_id\": \"<integer>\",\n            \"replica_id\": \"<integer>\"\n          },\n          {\n            \"node_id\": \"<integer>\",\n            \"store_id\": \"<integer>\",\n            \"replica_id\": \"<integer>\"\n          }\n        ]\n      },\n      \"span\": {},\n      \"source_node_id\": \"<integer>\",\n      \"source_store_id\": \"<integer>\",\n      \"error_message\": \"<string>\",\n      \"lease_holder\": \"<integer>\",\n      \"raft_state\": \"<string>\",\n      \"stats\": {}\n    }\n  }\n}",
+                          "createdAt": "2026-07-28T01:23:41.000Z",
+                          "updatedAt": "2026-07-28T01:23:41.000Z",
+                          "uid": "35240-73922ae1-0398-4f8c-93f3-093a952570ae"
+                        },
+                        {
+                          "id": "2bb990e2-ebbf-4ec9-9843-6cdfaa2e47e6",
+                          "name": "Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v2/ranges/:range_id/",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v2",
+                                "ranges",
+                                ":range_id",
+                                ""
+                              ],
+                              "variable": [
+                                {
+                                  "key": "range_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:41.000Z",
+                          "updatedAt": "2026-07-28T01:23:41.000Z",
+                          "uid": "35240-2bb990e2-ebbf-4ec9-9843-6cdfaa2e47e6"
+                        },
+                        {
+                          "id": "d19e34c5-707b-4c5b-b205-967c9556540c",
+                          "name": "The authenticated user does not have admin privileges required to access this endpoint.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v2/ranges/:range_id/",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v2",
+                                "ranges",
+                                ":range_id",
+                                ""
+                              ],
+                              "variable": [
+                                {
+                                  "key": "range_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:41.000Z",
+                          "updatedAt": "2026-07-28T01:23:41.000Z",
+                          "uid": "35240-d19e34c5-707b-4c5b-b205-967c9556540c"
+                        },
+                        {
+                          "id": "63f83638-3d93-4796-85ed-60eae668dc31",
+                          "name": "The requested resource was not found.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v2/ranges/:range_id/",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v2",
+                                "ranges",
+                                ":range_id",
+                                ""
+                              ],
+                              "variable": [
+                                {
+                                  "key": "range_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:23:41.000Z",
+                          "updatedAt": "2026-07-28T01:23:41.000Z",
+                          "uid": "35240-63f83638-3d93-4796-85ed-60eae668dc31"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:23:41.000Z",
+                      "updatedAt": "2026-07-28T01:23:41.000Z",
+                      "uid": "35240-11ee2b7b-67ea-4039-a693-0f7c6a10244b"
+                    }
+                  ],
+                  "id": "9d3e56cc-037b-42c2-98c5-a7d3c3fcfa90",
+                  "createdAt": "2026-07-28T01:23:41.000Z",
+                  "updatedAt": "2026-07-28T01:23:41.000Z",
+                  "uid": "35240-9d3e56cc-037b-42c2-98c5-a7d3c3fcfa90"
+                }
+              ],
+              "id": "7cab46e1-6aaf-424b-bd7c-e575a95af0e8",
+              "createdAt": "2026-07-28T01:23:41.000Z",
+              "updatedAt": "2026-07-28T01:23:41.000Z",
+              "uid": "35240-7cab46e1-6aaf-424b-bd7c-e575a95af0e8"
+            }
+          ],
+          "id": "8bab7431-e613-4a24-b3a0-724847039854",
+          "createdAt": "2026-07-28T01:23:41.000Z",
+          "updatedAt": "2026-07-28T01:23:41.000Z",
+          "uid": "35240-8bab7431-e613-4a24-b3a0-724847039854"
+        }
+      ],
+      "id": "c404d878-fb3e-4417-a6ee-4728bc9e2ca3",
+      "createdAt": "2026-07-28T01:23:41.000Z",
+      "updatedAt": "2026-07-28T01:23:41.000Z",
+      "uid": "35240-c404d878-fb3e-4417-a6ee-4728bc9e2ca3"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}

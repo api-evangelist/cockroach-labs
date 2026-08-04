@@ -1,0 +1,1962 @@
+{
+  "info": {
+    "_postman_id": "6fbde99a-ed44-42a4-b30d-ef03819c6f54",
+    "name": "CockroachDB Cloud APIKeys MetricExport API",
+    "description": "The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.\n\nContact Support:\n Name: Cockroach Labs Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:23:36.000Z",
+    "updatedAt": "2026-07-28T01:23:36.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-6fbde99a-ed44-42a4-b30d-ef03819c6f54"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "clusters",
+              "item": [
+                {
+                  "name": "{cluster_id}",
+                  "item": [
+                    {
+                      "name": "metricexport",
+                      "item": [
+                        {
+                          "name": "cloudwatch",
+                          "item": [
+                            {
+                              "name": "Get CloudWatch metric export configuration",
+                              "id": "9e2ce12e-c053-42fd-8d5c-23c5584aded2",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "metricexport",
+                                    "cloudwatch"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "9b8c316f-5976-41d3-b72c-b82e9982298d",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Retrieves the CloudWatch metric export configuration for the specified cluster."
+                              },
+                              "response": [
+                                {
+                                  "id": "26775fed-03a7-4dcf-a5c5-f70bfd09a411",
+                                  "name": "CloudWatch metric export configuration retrieved successfully.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "cloudwatch"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"cluster_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"role_arn\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-26775fed-03a7-4dcf-a5c5-f70bfd09a411"
+                                },
+                                {
+                                  "id": "f94691c3-1b84-414a-9a58-02e80441171d",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "cloudwatch"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-f94691c3-1b84-414a-9a58-02e80441171d"
+                                },
+                                {
+                                  "id": "bb99bd7f-4cd7-455d-890b-1dd2a8c243f3",
+                                  "name": "The requested resource was not found.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "cloudwatch"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-bb99bd7f-4cd7-455d-890b-1dd2a8c243f3"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:37.000Z",
+                              "updatedAt": "2026-07-28T01:23:37.000Z",
+                              "uid": "35240-9e2ce12e-c053-42fd-8d5c-23c5584aded2"
+                            },
+                            {
+                              "name": "Enable CloudWatch metric export",
+                              "id": "a9c85c2d-945a-4964-a8a3-d1695f2e87e3",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"role_arn\": \"<string>\",\n  \"target_region\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "metricexport",
+                                    "cloudwatch"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "3299c8fb-fa88-4d42-be2b-8d29fa9388c2",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Enables metric export to AWS CloudWatch for the specified cluster."
+                              },
+                              "response": [
+                                {
+                                  "id": "a3a8b569-1f92-4dad-aba0-f39b4d083fbc",
+                                  "name": "CloudWatch metric export enabled successfully.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"role_arn\": \"<string>\",\n  \"target_region\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "cloudwatch"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"cluster_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"role_arn\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-a3a8b569-1f92-4dad-aba0-f39b4d083fbc"
+                                },
+                                {
+                                  "id": "2ee1cac3-7479-4406-9a9b-afb7b9343c88",
+                                  "name": "The request body or parameters are invalid.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"role_arn\": \"<string>\",\n  \"target_region\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "cloudwatch"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Bad Request",
+                                  "code": 400,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-2ee1cac3-7479-4406-9a9b-afb7b9343c88"
+                                },
+                                {
+                                  "id": "9eee7aa0-bebd-4e8f-ba3a-ef4bbc19658a",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"role_arn\": \"<string>\",\n  \"target_region\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "cloudwatch"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-9eee7aa0-bebd-4e8f-ba3a-ef4bbc19658a"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:37.000Z",
+                              "updatedAt": "2026-07-28T01:23:37.000Z",
+                              "uid": "35240-a9c85c2d-945a-4964-a8a3-d1695f2e87e3"
+                            },
+                            {
+                              "name": "Disable CloudWatch metric export",
+                              "id": "ea7eecfb-09d9-42da-afd8-f39147e2aec1",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "metricexport",
+                                    "cloudwatch"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "3793d787-1534-4d48-8010-54067043dc04",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Disables AWS CloudWatch metric export for the specified cluster."
+                              },
+                              "response": [
+                                {
+                                  "id": "1e2d5fe6-5db2-4b55-851e-510fd1b66260",
+                                  "name": "CloudWatch metric export disabled successfully.",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "cloudwatch"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"cluster_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"role_arn\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-1e2d5fe6-5db2-4b55-851e-510fd1b66260"
+                                },
+                                {
+                                  "id": "1d2fcb4b-b285-4c0e-a680-2510d483ee8f",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "cloudwatch"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-1d2fcb4b-b285-4c0e-a680-2510d483ee8f"
+                                },
+                                {
+                                  "id": "dff404de-ab1a-45d1-9398-014bf0f19a10",
+                                  "name": "The requested resource was not found.",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "cloudwatch"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-dff404de-ab1a-45d1-9398-014bf0f19a10"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:37.000Z",
+                              "updatedAt": "2026-07-28T01:23:37.000Z",
+                              "uid": "35240-ea7eecfb-09d9-42da-afd8-f39147e2aec1"
+                            }
+                          ],
+                          "id": "1a47692a-994b-4f6f-8199-e97dacd4cb62",
+                          "createdAt": "2026-07-28T01:23:37.000Z",
+                          "updatedAt": "2026-07-28T01:23:37.000Z",
+                          "uid": "35240-1a47692a-994b-4f6f-8199-e97dacd4cb62"
+                        },
+                        {
+                          "name": "datadog",
+                          "item": [
+                            {
+                              "name": "Get Datadog metric export configuration",
+                              "id": "26aa87ff-d64f-4630-9c46-2e26c2bf43d0",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "metricexport",
+                                    "datadog"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "9207538f-5aaf-4eeb-bd11-fc6bae3b78a7",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Retrieves the Datadog metric export configuration for the specified cluster."
+                              },
+                              "response": [
+                                {
+                                  "id": "ffd3778e-40ab-4a19-bcbd-8ad6499b8a57",
+                                  "name": "Datadog metric export configuration retrieved successfully.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "datadog"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"cluster_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"site\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-ffd3778e-40ab-4a19-bcbd-8ad6499b8a57"
+                                },
+                                {
+                                  "id": "61412aa0-6771-442d-ab95-b969dd4b84fe",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "datadog"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-61412aa0-6771-442d-ab95-b969dd4b84fe"
+                                },
+                                {
+                                  "id": "aef3ef39-8abb-4b20-9294-6971c346495a",
+                                  "name": "The requested resource was not found.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "datadog"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-aef3ef39-8abb-4b20-9294-6971c346495a"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:37.000Z",
+                              "updatedAt": "2026-07-28T01:23:37.000Z",
+                              "uid": "35240-26aa87ff-d64f-4630-9c46-2e26c2bf43d0"
+                            },
+                            {
+                              "name": "Enable Datadog metric export",
+                              "id": "1cd60932-6e06-4ffe-aae5-6b6364c72cce",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"api_key\": \"<string>\",\n  \"site\": \"<string>\"\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "metricexport",
+                                    "datadog"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "5e380660-9224-4a27-b6d8-c9ea8d79b72b",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Enables metric export to Datadog for the specified cluster."
+                              },
+                              "response": [
+                                {
+                                  "id": "1a7170c1-068b-4e02-b1b9-84a4607a3a3b",
+                                  "name": "Datadog metric export enabled successfully.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"api_key\": \"<string>\",\n  \"site\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "datadog"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"cluster_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"site\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-1a7170c1-068b-4e02-b1b9-84a4607a3a3b"
+                                },
+                                {
+                                  "id": "65adcfb7-8c81-4fe8-aca5-b3c5337cbf2e",
+                                  "name": "The request body or parameters are invalid.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"api_key\": \"<string>\",\n  \"site\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "datadog"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Bad Request",
+                                  "code": 400,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-65adcfb7-8c81-4fe8-aca5-b3c5337cbf2e"
+                                },
+                                {
+                                  "id": "316f2c35-9fd4-4dc8-b05c-367351d3063a",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "body": {
+                                      "mode": "raw",
+                                      "raw": "{\n  \"api_key\": \"<string>\",\n  \"site\": \"<string>\"\n}",
+                                      "options": {
+                                        "raw": {
+                                          "headerFamily": "json",
+                                          "language": "json"
+                                        }
+                                      }
+                                    },
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "datadog"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-316f2c35-9fd4-4dc8-b05c-367351d3063a"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:37.000Z",
+                              "updatedAt": "2026-07-28T01:23:37.000Z",
+                              "uid": "35240-1cd60932-6e06-4ffe-aae5-6b6364c72cce"
+                            },
+                            {
+                              "name": "Disable Datadog metric export",
+                              "id": "b85f5683-228a-4421-a906-caa47c4a3af6",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "metricexport",
+                                    "datadog"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "c3ba6c97-cb3a-42ee-b5b8-7b2ab0559713",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Disables Datadog metric export for the specified cluster."
+                              },
+                              "response": [
+                                {
+                                  "id": "71f5328c-a82c-4eda-983e-50668d4c9a43",
+                                  "name": "Datadog metric export disabled successfully.",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "datadog"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"cluster_id\": \"<string>\",\n  \"status\": \"<string>\",\n  \"site\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-71f5328c-a82c-4eda-983e-50668d4c9a43"
+                                },
+                                {
+                                  "id": "a798f850-08fd-480f-ae00-7bd90fc77c7d",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "datadog"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-a798f850-08fd-480f-ae00-7bd90fc77c7d"
+                                },
+                                {
+                                  "id": "f8b393c5-b9f5-4ab2-bc19-f209ca7031a1",
+                                  "name": "The requested resource was not found.",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/datadog",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "datadog"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-f8b393c5-b9f5-4ab2-bc19-f209ca7031a1"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:37.000Z",
+                              "updatedAt": "2026-07-28T01:23:37.000Z",
+                              "uid": "35240-b85f5683-228a-4421-a906-caa47c4a3af6"
+                            }
+                          ],
+                          "id": "40487d73-5d86-4b88-96bd-c41dd03b255e",
+                          "createdAt": "2026-07-28T01:23:37.000Z",
+                          "updatedAt": "2026-07-28T01:23:37.000Z",
+                          "uid": "35240-40487d73-5d86-4b88-96bd-c41dd03b255e"
+                        },
+                        {
+                          "name": "prometheus",
+                          "item": [
+                            {
+                              "name": "Get Prometheus metric export configuration",
+                              "id": "58a28546-ee69-415d-9da6-efe8a0b3e0ad",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "metricexport",
+                                    "prometheus"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "4517dc97-7d60-41f9-af1f-476a968dd9b2",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Retrieves the Prometheus metric export configuration for the specified cluster."
+                              },
+                              "response": [
+                                {
+                                  "id": "68abba00-4e51-4e18-a4f5-ee6846b46be3",
+                                  "name": "Prometheus metric export configuration retrieved successfully.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "prometheus"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"cluster_id\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-68abba00-4e51-4e18-a4f5-ee6846b46be3"
+                                },
+                                {
+                                  "id": "a90bee82-2934-4058-85c2-1ee62bc47609",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "prometheus"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-a90bee82-2934-4058-85c2-1ee62bc47609"
+                                },
+                                {
+                                  "id": "adca71b9-60f8-41b1-9769-e3544beb2bf3",
+                                  "name": "The requested resource was not found.",
+                                  "originalRequest": {
+                                    "method": "GET",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "prometheus"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-adca71b9-60f8-41b1-9769-e3544beb2bf3"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:37.000Z",
+                              "updatedAt": "2026-07-28T01:23:37.000Z",
+                              "uid": "35240-58a28546-ee69-415d-9da6-efe8a0b3e0ad"
+                            },
+                            {
+                              "name": "Enable Prometheus metric export",
+                              "id": "97701f82-43a3-4716-8bf1-d8e07b7a1ea5",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "metricexport",
+                                    "prometheus"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "91813c88-13d2-48b9-b3d2-1650aeae1cfa",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Enables Prometheus metric scraping endpoint for the specified cluster."
+                              },
+                              "response": [
+                                {
+                                  "id": "5e2cc7d2-28a2-4902-a6d3-410875d2b359",
+                                  "name": "Prometheus metric export enabled successfully.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "prometheus"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"cluster_id\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-5e2cc7d2-28a2-4902-a6d3-410875d2b359"
+                                },
+                                {
+                                  "id": "25759329-83c8-4d32-a0b1-bdf592afec93",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "POST",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "prometheus"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-25759329-83c8-4d32-a0b1-bdf592afec93"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:37.000Z",
+                              "updatedAt": "2026-07-28T01:23:37.000Z",
+                              "uid": "35240-97701f82-43a3-4716-8bf1-d8e07b7a1ea5"
+                            },
+                            {
+                              "name": "Disable Prometheus metric export",
+                              "id": "7e4d48e1-32b9-453d-bfdf-a9ac3012fe65",
+                              "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                              },
+                              "request": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "clusters",
+                                    ":cluster_id",
+                                    "metricexport",
+                                    "prometheus"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "id": "ab0e8164-a60c-4a06-91e7-03cc1f5abf89",
+                                      "key": "cluster_id",
+                                      "value": "<string>",
+                                      "description": "(Required) Unique identifier of the CockroachDB Cloud cluster."
+                                    }
+                                  ]
+                                },
+                                "description": "Disables Prometheus metric export for the specified cluster."
+                              },
+                              "response": [
+                                {
+                                  "id": "66aa1291-8b2f-446d-a7c1-8632be7d98a0",
+                                  "name": "Prometheus metric export disabled successfully.",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "prometheus"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "OK",
+                                  "code": 200,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"cluster_id\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-66aa1291-8b2f-446d-a7c1-8632be7d98a0"
+                                },
+                                {
+                                  "id": "84ed9f25-de5f-4834-924e-2dc6dcbf67c3",
+                                  "name": "Authentication credentials are missing or invalid.",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "prometheus"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Unauthorized",
+                                  "code": 401,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-84ed9f25-de5f-4834-924e-2dc6dcbf67c3"
+                                },
+                                {
+                                  "id": "97f1de61-5207-4740-b46c-cc3ab0b1a483",
+                                  "name": "The requested resource was not found.",
+                                  "originalRequest": {
+                                    "method": "DELETE",
+                                    "header": [
+                                      {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                      },
+                                      {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                      }
+                                    ],
+                                    "url": {
+                                      "raw": "{{baseUrl}}/api/v1/clusters/:cluster_id/metricexport/prometheus",
+                                      "host": [
+                                        "{{baseUrl}}"
+                                      ],
+                                      "path": [
+                                        "api",
+                                        "v1",
+                                        "clusters",
+                                        ":cluster_id",
+                                        "metricexport",
+                                        "prometheus"
+                                      ],
+                                      "variable": [
+                                        {
+                                          "key": "cluster_id"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "status": "Not Found",
+                                  "code": 404,
+                                  "_postman_previewlanguage": "json",
+                                  "header": [
+                                    {
+                                      "key": "Content-Type",
+                                      "value": "application/json"
+                                    }
+                                  ],
+                                  "cookie": [],
+                                  "responseTime": null,
+                                  "body": "{\n  \"code\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+                                  "createdAt": "2026-07-28T01:23:37.000Z",
+                                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                                  "uid": "35240-97f1de61-5207-4740-b46c-cc3ab0b1a483"
+                                }
+                              ],
+                              "createdAt": "2026-07-28T01:23:37.000Z",
+                              "updatedAt": "2026-07-28T01:23:37.000Z",
+                              "uid": "35240-7e4d48e1-32b9-453d-bfdf-a9ac3012fe65"
+                            }
+                          ],
+                          "id": "0c120ad8-5483-4ad1-9396-89e803c5612d",
+                          "createdAt": "2026-07-28T01:23:37.000Z",
+                          "updatedAt": "2026-07-28T01:23:37.000Z",
+                          "uid": "35240-0c120ad8-5483-4ad1-9396-89e803c5612d"
+                        }
+                      ],
+                      "id": "d29cd86f-5f95-4218-898a-498eb2f95a80",
+                      "createdAt": "2026-07-28T01:23:37.000Z",
+                      "updatedAt": "2026-07-28T01:23:37.000Z",
+                      "uid": "35240-d29cd86f-5f95-4218-898a-498eb2f95a80"
+                    }
+                  ],
+                  "id": "c4d86d8a-08ac-443d-b953-63f5951fafc4",
+                  "createdAt": "2026-07-28T01:23:37.000Z",
+                  "updatedAt": "2026-07-28T01:23:37.000Z",
+                  "uid": "35240-c4d86d8a-08ac-443d-b953-63f5951fafc4"
+                }
+              ],
+              "id": "d599f7d9-c17b-406c-a15d-f6e457fb71fa",
+              "createdAt": "2026-07-28T01:23:37.000Z",
+              "updatedAt": "2026-07-28T01:23:37.000Z",
+              "uid": "35240-d599f7d9-c17b-406c-a15d-f6e457fb71fa"
+            }
+          ],
+          "id": "db579464-deea-4285-b3d2-643acf5bad6a",
+          "createdAt": "2026-07-28T01:23:37.000Z",
+          "updatedAt": "2026-07-28T01:23:37.000Z",
+          "uid": "35240-db579464-deea-4285-b3d2-643acf5bad6a"
+        }
+      ],
+      "id": "c7f1f2fc-ca26-46c9-a8cb-6594a482f36b",
+      "createdAt": "2026-07-28T01:23:37.000Z",
+      "updatedAt": "2026-07-28T01:23:37.000Z",
+      "uid": "35240-c7f1f2fc-ca26-46c9-a8cb-6594a482f36b"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://cockroachlabs.cloud"
+    }
+  ]
+}
