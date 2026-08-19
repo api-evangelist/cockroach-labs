@@ -1,0 +1,137 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys JWTIssuers API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "JWTIssuers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List JWT issuers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers",
+            "params": [
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of JWT issuer configurations registered with the organization. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Add a JWT issuer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a new JWT issuer configuration for external identity provider integration. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Get a JWT issuer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieves a specific JWT issuer configuration by ID. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Update a JWT issuer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing JWT issuer configuration. Requires ORG_ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Delete a JWT issuer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/jwt-issuers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Removes a JWT issuer configuration by ID. Requires ORG_ADMIN role."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

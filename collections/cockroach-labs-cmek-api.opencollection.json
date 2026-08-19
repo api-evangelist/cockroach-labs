@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys CMEK API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CMEK",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get CMEK configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/cmek",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the customer-managed encryption key (CMEK) configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Enable CMEK",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/cmek",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enables customer-managed encryption keys for the specified cluster using the provided key specification."
+        },
+        {
+          "info": {
+            "name": "Update CMEK specification",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/cmek",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Replaces the CMEK key specification for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Update CMEK status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/cmek",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the operational status of CMEK for the specified cluster, such as rotating or revoking encryption keys."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,203 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys MetricExport API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "MetricExport",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get CloudWatch metric export configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the CloudWatch metric export configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Enable CloudWatch metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enables metric export to AWS CloudWatch for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Disable CloudWatch metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/cloudwatch",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Disables AWS CloudWatch metric export for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Get Datadog metric export configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/datadog",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the Datadog metric export configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Enable Datadog metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/datadog",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enables metric export to Datadog for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Disable Datadog metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/datadog",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Disables Datadog metric export for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Get Prometheus metric export configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/prometheus",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the Prometheus metric export configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Enable Prometheus metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/prometheus",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Enables Prometheus metric scraping endpoint for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Disable Prometheus metric export",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/metricexport/prometheus",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Disables Prometheus metric export for the specified cluster."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

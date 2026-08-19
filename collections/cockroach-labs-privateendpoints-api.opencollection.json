@@ -1,0 +1,129 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys PrivateEndpoints API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "PrivateEndpoints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List private endpoint services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-services",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Returns a list of private endpoint services configured for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Create private endpoint services",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-services",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Creates private endpoint services for the specified cluster to enable VPC-level private connectivity."
+        },
+        {
+          "info": {
+            "name": "List private endpoint connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-connections",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Returns a list of private endpoint connections for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Add a private endpoint connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-connections",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new private endpoint connection for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Delete a private endpoint connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/private-endpoint-connections/:endpoint_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "endpoint_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the private endpoint connection."
+              }
+            ]
+          },
+          "docs": "Removes a specific private endpoint connection from the cluster."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

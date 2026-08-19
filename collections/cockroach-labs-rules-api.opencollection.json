@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys Rules API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get alerting rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v2/rules/"
+          },
+          "docs": "Returns a Prometheus-compatible alerting rules template that can be used to configure alerting for CockroachDB cluster health and performance metrics. This endpoint does not require authentication."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

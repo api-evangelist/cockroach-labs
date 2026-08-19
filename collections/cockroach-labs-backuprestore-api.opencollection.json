@@ -1,0 +1,224 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys BackupRestore API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "BackupRestore",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List backups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/backups",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Filter backups created at or after this RFC3339 timestamp."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "Filter backups created before this RFC3339 timestamp."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of backups for the specified cluster, optionally filtered by start and end time. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "Get backup configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/backups-config",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the backup configuration for the specified cluster, including retention period and backup frequency."
+        },
+        {
+          "info": {
+            "name": "Update backup configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/backups-config",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the backup configuration for the specified cluster, including retention period and backup frequency settings."
+        },
+        {
+          "info": {
+            "name": "List restores",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/restores",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "start_time",
+                "value": "",
+                "type": "query",
+                "description": "Filter restores initiated at or after this RFC3339 timestamp."
+              },
+              {
+                "name": "end_time",
+                "value": "",
+                "type": "query",
+                "description": "Filter restores initiated before this RFC3339 timestamp."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of restore operations for the specified cluster. Supports pagination and time-based filtering."
+        },
+        {
+          "info": {
+            "name": "Create a restore",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/restores",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates a restore operation to restore a cluster from a backup. The destination_cluster_id identifies the target cluster to restore into."
+        },
+        {
+          "info": {
+            "name": "Get a restore",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/restores/:restore_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "restore_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the restore operation."
+              }
+            ]
+          },
+          "docs": "Retrieves the status and details of a specific restore operation by ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

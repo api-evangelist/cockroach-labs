@@ -1,0 +1,291 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys Clusters API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Clusters",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List clusters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters",
+            "params": [
+              {
+                "name": "show_inactive",
+                "value": "",
+                "type": "query",
+                "description": "If true, inactive clusters are included in the response."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of clusters in the organization. Inactive clusters can optionally be included using the showInactive query parameter. Supports pagination via page, limit, asOfTime, and sortOrder parameters."
+        },
+        {
+          "info": {
+            "name": "Create a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and initializes a new CockroachDB Serverless or Dedicated cluster within the organization. The request body specifies cluster configuration including cloud provider, regions, hardware, and plan type."
+        },
+        {
+          "info": {
+            "name": "Get a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves comprehensive information about a specific cluster identified by cluster_id, including its configuration, state, regions, version, and operational status."
+        },
+        {
+          "info": {
+            "name": "Update a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Modifies the configuration of an existing cluster, including scaling compute and storage resources, updating the CockroachDB version, or changing cluster settings. Only the fields specified in the request body are updated."
+        },
+        {
+          "info": {
+            "name": "Delete a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a cluster and all of its data. This operation cannot be undone. The cluster must not have delete protection enabled."
+        },
+        {
+          "info": {
+            "name": "Get connection string",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/connection-string",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "database",
+                "value": "",
+                "type": "query",
+                "description": "Name of the database to connect to."
+              },
+              {
+                "name": "sql_user",
+                "value": "",
+                "type": "query",
+                "description": "SQL username to include in the connection string."
+              },
+              {
+                "name": "os",
+                "value": "",
+                "type": "query",
+                "description": "Operating system for which to format the connection string. Accepted values are MAC, LINUX, WINDOWS."
+              }
+            ]
+          },
+          "docs": "Returns a formatted generic connection string for connecting to a cluster. Optionally scoped to a specific database, SQL user, and operating system format."
+        },
+        {
+          "info": {
+            "name": "List cluster nodes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/nodes",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "region_name",
+                "value": "",
+                "type": "query",
+                "description": "Filter nodes by the name of the cloud provider region."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of nodes for the specified cluster, optionally filtered by region name. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "List available regions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/available-regions",
+            "params": [
+              {
+                "name": "provider",
+                "value": "",
+                "type": "query",
+                "description": "Cloud provider to filter regions by. Accepted values are GCP, AWS, AZURE."
+              },
+              {
+                "name": "serverless",
+                "value": "",
+                "type": "query",
+                "description": "If true, only return regions that support serverless clusters."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              }
+            ]
+          },
+          "docs": "Returns a list of regions available for cluster or node creation, optionally filtered by cloud provider and whether serverless clusters are supported."
+        },
+        {
+          "info": {
+            "name": "List major cluster versions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/cluster-versions",
+            "params": [
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              }
+            ]
+          },
+          "docs": "Returns a list of available major CockroachDB cluster versions that can be used when creating or upgrading clusters."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,66 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys VersionDeferral API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "VersionDeferral",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get version deferral",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/version-deferral",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the version deferral policy for the specified cluster, indicating whether automatic version upgrades are deferred and for how long."
+        },
+        {
+          "info": {
+            "name": "Set version deferral",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/version-deferral",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets the version deferral policy for the specified cluster to delay automatic CockroachDB version upgrades."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

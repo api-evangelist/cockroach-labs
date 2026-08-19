@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys AuditLogs API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AuditLogs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List audit log events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/auditlogevents",
+            "params": [
+              {
+                "name": "starting_from",
+                "value": "",
+                "type": "query",
+                "description": "Exclusive timestamp for filtering audit log entries by creation time."
+              },
+              {
+                "name": "sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Pagination direction. Accepted values are ASC and DESC."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of entries to return per page."
+              }
+            ]
+          },
+          "docs": "Returns audit log events for the organization. Optionally filter by starting timestamp. Results are paginated by limit and ordered by sortOrder. Requires ORG_ADMIN role."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

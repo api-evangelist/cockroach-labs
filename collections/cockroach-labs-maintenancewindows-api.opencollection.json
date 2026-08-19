@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys MaintenanceWindows API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "MaintenanceWindows",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get maintenance window",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/maintenance-window",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Retrieves the maintenance window configuration for the specified cluster, defining when automatic upgrades and maintenance operations may occur."
+        },
+        {
+          "info": {
+            "name": "Set maintenance window",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/maintenance-window",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sets or replaces the maintenance window configuration for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Delete maintenance window",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/maintenance-window",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ]
+          },
+          "docs": "Removes the maintenance window configuration from the specified cluster, reverting to the default maintenance schedule."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

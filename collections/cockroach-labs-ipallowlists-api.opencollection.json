@@ -1,0 +1,156 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "CockroachDB Cloud APIKeys IPAllowlists API",
+    "version": "2024-09-16"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "IPAllowlists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List IP allowlist entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/allowlist",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "pagination.page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results, starting from 1."
+              },
+              {
+                "name": "pagination.limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of results to return per page."
+              },
+              {
+                "name": "pagination.as_of_time",
+                "value": "",
+                "type": "query",
+                "description": "RFC3339 timestamp to return results as they were at a specific point in time (time-travel query)."
+              },
+              {
+                "name": "pagination.sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction for paginated results. Accepted values are ASC and DESC."
+              }
+            ]
+          },
+          "docs": "Returns a list of IP allowlist entries for the specified cluster. Supports pagination."
+        },
+        {
+          "info": {
+            "name": "Add IP allowlist entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/allowlist",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new CIDR-based IP allowlist entry to the specified cluster to authorize inbound connections from a network range."
+        },
+        {
+          "info": {
+            "name": "Update IP allowlist entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/allowlist/:cidr_ip/:cidr_mask",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "cidr_ip",
+                "value": "",
+                "type": "path",
+                "description": "IPv4 address part of the CIDR range."
+              },
+              {
+                "name": "cidr_mask",
+                "value": "",
+                "type": "path",
+                "description": "Prefix length of the CIDR range (e.g. 24 for /24)."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the properties of an existing IP allowlist entry identified by CIDR IP and mask for the specified cluster."
+        },
+        {
+          "info": {
+            "name": "Delete IP allowlist entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cockroachlabs.cloud/api/v1/clusters/:cluster_id/networking/allowlist/:cidr_ip/:cidr_mask",
+            "params": [
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the CockroachDB Cloud cluster."
+              },
+              {
+                "name": "cidr_ip",
+                "value": "",
+                "type": "path",
+                "description": "IPv4 address part of the CIDR range."
+              },
+              {
+                "name": "cidr_mask",
+                "value": "",
+                "type": "path",
+                "description": "Prefix length of the CIDR range (e.g. 24 for /24)."
+              }
+            ]
+          },
+          "docs": "Removes an IP allowlist entry from the cluster identified by CIDR IP address and mask."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
