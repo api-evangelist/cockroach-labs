@@ -63,6 +63,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - Audit Logs
+  tags_raw:
   - AuditLogs
   properties:
   - type: OpenAPI
@@ -83,6 +85,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -140,6 +144,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - Cluster
+  tags_raw:
   - Clusters
   properties:
   - type: OpenAPI
@@ -310,6 +316,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - Maintenance Windows
+  tags_raw:
   - MaintenanceWindows
   properties:
   - type: OpenAPI
@@ -366,6 +374,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -385,6 +395,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - Private Endpoints
+  tags_raw:
   - PrivateEndpoints
   properties:
   - type: OpenAPI
@@ -425,6 +437,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - Role Management
+  tags_raw:
   - RoleManagement
   properties:
   - type: OpenAPI
@@ -462,6 +476,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - Service Accounts
+  tags_raw:
   - ServiceAccounts
   properties:
   - type: OpenAPI
