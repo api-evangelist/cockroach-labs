@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CockroachDB Cloud APIKeys API
+  title: CockroachDB Cloud API Keys API
   description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
   version: '2024-09-16'
   contact:
@@ -132,26 +132,46 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    CreateApiKeyRequest:
+      type: object
+      description: Request body for creating a new API key.
+      required:
+      - name
+      - service_account_id
+      properties:
+        name:
+          type: string
+          description: Name for the new API key.
+        service_account_id:
+          type: string
+          description: ID of the service account to associate the key with.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    ListApiKeysResponse:
+      type: object
+      description: Paginated list of API keys.
+      properties:
+        api_keys:
+          type: array
+          description: Array of API key objects.
+          items:
+            $ref: '#/components/schemas/ApiKey'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
     UpdateApiKeySpecification:
       type: object
       description: Specification for updating an API key's metadata.
@@ -176,15 +196,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the API key was created.
-    CreateApiKeyResponse:
-      type: object
-      description: Response from creating an API key. Contains the key secret which is only returned once and cannot be retrieved again.
-      properties:
-        api_key:
-          $ref: '#/components/schemas/ApiKey'
-        secret:
-          type: string
-          description: The secret value of the API key. Only returned on creation and not retrievable afterward.
     PaginationResponse:
       type: object
       description: Pagination metadata included in list responses.
@@ -199,66 +210,27 @@ components:
           type: string
           format: date-time
           description: Server time at which the paginated query was executed.
-    CreateApiKeyRequest:
+    CreateApiKeyResponse:
       type: object
-      description: Request body for creating a new API key.
-      required:
-      - name
-      - service_account_id
+      description: Response from creating an API key. Contains the key secret which is only returned once and cannot be retrieved again.
       properties:
-        name:
+        api_key:
+          $ref: '#/components/schemas/ApiKey'
+        secret:
           type: string
-          description: Name for the new API key.
-        service_account_id:
-          type: string
-          description: ID of the service account to associate the key with.
-    ListApiKeysResponse:
-      type: object
-      description: Paginated list of API keys.
-      properties:
-        api_keys:
-          type: array
-          description: Array of API key objects.
-          items:
-            $ref: '#/components/schemas/ApiKey'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
+          description: The secret value of the API key. Only returned on creation and not retrievable afterward.
   parameters:
-    paginationSortOrder:
-      name: pagination.sort_order
+    paginationPage:
+      name: pagination.page
       in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      description: Page number for paginated results, starting from 1.
       schema:
         type: string
-        enum:
-        - ASC
-        - DESC
     resourceId:
       name: id
       in: path
       required: true
       description: Unique identifier of the resource.
-      schema:
-        type: string
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
       schema:
         type: string
     paginationLimit:
@@ -270,6 +242,15 @@ components:
         format: int32
         minimum: 1
         maximum: 500
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
     paginationAsOfTime:
       name: pagination.as_of_time
       in: query
@@ -277,6 +258,25 @@ components:
       schema:
         type: string
         format: date-time
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

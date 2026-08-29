@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CockroachDB Cloud APIKeys LogExport API
+  title: CockroachDB Cloud Log Export API
   description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
   version: '2024-09-16'
   contact:
@@ -81,46 +81,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    EnableLogExportRequest:
-      type: object
-      description: Request body for enabling log export.
-      required:
-      - type
-      properties:
-        type:
-          type: string
-          description: Type of log export destination. Accepted values are AWS_CLOUDWATCH and GCP_CLOUD_LOGGING.
-          enum:
-          - AWS_CLOUDWATCH
-          - GCP_CLOUD_LOGGING
-        log_name:
-          type: string
-          description: Name for the log stream or log group.
-        groups:
-          type: array
-          description: Channel groups to export.
-          items:
-            type: object
     LogExportClusterInfo:
       type: object
       description: Log export configuration and status for a cluster.
@@ -149,6 +110,26 @@ components:
           description: Additional detail objects providing error context.
           items:
             type: object
+    EnableLogExportRequest:
+      type: object
+      description: Request body for enabling log export.
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: Type of log export destination. Accepted values are AWS_CLOUDWATCH and GCP_CLOUD_LOGGING.
+          enum:
+          - AWS_CLOUDWATCH
+          - GCP_CLOUD_LOGGING
+        log_name:
+          type: string
+          description: Name for the log stream or log group.
+        groups:
+          type: array
+          description: Channel groups to export.
+          items:
+            type: object
   parameters:
     clusterId:
       name: cluster_id
@@ -157,6 +138,25 @@ components:
       description: Unique identifier of the CockroachDB Cloud cluster.
       schema:
         type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CockroachDB Cloud APIKeys PrivateEndpoints API
+  title: CockroachDB Cloud Private Endpoints API
   description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
   version: '2024-09-16'
   contact:
@@ -123,6 +123,39 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    ListPrivateEndpointConnectionsResponse:
+      type: object
+      description: List of private endpoint connections for a cluster.
+      properties:
+        connections:
+          type: array
+          description: Array of private endpoint connection objects.
+          items:
+            $ref: '#/components/schemas/PrivateEndpointConnection'
+    AddPrivateEndpointConnectionRequest:
+      type: object
+      description: Request body for adding a private endpoint connection.
+      required:
+      - endpoint_id
+      properties:
+        endpoint_id:
+          type: string
+          description: Cloud provider endpoint identifier to connect.
     PrivateEndpointConnection:
       type: object
       description: Represents a private endpoint connection for VPC-level access to a CockroachDB cluster.
@@ -142,15 +175,6 @@ components:
         region_name:
           type: string
           description: Cloud region of the endpoint.
-    AddPrivateEndpointConnectionRequest:
-      type: object
-      description: Request body for adding a private endpoint connection.
-      required:
-      - endpoint_id
-      properties:
-        endpoint_id:
-          type: string
-          description: Cloud provider endpoint identifier to connect.
     ListPrivateEndpointServicesResponse:
       type: object
       description: List of private endpoint services for a cluster.
@@ -160,49 +184,6 @@ components:
           description: Array of private endpoint service objects.
           items:
             type: object
-    ListPrivateEndpointConnectionsResponse:
-      type: object
-      description: List of private endpoint connections for a cluster.
-      properties:
-        connections:
-          type: array
-          description: Array of private endpoint connection objects.
-          items:
-            $ref: '#/components/schemas/PrivateEndpointConnection'
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     endpointId:
       name: endpoint_id
@@ -218,6 +199,25 @@ components:
       description: Unique identifier of the CockroachDB Cloud cluster.
       schema:
         type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

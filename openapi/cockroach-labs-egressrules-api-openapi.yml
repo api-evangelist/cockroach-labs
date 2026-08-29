@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CockroachDB Cloud APIKeys EgressRules API
+  title: CockroachDB Cloud Egress Rules API
   description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
   version: '2024-09-16'
   contact:
@@ -140,76 +140,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    AddEgressRuleRequest:
-      type: object
-      description: Request body for adding an egress rule.
-      required:
-      - name
-      - destination
-      properties:
-        name:
-          type: string
-          description: Name for the new egress rule.
-        destination:
-          type: string
-          description: Destination FQDN or CIDR to allow outbound traffic to.
-        ports:
-          type: array
-          description: List of destination ports to allow.
-          items:
-            type: integer
-        type:
-          type: string
-          description: Rule type. Accepted values are FQDN and CIDR.
-    EditEgressRuleRequest:
-      type: object
-      description: Request body for updating an egress rule.
-      properties:
-        name:
-          type: string
-          description: New name for the egress rule.
-        destination:
-          type: string
-          description: New destination FQDN or CIDR for the rule.
-        ports:
-          type: array
-          description: Updated list of destination ports.
-          items:
-            type: integer
-    PaginationResponse:
-      type: object
-      description: Pagination metadata included in list responses.
-      properties:
-        next:
-          type: string
-          description: Token or cursor for retrieving the next page of results.
-        last:
-          type: string
-          description: Token or cursor for the last page of results.
-        time:
-          type: string
-          format: date-time
-          description: Server time at which the paginated query was executed.
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -246,6 +177,56 @@ components:
         type:
           type: string
           description: Type of egress rule (FQDN or CIDR).
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    EditEgressRuleRequest:
+      type: object
+      description: Request body for updating an egress rule.
+      properties:
+        name:
+          type: string
+          description: New name for the egress rule.
+        destination:
+          type: string
+          description: New destination FQDN or CIDR for the rule.
+        ports:
+          type: array
+          description: Updated list of destination ports.
+          items:
+            type: integer
+    AddEgressRuleRequest:
+      type: object
+      description: Request body for adding an egress rule.
+      required:
+      - name
+      - destination
+      properties:
+        name:
+          type: string
+          description: Name for the new egress rule.
+        destination:
+          type: string
+          description: Destination FQDN or CIDR to allow outbound traffic to.
+        ports:
+          type: array
+          description: List of destination ports to allow.
+          items:
+            type: integer
+        type:
+          type: string
+          description: Rule type. Accepted values are FQDN and CIDR.
     ListEgressRulesResponse:
       type: object
       description: Paginated list of egress rules for a cluster.
@@ -258,22 +239,19 @@ components:
         pagination:
           $ref: '#/components/schemas/PaginationResponse'
   parameters:
-    paginationSortOrder:
-      name: pagination.sort_order
+    paginationPage:
+      name: pagination.page
       in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      description: Page number for paginated results, starting from 1.
       schema:
         type: string
-        enum:
-        - ASC
-        - DESC
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
       schema:
         type: string
-        format: date-time
     paginationLimit:
       name: pagination.limit
       in: query
@@ -283,19 +261,15 @@ components:
         format: int32
         minimum: 1
         maximum: 500
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
-    paginationPage:
-      name: pagination.page
+    paginationSortOrder:
+      name: pagination.sort_order
       in: query
-      description: Page number for paginated results, starting from 1.
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
       schema:
         type: string
+        enum:
+        - ASC
+        - DESC
     ruleId:
       name: rule_id
       in: path
@@ -303,6 +277,32 @@ components:
       description: Unique identifier of the egress rule.
       schema:
         type: string
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

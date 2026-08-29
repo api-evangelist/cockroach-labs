@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CockroachDB Cloud APIKeys Organizations API
+  title: CockroachDB Cloud Organizations API
   description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
   version: '2024-09-16'
   contact:
@@ -35,35 +35,7 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
-  responses:
-    Forbidden:
-      description: The caller does not have permission to perform this operation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
     Organization:
       type: object
       description: Represents a CockroachDB Cloud organization, which is the top-level container for all clusters, users, and billing.
@@ -84,6 +56,34 @@ components:
           type: string
           format: date-time
           description: Timestamp when the organization was created.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The caller does not have permission to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CockroachDB Cloud APIKeys MaintenanceWindows API
+  title: CockroachDB Cloud Maintenance Windows API
   description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
   version: '2024-09-16'
   contact:
@@ -81,40 +81,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    MaintenanceWindow:
-      type: object
-      description: Defines the time window during which CockroachDB Cloud may perform automatic maintenance and version upgrade operations on a cluster.
-      properties:
-        day_of_week:
-          type: integer
-          description: Day of the week for maintenance. 0=Sunday, 6=Saturday.
-          minimum: 0
-          maximum: 6
-        start_hour:
-          type: integer
-          description: Hour of day (UTC) when the maintenance window begins.
-          minimum: 0
-          maximum: 23
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -130,6 +97,20 @@ components:
           description: Additional detail objects providing error context.
           items:
             type: object
+    MaintenanceWindow:
+      type: object
+      description: Defines the time window during which CockroachDB Cloud may perform automatic maintenance and version upgrade operations on a cluster.
+      properties:
+        day_of_week:
+          type: integer
+          description: Day of the week for maintenance. 0=Sunday, 6=Saturday.
+          minimum: 0
+          maximum: 6
+        start_hour:
+          type: integer
+          description: Hour of day (UTC) when the maintenance window begins.
+          minimum: 0
+          maximum: 23
   parameters:
     clusterId:
       name: cluster_id
@@ -138,6 +119,25 @@ components:
       description: Unique identifier of the CockroachDB Cloud cluster.
       schema:
         type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

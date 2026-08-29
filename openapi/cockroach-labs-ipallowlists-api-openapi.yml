@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CockroachDB Cloud APIKeys IPAllowlists API
+  title: CockroachDB Cloud IP Allowlists API
   description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
   version: '2024-09-16'
   contact:
@@ -127,29 +127,19 @@ components:
         type: integer
         minimum: 0
         maximum: 32
-    paginationSortOrder:
-      name: pagination.sort_order
+    paginationPage:
+      name: pagination.page
       in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      description: Page number for paginated results, starting from 1.
       schema:
         type: string
-        enum:
-        - ASC
-        - DESC
-    cidrIp:
-      name: cidr_ip
+    clusterId:
+      name: cluster_id
       in: path
       required: true
-      description: IPv4 address part of the CIDR range.
+      description: Unique identifier of the CockroachDB Cloud cluster.
       schema:
         type: string
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
     paginationLimit:
       name: pagination.limit
       in: query
@@ -159,53 +149,45 @@ components:
         format: int32
         minimum: 1
         maximum: 500
-    clusterId:
-      name: cluster_id
+    cidrIp:
+      name: cidr_ip
       in: path
       required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
+      description: IPv4 address part of the CIDR range.
       schema:
         type: string
-    paginationPage:
-      name: pagination.page
+    paginationSortOrder:
+      name: pagination.sort_order
       in: query
-      description: Page number for paginated results, starting from 1.
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        enum:
+        - ASC
+        - DESC
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
   schemas:
-    PaginationResponse:
+    Error:
       type: object
-      description: Pagination metadata included in list responses.
+      description: Standard error response returned by the API.
       properties:
-        next:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
           type: string
-          description: Token or cursor for retrieving the next page of results.
-        last:
-          type: string
-          description: Token or cursor for the last page of results.
-        time:
-          type: string
-          format: date-time
-          description: Server time at which the paginated query was executed.
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
     ListAllowlistEntriesResponse:
       type: object
       description: Paginated list of IP allowlist entries for a cluster.
@@ -241,21 +223,39 @@ components:
         sql:
           type: boolean
           description: Whether this entry grants SQL access.
-    Error:
+    PaginationResponse:
       type: object
-      description: Standard error response returned by the API.
+      description: Pagination metadata included in list responses.
       properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
+        next:
           type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: CockroachDB Cloud APIKeys JWTIssuers API
+  title: CockroachDB Cloud JWT Issuers API
   description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
   version: '2024-09-16'
   contact:
@@ -127,61 +127,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    UpdateJWTIssuerRequest:
-      type: object
-      description: Request body for updating a JWT issuer.
-      properties:
-        issuer_url:
-          type: string
-          description: Updated URL of the JWT issuer.
-        jwks_id:
-          type: string
-          description: Updated JWKS identifier.
-    ListJWTIssuersResponse:
-      type: object
-      description: Paginated list of JWT issuers.
-      properties:
-        issuers:
-          type: array
-          description: Array of JWT issuer objects.
-          items:
-            $ref: '#/components/schemas/JWTIssuer'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    PaginationResponse:
-      type: object
-      description: Pagination metadata included in list responses.
-      properties:
-        next:
-          type: string
-          description: Token or cursor for retrieving the next page of results.
-        last:
-          type: string
-          description: Token or cursor for the last page of results.
-        time:
-          type: string
-          format: date-time
-          description: Server time at which the paginated query was executed.
     AddJWTIssuerRequest:
       type: object
       description: Request body for adding a JWT issuer.
@@ -192,19 +138,6 @@ components:
         issuer_url:
           type: string
           description: URL of the JWT issuer.
-        jwks_id:
-          type: string
-          description: Identifier for the JSON Web Key Set.
-    JWTIssuer:
-      type: object
-      description: A JWT issuer configuration for external identity provider integration.
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the JWT issuer.
-        issuer_url:
-          type: string
-          description: URL of the JWT issuer (identity provider).
         jwks_id:
           type: string
           description: Identifier for the JSON Web Key Set.
@@ -223,16 +156,61 @@ components:
           description: Additional detail objects providing error context.
           items:
             type: object
+    UpdateJWTIssuerRequest:
+      type: object
+      description: Request body for updating a JWT issuer.
+      properties:
+        issuer_url:
+          type: string
+          description: Updated URL of the JWT issuer.
+        jwks_id:
+          type: string
+          description: Updated JWKS identifier.
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    ListJWTIssuersResponse:
+      type: object
+      description: Paginated list of JWT issuers.
+      properties:
+        issuers:
+          type: array
+          description: Array of JWT issuer objects.
+          items:
+            $ref: '#/components/schemas/JWTIssuer'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    JWTIssuer:
+      type: object
+      description: A JWT issuer configuration for external identity provider integration.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the JWT issuer.
+        issuer_url:
+          type: string
+          description: URL of the JWT issuer (identity provider).
+        jwks_id:
+          type: string
+          description: Identifier for the JSON Web Key Set.
   parameters:
-    paginationSortOrder:
-      name: pagination.sort_order
+    paginationPage:
+      name: pagination.page
       in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      description: Page number for paginated results, starting from 1.
       schema:
         type: string
-        enum:
-        - ASC
-        - DESC
     resourceId:
       name: id
       in: path
@@ -240,19 +218,6 @@ components:
       description: Unique identifier of the resource.
       schema:
         type: string
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
     paginationLimit:
       name: pagination.limit
       in: query
@@ -262,6 +227,41 @@ components:
         format: int32
         minimum: 1
         maximum: 500
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
