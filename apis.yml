@@ -29,18 +29,19 @@ accessModel:
   try_now: true
   public: false
   label: Freemium · Self-serve signup
-  confidence: high
+  confidence: medium
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cockroach-labs.png
 access: 3rd-Party
 kind: company
 created: '2024-11-24'
 modified: '2026-05-19'
-position: Consumer
+position: Consuming
 description: >-
   Cockroach Labs is the New York-based software company that builds CockroachDB, a cloud-native, distributed,
   PostgreSQL-compatible SQL database. CockroachDB is offered as Cockroach Labs' fully managed cloud service (Basic,
@@ -560,6 +561,9 @@ apis:
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
 common:
+  - type: CapabilityMap
+    url: capabilities/cockroach-labs-capability-edges.yml
+    name: Cockroach Labs Business Capability Map
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/cockroach-labs/overview
   - type: AgenticAccess
