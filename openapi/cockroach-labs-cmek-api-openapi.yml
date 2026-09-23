@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: CockroachDB Cloud CMEK API
-  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization.
   version: '2024-09-16'
   contact:
     name: Cockroach Labs Support
@@ -112,7 +112,43 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
   schemas:
+    UpdateCMEKStatusRequest:
+      type: object
+      description: Request body for updating CMEK operational status.
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          description: New CMEK status. Accepted values include REVOKE and ROTATE.
     CMEKClusterSpecification:
       type: object
       description: Specification defining the customer-managed encryption key configuration for a CockroachDB cluster.
@@ -131,6 +167,18 @@ components:
               key:
                 type: object
                 description: Key specification including type and URI.
+    CMEKClusterInfo:
+      type: object
+      description: Customer-managed encryption key configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this CMEK configuration applies to.
+        status:
+          type: string
+          description: Current CMEK operational status.
+        spec:
+          $ref: '#/components/schemas/CMEKClusterSpecification'
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -146,54 +194,6 @@ components:
           description: Additional detail objects providing error context.
           items:
             type: object
-    CMEKClusterInfo:
-      type: object
-      description: Customer-managed encryption key configuration for a cluster.
-      properties:
-        cluster_id:
-          type: string
-          description: ID of the cluster this CMEK configuration applies to.
-        status:
-          type: string
-          description: Current CMEK operational status.
-        spec:
-          $ref: '#/components/schemas/CMEKClusterSpecification'
-    UpdateCMEKStatusRequest:
-      type: object
-      description: Request body for updating CMEK operational status.
-      required:
-      - status
-      properties:
-        status:
-          type: string
-          description: New CMEK status. Accepted values include REVOKE and ROTATE.
-  parameters:
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

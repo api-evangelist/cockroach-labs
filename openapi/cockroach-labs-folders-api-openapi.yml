@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: CockroachDB Cloud Folders API
-  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization.
   version: '2024-09-16'
   contact:
     name: Cockroach Labs Support
@@ -156,57 +156,38 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
+    CreateFolderRequest:
       type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
-    UpdateFolderSpecification:
-      type: object
-      description: Specification for updating a folder.
+      description: Request body for creating a new folder.
+      required:
+      - name
       properties:
         name:
           type: string
-          description: New name for the folder.
+          description: Name for the new folder.
         parent_id:
           type: string
-          description: New parent folder ID to move the folder to.
-    ListFoldersResponse:
-      type: object
-      description: Paginated list of folders.
-      properties:
-        folders:
-          type: array
-          description: Array of folder objects.
-          items:
-            $ref: '#/components/schemas/Folder'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    PaginationResponse:
-      type: object
-      description: Pagination metadata included in list responses.
-      properties:
-        next:
-          type: string
-          description: Token or cursor for retrieving the next page of results.
-        last:
-          type: string
-          description: Token or cursor for the last page of results.
-        time:
-          type: string
-          format: date-time
-          description: Server time at which the paginated query was executed.
+          description: Parent folder ID to nest this folder under.
     Folder:
       type: object
       description: Represents a folder used to organize clusters and resources within a CockroachDB Cloud organization.
@@ -223,18 +204,41 @@ components:
         path:
           type: string
           description: Full path to the folder.
-    CreateFolderRequest:
+    UpdateFolderSpecification:
       type: object
-      description: Request body for creating a new folder.
-      required:
-      - name
+      description: Specification for updating a folder.
       properties:
         name:
           type: string
-          description: Name for the new folder.
+          description: New name for the folder.
         parent_id:
           type: string
-          description: Parent folder ID to nest this folder under.
+          description: New parent folder ID to move the folder to.
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    ListFoldersResponse:
+      type: object
+      description: Paginated list of folders.
+      properties:
+        folders:
+          type: array
+          description: Array of folder objects.
+          items:
+            $ref: '#/components/schemas/Folder'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
     ListFolderContentsResponse:
       type: object
       description: Contents of a folder including clusters and sub-folders.
@@ -242,6 +246,21 @@ components:
         resources:
           type: array
           description: Array of resource objects (clusters or folders).
+          items:
+            type: object
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
           items:
             type: object
   parameters:
@@ -269,13 +288,6 @@ components:
         enum:
         - ASC
         - DESC
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
     folderId:
       name: folder_id
       in: path
@@ -283,25 +295,13 @@ components:
       description: Unique identifier of the folder.
       schema:
         type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
   securitySchemes:
     bearerAuth:
       type: http

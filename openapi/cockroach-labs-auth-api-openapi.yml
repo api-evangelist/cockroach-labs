@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: CockroachDB Cluster Auth API
-  description: The CockroachDB Cluster API is a REST API hosted by all nodes of a CockroachDB cluster that provides programmatic access to cluster status, node information, session data, range details, and alerting rules. It is available on the same HTTP port used by the DB Console, defaulting to port 8080, and exposes endpoints under the /api/v2 base path. The API enables monitoring and troubleshooting workflows using any HTTP-capable tooling. Authentication requires requesting a session token via the /api/v2/login/ endpoint and passing it with subsequent requests using the X-Cockroach-API-Session header.
+  description: The CockroachDB Cluster API is a REST API hosted by all nodes of a CockroachDB cluster that provides programmatic access to cluster status, node information, session data, range details, and alerting rules.
   version: 2.0.0
   contact:
     name: Cockroach Labs Support
@@ -61,14 +61,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      description: Standard error response returned by the Cluster API.
-      properties:
-        error:
-          type: string
-          description: Human-readable description of the error.
     LoginRequest:
       type: object
       description: Credentials for authenticating to the Cluster API.
@@ -83,13 +83,6 @@ components:
           type: string
           description: Password for the SQL user.
           format: password
-    LogoutResponse:
-      type: object
-      description: Response from a logout request confirming session termination.
-      properties:
-        logged_out:
-          type: boolean
-          description: True if the session was successfully terminated.
     LoginResponse:
       type: object
       description: Response from a successful login request.
@@ -97,13 +90,20 @@ components:
         session:
           type: string
           description: Session token. Also returned in the X-Cockroach-API-Session response header for convenience.
-  responses:
-    Unauthorized:
-      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    LogoutResponse:
+      type: object
+      description: Response from a logout request confirming session termination.
+      properties:
+        logged_out:
+          type: boolean
+          description: True if the session was successfully terminated.
+    Error:
+      type: object
+      description: Standard error response returned by the Cluster API.
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the error.
   securitySchemes:
     sessionAuth:
       type: apiKey

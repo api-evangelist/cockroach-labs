@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: CockroachDB Cluster Health API
-  description: The CockroachDB Cluster API is a REST API hosted by all nodes of a CockroachDB cluster that provides programmatic access to cluster status, node information, session data, range details, and alerting rules. It is available on the same HTTP port used by the DB Console, defaulting to port 8080, and exposes endpoints under the /api/v2 base path. The API enables monitoring and troubleshooting workflows using any HTTP-capable tooling. Authentication requires requesting a session token via the /api/v2/login/ endpoint and passing it with subsequent requests using the X-Cockroach-API-Session header.
+  description: The CockroachDB Cluster API is a REST API hosted by all nodes of a CockroachDB cluster that provides programmatic access to cluster status, node information, session data, range details, and alerting rules.
   version: 2.0.0
   contact:
     name: Cockroach Labs Support

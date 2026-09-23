@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: CockroachDB Cloud Egress Rules API
-  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization.
   version: '2024-09-16'
   contact:
     name: Cockroach Labs Support
@@ -140,22 +140,87 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    ruleId:
+      name: rule_id
+      in: path
+      required: true
+      description: Unique identifier of the egress rule.
+      schema:
+        type: string
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
   schemas:
-    Error:
+    EditEgressRuleRequest:
       type: object
-      description: Standard error response returned by the API.
+      description: Request body for updating an egress rule.
       properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
+        name:
           type: string
-          description: Human-readable description of the error.
-        details:
+          description: New name for the egress rule.
+        destination:
+          type: string
+          description: New destination FQDN or CIDR for the rule.
+        ports:
           type: array
-          description: Additional detail objects providing error context.
+          description: Updated list of destination ports.
           items:
-            type: object
+            type: integer
     EgressRule:
       type: object
       description: Represents an egress traffic rule controlling outbound connections from a CockroachDB cluster.
@@ -177,35 +242,6 @@ components:
         type:
           type: string
           description: Type of egress rule (FQDN or CIDR).
-    PaginationResponse:
-      type: object
-      description: Pagination metadata included in list responses.
-      properties:
-        next:
-          type: string
-          description: Token or cursor for retrieving the next page of results.
-        last:
-          type: string
-          description: Token or cursor for the last page of results.
-        time:
-          type: string
-          format: date-time
-          description: Server time at which the paginated query was executed.
-    EditEgressRuleRequest:
-      type: object
-      description: Request body for updating an egress rule.
-      properties:
-        name:
-          type: string
-          description: New name for the egress rule.
-        destination:
-          type: string
-          description: New destination FQDN or CIDR for the rule.
-        ports:
-          type: array
-          description: Updated list of destination ports.
-          items:
-            type: integer
     AddEgressRuleRequest:
       type: object
       description: Request body for adding an egress rule.
@@ -227,6 +263,20 @@ components:
         type:
           type: string
           description: Rule type. Accepted values are FQDN and CIDR.
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
     ListEgressRulesResponse:
       type: object
       description: Paginated list of egress rules for a cluster.
@@ -238,71 +288,21 @@ components:
             $ref: '#/components/schemas/EgressRule'
         pagination:
           $ref: '#/components/schemas/PaginationResponse'
-  parameters:
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
-    paginationLimit:
-      name: pagination.limit
-      in: query
-      description: Maximum number of results to return per page.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 500
-    paginationSortOrder:
-      name: pagination.sort_order
-      in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-    ruleId:
-      name: rule_id
-      in: path
-      required: true
-      description: Unique identifier of the egress rule.
-      schema:
-        type: string
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
   securitySchemes:
     bearerAuth:
       type: http

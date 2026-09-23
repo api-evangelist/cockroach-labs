@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: CockroachDB Cloud Backup Restore API
-  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization.
   version: '2024-09-16'
   contact:
     name: Cockroach Labs Support
@@ -13,7 +13,7 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: BackupRestore
+- name: Backup Restore
   description: Manage cluster backups, backup configurations, and restore operations for CockroachDB clusters.
 paths:
   /api/v1/clusters/{cluster_id}/backups:
@@ -22,7 +22,7 @@ paths:
       summary: List backups
       description: Returns a list of backups for the specified cluster, optionally filtered by start and end time. Supports pagination.
       tags:
-      - BackupRestore
+      - Backup Restore
       parameters:
       - $ref: '#/components/parameters/clusterId'
       - name: start_time
@@ -58,7 +58,7 @@ paths:
       summary: Get backup configuration
       description: Retrieves the backup configuration for the specified cluster, including retention period and backup frequency.
       tags:
-      - BackupRestore
+      - Backup Restore
       parameters:
       - $ref: '#/components/parameters/clusterId'
       responses:
@@ -77,7 +77,7 @@ paths:
       summary: Update backup configuration
       description: Updates the backup configuration for the specified cluster, including retention period and backup frequency settings.
       tags:
-      - BackupRestore
+      - Backup Restore
       parameters:
       - $ref: '#/components/parameters/clusterId'
       requestBody:
@@ -105,7 +105,7 @@ paths:
       summary: List restores
       description: Returns a list of restore operations for the specified cluster. Supports pagination and time-based filtering.
       tags:
-      - BackupRestore
+      - Backup Restore
       parameters:
       - $ref: '#/components/parameters/clusterId'
       - name: start_time
@@ -140,7 +140,7 @@ paths:
       summary: Create a restore
       description: Initiates a restore operation to restore a cluster from a backup. The destination_cluster_id identifies the target cluster to restore into.
       tags:
-      - BackupRestore
+      - Backup Restore
       parameters:
       - $ref: '#/components/parameters/clusterId'
       requestBody:
@@ -166,7 +166,7 @@ paths:
       summary: Get a restore
       description: Retrieves the status and details of a specific restore operation by ID.
       tags:
-      - BackupRestore
+      - Backup Restore
       parameters:
       - $ref: '#/components/parameters/clusterId'
       - name: restore_id
@@ -187,7 +187,91 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
   schemas:
+    CreateRestoreRequest:
+      type: object
+      description: Request body for initiating a cluster restore.
+      required:
+      - backup_id
+      properties:
+        backup_id:
+          type: string
+          description: ID of the backup to restore from.
+        target:
+          type: object
+          description: Optional target specification for the restore.
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
     ListBackupsResponse:
       type: object
       description: Paginated list of cluster backups.
@@ -199,32 +283,6 @@ components:
             type: object
         pagination:
           $ref: '#/components/schemas/PaginationResponse'
-    ListRestoresResponse:
-      type: object
-      description: Paginated list of restore operations.
-      properties:
-        restores:
-          type: array
-          description: Array of restore operation objects.
-          items:
-            $ref: '#/components/schemas/Restore'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
     UpdateBackupConfigurationSpec:
       type: object
       description: Specification for updating backup configuration.
@@ -265,90 +323,32 @@ components:
           type: string
           format: date-time
           description: Timestamp when the restore was initiated.
-    PaginationResponse:
+    ListRestoresResponse:
       type: object
-      description: Pagination metadata included in list responses.
+      description: Paginated list of restore operations.
       properties:
-        next:
-          type: string
-          description: Token or cursor for retrieving the next page of results.
-        last:
-          type: string
-          description: Token or cursor for the last page of results.
-        time:
-          type: string
-          format: date-time
-          description: Server time at which the paginated query was executed.
-    CreateRestoreRequest:
+        restores:
+          type: array
+          description: Array of restore operation objects.
+          items:
+            $ref: '#/components/schemas/Restore'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    Error:
       type: object
-      description: Request body for initiating a cluster restore.
-      required:
-      - backup_id
+      description: Standard error response returned by the API.
       properties:
-        backup_id:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
           type: string
-          description: ID of the backup to restore from.
-        target:
-          type: object
-          description: Optional target specification for the restore.
-  parameters:
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
-    paginationLimit:
-      name: pagination.limit
-      in: query
-      description: Maximum number of results to return per page.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 500
-    paginationSortOrder:
-      name: pagination.sort_order
-      in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
   securitySchemes:
     bearerAuth:
       type: http

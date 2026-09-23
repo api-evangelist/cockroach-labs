@@ -1,0 +1,30 @@
+# Front Door AI Index — cockroach-labs — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: cockroach-labs
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.cockroachlabs.com
+  final_host: www.cockroachlabs.com
+  ownership: own
+  owner: cockroach-labs
+  shares_host_with:
+  - cockroachdb
+  inherited_from: null
+  verdict: scored
+  score: 21
+  host_score: 21
+  density: 16.54
+  words: 1270
+  tiers:
+    agentic: 16
+    core: 3
+    model: 2
+  ambiguous: 4
+  top_terms:
+    agentic: 16
+    agent: 4
+    AI: 3
+    ChatGPT: 1
+    OpenAI: 1

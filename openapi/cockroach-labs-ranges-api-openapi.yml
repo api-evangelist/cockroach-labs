@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: CockroachDB Cluster Ranges API
-  description: The CockroachDB Cluster API is a REST API hosted by all nodes of a CockroachDB cluster that provides programmatic access to cluster status, node information, session data, range details, and alerting rules. It is available on the same HTTP port used by the DB Console, defaulting to port 8080, and exposes endpoints under the /api/v2 base path. The API enables monitoring and troubleshooting workflows using any HTTP-capable tooling. Authentication requires requesting a session token via the /api/v2/login/ endpoint and passing it with subsequent requests using the X-Cockroach-API-Session header.
+  description: The CockroachDB Cluster API is a REST API hosted by all nodes of a CockroachDB cluster that provides programmatic access to cluster status, node information, session data, range details, and alerting rules.
   version: 2.0.0
   contact:
     name: Cockroach Labs Support
@@ -100,15 +100,26 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The authenticated user does not have admin privileges required to access this endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    nodeId:
-      name: node_id
-      in: path
-      required: true
-      description: Numeric identifier of the CockroachDB node.
-      schema:
-        type: integer
-        format: int32
     limit:
       name: limit
       in: query
@@ -118,14 +129,14 @@ components:
         format: int32
         minimum: 1
         maximum: 1000
-    rangeId:
-      name: range_id
+    nodeId:
+      name: node_id
       in: path
       required: true
-      description: Numeric identifier of the range.
+      description: Numeric identifier of the CockroachDB node.
       schema:
         type: integer
-        format: int64
+        format: int32
     offset:
       name: offset
       in: query
@@ -134,39 +145,15 @@ components:
         type: integer
         format: int32
         minimum: 0
+    rangeId:
+      name: range_id
+      in: path
+      required: true
+      description: Numeric identifier of the range.
+      schema:
+        type: integer
+        format: int64
   schemas:
-    Error:
-      type: object
-      description: Standard error response returned by the Cluster API.
-      properties:
-        error:
-          type: string
-          description: Human-readable description of the error.
-    ListHotRangesResponse:
-      type: object
-      description: Hot ranges across the cluster or filtered to a specific node.
-      properties:
-        ranges:
-          type: array
-          description: Array of hot range objects sorted by activity level.
-          items:
-            $ref: '#/components/schemas/HotRange'
-        next:
-          type: integer
-          description: Pagination cursor for the next page of hot range results.
-    RangeResponse:
-      type: object
-      description: Detailed information about a specific range from all replicas.
-      properties:
-        range_id:
-          type: integer
-          format: int64
-          description: Unique identifier of the range.
-        responses_by_node_id:
-          type: object
-          description: Map of node ID to the range information reported by that node's replica.
-          additionalProperties:
-            $ref: '#/components/schemas/RangeInfo'
     RangeInfo:
       type: object
       description: Information about a single range, including span, replica placement, lease holder, and per-replica statistics.
@@ -194,6 +181,64 @@ components:
         stats:
           type: object
           description: Aggregate statistics for the range including key/value counts.
+    HotRange:
+      type: object
+      description: A range identified as hot due to elevated query activity, including the range descriptor and per-second query throughput.
+      properties:
+        range_id:
+          type: integer
+          format: int64
+          description: Unique identifier of the hot range.
+        node_id:
+          type: integer
+          description: Node ID of the node reporting this hot range.
+        qps:
+          type: number
+          format: double
+          description: Queries per second observed on this range.
+        table_name:
+          type: string
+          description: Name of the table this range belongs to, if known.
+        db_name:
+          type: string
+          description: Name of the database this range belongs to, if known.
+        index_name:
+          type: string
+          description: Name of the index this range belongs to, if known.
+        schema_name:
+          type: string
+          description: Schema name for the table this range belongs to, if known.
+    ListHotRangesResponse:
+      type: object
+      description: Hot ranges across the cluster or filtered to a specific node.
+      properties:
+        ranges:
+          type: array
+          description: Array of hot range objects sorted by activity level.
+          items:
+            $ref: '#/components/schemas/HotRange'
+        next:
+          type: integer
+          description: Pagination cursor for the next page of hot range results.
+    ListNodeRangesResponse:
+      type: object
+      description: Range information for a specific node with pagination metadata.
+      properties:
+        ranges:
+          type: array
+          description: Array of range information objects for the node.
+          items:
+            $ref: '#/components/schemas/RangeInfo'
+        next:
+          type: integer
+          description: Offset for retrieving the next page of results.
+    Error:
+      type: object
+      description: Standard error response returned by the Cluster API.
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the error.
     RangeDescriptor:
       type: object
       description: Describes a range's identity, key bounds, and replica set.
@@ -223,64 +268,19 @@ components:
               replica_id:
                 type: integer
                 description: Unique identifier of this replica within the range.
-    ListNodeRangesResponse:
+    RangeResponse:
       type: object
-      description: Range information for a specific node with pagination metadata.
-      properties:
-        ranges:
-          type: array
-          description: Array of range information objects for the node.
-          items:
-            $ref: '#/components/schemas/RangeInfo'
-        next:
-          type: integer
-          description: Offset for retrieving the next page of results.
-    HotRange:
-      type: object
-      description: A range identified as hot due to elevated query activity, including the range descriptor and per-second query throughput.
+      description: Detailed information about a specific range from all replicas.
       properties:
         range_id:
           type: integer
           format: int64
-          description: Unique identifier of the hot range.
-        node_id:
-          type: integer
-          description: Node ID of the node reporting this hot range.
-        qps:
-          type: number
-          format: double
-          description: Queries per second observed on this range.
-        table_name:
-          type: string
-          description: Name of the table this range belongs to, if known.
-        db_name:
-          type: string
-          description: Name of the database this range belongs to, if known.
-        index_name:
-          type: string
-          description: Name of the index this range belongs to, if known.
-        schema_name:
-          type: string
-          description: Schema name for the table this range belongs to, if known.
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: The authenticated user does not have admin privileges required to access this endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+          description: Unique identifier of the range.
+        responses_by_node_id:
+          type: object
+          description: Map of node ID to the range information reported by that node's replica.
+          additionalProperties:
+            $ref: '#/components/schemas/RangeInfo'
   securitySchemes:
     sessionAuth:
       type: apiKey

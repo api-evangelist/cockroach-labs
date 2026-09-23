@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: CockroachDB Cluster Sessions API
-  description: The CockroachDB Cluster API is a REST API hosted by all nodes of a CockroachDB cluster that provides programmatic access to cluster status, node information, session data, range details, and alerting rules. It is available on the same HTTP port used by the DB Console, defaulting to port 8080, and exposes endpoints under the /api/v2 base path. The API enables monitoring and troubleshooting workflows using any HTTP-capable tooling. Authentication requires requesting a session token via the /api/v2/login/ endpoint and passing it with subsequent requests using the X-Cockroach-API-Session header.
+  description: The CockroachDB Cluster API is a REST API hosted by all nodes of a CockroachDB cluster that provides programmatic access to cluster status, node information, session data, range details, and alerting rules.
   version: 2.0.0
   contact:
     name: Cockroach Labs Support
@@ -48,14 +48,54 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The authenticated user does not have admin privileges required to access this endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of results to return in a single response.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
   schemas:
-    Error:
+    ListSessionsResponse:
       type: object
-      description: Standard error response returned by the Cluster API.
+      description: List of active SQL sessions across all cluster nodes.
       properties:
-        error:
-          type: string
-          description: Human-readable description of the error.
+        sessions:
+          type: array
+          description: Array of active session objects.
+          items:
+            $ref: '#/components/schemas/Session'
+        errors:
+          type: array
+          description: Errors encountered while collecting session data from individual nodes. Sessions from healthy nodes are still returned.
+          items:
+            type: object
+            properties:
+              node_id:
+                type: integer
+                description: Node ID that returned an error.
+              message:
+                type: string
+                description: Error message from the node.
+        next:
+          type: integer
+          description: Pagination cursor for the next page of session results.
     Session:
       type: object
       description: An active SQL session on the CockroachDB cluster, representing a connection from a client application.
@@ -98,53 +138,13 @@ components:
         active_txn:
           type: object
           description: Currently active transaction within this session, if any.
-    ListSessionsResponse:
+    Error:
       type: object
-      description: List of active SQL sessions across all cluster nodes.
+      description: Standard error response returned by the Cluster API.
       properties:
-        sessions:
-          type: array
-          description: Array of active session objects.
-          items:
-            $ref: '#/components/schemas/Session'
-        errors:
-          type: array
-          description: Errors encountered while collecting session data from individual nodes. Sessions from healthy nodes are still returned.
-          items:
-            type: object
-            properties:
-              node_id:
-                type: integer
-                description: Node ID that returned an error.
-              message:
-                type: string
-                description: Error message from the node.
-        next:
-          type: integer
-          description: Pagination cursor for the next page of session results.
-  parameters:
-    limit:
-      name: limit
-      in: query
-      description: Maximum number of results to return in a single response.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 1000
-  responses:
-    Forbidden:
-      description: The authenticated user does not have admin privileges required to access this endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        error:
+          type: string
+          description: Human-readable description of the error.
   securitySchemes:
     sessionAuth:
       type: apiKey

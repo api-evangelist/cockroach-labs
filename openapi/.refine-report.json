@@ -32,19 +32,23 @@
     "cockroach-labs-rules-api-openapi.yml",
     "cockroach-labs-sessions-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 7 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "cockroach-labs-cloud-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "cockroach-labs-cluster-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0"
+    "cockroach-labs-cluster-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: cockroach-labs-api-keys-api-openapi.yml, cockroach-labs-audit-logs-api-openapi.yml, cockroach-labs-backup-restore-api-openapi.yml, cockroach-labs-maintenance-windows-api-openapi.yml, cockroach-labs-private-endpoints-api-openapi.yml \u2026",
+    "apis.yml register: written (+7 apis, 26 total)"
   ],
   "skipped": [
-    "cockroach-labs-apikeys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cockroach-labs-auditlogs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cockroach-labs-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cockroach-labs-audit-logs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cockroach-labs-backuprestore-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cockroach-labs-backup-restore-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-billing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-clusters-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-cmek-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -55,15 +59,15 @@
     "cockroach-labs-ipallowlists-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-jwtissuers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-logexport-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cockroach-labs-maintenancewindows-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cockroach-labs-maintenance-windows-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-metricexport-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-nodes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cockroach-labs-privateendpoints-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cockroach-labs-private-endpoints-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-ranges-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cockroach-labs-rolemanagement-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cockroach-labs-role-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-rules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "cockroach-labs-serviceaccounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cockroach-labs-service-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-sqlusers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "cockroach-labs-versiondeferral-api-openapi.yml: previously refined output, superseded by openapi/_original/"

@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: CockroachDB Cloud Role Management API
-  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization. It enables developers and operators to create, configure, scale, and delete CockroachDB Serverless and Dedicated clusters without using the web console. The API supports cluster provisioning, node management, network authorization, customer-managed encryption keys, backup and restore, log and metric export, role management, and folder organization. Authentication is handled via bearer tokens, and the API is rate-limited to 10 requests per second per user.
+  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization.
   version: '2024-09-16'
   contact:
     name: Cockroach Labs Support
@@ -13,7 +13,7 @@ servers:
 security:
 - bearerAuth: []
 tags:
-- name: RoleManagement
+- name: Role Management
   description: Manage role-based access control, including assigning and removing roles for users across organization, folder, and cluster scopes.
 paths:
   /api/v1/roles:
@@ -22,7 +22,7 @@ paths:
       summary: List role grants
       description: Returns a list of all role grants across the organization. Supports pagination.
       tags:
-      - RoleManagement
+      - Role Management
       parameters:
       - $ref: '#/components/parameters/paginationPage'
       - $ref: '#/components/parameters/paginationLimit'
@@ -43,7 +43,7 @@ paths:
       summary: Get all roles for a user
       description: Returns all role grants assigned to the specified user across all resource scopes.
       tags:
-      - RoleManagement
+      - Role Management
       parameters:
       - $ref: '#/components/parameters/userId'
       responses:
@@ -62,7 +62,7 @@ paths:
       summary: Set roles for a user
       description: Replaces all role grants for the specified user with the provided set of roles. Requires ORG_ADMIN role.
       tags:
-      - RoleManagement
+      - Role Management
       parameters:
       - $ref: '#/components/parameters/userId'
       requestBody:
@@ -88,7 +88,7 @@ paths:
       summary: Add user to role
       description: Grants a specific role to a user for a particular resource. Requires ORG_ADMIN role.
       tags:
-      - RoleManagement
+      - Role Management
       parameters:
       - $ref: '#/components/parameters/userId'
       - $ref: '#/components/parameters/resourceType'
@@ -110,7 +110,7 @@ paths:
       summary: Remove user from role
       description: Revokes a specific role from a user for a particular resource. Requires ORG_ADMIN role.
       tags:
-      - RoleManagement
+      - Role Management
       parameters:
       - $ref: '#/components/parameters/userId'
       - $ref: '#/components/parameters/resourceType'
@@ -133,7 +133,7 @@ paths:
       summary: Get person users by email
       description: Looks up person (human) user accounts by email address. Useful for resolving user IDs before assigning roles.
       tags:
-      - RoleManagement
+      - Role Management
       parameters:
       - name: email
         in: query
@@ -152,76 +152,25 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  schemas:
-    GetPersonUsersByEmailResponse:
-      type: object
-      description: Person user accounts matching the queried email address.
-      properties:
-        users:
-          type: array
-          description: Array of user account objects.
-          items:
-            type: object
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
-    PaginationResponse:
-      type: object
-      description: Pagination metadata included in list responses.
-      properties:
-        next:
-          type: string
-          description: Token or cursor for retrieving the next page of results.
-        last:
-          type: string
-          description: Token or cursor for the last page of results.
-        time:
-          type: string
-          format: date-time
-          description: Server time at which the paginated query was executed.
-    SetRolesForUserRequest:
-      type: object
-      description: Request body for setting all roles for a user.
-      required:
-      - roles
-      properties:
-        roles:
-          type: array
-          description: Complete set of role grants to assign to the user.
-          items:
-            type: object
-    ListRoleGrantsResponse:
-      type: object
-      description: Paginated list of role grants in the organization.
-      properties:
-        grants:
-          type: array
-          description: Array of role grant objects.
-          items:
-            type: object
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    GetAllRolesForUserResponse:
-      type: object
-      description: All role grants assigned to a specific user.
-      properties:
-        roles:
-          type: array
-          description: Array of role grant objects.
-          items:
-            type: object
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     paginationPage:
       name: pagination.page
@@ -245,6 +194,15 @@ components:
         format: int32
         minimum: 1
         maximum: 500
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
     userId:
       name: user_id
       in: path
@@ -252,13 +210,13 @@ components:
       description: Unique identifier of the user.
       schema:
         type: string
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+    roleName:
+      name: role_name
+      in: path
+      required: true
+      description: Name of the role to grant or revoke.
       schema:
         type: string
-        format: date-time
     resourceType:
       name: resource_type
       in: path
@@ -270,41 +228,83 @@ components:
         - ORGANIZATION
         - FOLDER
         - CLUSTER
-    paginationSortOrder:
-      name: pagination.sort_order
+    paginationAsOfTime:
+      name: pagination.as_of_time
       in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
       schema:
         type: string
-        enum:
-        - ASC
-        - DESC
-    roleName:
-      name: role_name
-      in: path
-      required: true
-      description: Name of the role to grant or revoke.
-      schema:
-        type: string
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        format: date-time
+  schemas:
+    ListRoleGrantsResponse:
+      type: object
+      description: Paginated list of role grants in the organization.
+      properties:
+        grants:
+          type: array
+          description: Array of role grant objects.
+          items:
+            type: object
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    SetRolesForUserRequest:
+      type: object
+      description: Request body for setting all roles for a user.
+      required:
+      - roles
+      properties:
+        roles:
+          type: array
+          description: Complete set of role grants to assign to the user.
+          items:
+            type: object
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    GetPersonUsersByEmailResponse:
+      type: object
+      description: Person user accounts matching the queried email address.
+      properties:
+        users:
+          type: array
+          description: Array of user account objects.
+          items:
+            type: object
+    GetAllRolesForUserResponse:
+      type: object
+      description: All role grants assigned to a specific user.
+      properties:
+        roles:
+          type: array
+          description: Array of role grant objects.
+          items:
+            type: object
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
   securitySchemes:
     bearerAuth:
       type: http
