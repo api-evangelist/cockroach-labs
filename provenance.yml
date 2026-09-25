@@ -9,21 +9,18 @@ artifacts:
   authentication/cockroach-labs-authentication.yml:
     method: derived
     evidence: declared in the artifact
-  capabilities/cockroach-labs-capability-edges.yml:
+  collections/cockroach-labs-apikeys-api.opencollection.json:
     method: unknown
     evidence: no authorship recorded
-  collections/cockroach-labs-apikeys-api.opencollection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-apikeys-api
   collections/cockroach-labs-apikeys-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-apikeys-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-auditlogs-api.opencollection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-auditlogs-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-auditlogs-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-auditlogs-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-auth-api.opencollection.json:
     method: derived
     evidence: openapi/cockroach-labs-auth-api
@@ -31,11 +28,11 @@ artifacts:
     method: derived
     evidence: openapi/cockroach-labs-auth-api
   collections/cockroach-labs-backuprestore-api.opencollection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-backuprestore-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-backuprestore-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-backuprestore-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-billing-api.opencollection.json:
     method: derived
     evidence: openapi/cockroach-labs-billing-api
@@ -109,11 +106,11 @@ artifacts:
     method: derived
     evidence: openapi/cockroach-labs-logexport-api
   collections/cockroach-labs-maintenancewindows-api.opencollection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-maintenancewindows-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-maintenancewindows-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-maintenancewindows-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-metricexport-api.opencollection.json:
     method: derived
     evidence: openapi/cockroach-labs-metricexport-api
@@ -133,11 +130,11 @@ artifacts:
     method: derived
     evidence: openapi/cockroach-labs-organizations-api
   collections/cockroach-labs-privateendpoints-api.opencollection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-privateendpoints-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-privateendpoints-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-privateendpoints-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-ranges-api.opencollection.json:
     method: derived
     evidence: openapi/cockroach-labs-ranges-api
@@ -145,11 +142,11 @@ artifacts:
     method: derived
     evidence: openapi/cockroach-labs-ranges-api
   collections/cockroach-labs-rolemanagement-api.opencollection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-rolemanagement-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-rolemanagement-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-rolemanagement-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-rules-api.opencollection.json:
     method: derived
     evidence: openapi/cockroach-labs-rules-api
@@ -157,11 +154,11 @@ artifacts:
     method: derived
     evidence: openapi/cockroach-labs-rules-api
   collections/cockroach-labs-serviceaccounts-api.opencollection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-serviceaccounts-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-serviceaccounts-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-serviceaccounts-api
+    method: unknown
+    evidence: no authorship recorded
   collections/cockroach-labs-sessions-api.opencollection.json:
     method: derived
     evidence: openapi/cockroach-labs-sessions-api
@@ -183,61 +180,16 @@ artifacts:
   finops/cockroach-labs-finops.yml:
     method: generated
     evidence: declared in the artifact
+  front-door-ai/2026-09-17.yml:
+    method: unknown
+    evidence: no authorship recorded
   json-ld/cockroach-labs-context.jsonld:
     method: unknown
     evidence: no authorship recorded
   json-schema/cockroach-labs-cluster-schema.json:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-06T210741.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-07T135032.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T093022.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T111628.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-11T211707.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-12T193225.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-17T064519.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T080027.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T082702.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T114122.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T165047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T191845.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T205517.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-21T110057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T064859.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T171257.yml:
+  kin/checks-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-25T125852.yml:
@@ -324,22 +276,141 @@ artifacts:
   kin/score-2026-09-05T072335.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T144739.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T195450.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T211839.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T011047.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T224210.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T200636.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T213054.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T214843.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T232836.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T204815.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T222408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T062655.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T080032.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T204651.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T221936.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-13T214537.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T064754.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T210656.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T225847.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T211329.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T230249.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T210549.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T225339.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T211151.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T233623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T205255.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T231945.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T165737.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T193153.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T205903.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T232958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T211425.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T233935.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-22T213221.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-23T000603.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T064009.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T090406.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T161608.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   openapi/_original/cockroach-labs-cloud-api-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/cockroach-labs-cluster-api-openapi.yml:
     method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
-  openapi/cockroach-labs-apikeys-api-openapi.yml:
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/cockroach-labs-api-keys-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cockroach-labs-auditlogs-api-openapi.yml:
+  openapi/cockroach-labs-audit-logs-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/cockroach-labs-auth-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cockroach-labs-backuprestore-api-openapi.yml:
+  openapi/cockroach-labs-backup-restore-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/cockroach-labs-billing-api-openapi.yml:
@@ -372,7 +443,7 @@ artifacts:
   openapi/cockroach-labs-logexport-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cockroach-labs-maintenancewindows-api-openapi.yml:
+  openapi/cockroach-labs-maintenance-windows-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/cockroach-labs-metricexport-api-openapi.yml:
@@ -384,19 +455,19 @@ artifacts:
   openapi/cockroach-labs-organizations-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cockroach-labs-privateendpoints-api-openapi.yml:
+  openapi/cockroach-labs-private-endpoints-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/cockroach-labs-ranges-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cockroach-labs-rolemanagement-api-openapi.yml:
+  openapi/cockroach-labs-role-management-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/cockroach-labs-rules-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/cockroach-labs-serviceaccounts-api-openapi.yml:
+  openapi/cockroach-labs-service-accounts-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/cockroach-labs-sessions-api-openapi.yml:
@@ -412,17 +483,17 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   postman/cockroach-labs-apikeys-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-apikeys-api
+    method: unknown
+    evidence: no authorship recorded
   postman/cockroach-labs-auditlogs-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-auditlogs-api
+    method: unknown
+    evidence: no authorship recorded
   postman/cockroach-labs-auth-api.postman_collection.json:
     method: derived
     evidence: openapi/cockroach-labs-auth-api
   postman/cockroach-labs-backuprestore-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-backuprestore-api
+    method: unknown
+    evidence: no authorship recorded
   postman/cockroach-labs-billing-api.postman_collection.json:
     method: derived
     evidence: openapi/cockroach-labs-billing-api
@@ -454,8 +525,8 @@ artifacts:
     method: derived
     evidence: openapi/cockroach-labs-logexport-api
   postman/cockroach-labs-maintenancewindows-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-maintenancewindows-api
+    method: unknown
+    evidence: no authorship recorded
   postman/cockroach-labs-metricexport-api.postman_collection.json:
     method: derived
     evidence: openapi/cockroach-labs-metricexport-api
@@ -466,20 +537,20 @@ artifacts:
     method: derived
     evidence: openapi/cockroach-labs-organizations-api
   postman/cockroach-labs-privateendpoints-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-privateendpoints-api
+    method: unknown
+    evidence: no authorship recorded
   postman/cockroach-labs-ranges-api.postman_collection.json:
     method: derived
     evidence: openapi/cockroach-labs-ranges-api
   postman/cockroach-labs-rolemanagement-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-rolemanagement-api
+    method: unknown
+    evidence: no authorship recorded
   postman/cockroach-labs-rules-api.postman_collection.json:
     method: derived
     evidence: openapi/cockroach-labs-rules-api
   postman/cockroach-labs-serviceaccounts-api.postman_collection.json:
-    method: derived
-    evidence: openapi/cockroach-labs-serviceaccounts-api
+    method: unknown
+    evidence: no authorship recorded
   postman/cockroach-labs-sessions-api.postman_collection.json:
     method: derived
     evidence: openapi/cockroach-labs-sessions-api
