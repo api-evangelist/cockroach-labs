@@ -187,25 +187,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     clusterId:
       name: cluster_id
@@ -214,12 +195,13 @@ components:
       description: Unique identifier of the CockroachDB Cloud cluster.
       schema:
         type: string
-    paginationPage:
-      name: pagination.page
+    paginationAsOfTime:
+      name: pagination.as_of_time
       in: query
-      description: Page number for paginated results, starting from 1.
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
       schema:
         type: string
+        format: date-time
     paginationLimit:
       name: pagination.limit
       in: query
@@ -229,6 +211,12 @@ components:
         format: int32
         minimum: 1
         maximum: 500
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
     paginationSortOrder:
       name: pagination.sort_order
       in: query
@@ -238,26 +226,17 @@ components:
         enum:
         - ASC
         - DESC
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
   schemas:
-    CreateRestoreRequest:
+    UpdateBackupConfigurationSpec:
       type: object
-      description: Request body for initiating a cluster restore.
-      required:
-      - backup_id
+      description: Specification for updating backup configuration.
       properties:
-        backup_id:
-          type: string
-          description: ID of the backup to restore from.
-        target:
-          type: object
-          description: Optional target specification for the restore.
+        frequency_minutes:
+          type: integer
+          description: New backup frequency in minutes.
+        retention_days:
+          type: integer
+          description: New retention period in days.
     PaginationResponse:
       type: object
       description: Pagination metadata included in list responses.
@@ -272,40 +251,6 @@ components:
           type: string
           format: date-time
           description: Server time at which the paginated query was executed.
-    ListBackupsResponse:
-      type: object
-      description: Paginated list of cluster backups.
-      properties:
-        backups:
-          type: array
-          description: Array of backup objects.
-          items:
-            type: object
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    UpdateBackupConfigurationSpec:
-      type: object
-      description: Specification for updating backup configuration.
-      properties:
-        frequency_minutes:
-          type: integer
-          description: New backup frequency in minutes.
-        retention_days:
-          type: integer
-          description: New retention period in days.
-    BackupConfiguration:
-      type: object
-      description: Backup configuration settings for a CockroachDB cluster.
-      properties:
-        cluster_id:
-          type: string
-          description: Cluster ID the configuration applies to.
-        frequency_minutes:
-          type: integer
-          description: How often backups are taken, in minutes.
-        retention_days:
-          type: integer
-          description: Number of days backups are retained.
     Restore:
       type: object
       description: Represents a restore operation on a CockroachDB cluster.
@@ -323,6 +268,17 @@ components:
           type: string
           format: date-time
           description: Timestamp when the restore was initiated.
+    ListBackupsResponse:
+      type: object
+      description: Paginated list of cluster backups.
+      properties:
+        backups:
+          type: array
+          description: Array of backup objects.
+          items:
+            type: object
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
     ListRestoresResponse:
       type: object
       description: Paginated list of restore operations.
@@ -334,6 +290,31 @@ components:
             $ref: '#/components/schemas/Restore'
         pagination:
           $ref: '#/components/schemas/PaginationResponse'
+    CreateRestoreRequest:
+      type: object
+      description: Request body for initiating a cluster restore.
+      required:
+      - backup_id
+      properties:
+        backup_id:
+          type: string
+          description: ID of the backup to restore from.
+        target:
+          type: object
+          description: Optional target specification for the restore.
+    BackupConfiguration:
+      type: object
+      description: Backup configuration settings for a CockroachDB cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: Cluster ID the configuration applies to.
+        frequency_minutes:
+          type: integer
+          description: How often backups are taken, in minutes.
+        retention_days:
+          type: integer
+          description: Number of days backups are retained.
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -349,6 +330,25 @@ components:
           description: Additional detail objects providing error context.
           items:
             type: object
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

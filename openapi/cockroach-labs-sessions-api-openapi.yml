@@ -48,29 +48,6 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: The authenticated user does not have admin privileges required to access this endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    limit:
-      name: limit
-      in: query
-      description: Maximum number of results to return in a single response.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 1000
   schemas:
     ListSessionsResponse:
       type: object
@@ -145,6 +122,29 @@ components:
         error:
           type: string
           description: Human-readable description of the error.
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of results to return in a single response.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
+  responses:
+    Forbidden:
+      description: The authenticated user does not have admin privileges required to access this endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     sessionAuth:
       type: apiKey

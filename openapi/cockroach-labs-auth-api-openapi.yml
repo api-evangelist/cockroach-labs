@@ -69,6 +69,13 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    LoginResponse:
+      type: object
+      description: Response from a successful login request.
+      properties:
+        session:
+          type: string
+          description: Session token. Also returned in the X-Cockroach-API-Session response header for convenience.
     LoginRequest:
       type: object
       description: Credentials for authenticating to the Cluster API.
@@ -83,13 +90,6 @@ components:
           type: string
           description: Password for the SQL user.
           format: password
-    LoginResponse:
-      type: object
-      description: Response from a successful login request.
-      properties:
-        session:
-          type: string
-          description: Session token. Also returned in the X-Cockroach-API-Session response header for convenience.
     LogoutResponse:
       type: object
       description: Response from a logout request confirming session termination.

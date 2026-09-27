@@ -112,15 +112,17 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
   responses:
     BadRequest:
       description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
       content:
         application/json:
           schema:
@@ -131,14 +133,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     UpdateCMEKStatusRequest:
       type: object
@@ -149,6 +149,18 @@ components:
         status:
           type: string
           description: New CMEK status. Accepted values include REVOKE and ROTATE.
+    CMEKClusterInfo:
+      type: object
+      description: Customer-managed encryption key configuration for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this CMEK configuration applies to.
+        status:
+          type: string
+          description: Current CMEK operational status.
+        spec:
+          $ref: '#/components/schemas/CMEKClusterSpecification'
     CMEKClusterSpecification:
       type: object
       description: Specification defining the customer-managed encryption key configuration for a CockroachDB cluster.
@@ -167,18 +179,6 @@ components:
               key:
                 type: object
                 description: Key specification including type and URI.
-    CMEKClusterInfo:
-      type: object
-      description: Customer-managed encryption key configuration for a cluster.
-      properties:
-        cluster_id:
-          type: string
-          description: ID of the cluster this CMEK configuration applies to.
-        status:
-          type: string
-          description: Current CMEK operational status.
-        spec:
-          $ref: '#/components/schemas/CMEKClusterSpecification'
     Error:
       type: object
       description: Standard error response returned by the API.

@@ -72,14 +72,14 @@ components:
           format: date-time
           description: Timestamp when the organization was created.
   responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
+    Forbidden:
+      description: The caller does not have permission to perform this operation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: The caller does not have permission to perform this operation.
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
       content:
         application/json:
           schema:

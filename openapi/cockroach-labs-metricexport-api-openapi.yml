@@ -201,47 +201,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
   schemas:
-    DatadogMetricExportInfo:
+    EnableDatadogMetricExportRequest:
       type: object
-      description: Datadog metric export configuration for a cluster.
+      description: Request body for enabling Datadog metric export.
+      required:
+      - api_key
       properties:
-        cluster_id:
+        api_key:
           type: string
-          description: ID of the cluster this configuration applies to.
-        status:
-          type: string
-          description: Current status of Datadog metric export.
+          description: Datadog API key for authentication.
         site:
           type: string
-          description: Datadog site to export metrics to.
+          description: Datadog site endpoint (e.g. US1, EU1).
     PrometheusMetricExportInfo:
       type: object
       description: Prometheus metric export configuration for a cluster.
@@ -264,18 +236,19 @@ components:
         target_region:
           type: string
           description: AWS region where metrics should be exported.
-    EnableDatadogMetricExportRequest:
+    DatadogMetricExportInfo:
       type: object
-      description: Request body for enabling Datadog metric export.
-      required:
-      - api_key
+      description: Datadog metric export configuration for a cluster.
       properties:
-        api_key:
+        cluster_id:
           type: string
-          description: Datadog API key for authentication.
+          description: ID of the cluster this configuration applies to.
+        status:
+          type: string
+          description: Current status of Datadog metric export.
         site:
           type: string
-          description: Datadog site endpoint (e.g. US1, EU1).
+          description: Datadog site to export metrics to.
     CloudWatchMetricExportInfo:
       type: object
       description: AWS CloudWatch metric export configuration for a cluster.
@@ -304,6 +277,33 @@ components:
           description: Additional detail objects providing error context.
           items:
             type: object
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
