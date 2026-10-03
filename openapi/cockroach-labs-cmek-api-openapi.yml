@@ -112,43 +112,22 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    UpdateCMEKStatusRequest:
+    Error:
       type: object
-      description: Request body for updating CMEK operational status.
-      required:
-      - status
+      description: Standard error response returned by the API.
       properties:
-        status:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
           type: string
-          description: New CMEK status. Accepted values include REVOKE and ROTATE.
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
     CMEKClusterInfo:
       type: object
       description: Customer-managed encryption key configuration for a cluster.
@@ -161,6 +140,15 @@ components:
           description: Current CMEK operational status.
         spec:
           $ref: '#/components/schemas/CMEKClusterSpecification'
+    UpdateCMEKStatusRequest:
+      type: object
+      description: Request body for updating CMEK operational status.
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          description: New CMEK status. Accepted values include REVOKE and ROTATE.
     CMEKClusterSpecification:
       type: object
       description: Specification defining the customer-managed encryption key configuration for a CockroachDB cluster.
@@ -179,21 +167,33 @@ components:
               key:
                 type: object
                 description: Key specification including type and URI.
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -39,36 +39,25 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   schemas:
-    NodeDescriptor:
+    Error:
       type: object
-      description: Identifies and locates a specific node within the CockroachDB cluster.
+      description: Standard error response returned by the Cluster API.
       properties:
-        node_id:
-          type: integer
-          format: int32
-          description: Numeric identifier of the node.
-        address:
-          $ref: '#/components/schemas/Address'
-        attrs:
-          type: object
-          description: Node attribute key-value pairs used for zone configuration.
-        locality:
-          $ref: '#/components/schemas/Locality'
-        server_version:
-          type: object
-          description: CockroachDB server version running on this node.
-        build_tag:
+        error:
           type: string
-          description: Build tag string for the CockroachDB binary.
-        started_at:
+          description: Human-readable description of the error.
+    ListNodesResponse:
+      type: object
+      description: List of nodes in the CockroachDB cluster with pagination metadata.
+      properties:
+        nodes:
+          type: array
+          description: Array of node status objects.
+          items:
+            $ref: '#/components/schemas/NodeStatus'
+        next:
           type: integer
-          format: int64
-          description: Unix nanosecond timestamp when the node started.
-        cluster_name:
-          type: string
-          description: Name of the cluster this node belongs to.
-        sql_address:
-          $ref: '#/components/schemas/Address'
+          description: Offset value to use to retrieve the next page of results. Absent when there are no more results.
     NodeStatus:
       type: object
       description: Status and metadata for a single node in the CockroachDB cluster, including address, build details, locality, store information, and activity metrics.
@@ -134,6 +123,36 @@ components:
         address_field:
           type: string
           description: Host and port of the node (e.g. 10.0.0.1:26257).
+    NodeDescriptor:
+      type: object
+      description: Identifies and locates a specific node within the CockroachDB cluster.
+      properties:
+        node_id:
+          type: integer
+          format: int32
+          description: Numeric identifier of the node.
+        address:
+          $ref: '#/components/schemas/Address'
+        attrs:
+          type: object
+          description: Node attribute key-value pairs used for zone configuration.
+        locality:
+          $ref: '#/components/schemas/Locality'
+        server_version:
+          type: object
+          description: CockroachDB server version running on this node.
+        build_tag:
+          type: string
+          description: Build tag string for the CockroachDB binary.
+        started_at:
+          type: integer
+          format: int64
+          description: Unix nanosecond timestamp when the node started.
+        cluster_name:
+          type: string
+          description: Name of the cluster this node belongs to.
+        sql_address:
+          $ref: '#/components/schemas/Address'
     BuildInfo:
       type: object
       description: Build and version metadata for the CockroachDB binary on a node.
@@ -165,25 +184,19 @@ components:
         channel:
           type: string
           description: Release channel the binary belongs to.
-    ListNodesResponse:
-      type: object
-      description: List of nodes in the CockroachDB cluster with pagination metadata.
-      properties:
-        nodes:
-          type: array
-          description: Array of node status objects.
-          items:
-            $ref: '#/components/schemas/NodeStatus'
-        next:
-          type: integer
-          description: Offset value to use to retrieve the next page of results. Absent when there are no more results.
-    Error:
-      type: object
-      description: Standard error response returned by the Cluster API.
-      properties:
-        error:
-          type: string
-          description: Human-readable description of the error.
+  responses:
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The authenticated user does not have admin privileges required to access this endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     limit:
       name: limit
@@ -202,19 +215,6 @@ components:
         type: integer
         format: int32
         minimum: 0
-  responses:
-    Forbidden:
-      description: The authenticated user does not have admin privileges required to access this endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     sessionAuth:
       type: apiKey

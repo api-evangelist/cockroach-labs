@@ -61,14 +61,21 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      description: Standard error response returned by the Cluster API.
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the error.
+    LogoutResponse:
+      type: object
+      description: Response from a logout request confirming session termination.
+      properties:
+        logged_out:
+          type: boolean
+          description: True if the session was successfully terminated.
     LoginResponse:
       type: object
       description: Response from a successful login request.
@@ -90,20 +97,13 @@ components:
           type: string
           description: Password for the SQL user.
           format: password
-    LogoutResponse:
-      type: object
-      description: Response from a logout request confirming session termination.
-      properties:
-        logged_out:
-          type: boolean
-          description: True if the session was successfully terminated.
-    Error:
-      type: object
-      description: Standard error response returned by the Cluster API.
-      properties:
-        error:
-          type: string
-          description: Human-readable description of the error.
+  responses:
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     sessionAuth:
       type: apiKey

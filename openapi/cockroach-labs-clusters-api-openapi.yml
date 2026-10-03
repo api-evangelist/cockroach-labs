@@ -248,32 +248,26 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    PaginationResponse:
-      type: object
-      description: Pagination metadata included in list responses.
-      properties:
-        next:
-          type: string
-          description: Token or cursor for retrieving the next page of results.
-        last:
-          type: string
-          description: Token or cursor for the last page of results.
-        time:
-          type: string
-          format: date-time
-          description: Server time at which the paginated query was executed.
-    ListAvailableRegionsResponse:
-      type: object
-      description: Paginated list of available cloud regions.
-      properties:
-        regions:
-          type: array
-          description: Array of available region objects.
-          items:
-            $ref: '#/components/schemas/AvailableRegion'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
     DedicatedClusterConfig:
       type: object
       description: Configuration specific to CockroachDB Dedicated clusters.
@@ -293,6 +287,84 @@ components:
         disk_iops:
           type: integer
           description: Disk IOPS allocated per node.
+    ListClusterNodesResponse:
+      type: object
+      description: Paginated list of nodes in a cluster.
+      properties:
+        nodes:
+          type: array
+          description: Array of node objects.
+          items:
+            $ref: '#/components/schemas/ClusterNode'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    ListMajorClusterVersionsResponse:
+      type: object
+      description: List of available major CockroachDB versions.
+      properties:
+        versions:
+          type: array
+          description: Array of version objects.
+          items:
+            type: object
+            properties:
+              version:
+                type: string
+                description: Major version string.
+    ListAvailableRegionsResponse:
+      type: object
+      description: Paginated list of available cloud regions.
+      properties:
+        regions:
+          type: array
+          description: Array of available region objects.
+          items:
+            $ref: '#/components/schemas/AvailableRegion'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    UpdateClusterSpecification:
+      type: object
+      description: Specification for modifying an existing cluster's configuration.
+      properties:
+        dedicated:
+          type: object
+          description: Updated dedicated cluster configuration fields.
+        serverless:
+          type: object
+          description: Updated serverless cluster configuration fields.
+        cockroach_version:
+          type: string
+          description: Target CockroachDB version for the upgrade.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    Region:
+      type: object
+      description: A geographic region where the cluster or its nodes are deployed.
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Cloud provider region identifier (e.g. us-east-1).
+        sql_dns:
+          type: string
+          description: DNS hostname for SQL connections routed to this region.
+        node_count:
+          type: integer
+          description: Number of nodes in this region.
     Cluster:
       type: object
       description: Represents a CockroachDB Cloud cluster, which is an instance of CockroachDB running in one or more cloud regions on Serverless or Dedicated infrastructure.
@@ -413,19 +485,20 @@ components:
         parent_id:
           type: string
           description: Folder ID to place the cluster in, if applicable.
-    ServerlessClusterConfig:
+    PaginationResponse:
       type: object
-      description: Configuration specific to CockroachDB Serverless clusters.
+      description: Pagination metadata included in list responses.
       properties:
-        spend_limit:
-          type: integer
-          description: Monthly spend limit in US cents. 0 means no limit.
-        routing_id:
+        next:
           type: string
-          description: Unique routing identifier for the serverless cluster.
-        usage_limits:
-          type: object
-          description: Usage-based limits for request units and storage.
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
     ClusterConfig:
       type: object
       description: Configuration settings for a CockroachDB cluster.
@@ -434,73 +507,6 @@ components:
           $ref: '#/components/schemas/ServerlessClusterConfig'
         dedicated:
           $ref: '#/components/schemas/DedicatedClusterConfig'
-    Region:
-      type: object
-      description: A geographic region where the cluster or its nodes are deployed.
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Cloud provider region identifier (e.g. us-east-1).
-        sql_dns:
-          type: string
-          description: DNS hostname for SQL connections routed to this region.
-        node_count:
-          type: integer
-          description: Number of nodes in this region.
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
-    ClusterNode:
-      type: object
-      description: Represents an individual node within a CockroachDB cluster.
-      properties:
-        name:
-          type: string
-          description: Node name or identifier.
-        region_name:
-          type: string
-          description: Cloud region the node is deployed in.
-        status:
-          type: string
-          description: Current operational status of the node.
-    UpdateClusterSpecification:
-      type: object
-      description: Specification for modifying an existing cluster's configuration.
-      properties:
-        dedicated:
-          type: object
-          description: Updated dedicated cluster configuration fields.
-        serverless:
-          type: object
-          description: Updated serverless cluster configuration fields.
-        cockroach_version:
-          type: string
-          description: Target CockroachDB version for the upgrade.
-    ListClusterNodesResponse:
-      type: object
-      description: Paginated list of nodes in a cluster.
-      properties:
-        nodes:
-          type: array
-          description: Array of node objects.
-          items:
-            $ref: '#/components/schemas/ClusterNode'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
     AvailableRegion:
       type: object
       description: A cloud provider region available for cluster deployment.
@@ -514,19 +520,19 @@ components:
         serverless:
           type: boolean
           description: Whether this region supports Serverless clusters.
-    ListMajorClusterVersionsResponse:
+    ClusterNode:
       type: object
-      description: List of available major CockroachDB versions.
+      description: Represents an individual node within a CockroachDB cluster.
       properties:
-        versions:
-          type: array
-          description: Array of version objects.
-          items:
-            type: object
-            properties:
-              version:
-                type: string
-                description: Major version string.
+        name:
+          type: string
+          description: Node name or identifier.
+        region_name:
+          type: string
+          description: Cloud region the node is deployed in.
+        status:
+          type: string
+          description: Current operational status of the node.
     ListClustersResponse:
       type: object
       description: Paginated list of clusters in the organization.
@@ -545,26 +551,26 @@ components:
         connection_string:
           type: string
           description: Formatted connection string for the cluster.
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    ServerlessClusterConfig:
+      type: object
+      description: Configuration specific to CockroachDB Serverless clusters.
+      properties:
+        spend_limit:
+          type: integer
+          description: Monthly spend limit in US cents. 0 means no limit.
+        routing_id:
+          type: string
+          description: Unique routing identifier for the serverless cluster.
+        usage_limits:
+          type: object
+          description: Usage-based limits for request units and storage.
   parameters:
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
     paginationAsOfTime:
       name: pagination.as_of_time
       in: query
@@ -572,12 +578,6 @@ components:
       schema:
         type: string
         format: date-time
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
     paginationSortOrder:
       name: pagination.sort_order
       in: query

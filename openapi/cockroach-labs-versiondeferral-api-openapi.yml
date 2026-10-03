@@ -62,25 +62,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
   schemas:
-    ClusterVersionDeferral:
-      type: object
-      description: Version deferral policy for a cluster, controlling whether automatic CockroachDB version upgrades are deferred.
-      properties:
-        deferral_policy:
-          type: string
-          description: Deferral policy. Values include NOT_DEFERRED (upgrades proceed immediately) and FIXED_DEFERRAL (upgrades are delayed).
-          enum:
-          - NOT_DEFERRED
-          - FIXED_DEFERRAL
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -96,13 +78,17 @@ components:
           description: Additional detail objects providing error context.
           items:
             type: object
+    ClusterVersionDeferral:
+      type: object
+      description: Version deferral policy for a cluster, controlling whether automatic CockroachDB version upgrades are deferred.
+      properties:
+        deferral_policy:
+          type: string
+          description: Deferral policy. Values include NOT_DEFERRED (upgrades proceed immediately) and FIXED_DEFERRAL (upgrades are delayed).
+          enum:
+          - NOT_DEFERRED
+          - FIXED_DEFERRAL
   responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Authentication credentials are missing or invalid.
       content:
@@ -115,6 +101,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

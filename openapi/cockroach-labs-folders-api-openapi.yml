@@ -156,46 +156,22 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
-    paginationLimit:
-      name: pagination.limit
-      in: query
-      description: Maximum number of results to return per page.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 500
-    folderId:
-      name: folder_id
-      in: path
-      required: true
-      description: Unique identifier of the folder.
-      schema:
-        type: string
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
-    paginationSortOrder:
-      name: pagination.sort_order
-      in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
   schemas:
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
     PaginationResponse:
       type: object
       description: Pagination metadata included in list responses.
@@ -226,27 +202,6 @@ components:
         path:
           type: string
           description: Full path to the folder.
-    ListFoldersResponse:
-      type: object
-      description: Paginated list of folders.
-      properties:
-        folders:
-          type: array
-          description: Array of folder objects.
-          items:
-            $ref: '#/components/schemas/Folder'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    UpdateFolderSpecification:
-      type: object
-      description: Specification for updating a folder.
-      properties:
-        name:
-          type: string
-          description: New name for the folder.
-        parent_id:
-          type: string
-          description: New parent folder ID to move the folder to.
     CreateFolderRequest:
       type: object
       description: Request body for creating a new folder.
@@ -268,21 +223,66 @@ components:
           description: Array of resource objects (clusters or folders).
           items:
             type: object
-    Error:
+    UpdateFolderSpecification:
       type: object
-      description: Standard error response returned by the API.
+      description: Specification for updating a folder.
       properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
+        name:
           type: string
-          description: Human-readable description of the error.
-        details:
+          description: New name for the folder.
+        parent_id:
+          type: string
+          description: New parent folder ID to move the folder to.
+    ListFoldersResponse:
+      type: object
+      description: Paginated list of folders.
+      properties:
+        folders:
           type: array
-          description: Additional detail objects providing error context.
+          description: Array of folder objects.
           items:
-            type: object
+            $ref: '#/components/schemas/Folder'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+  parameters:
+    folderId:
+      name: folder_id
+      in: path
+      required: true
+      description: Unique identifier of the folder.
+      schema:
+        type: string
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid.
@@ -290,14 +290,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
+    BadRequest:
+      description: The request body or parameters are invalid.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
+    NotFound:
+      description: The requested resource was not found.
       content:
         application/json:
           schema:

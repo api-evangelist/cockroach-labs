@@ -49,30 +49,13 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   schemas:
-    ListSessionsResponse:
+    Error:
       type: object
-      description: List of active SQL sessions across all cluster nodes.
+      description: Standard error response returned by the Cluster API.
       properties:
-        sessions:
-          type: array
-          description: Array of active session objects.
-          items:
-            $ref: '#/components/schemas/Session'
-        errors:
-          type: array
-          description: Errors encountered while collecting session data from individual nodes. Sessions from healthy nodes are still returned.
-          items:
-            type: object
-            properties:
-              node_id:
-                type: integer
-                description: Node ID that returned an error.
-              message:
-                type: string
-                description: Error message from the node.
-        next:
-          type: integer
-          description: Pagination cursor for the next page of session results.
+        error:
+          type: string
+          description: Human-readable description of the error.
     Session:
       type: object
       description: An active SQL session on the CockroachDB cluster, representing a connection from a client application.
@@ -115,13 +98,43 @@ components:
         active_txn:
           type: object
           description: Currently active transaction within this session, if any.
-    Error:
+    ListSessionsResponse:
       type: object
-      description: Standard error response returned by the Cluster API.
+      description: List of active SQL sessions across all cluster nodes.
       properties:
-        error:
-          type: string
-          description: Human-readable description of the error.
+        sessions:
+          type: array
+          description: Array of active session objects.
+          items:
+            $ref: '#/components/schemas/Session'
+        errors:
+          type: array
+          description: Errors encountered while collecting session data from individual nodes. Sessions from healthy nodes are still returned.
+          items:
+            type: object
+            properties:
+              node_id:
+                type: integer
+                description: Node ID that returned an error.
+              message:
+                type: string
+                description: Error message from the node.
+        next:
+          type: integer
+          description: Pagination cursor for the next page of session results.
+  responses:
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The authenticated user does not have admin privileges required to access this endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     limit:
       name: limit
@@ -132,19 +145,6 @@ components:
         format: int32
         minimum: 1
         maximum: 1000
-  responses:
-    Forbidden:
-      description: The authenticated user does not have admin privileges required to access this endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     sessionAuth:
       type: apiKey
