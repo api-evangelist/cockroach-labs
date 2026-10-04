@@ -39,64 +39,37 @@ paths:
           $ref: '#/components/responses/Forbidden'
 components:
   schemas:
-    Error:
+    BuildInfo:
       type: object
-      description: Standard error response returned by the Cluster API.
+      description: Build and version metadata for the CockroachDB binary on a node.
       properties:
-        error:
+        go_version:
           type: string
-          description: Human-readable description of the error.
-    ListNodesResponse:
-      type: object
-      description: List of nodes in the CockroachDB cluster with pagination metadata.
-      properties:
-        nodes:
-          type: array
-          description: Array of node status objects.
-          items:
-            $ref: '#/components/schemas/NodeStatus'
-        next:
-          type: integer
-          description: Offset value to use to retrieve the next page of results. Absent when there are no more results.
-    NodeStatus:
-      type: object
-      description: Status and metadata for a single node in the CockroachDB cluster, including address, build details, locality, store information, and activity metrics.
-      properties:
-        desc:
-          $ref: '#/components/schemas/NodeDescriptor'
-        build_info:
-          $ref: '#/components/schemas/BuildInfo'
-        started_at:
-          type: integer
-          format: int64
-          description: Unix nanosecond timestamp when the node process started.
-        updated_at:
-          type: integer
-          format: int64
-          description: Unix nanosecond timestamp of the most recent status update.
-        metrics:
-          type: object
-          description: Map of metric name to value for this node, covering CPU, memory, disk, network, and SQL throughput metrics.
-          additionalProperties:
-            type: number
-        store_statuses:
-          type: array
-          description: Status objects for each store (disk) on this node.
-          items:
-            type: object
-        args:
-          type: array
-          description: Command-line arguments the node process was started with.
-          items:
-            type: string
-        env:
-          type: array
-          description: Environment variables set in the node process.
-          items:
-            type: string
-        activity:
-          type: object
-          description: Per-node activity metrics including bytes sent and received.
+          description: Go runtime version used to build CockroachDB.
+        tag:
+          type: string
+          description: Git tag of the CockroachDB release.
+        time:
+          type: string
+          description: Build timestamp.
+        revision:
+          type: string
+          description: Git revision hash of the build.
+        cgo_compiler:
+          type: string
+          description: CGO compiler version used in the build.
+        platform:
+          type: string
+          description: Target platform for the build (e.g. linux amd64).
+        distribution:
+          type: string
+          description: CockroachDB distribution type (e.g. CCL or OSS).
+        type:
+          type: string
+          description: Build type (e.g. release or development).
+        channel:
+          type: string
+          description: Release channel the binary belongs to.
     Locality:
       type: object
       description: Geographic or topological locality tiers assigned to the node, used for zone configuration and replica placement.
@@ -113,6 +86,25 @@ components:
               value:
                 type: string
                 description: Locality tier value (e.g. us-east-1, us-east-1a).
+    ListNodesResponse:
+      type: object
+      description: List of nodes in the CockroachDB cluster with pagination metadata.
+      properties:
+        nodes:
+          type: array
+          description: Array of node status objects.
+          items:
+            $ref: '#/components/schemas/NodeStatus'
+        next:
+          type: integer
+          description: Offset value to use to retrieve the next page of results. Absent when there are no more results.
+    Error:
+      type: object
+      description: Standard error response returned by the Cluster API.
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the error.
     Address:
       type: object
       description: Network address of a CockroachDB node.
@@ -153,50 +145,45 @@ components:
           description: Name of the cluster this node belongs to.
         sql_address:
           $ref: '#/components/schemas/Address'
-    BuildInfo:
+    NodeStatus:
       type: object
-      description: Build and version metadata for the CockroachDB binary on a node.
+      description: Status and metadata for a single node in the CockroachDB cluster, including address, build details, locality, store information, and activity metrics.
       properties:
-        go_version:
-          type: string
-          description: Go runtime version used to build CockroachDB.
-        tag:
-          type: string
-          description: Git tag of the CockroachDB release.
-        time:
-          type: string
-          description: Build timestamp.
-        revision:
-          type: string
-          description: Git revision hash of the build.
-        cgo_compiler:
-          type: string
-          description: CGO compiler version used in the build.
-        platform:
-          type: string
-          description: Target platform for the build (e.g. linux amd64).
-        distribution:
-          type: string
-          description: CockroachDB distribution type (e.g. CCL or OSS).
-        type:
-          type: string
-          description: Build type (e.g. release or development).
-        channel:
-          type: string
-          description: Release channel the binary belongs to.
-  responses:
-    Unauthorized:
-      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: The authenticated user does not have admin privileges required to access this endpoint.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+        desc:
+          $ref: '#/components/schemas/NodeDescriptor'
+        build_info:
+          $ref: '#/components/schemas/BuildInfo'
+        started_at:
+          type: integer
+          format: int64
+          description: Unix nanosecond timestamp when the node process started.
+        updated_at:
+          type: integer
+          format: int64
+          description: Unix nanosecond timestamp of the most recent status update.
+        metrics:
+          type: object
+          description: Map of metric name to value for this node, covering CPU, memory, disk, network, and SQL throughput metrics.
+          additionalProperties:
+            type: number
+        store_statuses:
+          type: array
+          description: Status objects for each store (disk) on this node.
+          items:
+            type: object
+        args:
+          type: array
+          description: Command-line arguments the node process was started with.
+          items:
+            type: string
+        env:
+          type: array
+          description: Environment variables set in the node process.
+          items:
+            type: string
+        activity:
+          type: object
+          description: Per-node activity metrics including bytes sent and received.
   parameters:
     limit:
       name: limit
@@ -215,6 +202,19 @@ components:
         type: integer
         format: int32
         minimum: 0
+  responses:
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The authenticated user does not have admin privileges required to access this endpoint.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     sessionAuth:
       type: apiKey

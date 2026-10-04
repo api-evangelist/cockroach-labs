@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-update-cluster-specification-schema.json",
+  "title": "UpdateClusterSpecification",
+  "description": "Specification for modifying an existing cluster's configuration.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/UpdateClusterSpecification",
+  "type": "object",
+  "properties": {
+    "dedicated": {
+      "type": "object",
+      "description": "Updated dedicated cluster configuration fields."
+    },
+    "serverless": {
+      "type": "object",
+      "description": "Updated serverless cluster configuration fields."
+    },
+    "cockroach_version": {
+      "type": "string",
+      "description": "Target CockroachDB version for the upgrade."
+    }
+  }
+}

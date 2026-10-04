@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-enable-datadog-metric-export-request-schema.json",
+  "title": "EnableDatadogMetricExportRequest",
+  "description": "Request body for enabling Datadog metric export.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-metricexport-api-openapi.yml#/components/schemas/EnableDatadogMetricExportRequest",
+  "type": "object",
+  "required": [
+    "api_key"
+  ],
+  "properties": {
+    "api_key": {
+      "type": "string",
+      "description": "Datadog API key for authentication."
+    },
+    "site": {
+      "type": "string",
+      "description": "Datadog site endpoint (e.g. US1, EU1)."
+    }
+  }
+}

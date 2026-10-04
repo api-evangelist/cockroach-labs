@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-invoices-response-schema.json",
+  "title": "ListInvoicesResponse",
+  "description": "List of invoices for the organization.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-billing-api-openapi.yml#/components/schemas/ListInvoicesResponse",
+  "type": "object",
+  "properties": {
+    "invoices": {
+      "type": "array",
+      "description": "Array of invoice objects.",
+      "items": {
+        "$ref": "#/$defs/Invoice"
+      }
+    }
+  },
+  "$defs": {
+    "Invoice": {
+      "type": "object",
+      "description": "A billing invoice for a CockroachDB Cloud organization.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the invoice."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the invoice. Values include Finalized and Draft."
+        },
+        "period_start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start of the billing period covered by this invoice."
+        },
+        "period_end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End of the billing period covered by this invoice."
+        },
+        "total_amount": {
+          "type": "number",
+          "description": "Total invoice amount in US cents."
+        }
+      }
+    }
+  }
+}

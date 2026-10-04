@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-hot-ranges-response-schema.json",
+  "title": "ListHotRangesResponse",
+  "description": "Hot ranges across the cluster or filtered to a specific node.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-ranges-api-openapi.yml#/components/schemas/ListHotRangesResponse",
+  "type": "object",
+  "properties": {
+    "ranges": {
+      "type": "array",
+      "description": "Array of hot range objects sorted by activity level.",
+      "items": {
+        "$ref": "#/$defs/HotRange"
+      }
+    },
+    "next": {
+      "type": "integer",
+      "description": "Pagination cursor for the next page of hot range results."
+    }
+  },
+  "$defs": {
+    "HotRange": {
+      "type": "object",
+      "description": "A range identified as hot due to elevated query activity, including the range descriptor and per-second query throughput.",
+      "properties": {
+        "range_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unique identifier of the hot range."
+        },
+        "node_id": {
+          "type": "integer",
+          "description": "Node ID of the node reporting this hot range."
+        },
+        "qps": {
+          "type": "number",
+          "format": "double",
+          "description": "Queries per second observed on this range."
+        },
+        "table_name": {
+          "type": "string",
+          "description": "Name of the table this range belongs to, if known."
+        },
+        "db_name": {
+          "type": "string",
+          "description": "Name of the database this range belongs to, if known."
+        },
+        "index_name": {
+          "type": "string",
+          "description": "Name of the index this range belongs to, if known."
+        },
+        "schema_name": {
+          "type": "string",
+          "description": "Schema name for the table this range belongs to, if known."
+        }
+      }
+    }
+  }
+}

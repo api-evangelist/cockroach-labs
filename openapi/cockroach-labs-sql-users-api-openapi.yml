@@ -1,0 +1,419 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@cockroachlabs.com
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  description: An API for managing CockroachDB Cloud resources
+  title: CockroachDB Cloud SQL Users API
+  version: '2026-09-15'
+servers:
+- url: https://cockroachlabs.cloud
+security:
+- Bearer: []
+tags:
+- name: SQL Users
+paths:
+  /api/v1/clusters/{cluster_id}/sql-users:
+    get:
+      operationId: CockroachCloud_ListSQLUsers
+      summary: List SQL users for a cluster
+      description: 'Sort order: Username
+
+
+        Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - CLUSTER_DEVELOPER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: pagination.page
+        in: query
+        schema:
+          type: string
+      - name: pagination.limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pagination.as_of_time
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: pagination.sort_order
+        in: query
+        description: " - ASC: Sort in ascending order. This is the default unless otherwise specified.\n - DESC: Sort in descending order."
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSQLUsersResponse'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - SQL Users
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url 'https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/sql-users?pagination.page=SOME_STRING_VALUE&pagination.limit=SOME_INTEGER_VALUE&pagination.as_of_time=SOME_STRING_VALUE&pagination.sort_order=SOME_STRING_VALUE' \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    post:
+      operationId: CockroachCloud_CreateSQLUser
+      summary: Create a new SQL user
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSQLUserBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLUser'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - SQL Users
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request POST \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/sql-users \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"name\":\"example_username\",\"password\":\"example_password\"}'"
+  /api/v1/clusters/{cluster_id}/sql-users/{name}:
+    delete:
+      operationId: CockroachCloud_DeleteSQLUser
+      summary: Delete a SQL user
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLUser'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - SQL Users
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request DELETE \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/sql-users/{name} \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+  /api/v1/clusters/{cluster_id}/sql-users/{name}/password:
+    put:
+      operationId: CockroachCloud_UpdateSQLUserPassword
+      summary: Update a SQL user's password
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSQLUserPasswordBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SQLUser'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - SQL Users
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request PUT \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/sql-users/{name}/password \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"password\":\"example_new_password\"}'"
+components:
+  schemas:
+    Any:
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nIn its binary encoding, an `Any` is an ordinary message; but in other wire\nforms like JSON, it has a special encoding. The format of the type URL is\ndescribed on the `type_url` field.\n\nProtobuf APIs provide utilities to interact with `Any` values:\n\n- A 'pack' operation accepts a message and constructs a generic `Any` wrapper\n  around it.\n- An 'unpack' operation reads the content of an `Any` message, either into an\n  existing message or a new one. Unpack operations must check the type of the\n  value they unpack against the declared `type_url`.\n- An 'is' operation decides whether an `Any` contains a message of the given\n  type, i.e. whether it can 'unpack' that type.\n\nThe JSON format representation of an `Any` follows one of these cases:\n\n- For types without special-cased JSON encodings, the JSON format\n  representation of the `Any` is the same as that of the message, with an\n  additional `@type` field which contains the type URL.\n- For types with special-cased JSON encodings (typically called 'well-known'\n  types, listed in https://protobuf.dev/programming-guides/json/#any), the\n  JSON format representation has a key `@type` which contains the type URL\n  and a key `value` which contains the JSON-serialized value.\n\nThe text format representation of an `Any` is like a message with one field\nwhose name is the type URL in brackets. For example, an `Any` containing a\n`foo.Bar` message may be written `[type.googleapis.com/foo.Bar] { a: 2 }`."
+      type: object
+      properties:
+        '@type':
+          description: 'Identifies the type of the serialized Protobuf message with a URI reference
+
+            consisting of a prefix ending in a slash and the fully-qualified type name.
+
+
+            Example: type.googleapis.com/google.protobuf.StringValue
+
+
+            This string must contain at least one `/` character, and the content after
+
+            the last `/` must be the fully-qualified name of the type in canonical
+
+            form, without a leading dot. Do not write a scheme on these URI references
+
+            so that clients do not attempt to contact them.
+
+
+            The prefix is arbitrary and Protobuf implementations are expected to
+
+            simply strip off everything up to and including the last `/` to identify
+
+            the type. `type.googleapis.com/` is a common default prefix that some
+
+            legacy implementations require. This prefix does not indicate the origin of
+
+            the type, and URIs containing it are not expected to respond to any
+
+            requests.
+
+
+            All type URL strings must be legal URI references with the additional
+
+            restriction (for the text format) that the content of the reference
+
+            must consist only of alphanumeric characters, percent-encoded escapes, and
+
+            characters in the following set (not including the outer backticks):
+
+            `/-.~_!$&()*+,;=`. Despite our allowing percent encodings, implementations
+
+            should not unescape them to prevent confusion with existing parsers. For
+
+            example, `type.googleapis.com%2FFoo` should be rejected.
+
+
+            In the original design of `Any`, the possibility of launching a type
+
+            resolution service at these type URLs was considered but Protobuf never
+
+            implemented one and considers contacting these URLs to be problematic and
+
+            a potential security issue. Do not attempt to contact type URLs.'
+          type: string
+      additionalProperties: {}
+    ListSQLUsersResponse:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/KeysetPaginationResponse'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/SQLUser'
+      required:
+      - users
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Any'
+        message:
+          type: string
+    UpdateSQLUserPasswordBody:
+      type: object
+      properties:
+        password:
+          type: string
+      example:
+        password: example_new_password
+      required:
+      - password
+      title: UpdateSQLUserPasswordRequest
+    KeysetPaginationResponse:
+      type: object
+      properties:
+        next_page:
+          type: string
+        previous_page:
+          type: string
+    CreateSQLUserBody:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+      example:
+        name: example_username
+        password: example_password
+      required:
+      - name
+      - password
+      title: CreateSQLUserRequest
+    SQLUser:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+externalDocs:
+  description: Use the CockroachDB Cloud API
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api.html

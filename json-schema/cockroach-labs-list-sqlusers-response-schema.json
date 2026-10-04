@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-sqlusers-response-schema.json",
+  "title": "ListSQLUsersResponse",
+  "description": "Paginated list of SQL users for a cluster.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-sqlusers-api-openapi.yml#/components/schemas/ListSQLUsersResponse",
+  "type": "object",
+  "properties": {
+    "users": {
+      "type": "array",
+      "description": "Array of SQL user objects.",
+      "items": {
+        "$ref": "#/$defs/SQLUser"
+      }
+    },
+    "pagination": {
+      "$ref": "#/$defs/PaginationResponse"
+    }
+  },
+  "$defs": {
+    "PaginationResponse": {
+      "type": "object",
+      "description": "Pagination metadata included in list responses.",
+      "properties": {
+        "next": {
+          "type": "string",
+          "description": "Token or cursor for retrieving the next page of results."
+        },
+        "last": {
+          "type": "string",
+          "description": "Token or cursor for the last page of results."
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server time at which the paginated query was executed."
+        }
+      }
+    },
+    "SQLUser": {
+      "type": "object",
+      "description": "Represents a SQL user on a CockroachDB cluster.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Username of the SQL user."
+        }
+      }
+    }
+  }
+}

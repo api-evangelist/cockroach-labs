@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-update-api-key-specification-schema.json",
+  "title": "UpdateApiKeySpecification",
+  "description": "Specification for updating an API key's metadata.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/UpdateApiKeySpecification",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "New name for the API key."
+    }
+  }
+}

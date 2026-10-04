@@ -101,13 +101,70 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Error:
+    ListNodeRangesResponse:
       type: object
-      description: Standard error response returned by the Cluster API.
+      description: Range information for a specific node with pagination metadata.
       properties:
-        error:
+        ranges:
+          type: array
+          description: Array of range information objects for the node.
+          items:
+            $ref: '#/components/schemas/RangeInfo'
+        next:
+          type: integer
+          description: Offset for retrieving the next page of results.
+    RangeResponse:
+      type: object
+      description: Detailed information about a specific range from all replicas.
+      properties:
+        range_id:
+          type: integer
+          format: int64
+          description: Unique identifier of the range.
+        responses_by_node_id:
+          type: object
+          description: Map of node ID to the range information reported by that node's replica.
+          additionalProperties:
+            $ref: '#/components/schemas/RangeInfo'
+    ListHotRangesResponse:
+      type: object
+      description: Hot ranges across the cluster or filtered to a specific node.
+      properties:
+        ranges:
+          type: array
+          description: Array of hot range objects sorted by activity level.
+          items:
+            $ref: '#/components/schemas/HotRange'
+        next:
+          type: integer
+          description: Pagination cursor for the next page of hot range results.
+    HotRange:
+      type: object
+      description: A range identified as hot due to elevated query activity, including the range descriptor and per-second query throughput.
+      properties:
+        range_id:
+          type: integer
+          format: int64
+          description: Unique identifier of the hot range.
+        node_id:
+          type: integer
+          description: Node ID of the node reporting this hot range.
+        qps:
+          type: number
+          format: double
+          description: Queries per second observed on this range.
+        table_name:
           type: string
-          description: Human-readable description of the error.
+          description: Name of the table this range belongs to, if known.
+        db_name:
+          type: string
+          description: Name of the database this range belongs to, if known.
+        index_name:
+          type: string
+          description: Name of the index this range belongs to, if known.
+        schema_name:
+          type: string
+          description: Schema name for the table this range belongs to, if known.
     RangeDescriptor:
       type: object
       description: Describes a range's identity, key bounds, and replica set.
@@ -164,79 +221,56 @@ components:
         stats:
           type: object
           description: Aggregate statistics for the range including key/value counts.
-    ListHotRangesResponse:
+    Error:
       type: object
-      description: Hot ranges across the cluster or filtered to a specific node.
+      description: Standard error response returned by the Cluster API.
       properties:
-        ranges:
-          type: array
-          description: Array of hot range objects sorted by activity level.
-          items:
-            $ref: '#/components/schemas/HotRange'
-        next:
-          type: integer
-          description: Pagination cursor for the next page of hot range results.
-    HotRange:
-      type: object
-      description: A range identified as hot due to elevated query activity, including the range descriptor and per-second query throughput.
-      properties:
-        range_id:
-          type: integer
-          format: int64
-          description: Unique identifier of the hot range.
-        node_id:
-          type: integer
-          description: Node ID of the node reporting this hot range.
-        qps:
-          type: number
-          format: double
-          description: Queries per second observed on this range.
-        table_name:
+        error:
           type: string
-          description: Name of the table this range belongs to, if known.
-        db_name:
-          type: string
-          description: Name of the database this range belongs to, if known.
-        index_name:
-          type: string
-          description: Name of the index this range belongs to, if known.
-        schema_name:
-          type: string
-          description: Schema name for the table this range belongs to, if known.
-    RangeResponse:
-      type: object
-      description: Detailed information about a specific range from all replicas.
-      properties:
-        range_id:
-          type: integer
-          format: int64
-          description: Unique identifier of the range.
-        responses_by_node_id:
-          type: object
-          description: Map of node ID to the range information reported by that node's replica.
-          additionalProperties:
-            $ref: '#/components/schemas/RangeInfo'
-    ListNodeRangesResponse:
-      type: object
-      description: Range information for a specific node with pagination metadata.
-      properties:
-        ranges:
-          type: array
-          description: Array of range information objects for the node.
-          items:
-            $ref: '#/components/schemas/RangeInfo'
-        next:
-          type: integer
-          description: Offset for retrieving the next page of results.
+          description: Human-readable description of the error.
+  parameters:
+    rangeId:
+      name: range_id
+      in: path
+      required: true
+      description: Numeric identifier of the range.
+      schema:
+        type: integer
+        format: int64
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of results to return in a single response.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
+    nodeId:
+      name: node_id
+      in: path
+      required: true
+      description: Numeric identifier of the CockroachDB node.
+      schema:
+        type: integer
+        format: int32
+    offset:
+      name: offset
+      in: query
+      description: Number of results to skip before returning data. Used for offset-based pagination.
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
   responses:
-    Unauthorized:
-      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
+    Forbidden:
+      description: The authenticated user does not have admin privileges required to access this endpoint.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: The authenticated user does not have admin privileges required to access this endpoint.
+    Unauthorized:
+      description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
       content:
         application/json:
           schema:
@@ -247,40 +281,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    nodeId:
-      name: node_id
-      in: path
-      required: true
-      description: Numeric identifier of the CockroachDB node.
-      schema:
-        type: integer
-        format: int32
-    limit:
-      name: limit
-      in: query
-      description: Maximum number of results to return in a single response.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 1000
-    rangeId:
-      name: range_id
-      in: path
-      required: true
-      description: Numeric identifier of the range.
-      schema:
-        type: integer
-        format: int64
-    offset:
-      name: offset
-      in: query
-      description: Number of results to skip before returning data. Used for offset-based pagination.
-      schema:
-        type: integer
-        format: int32
-        minimum: 0
   securitySchemes:
     sessionAuth:
       type: apiKey

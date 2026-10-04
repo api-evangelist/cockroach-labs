@@ -2,13 +2,13 @@ aid: cockroach-labs
 url: https://raw.githubusercontent.com/api-evangelist/cockroach-labs/refs/heads/main/apis.yml
 name: Cockroach Labs
 tags:
-  - Cluster Management
-  - Cloud
-  - Database
-  - Distributed SQL
-  - Infrastructure
-  - PostgreSQL Compatible
-  - SQL
+- Cluster Management
+- Cloud
+- Database
+- Distributed SQL
+- Infrastructure
+- PostgreSQL Compatible
+- SQL
 type: Index
 deliveryModel:
   model: saas
@@ -37,18 +37,130 @@ accessModel:
   generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/cockroach-labs.png
+website: https://www.cockroachlabs.com
 access: 3rd-Party
 kind: company
 created: '2024-11-24'
 modified: '2026-05-19'
 position: Consuming
-description: >-
-  Cockroach Labs is the New York-based software company that builds CockroachDB, a cloud-native, distributed,
-  PostgreSQL-compatible SQL database. CockroachDB is offered as Cockroach Labs' fully managed cloud service (Basic,
-  Standard, and Advanced plans) and as self-hosted software. The company provides two primary developer APIs: the
-  CockroachDB Cloud API for managing the lifecycle of cloud-hosted clusters, and the CockroachDB Cluster API exposed by
-  every node for cluster health, monitoring, and operational status. CockroachDB is used in production by banking,
-  retail, gaming, and media companies including Bose, Hard Rock Digital, DoorDash, and Netflix.
+description: 'Cockroach Labs is the New York-based software company that builds CockroachDB, a cloud-native, distributed, PostgreSQL-compatible
+  SQL database. CockroachDB is offered as Cockroach Labs'' fully managed cloud service (Basic, Standard, and Advanced plans) and as self-hosted
+  software. The company provides two primary developer APIs: the CockroachDB Cloud API for managing the lifecycle of cloud-hosted clusters, and
+  the CockroachDB Cluster API exposed by every node for cluster health, monitoring, and operational status. CockroachDB is used in production
+  by banking, retail, gaming, and media companies including Bose, Hard Rock Digital, DoorDash, and Netflix.'
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+specificationVersion: '0.23'
+common:
+- type: FinOps
+  url: finops/cockroach-labs-finops.yml
+- type: RateLimits
+  url: rate-limits/cockroach-labs-rate-limits.yml
+- type: Plans
+  url: plans/cockroach-labs-plans-pricing.yml
+- type: Spectral
+  url: rules/cockroach-labs-jsonschema-spectral-rules.yml
+- type: Vocabulary
+  url: vocabulary/cockroach-labs-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataModel
+  url: data-model/cockroach-labs-data-model.yml
+- type: CLI
+  url: cli/cockroach-labs-cli.yml
+- type: Idempotency
+  url: conventions/cockroach-labs-conventions.yml
+- type: Conventions
+  url: conventions/cockroach-labs-conventions.yml
+- type: Compliance
+  url: https://www.cockroachlabs.com/security/
+- type: ErrorCatalog
+  url: errors/cockroach-labs-problem-types.yml
+- type: Conformance
+  url: conformance/cockroach-labs-conformance.yml
+- type: LLMsTxt
+  url: llms/cockroach-labs-llms.txt
+- type: AgentCard
+  url: a2a/cockroach-labs-a2a.yml
+- type: ToolCrosswalk
+  url: mcp/cockroach-labs-tool-crosswalk.yml
+- type: MCPServer
+  url: mcp/cockroach-labs-mcp.yml
+- type: SecurityTxt
+  url: well-known/cockroach-labs-status-security.txt
+- type: WellKnown
+  url: well-known/cockroach-labs-well-known.yml
+- type: Hosts
+  url: hosts/cockroach-labs-hosts.yml
+- type: Vendors
+  url: vendors/cockroach-labs-vendors.yml
+- type: SignUp
+  url: https://www.cockroachlabs.com/partners/signup/
+- type: Newsroom
+  url: https://www.cockroachlabs.com/press
+- type: DeveloperPortal
+  url: https://www.cockroachlabs.com/developers
+- type: ChangeLog
+  url: https://docs.cockroachlabs.com/docs/releases
+- type: GettingStarted
+  url: https://docs.cockroachlabs.com/docs/continuum/tutorial-quickstart
+- type: APIReference
+  url: https://docs.cockroachlabs.com/
+  name: Cockroach Labs Business Capability Map
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/cockroach-labs/overview
+- type: AgenticAccess
+  url: agentic-access/cockroach-labs-agentic-access.yml
+- type: TrustCenter
+  url: security/cockroach-labs-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/cockroach-labs-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/cockroach-labs-domain-security.yml
+- type: Authentication
+  url: authentication/cockroach-labs-authentication.yml
+- name: Agent Skills
+  url: https://github.com/cockroachlabs/cockroachdb-skills
+  type: AgentSkills
+- type: LinkedIn
+  url: https://www.linkedin.com/company/cockroach-labs
+- type: Website
+  url: https://www.cockroachlabs.com/
+- type: Documentation
+  url: https://www.cockroachlabs.com/docs/
+- type: Pricing
+  url: https://www.cockroachlabs.com/pricing/
+- type: Blog
+  url: https://www.cockroachlabs.com/blog/
+- type: Glossary
+  url: https://www.cockroachlabs.com/docs/stable/architecture/glossary
+- type: Console
+  url: https://cockroachlabs.cloud/
+- type: StatusPage
+  url: https://status.cockroachlabs.cloud/
+- type: Support
+  url: https://www.cockroachlabs.com/support/
+- type: Partners
+  url: https://www.cockroachlabs.com/partners/
+- type: Security
+  url: https://www.cockroachlabs.com/security/
+- type: GitHub
+  url: https://github.com/cockroachdb
+- type: TerraformProvider
+  url: https://registry.terraform.io/providers/cockroachdb/cockroach/latest
+- type: PrivacyPolicy
+  url: https://www.cockroachlabs.com/privacy/
+- type: TermsOfService
+  url: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+- url: json-ld/cockroach-labs-context.jsonld
+  type: JSONLD
+- url: json-schema/cockroach-labs-cluster-schema.json
+  type: JSONSchema
+- url: rules/cockroach-labs-rules.yml
+  type: Spectral
+- type: Integrations
+  url: https://www.cockroachlabs.com/partners/
 apis:
 - aid: cockroach-labs:cockroach-labs-auth-api
   name: Cockroach Labs Auth API
@@ -72,6 +184,12 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-logout-response-schema.json
 - aid: cockroach-labs:cockroach-labs-billing-api
   name: Cockroach Labs Billing API
   description: Retrieve invoices and billing information for the CockroachDB Cloud organization.
@@ -90,6 +208,10 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-invoice-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-invoices-response-schema.json
 - aid: cockroach-labs:cockroach-labs-clusters-api
   name: Cockroach Labs Clusters API
   description: >-
@@ -112,6 +234,18 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-cluster-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-create-cluster-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-update-cluster-specification-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-available-regions-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-clusters-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-major-cluster-versions-response-schema.json
 - aid: cockroach-labs:cockroach-labs-cmek-api
   name: Cockroach Labs CMEK API
   description: >-
@@ -132,6 +266,12 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-cmekcluster-specification-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-cmekcluster-info-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-update-cmekstatus-request-schema.json
 - aid: cockroach-labs:cockroach-labs-databases-api
   name: Cockroach Labs Databases API
   description: >-
@@ -153,6 +293,14 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-databases-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-database-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-create-database-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-update-database-request-schema.json
 - aid: cockroach-labs:cockroach-labs-egressrules-api
   name: Cockroach Labs EgressRules API
   description: >-
@@ -172,6 +320,14 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-egress-rule-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-egress-rule-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-edit-egress-rule-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-egress-rules-response-schema.json
 - aid: cockroach-labs:cockroach-labs-folders-api
   name: Cockroach Labs Folders API
   description: >-
@@ -191,6 +347,16 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-folder-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-create-folder-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-folders-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-update-folder-specification-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-folder-contents-response-schema.json
 - aid: cockroach-labs:cockroach-labs-health-api
   name: Cockroach Labs Health API
   description: >-
@@ -211,6 +377,8 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-health-response-schema.json
 - aid: cockroach-labs:cockroach-labs-ipallowlists-api
   name: Cockroach Labs IPAllowlists API
   description: Configure IP allowlist entries to control network access to a cluster.
@@ -229,6 +397,10 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-allowlist-entry-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-allowlist-entries-response-schema.json
 - aid: cockroach-labs:cockroach-labs-jwtissuers-api
   name: Cockroach Labs JWTIssuers API
   description: Manage JWT issuer configurations for external identity provider integrations.
@@ -247,6 +419,14 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-jwtissuer-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-jwtissuer-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-jwtissuers-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-update-jwtissuer-request-schema.json
 - aid: cockroach-labs:cockroach-labs-logexport-api
   name: Cockroach Labs LogExport API
   description: >-
@@ -266,6 +446,10 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-enable-log-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-log-export-cluster-info-schema.json
 - aid: cockroach-labs:cockroach-labs-metricexport-api
   name: Cockroach Labs MetricExport API
   description: Configure metric export integrations including AWS CloudWatch, Datadog, and Prometheus.
@@ -284,6 +468,16 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-cloud-watch-metric-export-info-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-datadog-metric-export-info-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-enable-cloud-watch-metric-export-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-prometheus-metric-export-info-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-enable-datadog-metric-export-request-schema.json
 - aid: cockroach-labs:cockroach-labs-nodes-api
   name: Cockroach Labs Nodes API
   description: >-
@@ -306,6 +500,8 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-nodes-response-schema.json
 - aid: cockroach-labs:cockroach-labs-organizations-api
   name: Cockroach Labs Organizations API
   description: Retrieve information about the caller's CockroachDB Cloud organization.
@@ -326,6 +522,8 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-organization-schema.json
 - aid: cockroach-labs:cockroach-labs-ranges-api
   name: Cockroach Labs Ranges API
   description: >-
@@ -346,6 +544,12 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-range-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-hot-ranges-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-node-ranges-response-schema.json
 - aid: cockroach-labs:cockroach-labs-rules-api
   name: Cockroach Labs Rules API
   description: Retrieve alerting rules templates for use with Prometheus-compatible alerting systems.
@@ -383,6 +587,8 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-sessions-response-schema.json
 - aid: cockroach-labs:cockroach-labs-sqlusers-api
   name: Cockroach Labs SQLUsers API
   description: >-
@@ -402,6 +608,14 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-create-sqluser-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-sqlusers-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-update-sqluser-password-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-sqluser-schema.json
 - aid: cockroach-labs:cockroach-labs-versiondeferral-api
   name: Cockroach Labs VersionDeferral API
   description: >-
@@ -421,6 +635,8 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-cluster-version-deferral-schema.json
 - aid: cockroach-labs:cockroach-labs-api-keys-api
   name: Cockroach Labs API Keys API
   description: >-
@@ -440,6 +656,16 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-api-key-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-create-api-key-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-create-api-key-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-api-keys-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-update-api-key-specification-schema.json
 - aid: cockroach-labs:cockroach-labs-audit-logs-api
   name: Cockroach Labs Audit Logs API
   description: >-
@@ -459,6 +685,8 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-audit-logs-response-schema.json
 - aid: cockroach-labs:cockroach-labs-backup-restore-api
   name: Cockroach Labs Backup Restore API
   description: >-
@@ -478,6 +706,10 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-restore-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-backup-configuration-schema.json
 - aid: cockroach-labs:cockroach-labs-maintenance-windows-api
   name: Cockroach Labs Maintenance Windows API
   description: Configure maintenance windows and blackout periods for cluster upgrade scheduling.
@@ -496,25 +728,8 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
-- aid: cockroach-labs:cockroach-labs-private-endpoints-api
-  name: Cockroach Labs Private Endpoints API
-  description: >-
-    Manage private endpoint services and connections for secure VPC-level access to clusters.
-  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
-  baseURL: https://cockroachlabs.cloud
-  tags:
-  - Private Endpoints
-  properties:
-  - type: OpenAPI
-    url: openapi/cockroach-labs-private-endpoints-api-openapi.yml
-  - type: Documentation
-    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
-  - type: APIReference
-    url: https://www.cockroachlabs.com/docs/api/cloud/v1
-  - type: Documentation
-    url: https://www.cockroachlabs.com/docs/stable/cluster-api
-  - type: APIReference
-    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-maintenance-window-schema.json
 - aid: cockroach-labs:cockroach-labs-role-management-api
   name: Cockroach Labs Role Management API
   description: >-
@@ -535,6 +750,14 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-role-grants-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-set-roles-for-user-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-get-person-users-by-email-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-get-all-roles-for-user-response-schema.json
 - aid: cockroach-labs:cockroach-labs-service-accounts-api
   name: Cockroach Labs Service Accounts API
   description: >-
@@ -554,67 +777,523 @@ apis:
     url: https://www.cockroachlabs.com/docs/stable/cluster-api
   - type: APIReference
     url: https://www.cockroachlabs.com/docs/api/cluster/v2
-common:
-  - type: CapabilityMap
-    url: capabilities/cockroach-labs-capability-edges.yml
-    name: Cockroach Labs Business Capability Map
-  - type: PostmanWorkspace
-    url: https://www.postman.com/kinlaneapi/cockroach-labs/overview
-  - type: AgenticAccess
-    url: agentic-access/cockroach-labs-agentic-access.yml
-  - type: TrustCenter
-    url: security/cockroach-labs-trust-center.yml
-  - type: VulnerabilityDisclosure
-    url: security/cockroach-labs-vulnerability-disclosure.yml
-  - type: DomainSecurity
-    url: security/cockroach-labs-domain-security.yml
-  - type: Authentication
-    url: authentication/cockroach-labs-authentication.yml
-  - name: Agent Skills
-    url: https://github.com/cockroachlabs/cockroachdb-skills
-    type: AgentSkills
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/cockroach-labs
-  - type: Website
-    url: https://www.cockroachlabs.com/
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-service-account-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-service-accounts-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-create-service-account-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-update-service-account-specification-schema.json
+- aid: cockroach-labs:cockroach-labs-blackout-windows-api
+  name: Cockroach Labs Blackout Windows API
+  description: The Blackout Windows API from Cockroach Labs — 2 operation(s) for blackout windows.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Blackout Windows
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-blackout-windows-api-openapi.yml
   - type: Documentation
-    url: https://www.cockroachlabs.com/docs/
-  - type: Pricing
-    url: https://www.cockroachlabs.com/pricing/
-  - type: Blog
-    url: https://www.cockroachlabs.com/blog/
-  - type: Glossary
-    url: https://www.cockroachlabs.com/docs/stable/architecture/glossary
-  - type: Console
-    url: https://cockroachlabs.cloud/
-  - type: StatusPage
-    url: https://status.cockroachlabs.cloud/
-  - type: Support
-    url: https://www.cockroachlabs.com/support/
-  - type: Partners
-    url: https://www.cockroachlabs.com/partners/
-  - type: Security
-    url: https://www.cockroachlabs.com/security/
-  - type: GitHub
-    url: https://github.com/cockroachdb
-  - type: TerraformProvider
-    url: https://registry.terraform.io/providers/cockroachdb/cockroach/latest
-  - type: PrivacyPolicy
-    url: https://www.cockroachlabs.com/privacy/
-  - type: TermsOfService
-    url: https://www.cockroachlabs.com/cloud-terms-and-conditions/
-  - url: json-ld/cockroach-labs-context.jsonld
-    type: JSONLD
-  - url: json-schema/cockroach-labs-cluster-schema.json
-    type: JSONSchema
-  - url: rules/cockroach-labs-rules.yml
-    type: Spectral
-  - type: Integrations
-    url: https://www.cockroachlabs.com/partners/
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-client-ca-certificates-api
+  name: Cockroach Labs Client CA Certificates API
+  description: >-
+    The Client CA Certificates API from Cockroach Labs — 1 operation(s) for client ca certificates.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Client CA Certificates
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-client-ca-certificates-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-cluster-disruption-api
+  name: Cockroach Labs Cluster Disruption API
+  description: The Cluster Disruption API from Cockroach Labs — 1 operation(s) for cluster disruption.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Cluster Disruption
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-cluster-disruption-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-customer-managed-encryption-keys-api
+  name: Cockroach Labs Customer-managed Encryption Keys API
+  description: >-
+    The Customer-managed Encryption Keys API from Cockroach Labs — 1 operation(s) for customer-managed
+    encryption keys.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Customer-managed Encryption Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-customer-managed-encryption-keys-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-egress-private-endpoints-api
+  name: Cockroach Labs Egress Private Endpoints API
+  description: >-
+    The Egress Private Endpoints API from Cockroach Labs — 3 operation(s) for egress private endpoints.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Egress Private Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-egress-private-endpoints-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-egress-rules-api
+  name: Cockroach Labs Egress Rules API
+  description: The Egress Rules API from Cockroach Labs — 3 operation(s) for egress rules.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Egress Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-egress-rules-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-ip-allowlists-api
+  name: Cockroach Labs IP Allowlists API
+  description: The IP Allowlists API from Cockroach Labs — 2 operation(s) for ip allowlists.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - IP Allowlists
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-ip-allowlists-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-jwt-issuers-api
+  name: Cockroach Labs JWT Issuers API
+  description: The JWT Issuers API from Cockroach Labs — 2 operation(s) for jwt issuers.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - JWT Issuers
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-jwt-issuers-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-log-export-api
+  name: Cockroach Labs Log Export API
+  description: The Log Export API from Cockroach Labs — 1 operation(s) for log export.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Log Export
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-log-export-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-metric-export-api
+  name: Cockroach Labs Metric Export API
+  description: The Metric Export API from Cockroach Labs — 3 operation(s) for metric export.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Metric Export
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-metric-export-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-migration-assistant-api
+  name: Cockroach Labs Migration Assistant API
+  description: >-
+    The Migration Assistant API from Cockroach Labs — 2 operation(s) for migration assistant.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Migration Assistant
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-migration-assistant-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-physical-cluster-replication-api
+  name: Cockroach Labs Physical Cluster Replication API
+  description: >-
+    The Physical Cluster Replication API from Cockroach Labs — 2 operation(s) for physical cluster replication.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Physical Cluster Replication
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-physical-cluster-replication-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-private-endpoint-services-api
+  name: Cockroach Labs Private Endpoint Services API
+  description: >-
+    The Private Endpoint Services API from Cockroach Labs — 7 operation(s) for private endpoint services.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Private Endpoint Services
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-private-endpoint-services-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-runtime-scanning-api
+  name: Cockroach Labs Runtime Scanning API
+  description: The Runtime Scanning API from Cockroach Labs — 1 operation(s) for runtime scanning.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Runtime Scanning
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-runtime-scanning-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-scim-api
+  name: Cockroach Labs SCIM API
+  description: The SCIM API from Cockroach Labs — 13 operation(s) for scim.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - SCIM
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-scim-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-sql-users-api
+  name: Cockroach Labs SQL Users API
+  description: The SQL Users API from Cockroach Labs — 3 operation(s) for sql users.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - SQL Users
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-sql-users-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-version-deferral-api
+  name: Cockroach Labs Version Deferral API
+  description: The Version Deferral API from Cockroach Labs — 1 operation(s) for version deferral.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Version Deferral
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-version-deferral-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-virtual-cluster-workspaces-api
+  name: Cockroach Labs Virtual Cluster Workspaces API
+  description: >-
+    The Virtual Cluster Workspaces API from Cockroach Labs — 4 operation(s) for virtual cluster workspaces.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Virtual Cluster Workspaces
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-virtual-cluster-workspaces-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-private-endpoints-api
+  name: Cockroach Labs Private Endpoints API
+  description: >-
+    Manage private endpoint services and connections for secure VPC-level access to clusters.
+  humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  baseURL: https://cockroachlabs.cloud
+  tags:
+  - Private Endpoints
+  properties:
+  - type: OpenAPI
+    url: openapi/cockroach-labs-private-endpoints-api-openapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cloud/v1
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/cluster-api
+  - type: APIReference
+    url: https://www.cockroachlabs.com/docs/api/cluster/v2
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-private-endpoint-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-connections-response-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
+  - type: JSONSchema
+    url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
 integrations:
-  - name: partner-icon
-  - name: Become a partner
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
-specificationVersion: '0.23'
+- name: partner-icon
+- name: Become a partner
+x-enrichment:
+  date: '2026-10-04'
+  status: enriched
+  artifacts_added: 93
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local

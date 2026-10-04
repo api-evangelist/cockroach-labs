@@ -2,7 +2,8 @@
   "provider": "cockroach-labs",
   "sources": [
     "_original/cockroach-labs-cloud-api-openapi.yml",
-    "_original/cockroach-labs-cluster-api-openapi.yml"
+    "_original/cockroach-labs-cluster-api-openapi.yml",
+    "cockroach-labs-openapi.json"
   ],
   "outputs": [
     "cockroach-labs-apikeys-api-openapi.yml",
@@ -30,10 +31,35 @@
     "cockroach-labs-nodes-api-openapi.yml",
     "cockroach-labs-ranges-api-openapi.yml",
     "cockroach-labs-rules-api-openapi.yml",
-    "cockroach-labs-sessions-api-openapi.yml"
+    "cockroach-labs-sessions-api-openapi.yml",
+    "cockroach-labs-api-keys-api-openapi.yml",
+    "cockroach-labs-audit-logs-api-openapi.yml",
+    "cockroach-labs-backup-restore-api-openapi.yml",
+    "cockroach-labs-blackout-windows-api-openapi.yml",
+    "cockroach-labs-client-ca-certificates-api-openapi.yml",
+    "cockroach-labs-cluster-disruption-api-openapi.yml",
+    "cockroach-labs-customer-managed-encryption-keys-api-openapi.yml",
+    "cockroach-labs-egress-private-endpoints-api-openapi.yml",
+    "cockroach-labs-egress-rules-api-openapi.yml",
+    "cockroach-labs-ip-allowlists-api-openapi.yml",
+    "cockroach-labs-jwt-issuers-api-openapi.yml",
+    "cockroach-labs-log-export-api-openapi.yml",
+    "cockroach-labs-maintenance-windows-api-openapi.yml",
+    "cockroach-labs-metric-export-api-openapi.yml",
+    "cockroach-labs-migration-assistant-api-openapi.yml",
+    "cockroach-labs-physical-cluster-replication-api-openapi.yml",
+    "cockroach-labs-private-endpoint-services-api-openapi.yml",
+    "cockroach-labs-role-management-api-openapi.yml",
+    "cockroach-labs-runtime-scanning-api-openapi.yml",
+    "cockroach-labs-scim-api-openapi.yml",
+    "cockroach-labs-sql-users-api-openapi.yml",
+    "cockroach-labs-service-accounts-api-openapi.yml",
+    "cockroach-labs-version-deferral-api-openapi.yml",
+    "cockroach-labs-virtual-cluster-workspaces-api-openapi.yml"
   ],
   "archived": [
-    "deleted 7 superseded output(s) from the previous generation"
+    "deleted 1 superseded output(s) from the previous generation",
+    "archived openapi/cockroach-labs-openapi.json"
   ],
   "errors": [],
   "warnings": [],
@@ -41,8 +67,14 @@
     "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "cockroach-labs-cloud-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "cockroach-labs-cluster-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "superseded outputs removed: cockroach-labs-api-keys-api-openapi.yml, cockroach-labs-audit-logs-api-openapi.yml, cockroach-labs-backup-restore-api-openapi.yml, cockroach-labs-maintenance-windows-api-openapi.yml, cockroach-labs-private-endpoints-api-openapi.yml \u2026",
-    "apis.yml register: written (+7 apis, 26 total)"
+    "cockroach-labs-openapi.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "tag 'Billing' spans 2 source specs (cockroach-labs-cloud-api-openapi.yml, cockroach-labs-openapi.json): per-path servers applied",
+    "tag 'Clusters' spans 2 source specs (cockroach-labs-cloud-api-openapi.yml, cockroach-labs-openapi.json): per-path servers applied",
+    "tag 'Databases' spans 2 source specs (cockroach-labs-cloud-api-openapi.yml, cockroach-labs-openapi.json): per-path servers applied",
+    "tag 'Folders' spans 2 source specs (cockroach-labs-cloud-api-openapi.yml, cockroach-labs-openapi.json): per-path servers applied",
+    "tag 'Organizations' spans 2 source specs (cockroach-labs-cloud-api-openapi.yml, cockroach-labs-openapi.json): per-path servers applied",
+    "superseded outputs removed: cockroach-labs-private-endpoints-api-openapi.yml",
+    "apis.yml register: written (+25 apis, 50 total)"
   ],
   "skipped": [
     "cockroach-labs-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",

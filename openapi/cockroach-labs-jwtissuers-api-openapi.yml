@@ -127,7 +127,80 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    resourceId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the resource.
+      schema:
+        type: string
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
   schemas:
+    ListJWTIssuersResponse:
+      type: object
+      description: Paginated list of JWT issuers.
+      properties:
+        issuers:
+          type: array
+          description: Array of JWT issuer objects.
+          items:
+            $ref: '#/components/schemas/JWTIssuer'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    AddJWTIssuerRequest:
+      type: object
+      description: Request body for adding a JWT issuer.
+      required:
+      - issuer_url
+      - jwks_id
+      properties:
+        issuer_url:
+          type: string
+          description: URL of the JWT issuer.
+        jwks_id:
+          type: string
+          description: Identifier for the JSON Web Key Set.
+    UpdateJWTIssuerRequest:
+      type: object
+      description: Request body for updating a JWT issuer.
+      properties:
+        issuer_url:
+          type: string
+          description: Updated URL of the JWT issuer.
+        jwks_id:
+          type: string
+          description: Updated JWKS identifier.
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -143,16 +216,6 @@ components:
           description: Additional detail objects providing error context.
           items:
             type: object
-    UpdateJWTIssuerRequest:
-      type: object
-      description: Request body for updating a JWT issuer.
-      properties:
-        issuer_url:
-          type: string
-          description: Updated URL of the JWT issuer.
-        jwks_id:
-          type: string
-          description: Updated JWKS identifier.
     PaginationResponse:
       type: object
       description: Pagination metadata included in list responses.
@@ -167,30 +230,6 @@ components:
           type: string
           format: date-time
           description: Server time at which the paginated query was executed.
-    AddJWTIssuerRequest:
-      type: object
-      description: Request body for adding a JWT issuer.
-      required:
-      - issuer_url
-      - jwks_id
-      properties:
-        issuer_url:
-          type: string
-          description: URL of the JWT issuer.
-        jwks_id:
-          type: string
-          description: Identifier for the JSON Web Key Set.
-    ListJWTIssuersResponse:
-      type: object
-      description: Paginated list of JWT issuers.
-      properties:
-        issuers:
-          type: array
-          description: Array of JWT issuer objects.
-          items:
-            $ref: '#/components/schemas/JWTIssuer'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
     JWTIssuer:
       type: object
       description: A JWT issuer configuration for external identity provider integration.
@@ -223,45 +262,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    resourceId:
-      name: id
-      in: path
-      required: true
-      description: Unique identifier of the resource.
-      schema:
-        type: string
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
-    paginationSortOrder:
-      name: pagination.sort_order
-      in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-    paginationLimit:
-      name: pagination.limit
-      in: query
-      description: Maximum number of results to return per page.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 500
   securitySchemes:
     bearerAuth:
       type: http

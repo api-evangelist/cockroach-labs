@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-clusters-response-schema.json",
+  "title": "ListClustersResponse",
+  "description": "Paginated list of clusters in the organization.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/ListClustersResponse",
+  "type": "object",
+  "properties": {
+    "clusters": {
+      "type": "array",
+      "description": "Array of cluster objects.",
+      "items": {
+        "$ref": "#/$defs/Cluster"
+      }
+    },
+    "pagination": {
+      "$ref": "#/$defs/PaginationResponse"
+    }
+  },
+  "$defs": {
+    "Cluster": {
+      "type": "object",
+      "description": "Represents a CockroachDB Cloud cluster, which is an instance of CockroachDB running in one or more cloud regions on Serverless or Dedicated infrastructure.",
+      "required": [
+        "id",
+        "name",
+        "cloud_provider",
+        "state",
+        "operation_status",
+        "plan",
+        "regions",
+        "cockroach_version",
+        "creator_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the cluster."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name of the cluster."
+        },
+        "cloud_provider": {
+          "type": "string",
+          "description": "Cloud infrastructure provider hosting the cluster.",
+          "enum": [
+            "GCP",
+            "AWS",
+            "AZURE"
+          ]
+        },
+        "cockroach_version": {
+          "type": "string",
+          "description": "Version of CockroachDB running on the cluster."
+        },
+        "plan": {
+          "type": "string",
+          "description": "Service tier of the cluster.",
+          "enum": [
+            "DEDICATED",
+            "SERVERLESS"
+          ]
+        },
+        "state": {
+          "type": "string",
+          "description": "Overall state of the cluster."
+        },
+        "operation_status": {
+          "type": "string",
+          "description": "Current operational status of the cluster."
+        },
+        "regions": {
+          "type": "array",
+          "description": "Cloud provider regions where the cluster is deployed.",
+          "items": {
+            "$ref": "#/$defs/Region"
+          }
+        },
+        "config": {
+          "$ref": "#/$defs/ClusterConfig"
+        },
+        "creator_id": {
+          "type": "string",
+          "description": "Identifier of the user who created the cluster."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the cluster was created."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the most recent modification."
+        },
+        "deleted_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the cluster was deleted, if applicable."
+        },
+        "sql_dns": {
+          "type": "string",
+          "description": "DNS hostname for SQL connections to the cluster."
+        },
+        "upgrade_status": {
+          "type": "string",
+          "description": "Status of any in-progress version upgrade."
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Cloud provider account ID associated with the cluster."
+        },
+        "parent_id": {
+          "type": "string",
+          "description": "ID of the folder containing this cluster, if any."
+        },
+        "labels": {
+          "type": "object",
+          "description": "Key-value labels for resource organization.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "delete_protection": {
+          "type": "string",
+          "description": "Whether delete protection is enabled on the cluster."
+        },
+        "egress_traffic_policy": {
+          "type": "string",
+          "description": "Policy governing outbound traffic from the cluster."
+        },
+        "network_visibility": {
+          "type": "string",
+          "description": "Network accessibility configuration of the cluster."
+        }
+      }
+    },
+    "ClusterConfig": {
+      "type": "object",
+      "description": "Configuration settings for a CockroachDB cluster.",
+      "properties": {
+        "serverless": {
+          "$ref": "#/$defs/ServerlessClusterConfig"
+        },
+        "dedicated": {
+          "$ref": "#/$defs/DedicatedClusterConfig"
+        }
+      }
+    },
+    "DedicatedClusterConfig": {
+      "type": "object",
+      "description": "Configuration specific to CockroachDB Dedicated clusters.",
+      "properties": {
+        "machine_type": {
+          "type": "string",
+          "description": "Machine type used for cluster nodes."
+        },
+        "num_virtual_cpus": {
+          "type": "integer",
+          "description": "Number of virtual CPUs per node."
+        },
+        "storage_gib": {
+          "type": "integer",
+          "description": "Storage capacity per node in gibibytes."
+        },
+        "memory_gib": {
+          "type": "number",
+          "description": "Memory per node in gibibytes."
+        },
+        "disk_iops": {
+          "type": "integer",
+          "description": "Disk IOPS allocated per node."
+        }
+      }
+    },
+    "PaginationResponse": {
+      "type": "object",
+      "description": "Pagination metadata included in list responses.",
+      "properties": {
+        "next": {
+          "type": "string",
+          "description": "Token or cursor for retrieving the next page of results."
+        },
+        "last": {
+          "type": "string",
+          "description": "Token or cursor for the last page of results."
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server time at which the paginated query was executed."
+        }
+      }
+    },
+    "Region": {
+      "type": "object",
+      "description": "A geographic region where the cluster or its nodes are deployed.",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Cloud provider region identifier (e.g. us-east-1)."
+        },
+        "sql_dns": {
+          "type": "string",
+          "description": "DNS hostname for SQL connections routed to this region."
+        },
+        "node_count": {
+          "type": "integer",
+          "description": "Number of nodes in this region."
+        }
+      }
+    },
+    "ServerlessClusterConfig": {
+      "type": "object",
+      "description": "Configuration specific to CockroachDB Serverless clusters.",
+      "properties": {
+        "spend_limit": {
+          "type": "integer",
+          "description": "Monthly spend limit in US cents. 0 means no limit."
+        },
+        "routing_id": {
+          "type": "string",
+          "description": "Unique routing identifier for the serverless cluster."
+        },
+        "usage_limits": {
+          "type": "object",
+          "description": "Usage-based limits for request units and storage."
+        }
+      }
+    }
+  }
+}

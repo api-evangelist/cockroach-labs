@@ -1,0 +1,243 @@
+# CockroachDB
+
+## Cockroach Continuum
+
+### Get Started
+
+- [Cockroach Continuum Docs](https://docs.cockroachlabs.com/docs/continuum/index.md)
+
+#### Get Started
+
+- [Continuum Overview](https://docs.cockroachlabs.com/docs/continuum/overview.md)
+- [Get Started with Cockroach Continuum](https://docs.cockroachlabs.com/docs/continuum/get-started-with-continuum.md)
+- [Create a Continuum Organization](https://docs.cockroachlabs.com/docs/continuum/create-a-continuum-organization.md)
+- [CockroachDB Documentation](https://docs.cockroachlabs.com/docs/continuum/cockroachdb-get-started.md)
+
+### Guides
+
+#### Onboard Data and Build Applications
+
+##### Migrate Data
+
+- [Migration Assistant Overview](https://docs.cockroachlabs.com/docs/continuum/migration-assistant-overview.md)
+- [Deploy the Migration Assistant](https://docs.cockroachlabs.com/docs/continuum/migration-assistant-deploy.md)
+- [Use the Migration Assistant](https://docs.cockroachlabs.com/docs/continuum/migration-assistant-use.md)
+- [MOLT Toolset](https://docs.cockroachlabs.com/docs/continuum/molt-toolset.md)
+
+##### Develop and Connect
+
+- [Develop and Connect Overview](https://docs.cockroachlabs.com/docs/continuum/develop-and-connect-overview.md)
+- [Connect to a Cluster](https://docs.cockroachlabs.com/docs/continuum/connect-to-a-cluster.md)
+- [Connection Parameters](https://docs.cockroachlabs.com/docs/continuum/connection-parameters.md)
+- [Transactions](https://docs.cockroachlabs.com/docs/continuum/cockroachdb-transactions.md)
+- [User-Defined Functions](https://docs.cockroachlabs.com/docs/continuum/user-defined-functions.md)
+- [Stored Procedures](https://docs.cockroachlabs.com/docs/continuum/stored-procedures.md)
+- [Triggers](https://docs.cockroachlabs.com/docs/continuum/triggers.md)
+
+#### Scale Production Workloads
+
+##### Deploy and Manage
+
+- [Deploy and Manage Overview](https://docs.cockroachlabs.com/docs/continuum/deploy-and-manage-overview.md)
+- [Create a Cluster](https://docs.cockroachlabs.com/docs/continuum/create-a-cluster.md)
+- [Cluster Management](https://docs.cockroachlabs.com/docs/continuum/cluster-management.md)
+- [Cloud API](https://docs.cockroachlabs.com/docs/continuum/cloud-api.md)
+- [ccloud CLI](https://docs.cockroachlabs.com/docs/continuum/ccloud-get-started.md)
+
+##### Size and Scale
+
+- [Cockroach Plenum Overview](https://docs.cockroachlabs.com/docs/continuum/plenum-overview.md)
+
+##### Build AI Applications
+
+- [Build AI Applications Overview](https://docs.cockroachlabs.com/docs/continuum/build-ai-applications-overview.md)
+- [Vector Search](https://docs.cockroachlabs.com/docs/continuum/vector-search.md)
+- [MCP Server](https://docs.cockroachlabs.com/docs/continuum/mcp-server.md)
+
+##### Tune and Troubleshoot
+
+- [Tune and Troubleshoot Overview](https://docs.cockroachlabs.com/docs/continuum/tune-and-troubleshoot-overview.md)
+- [Performance Best Practices](https://docs.cockroachlabs.com/docs/continuum/performance-best-practices.md)
+- [Performance Recipes](https://docs.cockroachlabs.com/docs/continuum/performance-recipes.md)
+
+##### Disaster Recovery
+
+- [Disaster Recovery Overview](https://docs.cockroachlabs.com/docs/continuum/disaster-recovery-overview.md)
+- [Managed Backups](https://docs.cockroachlabs.com/docs/continuum/managed-backups.md)
+- [Physical Cluster Replication](https://docs.cockroachlabs.com/docs/continuum/physical-cluster-replication.md)
+
+#### Monitor and Optimize Performance
+
+##### Monitor and Optimize
+
+- [Cockroach Aegis Overview](https://docs.cockroachlabs.com/docs/continuum/aegis-overview.md)
+- [Cockroach Aegis Agentic Ecosystem](https://docs.cockroachlabs.com/docs/continuum/aegis-agentic-ecosystem.md)
+- [Cockroach Aegis Security and Administration](https://docs.cockroachlabs.com/docs/continuum/aegis-security-and-data-access.md)
+- [DB Console](https://docs.cockroachlabs.com/docs/continuum/db-console.md)
+- [Export Metrics](https://docs.cockroachlabs.com/docs/continuum/export-metrics.md)
+
+##### Manage Workloads
+
+- [Virtualization Overview](https://docs.cockroachlabs.com/docs/continuum/virtualization-overview.md)
+- [Virtualization Architecture](https://docs.cockroachlabs.com/docs/continuum/virtualization-architecture.md)
+- [Virtual Clusters](https://docs.cockroachlabs.com/docs/continuum/virtual-clusters.md)
+- [Workspaces and Host Clusters](https://docs.cockroachlabs.com/docs/continuum/workspaces.md)
+- [Admission Control](https://docs.cockroachlabs.com/docs/continuum/admission-control.md)
+
+#### Integrate and Govern Your Ecosystem
+
+##### Secure and Govern
+
+- [Secure and Govern Overview](https://docs.cockroachlabs.com/docs/continuum/secure-and-govern-overview.md)
+- [Authorization](https://docs.cockroachlabs.com/docs/continuum/authorization.md)
+- [CMEK](https://docs.cockroachlabs.com/docs/continuum/cmek.md)
+
+##### Integrate
+
+- [Integrate Overview](https://docs.cockroachlabs.com/docs/continuum/integrate-overview.md)
+- [Changefeed Sinks](https://docs.cockroachlabs.com/docs/continuum/changefeed-sinks.md)
+- [Terraform Provider](https://docs.cockroachlabs.com/docs/continuum/terraform-provider.md)
+
+##### Manage Costs
+
+- [Editions and Add-Ons](https://docs.cockroachlabs.com/docs/continuum/editions-and-add-ons.md)
+- [Pricing](https://docs.cockroachlabs.com/docs/continuum/pricing.md)
+
+### Tutorials
+
+#### Tutorials
+
+- [Tutorials](https://docs.cockroachlabs.com/docs/continuum/tutorials-overview.md)
+
+#### Get Started
+
+- [Quickstart with Cockroach Continuum](https://docs.cockroachlabs.com/docs/continuum/tutorial-quickstart.md)
+
+#### Migrate Data
+
+- [Migrate a Sample Database](https://docs.cockroachlabs.com/docs/continuum/tutorial-migrate-sample-database.md)
+
+#### Develop and Connect
+
+- [Build a Python App](https://docs.cockroachlabs.com/docs/continuum/tutorial-python.md)
+- [Build a Node.js App](https://docs.cockroachlabs.com/docs/continuum/tutorial-nodejs.md)
+- [Build a Go App](https://docs.cockroachlabs.com/docs/continuum/tutorial-go.md)
+- [Build a Java App](https://docs.cockroachlabs.com/docs/continuum/tutorial-java.md)
+
+#### Manage Workloads
+
+- [Create Your First Virtual Cluster](https://docs.cockroachlabs.com/docs/continuum/tutorial-virtual-cluster.md)
+
+#### Monitor and Optimize
+
+- [Investigate Workload Performance with Aegis](https://docs.cockroachlabs.com/docs/continuum/aegis-example-workflows.md)
+
+### Reference
+
+#### Reference
+
+- [Feature Reference](https://docs.cockroachlabs.com/docs/continuum/feature-reference.md)
+- [Feature Availability](https://docs.cockroachlabs.com/docs/continuum/feature-availability.md)
+- [SQL Reference](https://docs.cockroachlabs.com/docs/continuum/cockroachdb-sql.md)
+- [Architecture](https://docs.cockroachlabs.com/docs/continuum/cockroachdb-architecture.md)
+- [Continuum FAQ](https://docs.cockroachlabs.com/docs/continuum/faq.md)
+
+- [CockroachDB (6364 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db.md): Distributed SQL database
+- [Cloud Deployments (465 pages)](https://docs.cockroachlabs.com/_llms/cloud-deployments.md): Fully managed CockroachDB
+
+## Releases
+
+### Releases
+
+#### Overview
+
+- [CockroachDB Releases Overview](https://docs.cockroachlabs.com/docs/releases/index.md)
+- [Release Support Policy](https://docs.cockroachlabs.com/docs/releases/release-support-policy.md)
+- [CockroachDB Feature Availability](https://docs.cockroachlabs.com/docs/releases/cockroachdb-feature-availability.md)
+- [CockroachDB Cloud Releases](https://docs.cockroachlabs.com/docs/releases/cloud.md)
+- [MOLT Releases](https://docs.cockroachlabs.com/docs/releases/molt.md)
+- [Public Kubernetes Operator Releases](https://docs.cockroachlabs.com/docs/releases/kubernetes-operator.md)
+- [CockroachDB Downloads Archive](https://docs.cockroachlabs.com/docs/releases/downloads-archive.md)
+- [Archived Documentation](https://docs.cockroachlabs.com/docs/releases/archived-documentation.md)
+
+#### All Release Notes
+
+- [What's New in v26.4](https://docs.cockroachlabs.com/docs/releases/v26.4.md)
+- [What's New in v26.3](https://docs.cockroachlabs.com/docs/releases/v26.3.md)
+- [What's New in v26.2](https://docs.cockroachlabs.com/docs/releases/v26.2.md)
+- [What's New in v26.1](https://docs.cockroachlabs.com/docs/releases/v26.1.md)
+- [What's New in v25.4](https://docs.cockroachlabs.com/docs/releases/v25.4.md)
+- [What's New in v25.3](https://docs.cockroachlabs.com/docs/releases/v25.3.md)
+- [What's New in v25.2](https://docs.cockroachlabs.com/docs/releases/v25.2.md)
+- [What's New in v25.1](https://docs.cockroachlabs.com/docs/releases/v25.1.md)
+- [What's New in v24.3](https://docs.cockroachlabs.com/docs/releases/v24.3.md)
+- [What's New in v24.2](https://docs.cockroachlabs.com/docs/releases/v24.2.md)
+- [What's New in v24.1](https://docs.cockroachlabs.com/docs/releases/v24.1.md)
+- [What's New in v23.2](https://docs.cockroachlabs.com/docs/releases/v23.2.md)
+- [What's New in v23.1](https://docs.cockroachlabs.com/docs/releases/v23.1.md)
+- [What's New in v22.2](https://docs.cockroachlabs.com/docs/releases/v22.2.md)
+- [What's New in v22.1](https://docs.cockroachlabs.com/docs/releases/v22.1.md)
+- [What's New in v21.2](https://docs.cockroachlabs.com/docs/releases/v21.2.md)
+- [What's New in v21.1](https://docs.cockroachlabs.com/docs/releases/v21.1.md)
+- [What's New in v20.2](https://docs.cockroachlabs.com/docs/releases/v20.2.md)
+- [What's New in v20.1](https://docs.cockroachlabs.com/docs/releases/v20.1.md)
+- [What's New in v2.1](https://docs.cockroachlabs.com/docs/releases/v2.1.md)
+- [What's New in v2.0](https://docs.cockroachlabs.com/docs/releases/v2.0.md)
+- [What's New in v19.2](https://docs.cockroachlabs.com/docs/releases/v19.2.md)
+- [What's New in v19.1](https://docs.cockroachlabs.com/docs/releases/v19.1.md)
+- [What's New in v1.1](https://docs.cockroachlabs.com/docs/releases/v1.1.md)
+- [What's New in v1.0](https://docs.cockroachlabs.com/docs/releases/v1.0.md)
+
+### Security Advisories
+
+- [Technical Advisories](https://docs.cockroachlabs.com/docs/advisories.md)
+
+## Other
+
+- [Technical Advisories](https://docs.cockroachlabs.com/docs/advisories/index.md)
+
+## OpenAPI Specs
+
+- [cluster-api-v2](/openapi/cluster-api-v2.json)
+- [2024-09-16](/openapi/cloud/2024-09-16.json)
+- [latest](/openapi/cloud/latest.json)
+- [2023-04-10](/openapi/cloud/2023-04-10.json)
+- [2022-09-20](/openapi/cloud/2022-09-20.json)
+- [2022-03-31](/openapi/cloud/2022-03-31.json)
+
+## Optional
+
+- [University](https://learn.cockroachlabs.com/)
+
+> The links below point to documentation indexes. Follow each `/_llms/` index recursively until you reach documentation pages.
+
+## Indexes
+
+- [CockroachDB (6364 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db.md): Distributed SQL database
+- [CockroachDB / v26.3 (659 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v26-3.md): Documentation for CockroachDB / v26.3.
+- [CockroachDB / v26.3 / Docs (279 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v26-3/docs.md): Documentation for CockroachDB / v26.3 / Docs.
+- [CockroachDB / v26.2 (653 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v26-2.md): Documentation for CockroachDB / v26.2.
+- [CockroachDB / v26.2 / Docs (279 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v26-2/docs.md): Documentation for CockroachDB / v26.2 / Docs.
+- [CockroachDB / v26.1 (651 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v26-1.md): Documentation for CockroachDB / v26.1.
+- [CockroachDB / v26.1 / Docs (278 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v26-1/docs.md): Documentation for CockroachDB / v26.1 / Docs.
+- [CockroachDB / v25.4 (667 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v25-4.md): Documentation for CockroachDB / v25.4.
+- [CockroachDB / v25.4 / Docs (292 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v25-4/docs.md): Documentation for CockroachDB / v25.4 / Docs.
+- [CockroachDB / v25.3 (655 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v25-3.md): Documentation for CockroachDB / v25.3.
+- [CockroachDB / v25.3 / Docs (284 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v25-3/docs.md): Documentation for CockroachDB / v25.3 / Docs.
+- [CockroachDB / v25.2 (656 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v25-2.md): Documentation for CockroachDB / v25.2.
+- [CockroachDB / v25.2 / Docs (288 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v25-2/docs.md): Documentation for CockroachDB / v25.2 / Docs.
+- [CockroachDB / v25.1 (627 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v25-1.md): Documentation for CockroachDB / v25.1.
+- [CockroachDB / v25.1 / Docs (266 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v25-1/docs.md): Documentation for CockroachDB / v25.1 / Docs.
+- [CockroachDB / v24.3 (627 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v24-3.md): Documentation for CockroachDB / v24.3.
+- [CockroachDB / v24.3 / Docs (272 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v24-3/docs.md): Documentation for CockroachDB / v24.3 / Docs.
+- [CockroachDB / v24.1 (602 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v24-1.md): Documentation for CockroachDB / v24.1.
+- [CockroachDB / v24.1 / Docs (254 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v24-1/docs.md): Documentation for CockroachDB / v24.1 / Docs.
+- [CockroachDB / v23.2 (590 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v23-2.md): Documentation for CockroachDB / v23.2.
+- [CockroachDB / v23.2 / Docs (243 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v23-2/docs.md): Documentation for CockroachDB / v23.2 / Docs.
+- [CockroachDB / v23.1 (567 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v23-1.md): Documentation for CockroachDB / v23.1.
+- [CockroachDB / v23.1 / Docs (231 pages)](https://docs.cockroachlabs.com/_llms/cockroach-db/v23-1/docs.md): Documentation for CockroachDB / v23.1 / Docs.
+- [Cloud Deployments (465 pages)](https://docs.cockroachlabs.com/_llms/cloud-deployments.md): Fully managed CockroachDB
+- [Cloud Deployments / Cloud API Reference (367 pages)](https://docs.cockroachlabs.com/_llms/cloud-deployments/cloud-api-reference.md): Documentation for Cloud Deployments / Cloud API Reference.
+- [Cloud Deployments / Cloud API Reference / 2026-09-15 (Latest) (162 pages)](https://docs.cockroachlabs.com/_llms/cloud-deployments/cloud-api-reference/2026-09-15-latest.md): Documentation for Cloud Deployments / Cloud API Reference / 2026-09-15 (Latest).
+- [Cloud Deployments / Cloud API Reference / 2024-09-16 (151 pages)](https://docs.cockroachlabs.com/_llms/cloud-deployments/cloud-api-reference/2024-09-16.md): Documentation for Cloud Deployments / Cloud API Reference / 2024-09-16.
+- [Cloud Deployments / Cloud API Reference / 2023-04-10 (125 pages)](https://docs.cockroachlabs.com/_llms/cloud-deployments/cloud-api-reference/2023-04-10.md): Documentation for Cloud Deployments / Cloud API Reference / 2023-04-10.

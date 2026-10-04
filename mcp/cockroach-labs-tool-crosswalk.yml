@@ -1,0 +1,34 @@
+generated: '2026-10-04'
+method: derived
+source: https://docs.cockroachlabs.com/docs/continuum/mcp-server.md
+crosswalk:
+  - tool: Claude Code
+    category: ai-assistant
+    rest: []
+    binding: none
+    confidence: low
+    note: No public REST operation mapping found
+  - tool: Cursor
+    category: ai-assistant
+    rest: []
+    binding: none
+    confidence: low
+    note: No public REST operation mapping found
+  - tool: Cline
+    category: ai-assistant
+    rest: []
+    binding: none
+    confidence: low
+    note: No public REST operation mapping found
+  - tool: GitHub Copilot
+    category: ai-assistant
+    rest: []
+    binding: none
+    confidence: low
+    note: No public REST operation mapping found
+  - tool: Codex
+    category: ai-assistant
+    rest: []
+    binding: none
+    confidence: low
+    note: No public REST operation mapping found

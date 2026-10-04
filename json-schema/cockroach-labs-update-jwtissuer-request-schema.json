@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-update-jwtissuer-request-schema.json",
+  "title": "UpdateJWTIssuerRequest",
+  "description": "Request body for updating a JWT issuer.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-jwtissuers-api-openapi.yml#/components/schemas/UpdateJWTIssuerRequest",
+  "type": "object",
+  "properties": {
+    "issuer_url": {
+      "type": "string",
+      "description": "Updated URL of the JWT issuer."
+    },
+    "jwks_id": {
+      "type": "string",
+      "description": "Updated JWKS identifier."
+    }
+  }
+}

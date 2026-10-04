@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-folder-contents-response-schema.json",
+  "title": "ListFolderContentsResponse",
+  "description": "Contents of a folder including clusters and sub-folders.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-folders-api-openapi.yml#/components/schemas/ListFolderContentsResponse",
+  "type": "object",
+  "properties": {
+    "resources": {
+      "type": "array",
+      "description": "Array of resource objects (clusters or folders).",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

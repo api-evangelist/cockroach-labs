@@ -1,0 +1,418 @@
+generated: '2026-10-04'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/cockroach-labs-api-keys-api-openapi.yml
+- openapi/cockroach-labs-audit-logs-api-openapi.yml
+- openapi/cockroach-labs-auth-api-openapi.yml
+- openapi/cockroach-labs-backup-restore-api-openapi.yml
+- openapi/cockroach-labs-billing-api-openapi.yml
+vocabulary:
+  name: Cockroach Labs Domain Vocabulary
+  description: 'Terms declared by Cockroach Labs''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-04'
+  terms:
+  - term: API Keys
+    definition: Manage API keys for programmatic access, including creation, retrieval, listing, updating, and deletion.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-api-keys-api-openapi.yml
+  - term: Audit Logs
+    definition: Retrieve audit log events for the organization to support compliance and security investigations.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-audit-logs-api-openapi.yml
+  - term: Auth
+    definition: Authenticate to the Cluster API by creating and terminating API sessions. Session tokens are passed via the X-Cockroach-API-Session
+      header on subsequent requests.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-auth-api-openapi.yml
+  - term: Backup Restore
+    definition: Manage cluster backups, backup configurations, and restore operations for CockroachDB clusters.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-backup-restore-api-openapi.yml
+  - term: Billing
+    definition: Retrieve invoices and billing information for the CockroachDB Cloud organization.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-billing-api-openapi.yml
+  - term: Clusters
+    definition: Create, list, retrieve, update, and delete CockroachDB Serverless and Dedicated clusters within an organization.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-clusters-api-openapi.yml
+  - term: CMEK
+    definition: Manage customer-managed encryption keys (CMEK) for encrypting cluster data at rest using customer-controlled keys.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-cmek-api-openapi.yml
+  - term: Databases
+    definition: Manage databases within a CockroachDB cluster, including creation, listing, updating, and deletion.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-databases-api-openapi.yml
+  - term: EgressRules
+    definition: Configure egress traffic rules and egress private endpoints for outbound cluster network traffic.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-egressrules-api-openapi.yml
+  - term: Folders
+    definition: Organize clusters and other resources into hierarchical folder structures within the organization.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-folders-api-openapi.yml
+  - term: Health
+    definition: Check the health and readiness of individual CockroachDB nodes. The health endpoint can report whether the node is live and fully
+      operational for accepting SQL connections.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-health-api-openapi.yml
+  - term: IPAllowlists
+    definition: Configure IP allowlist entries to control network access to a cluster.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-ipallowlists-api-openapi.yml
+  - term: JWTIssuers
+    definition: Manage JWT issuer configurations for external identity provider integrations.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-jwtissuers-api-openapi.yml
+  - term: LogExport
+    definition: Configure log export to external destinations such as AWS CloudWatch or GCP Cloud Logging.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-logexport-api-openapi.yml
+  - term: Maintenance Windows
+    definition: Configure maintenance windows and blackout periods for cluster upgrade scheduling.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-maintenance-windows-api-openapi.yml
+  - term: MetricExport
+    definition: Configure metric export integrations including AWS CloudWatch, Datadog, and Prometheus.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-metricexport-api-openapi.yml
+  - term: Nodes
+    definition: Retrieve information about all nodes in the cluster, including their status, address, locality, and operational metrics.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-nodes-api-openapi.yml
+  - term: Organizations
+    definition: Retrieve information about the caller's CockroachDB Cloud organization.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-organizations-api-openapi.yml
+  - term: Private Endpoints
+    definition: Manage private endpoint services and connections for secure VPC-level access to clusters.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-private-endpoints-api-openapi.yml
+  - term: Ranges
+    definition: List and inspect range information for the cluster, including hot ranges by node and detailed information for specific range IDs.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-ranges-api-openapi.yml
+  - term: Role Management
+    definition: Manage role-based access control, including assigning and removing roles for users across organization, folder, and cluster scopes.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-role-management-api-openapi.yml
+  - term: Rules
+    definition: Retrieve alerting rules templates for use with Prometheus-compatible alerting systems.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-rules-api-openapi.yml
+  - term: Service Accounts
+    definition: Manage service accounts used for machine-to-machine authentication within the organization.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-service-accounts-api-openapi.yml
+  - term: Sessions
+    definition: List active SQL sessions across all nodes of the cluster, with optional filtering by username.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-sessions-api-openapi.yml
+  - term: SQLUsers
+    definition: Manage SQL users for a cluster, including creating users, listing users, and updating SQL user passwords.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-sqlusers-api-openapi.yml
+  - term: VersionDeferral
+    definition: Manage cluster version deferral policies to delay automatic CockroachDB version upgrades.
+    tags:
+    - Resource Group
+    source: openapi/cockroach-labs-versiondeferral-api-openapi.yml
+  - term: Error
+    definition: Standard error response returned by the API.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/Error
+  - term: PaginationResponse
+    definition: Pagination metadata included in list responses.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/PaginationResponse
+  - term: ListApiKeysResponse
+    definition: Paginated list of API keys.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/ListApiKeysResponse
+  - term: UpdateApiKeySpecification
+    definition: Specification for updating an API key's metadata.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/UpdateApiKeySpecification
+  - term: CreateApiKeyRequest
+    definition: Request body for creating a new API key.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/CreateApiKeyRequest
+  - term: ApiKey
+    definition: Represents an API key used for authenticating requests to the CockroachDB Cloud API.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/ApiKey
+  - term: CreateApiKeyResponse
+    definition: Response from creating an API key. Contains the key secret which is only returned once and cannot be retrieved again.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/CreateApiKeyResponse
+  - term: ListAuditLogsResponse
+    definition: Audit log events returned from the API.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-audit-logs-api-openapi.yml#/components/schemas/ListAuditLogsResponse
+  - term: LogoutResponse
+    definition: Response from a logout request confirming session termination.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-auth-api-openapi.yml#/components/schemas/LogoutResponse
+  - term: LoginResponse
+    definition: Response from a successful login request.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-auth-api-openapi.yml#/components/schemas/LoginResponse
+  - term: LoginRequest
+    definition: Credentials for authenticating to the Cluster API.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-auth-api-openapi.yml#/components/schemas/LoginRequest
+  - term: ListRestoresResponse
+    definition: Paginated list of restore operations.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-backup-restore-api-openapi.yml#/components/schemas/ListRestoresResponse
+  - term: BackupConfiguration
+    definition: Backup configuration settings for a CockroachDB cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-backup-restore-api-openapi.yml#/components/schemas/BackupConfiguration
+  - term: Restore
+    definition: Represents a restore operation on a CockroachDB cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-backup-restore-api-openapi.yml#/components/schemas/Restore
+  - term: ListBackupsResponse
+    definition: Paginated list of cluster backups.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-backup-restore-api-openapi.yml#/components/schemas/ListBackupsResponse
+  - term: CreateRestoreRequest
+    definition: Request body for initiating a cluster restore.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-backup-restore-api-openapi.yml#/components/schemas/CreateRestoreRequest
+  - term: UpdateBackupConfigurationSpec
+    definition: Specification for updating backup configuration.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-backup-restore-api-openapi.yml#/components/schemas/UpdateBackupConfigurationSpec
+  - term: ListInvoicesResponse
+    definition: List of invoices for the organization.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-billing-api-openapi.yml#/components/schemas/ListInvoicesResponse
+  - term: Invoice
+    definition: A billing invoice for a CockroachDB Cloud organization.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-billing-api-openapi.yml#/components/schemas/Invoice
+  - term: DedicatedClusterConfig
+    definition: Configuration specific to CockroachDB Dedicated clusters.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/DedicatedClusterConfig
+  - term: ListClusterNodesResponse
+    definition: Paginated list of nodes in a cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/ListClusterNodesResponse
+  - term: ListMajorClusterVersionsResponse
+    definition: List of available major CockroachDB versions.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/ListMajorClusterVersionsResponse
+  - term: ListAvailableRegionsResponse
+    definition: Paginated list of available cloud regions.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/ListAvailableRegionsResponse
+  - term: UpdateClusterSpecification
+    definition: Specification for modifying an existing cluster's configuration.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/UpdateClusterSpecification
+  - term: Region
+    definition: A geographic region where the cluster or its nodes are deployed.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/Region
+  - term: Cluster
+    definition: Represents a CockroachDB Cloud cluster, which is an instance of CockroachDB running in one or more cloud regions on Serverless
+      or Dedicated infrastructure.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/Cluster
+  - term: CreateClusterRequest
+    definition: Request body for creating a new CockroachDB Cloud cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/CreateClusterRequest
+  - term: ClusterConfig
+    definition: Configuration settings for a CockroachDB cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/ClusterConfig
+  - term: AvailableRegion
+    definition: A cloud provider region available for cluster deployment.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/AvailableRegion
+  - term: ClusterNode
+    definition: Represents an individual node within a CockroachDB cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/ClusterNode
+  - term: ListClustersResponse
+    definition: Paginated list of clusters in the organization.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/ListClustersResponse
+  - term: GetConnectionStringResponse
+    definition: Connection string for a cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/GetConnectionStringResponse
+  - term: ServerlessClusterConfig
+    definition: Configuration specific to CockroachDB Serverless clusters.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/ServerlessClusterConfig
+  - term: CMEKClusterInfo
+    definition: Customer-managed encryption key configuration for a cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-cmek-api-openapi.yml#/components/schemas/CMEKClusterInfo
+  - term: UpdateCMEKStatusRequest
+    definition: Request body for updating CMEK operational status.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-cmek-api-openapi.yml#/components/schemas/UpdateCMEKStatusRequest
+  - term: CMEKClusterSpecification
+    definition: Specification defining the customer-managed encryption key configuration for a CockroachDB cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-cmek-api-openapi.yml#/components/schemas/CMEKClusterSpecification
+  - term: ListDatabasesResponse
+    definition: Paginated list of databases in a cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-databases-api-openapi.yml#/components/schemas/ListDatabasesResponse
+  - term: CreateDatabaseRequest
+    definition: Request body for creating a new database.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-databases-api-openapi.yml#/components/schemas/CreateDatabaseRequest
+  - term: Database
+    definition: Represents a database within a CockroachDB cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-databases-api-openapi.yml#/components/schemas/Database
+  - term: UpdateDatabaseRequest
+    definition: Request body for updating an existing database.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-databases-api-openapi.yml#/components/schemas/UpdateDatabaseRequest
+  - term: AddEgressRuleRequest
+    definition: Request body for adding an egress rule.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-egressrules-api-openapi.yml#/components/schemas/AddEgressRuleRequest
+  - term: EditEgressRuleRequest
+    definition: Request body for updating an egress rule.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-egressrules-api-openapi.yml#/components/schemas/EditEgressRuleRequest
+  - term: ListEgressRulesResponse
+    definition: Paginated list of egress rules for a cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-egressrules-api-openapi.yml#/components/schemas/ListEgressRulesResponse
+  - term: EgressRule
+    definition: Represents an egress traffic rule controlling outbound connections from a CockroachDB cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-egressrules-api-openapi.yml#/components/schemas/EgressRule
+  - term: Folder
+    definition: Represents a folder used to organize clusters and resources within a CockroachDB Cloud organization.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-folders-api-openapi.yml#/components/schemas/Folder
+  - term: CreateFolderRequest
+    definition: Request body for creating a new folder.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-folders-api-openapi.yml#/components/schemas/CreateFolderRequest
+  - term: ListFolderContentsResponse
+    definition: Contents of a folder including clusters and sub-folders.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-folders-api-openapi.yml#/components/schemas/ListFolderContentsResponse
+  - term: UpdateFolderSpecification
+    definition: Specification for updating a folder.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-folders-api-openapi.yml#/components/schemas/UpdateFolderSpecification
+  - term: ListFoldersResponse
+    definition: Paginated list of folders.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-folders-api-openapi.yml#/components/schemas/ListFoldersResponse
+  - term: HealthResponse
+    definition: Health status of the CockroachDB node.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-health-api-openapi.yml#/components/schemas/HealthResponse
+  - term: ListAllowlistEntriesResponse
+    definition: Paginated list of IP allowlist entries for a cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-ipallowlists-api-openapi.yml#/components/schemas/ListAllowlistEntriesResponse
+  - term: AllowlistEntry
+    definition: An IP allowlist entry representing a CIDR range authorized to connect to a CockroachDB cluster.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-ipallowlists-api-openapi.yml#/components/schemas/AllowlistEntry
+  - term: UpdateJWTIssuerRequest
+    definition: Request body for updating a JWT issuer.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-jwtissuers-api-openapi.yml#/components/schemas/UpdateJWTIssuerRequest
+  - term: AddJWTIssuerRequest
+    definition: Request body for adding a JWT issuer.
+    tags:
+    - Object
+    source: openapi/cockroach-labs-jwtissuers-api-openapi.yml#/components/schemas/AddJWTIssuerRequest

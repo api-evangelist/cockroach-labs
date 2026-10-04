@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-private-endpoint-connection-schema.json",
+  "title": "PrivateEndpointConnection",
+  "description": "Represents a private endpoint connection for VPC-level access to a CockroachDB cluster.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-private-endpoints-api-openapi.yml#/components/schemas/PrivateEndpointConnection",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the private endpoint connection."
+    },
+    "cloud_provider": {
+      "type": "string",
+      "description": "Cloud provider where the endpoint is hosted."
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the private endpoint connection."
+    },
+    "endpoint_id": {
+      "type": "string",
+      "description": "Cloud provider endpoint identifier."
+    },
+    "region_name": {
+      "type": "string",
+      "description": "Cloud region of the endpoint."
+    }
+  }
+}

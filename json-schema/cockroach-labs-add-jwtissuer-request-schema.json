@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-add-jwtissuer-request-schema.json",
+  "title": "AddJWTIssuerRequest",
+  "description": "Request body for adding a JWT issuer.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-jwtissuers-api-openapi.yml#/components/schemas/AddJWTIssuerRequest",
+  "type": "object",
+  "required": [
+    "issuer_url",
+    "jwks_id"
+  ],
+  "properties": {
+    "issuer_url": {
+      "type": "string",
+      "description": "URL of the JWT issuer."
+    },
+    "jwks_id": {
+      "type": "string",
+      "description": "Identifier for the JSON Web Key Set."
+    }
+  }
+}

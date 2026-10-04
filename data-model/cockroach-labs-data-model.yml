@@ -1,0 +1,1362 @@
+generated: '2026-10-04'
+method: derived
+generator: derive-data-model.py
+source:
+- openapi/cockroach-labs-api-keys-api-openapi.yml
+- openapi/cockroach-labs-audit-logs-api-openapi.yml
+- openapi/cockroach-labs-auth-api-openapi.yml
+- openapi/cockroach-labs-backup-restore-api-openapi.yml
+- openapi/cockroach-labs-billing-api-openapi.yml
+- openapi/cockroach-labs-clusters-api-openapi.yml
+- openapi/cockroach-labs-cmek-api-openapi.yml
+- openapi/cockroach-labs-databases-api-openapi.yml
+- openapi/cockroach-labs-egressrules-api-openapi.yml
+- openapi/cockroach-labs-folders-api-openapi.yml
+- openapi/cockroach-labs-health-api-openapi.yml
+- openapi/cockroach-labs-ipallowlists-api-openapi.yml
+notation: has_one = property $ref; has_many = array of $ref; belongs_to = <entity>_id field
+summary:
+  entities: 253
+  entities_in_spec: 253
+  relationships: 177
+entities:
+- name: AWSPrivateLinkServiceDetail
+  fields: 3
+- name: AddEgressRuleBody
+  fields: 7
+- name: AddEgressRuleRequest
+  fields: 4
+  description: Request body for adding an egress rule.
+- name: AddEgressRuleResponse
+  fields: 1
+- name: AddJWTIssuerRequest
+  fields: 2
+  description: Request body for adding a JWT issuer.
+- name: AddPrivateEndpointConnectionBody
+  fields: 1
+- name: AddPrivateEndpointConnectionRequest
+  fields: 1
+  description: Request body for adding a private endpoint connection.
+- name: AddPrivateEndpointTrustedOwnerBody
+  fields: 2
+- name: AddPrivateEndpointTrustedOwnerResponse
+  fields: 1
+- name: Address
+  fields: 2
+  description: Network address of a CockroachDB node.
+- name: AllowlistEntry
+  fields: 5
+  description: An IP allowlist entry representing a CIDR range authorized to connect to a CockroachDB cluster.
+- name: Any
+  fields: 1
+  description: '`Any` contains an arbitrary serialized protocol buffer message along with a'
+- name: ApiKey
+  fields: 4
+  description: Represents an API key used for authenticating requests to the CockroachDB Cloud API.
+- name: AuditLogEntry
+  fields: 14
+  description: AuditLogEntry represents an entry in the cloud event log.
+- name: AuditLogMetadata
+  fields: 1
+- name: AvailableRegion
+  fields: 3
+  description: A cloud provider region available for cluster deployment.
+- name: Aws
+  fields: 1
+- name: AwsCustomerCloudAccount
+  fields: 1
+- name: AwsEndpointConnection
+  fields: 6
+- name: AwsEndpointConnections
+  fields: 1
+- name: Azure
+  fields: 2
+- name: AzureCustomerCloudAccount
+  fields: 2
+- name: BackupConfiguration
+  fields: 3
+  description: Backup configuration settings for a CockroachDB cluster.
+- name: BackupSummary
+  fields: 2
+- name: BlackoutWindow
+  fields: 4
+  description: BlackoutWindow schedules a period of up to 14 days for an
+- name: BuildInfo
+  fields: 9
+  description: Build and version metadata for the CockroachDB binary on a node.
+- name: BuiltInFromGroups
+  fields: 2
+- name: BuiltInRole
+  fields: 2
+- name: CMEKClusterInfo
+  fields: 3
+  description: Customer-managed encryption key configuration for a cluster.
+- name: CMEKClusterSpecification
+  fields: 1
+  description: Specification defining the customer-managed encryption key configuration for a CockroachDB cluster.
+- name: CMEKKeyInfo
+  fields: 5
+  description: CMEKKeyInfo contains the status of a customer-provided key alongside the
+- name: CMEKKeySpecification
+  fields: 3
+  description: CMEKKeySpecification contains all the details necessary to use a customer-provided
+- name: CMEKRegionInfo
+  fields: 3
+  description: CMEKRegionInfo contains the status of CMEK within a region.
+- name: CMEKRegionSpecification
+  fields: 2
+  description: CMEKRegionSpecification declares the customer-provided key specification that
+- name: ClientCACertInfo
+  fields: 2
+- name: CloudProviderRegion
+  fields: 5
+- name: CloudWatchMetricExportInfo
+  fields: 3
+  description: AWS CloudWatch metric export configuration for a cluster.
+- name: Cluster
+  fields: 21
+  description: Represents a CockroachDB Cloud cluster, which is an instance of CockroachDB running in one or more
+    cloud regions on Serverless or Dedicated infrastructure.
+- name: ClusterConfig
+  fields: 2
+  description: Configuration settings for a CockroachDB cluster.
+- name: ClusterDisruptionInfo
+  fields: 1
+- name: ClusterMajorVersion
+  fields: 5
+  description: For more information about CockroachDB cluster version support, see https://www.cockroachlabs.com/docs/releases/release-support-policy.html
+- name: ClusterNode
+  fields: 3
+  description: Represents an individual node within a CockroachDB cluster.
+- name: ClusterVersionDeferral
+  fields: 2
+  description: ClusterVersionDeferral specifies whether automatic patch version upgrades are applied
+- name: ClusterVersionDeferralUpdate
+  fields: 2
+- name: CockroachCloudServicePrincipals
+  fields: 3
+- name: ConnectionStringParameters
+  fields: 4
+  description: Individual parameters used to create a connection string.
+- name: CreateApiKeyRequest
+  fields: 2
+  description: Request body for creating a new API key.
+- name: CreateApiKeyResponse
+  fields: 2
+  description: Response from creating an API key. Contains the key secret which is only returned once and cannot
+    be retrieved again.
+- name: CreateBlackoutWindowBody
+  fields: 2
+- name: CreateClusterRequest
+  fields: 5
+  description: Request body for creating a new CockroachDB Cloud cluster.
+- name: CreateClusterSpecification
+  fields: 9
+- name: CreateDatabaseBody
+  fields: 1
+- name: CreateDatabaseRequest
+  fields: 1
+  description: Request body for creating a new database.
+- name: CreateEgressPrivateEndpointBody
+  fields: 3
+- name: CreateFolderRequest
+  fields: 2
+  description: Request body for creating a new folder.
+- name: CreateGroupRequest
+  fields: 4
+- name: CreateMigrationAssistantBody
+  fields: 1
+  description: CreateMigrationAssistantRequest provisions a Migration Assistant on a cluster.
+- name: CreatePhysicalReplicationStreamRequest
+  fields: 2
+- name: CreateRestoreBody
+  fields: 5
+- name: CreateRestoreRequest
+  fields: 2
+  description: Request body for initiating a cluster restore.
+- name: CreateSQLUserBody
+  fields: 2
+- name: CreateSQLUserRequest
+  fields: 2
+  description: Request body for creating a new SQL user.
+- name: CreateServiceAccountCredentialBody
+  fields: 5
+- name: CreateServiceAccountRequest
+  fields: 3
+- name: CreateUserRequest
+  fields: 7
+- name: CreateUserResponse
+  fields: 10
+  description: Response when creating a new user via SCIM 2.0
+- name: CreateVirtualClusterBody
+  fields: 7
+- name: CurrencyAmount
+  fields: 2
+- name: CustomerCloudAccount
+  fields: 3
+- name: Database
+  fields: 2
+  description: Represents a database within a CockroachDB cluster.
+- name: DatadogMetricExportInfo
+  fields: 3
+  description: Datadog metric export configuration for a cluster.
+- name: DedicatedClusterConfig
+  fields: 5
+  description: Configuration specific to CockroachDB Dedicated clusters.
+- name: DedicatedClusterCreateSpecification
+  fields: 8
+- name: DedicatedClusterUpdateSpecification
+  fields: 4
+- name: DedicatedHardwareConfig
+  fields: 5
+- name: DedicatedHardwareCreateSpecification
+  fields: 3
+  description: Exactly one of machine_spec or DedicatedClusterCreateSpecification.region_machine_specs must be provided.
+    For the standard (non-limited-access) cluster creation flow, machine_spec is effectively requi
+- name: DedicatedHardwareUpdateSpecification
+  fields: 3
+- name: DedicatedMachineTypeSpecification
+  fields: 2
+- name: DeleteEgressRuleResponse
+  fields: 1
+- name: DeleteMetricExportResponse
+  fields: 2
+- name: EditDatabaseBody
+  fields: 2
+- name: EditEgressRuleBody
+  fields: 6
+- name: EditEgressRuleRequest
+  fields: 3
+  description: Request body for updating an egress rule.
+- name: EditEgressRuleResponse
+  fields: 1
+- name: EgressPrivateEndpoint
+  fields: 9
+- name: EgressRule
+  fields: 5
+  description: Represents an egress traffic rule controlling outbound connections from a CockroachDB cluster.
+- name: EnableCMEKSpecBody
+  fields: 1
+- name: EnableCloudWatchMetricExportBody
+  fields: 4
+- name: EnableCloudWatchMetricExportRequest
+  fields: 2
+  description: Request body for enabling AWS CloudWatch metric export.
+- name: EnableClusterRuntimeScanningBody
+  fields: 1
+  description: EnableClusterRuntimeScanningRequest is used to enable runtime scanning on a
+- name: EnableDatadogMetricExportBody
+  fields: 2
+- name: EnableDatadogMetricExportRequest
+  fields: 2
+  description: Request body for enabling Datadog metric export.
+- name: EnableLogExportBody
+  fields: 18
+- name: EnableLogExportRequest
+  fields: 3
+  description: Request body for enabling log export.
+- name: Error
+  fields: 3
+  description: Standard error response returned by the API.
+- name: Folder
+  fields: 4
+  description: Represents a folder used to organize clusters and resources within a CockroachDB Cloud organization.
+- name: FolderResource
+  fields: 7
+  description: FolderResource describes a resource, and includes info about its lineage (parent/ancestors).
+- name: FolderResourceList
+  fields: 2
+  description: FolderResourceList contains a list of resources.
+- name: Gcp
+  fields: 1
+- name: GcpCustomerCloudAccount
+  fields: 1
+- name: GetAllRolesForUserResponse
+  fields: 2
+- name: GetConnectionStringResponse
+  fields: 1
+  description: Connection string for a cluster.
+- name: GetEgressRuleResponse
+  fields: 1
+- name: GetGroup2Body
+  fields: 2
+- name: GetGroupsRequest
+  fields: 5
+- name: GetGroupsResponse
+  fields: 5
+- name: GetPersonUsersByEmailResponse
+  fields: 1
+- name: GetPrivateEndpointTrustedOwnerResponse
+  fields: 1
+- name: GetResourceTypesResponse
+  fields: 5
+- name: GetSchemasResponse
+  fields: 5
+- name: GetServiceProviderConfigResponse
+  fields: 8
+- name: GetUser2Body
+  fields: 2
+- name: GetUsersRequest
+  fields: 5
+- name: GetUsersResponse
+  fields: 5
+- name: HealthResponse
+  fields: 2
+  description: Health status of the CockroachDB node.
+- name: HostClusterConfig
+  fields: 5
+  description: HostClusterConfig describes the hardware of a host cluster.
+- name: HostClusterCreateSpecification
+  fields: 7
+  description: HostClusterCreateSpecification creates a cluster that holds virtual
+- name: HostClusterUpdateSpecification
+  fields: 4
+  description: HostClusterUpdateSpecification updates a cluster that holds virtual
+- name: HotRange
+  fields: 7
+  description: A range identified as hot due to elevated query activity, including the range descriptor and per-second
+    query throughput.
+- name: Invoice
+  fields: 5
+  description: A billing invoice for a CockroachDB Cloud organization.
+- name: InvoiceAdjustment
+  fields: 2
+- name: InvoiceItem
+  fields: 3
+- name: JWTIssuer
+  fields: 3
+  description: A JWT issuer configuration for external identity provider integration.
+- name: JWTIssuerIdentityMapEntry
+  fields: 2
+- name: KeysetPaginationResponse
+  fields: 2
+- name: LineItem
+  fields: 5
+- name: ListAllowlistEntriesResponse
+  fields: 2
+  description: Paginated list of IP allowlist entries for a cluster.
+- name: ListApiKeysResponse
+  fields: 2
+  description: Paginated list of API keys.
+- name: ListAuditLogsResponse
+  fields: 1
+  description: Audit log events returned from the API.
+- name: ListAvailableRegionsResponse
+  fields: 2
+  description: Paginated list of available cloud regions.
+- name: ListBackupsResponse
+  fields: 2
+  description: Paginated list of cluster backups.
+- name: ListBlackoutWindowsResponse
+  fields: 2
+- name: ListClusterNodesResponse
+  fields: 2
+  description: Paginated list of nodes in a cluster.
+- name: ListClustersResponse
+  fields: 2
+  description: Paginated list of clusters in the organization.
+- name: ListDatabasesResponse
+  fields: 2
+  description: Paginated list of databases in a cluster.
+- name: ListEgressPrivateEndpointsResponse
+  fields: 2
+- name: ListEgressRulesResponse
+  fields: 2
+  description: Paginated list of egress rules for a cluster.
+- name: ListFolderContentsResponse
+  fields: 1
+  description: Contents of a folder including clusters and sub-folders.
+- name: ListFoldersResponse
+  fields: 2
+  description: Paginated list of folders.
+- name: ListHotRangesResponse
+  fields: 2
+  description: Hot ranges across the cluster or filtered to a specific node.
+- name: ListInvoicesResponse
+  fields: 1
+  description: List of invoices for the organization.
+- name: ListJWTIssuersResponse
+  fields: 2
+  description: Paginated list of JWT issuers.
+- name: ListMajorClusterVersionsResponse
+  fields: 1
+  description: List of available major CockroachDB versions.
+- name: ListNodeRangesResponse
+  fields: 2
+  description: Range information for a specific node with pagination metadata.
+- name: ListNodesResponse
+  fields: 2
+  description: List of nodes in the CockroachDB cluster with pagination metadata.
+- name: ListPrivateEndpointConnectionsResponse
+  fields: 1
+  description: List of private endpoint connections for a cluster.
+- name: ListPrivateEndpointServicesResponse
+  fields: 1
+  description: List of private endpoint services for a cluster.
+- name: ListPrivateEndpointTrustedOwnersResponse
+  fields: 1
+- name: ListRestoresResponse
+  fields: 2
+  description: Paginated list of restore operations.
+- name: ListRoleGrantsResponse
+  fields: 3
+- name: ListSQLUsersResponse
+  fields: 2
+- name: ListServiceAccountCredentialsResponse
+  fields: 2
+- name: ListServiceAccountsResponse
+  fields: 2
+- name: ListSessionsResponse
+  fields: 3
+  description: List of active SQL sessions across all cluster nodes.
+- name: ListVirtualClusterWorkspacesResponse
+  fields: 2
+- name: Locality
+  fields: 1
+  description: Geographic or topological locality tiers assigned to the node, used for zone configuration and replica
+    placement.
+- name: LogExportClusterInfo
+  fields: 3
+  description: Log export configuration and status for a cluster.
+- name: LogExportClusterSpecification
+  fields: 18
+  description: LogExportClusterSpecification contains all the data necessary to
+- name: LogExportGroup
+  fields: 5
+  description: LogExportGroup contains an export configuration for a single
+- name: LoginRequest
+  fields: 2
+  description: Credentials for authenticating to the Cluster API.
+- name: LoginResponse
+  fields: 1
+  description: Response from a successful login request.
+- name: LogoutResponse
+  fields: 1
+  description: Response from a logout request confirming session termination.
+- name: MaintenanceWindow
+  fields: 2
+  description: Defines the time window during which CockroachDB Cloud may perform automatic maintenance and version
+    upgrade operations on a cluster.
+- name: MigrationAssistant
+  fields: 12
+  description: MigrationAssistant is a per-cluster migration assistant deployment. The url,
+- name: MigrationAssistantSourceCACert
+  fields: 1
+  description: MigrationAssistantSourceCACert is the CA certificate bundle a Migration
+- name: Node
+  fields: 3
+- name: NodeDescriptor
+  fields: 9
+  description: Identifies and locates a specific node within the CockroachDB cluster.
+- name: NodeStatus
+  fields: 9
+  description: Status and metadata for a single node in the CockroachDB cluster, including address, build details,
+    locality, store information, and activity metrics.
+- name: Organization
+  fields: 5
+- name: PaginationResponse
+  fields: 3
+  description: Pagination metadata included in list responses.
+- name: PatchGroupBody
+  fields: 2
+- name: PatchUserBody
+  fields: 2
+- name: PathSegment
+  fields: 2
+- name: PersonUserInfo
+  fields: 2
+- name: PhysicalReplicationStream
+  fields: 11
+- name: PhysicalReplicationStreamList
+  fields: 2
+- name: PrivateEndpointConnection
+  fields: 7
+- name: PrivateEndpointConnections
+  fields: 1
+- name: PrivateEndpointService
+  fields: 7
+- name: PrivateEndpointServices
+  fields: 1
+- name: PrivateEndpointTrustedOwner
+  fields: 5
+  description: PrivateEndpointTrustedOwner represents a trusted owner entry for private
+- name: PrometheusMetricExportInfo
+  fields: 2
+  description: Prometheus metric export configuration for a cluster.
+- name: RangeDescriptor
+  fields: 4
+  description: Describes a range's identity, key bounds, and replica set.
+- name: RangeInfo
+  fields: 8
+  description: Information about a single range, including span, replica placement, lease holder, and per-replica
+    statistics.
+- name: RangeResponse
+  fields: 2
+  description: Detailed information about a specific range from all replicas.
+- name: Region
+  fields: 3
+  description: A geographic region where the cluster or its nodes are deployed.
+- name: RegionalDisruptorSpecification
+  fields: 4
+  description: RegionalDisruptorSpecification represents how a region is disrupted. To
+- name: RemovePrivateEndpointTrustedOwnerResponse
+  fields: 1
+- name: Resource
+  fields: 2
+- name: Restore
+  fields: 4
+  description: Represents a restore operation on a CockroachDB cluster.
+- name: RestoreItem
+  fields: 3
+- name: RestoreOpts
+  fields: 7
+- name: RuntimeScanningInfo
+  fields: 1
+  description: RuntimeScanningInfo describes the runtime scanning configuration of a cluster.
+- name: SQLUser
+  fields: 1
+- name: ScimAuthenticationScheme
+  fields: 6
+- name: ScimBulkSupport
+  fields: 3
+- name: ScimChangePasswordSupport
+  fields: 1
+- name: ScimEmail
+  fields: 4
+- name: ScimEtagSupport
+  fields: 2
+- name: ScimFilterSupport
+  fields: 2
+- name: ScimGroup
+  fields: 6
+  description: SCIM 2.0 Group Resource
+- name: ScimMetadata
+  fields: 4
+- name: ScimName
+  fields: 2
+- name: ScimOperations
+  fields: 3
+- name: ScimResource
+  fields: 4
+- name: ScimResourceType
+  fields: 7
+- name: ScimSchema
+  fields: 5
+- name: ScimSchemaAttribute
+  fields: 12
+- name: ScimSortSupport
+  fields: 1
+- name: ScimUser
+  fields: 10
+  description: SCIM 2.0 User Resource
+- name: SearchGroupBody
+  fields: 2
+- name: SearchUserBody
+  fields: 2
+- name: ServerlessClusterConfig
+  fields: 3
+  description: Configuration specific to CockroachDB Serverless clusters.
+- name: ServerlessClusterCreateSpecification
+  fields: 5
+- name: ServerlessClusterUpdateSpecification
+  fields: 4
+- name: ServiceAccount
+  fields: 7
+  description: A service account is an identity scoped to an organization that
+- name: ServiceAccountCredential
+  fields: 10
+  description: ServiceAccountCredential is an OAuth 2.0 jwt-bearer credential a service
+- name: Session
+  fields: 11
+  description: An active SQL session on the CockroachDB cluster, representing a connection from a client application.
+- name: SetAwsEndpointConnectionStateBody
+  fields: 1
+- name: SetClientCACertBody
+  fields: 1
+- name: SetEgressTrafficPolicyBody
+  fields: 2
+- name: SetRolesForUserBody
+  fields: 1
+- name: SetRolesForUserRequest
+  fields: 1
+  description: Request body for setting all roles for a user.
+- name: Status
+  fields: 3
+- name: UpdateApiKeySpecification
+  fields: 1
+  description: Specification for updating an API key's metadata.
+- name: UpdateBackupConfigurationSpec
+  fields: 2
+  description: Specification for updating backup configuration.
+- name: UpdateBlackoutWindowBody
+  fields: 2
+- name: UpdateCMEKSpecBody
+  fields: 1
+- name: UpdateCMEKStatusBody
+  fields: 1
+- name: UpdateCMEKStatusRequest
+  fields: 1
+  description: Request body for updating CMEK operational status.
+- name: UpdateClientCACertBody
+  fields: 2
+- name: UpdateClusterDisruptionBody
+  fields: 1
+- name: UpdateClusterSpecification
+  fields: 3
+  description: Specification for modifying an existing cluster's configuration.
+- name: UpdateDatabaseRequest
+  fields: 1
+  description: Request body for updating an existing database.
+- name: UpdateEgressPrivateEndpointBody
+  fields: 1
+- name: UpdateEgressPrivateEndpointDomainNamesBody
+  fields: 1
+- name: UpdateFolderSpecification
+  fields: 2
+  description: Specification for updating a folder.
+- name: UpdateGroupBody
+  fields: 4
+- name: UpdateJWTIssuerBody
+  fields: 5
+- name: UpdateJWTIssuerRequest
+  fields: 2
+  description: Request body for updating a JWT issuer.
+- name: UpdateMigrationAssistantSourceCACertBody
+  fields: 1
+  description: UpdateMigrationAssistantSourceCACertRequest replaces the source-database CA
+- name: UpdatePhysicalReplicationStreamSpec
+  fields: 2
+- name: UpdateSQLUserPasswordBody
+  fields: 1
+- name: UpdateSQLUserPasswordRequest
+  fields: 1
+  description: Request body for updating a SQL user's password.
+- name: UpdateServiceAccountSpecification
+  fields: 2
+- name: UpdateUserBody
+  fields: 7
+- name: UpdateVirtualClusterSpecification
+  fields: 6
+- name: UpdateVirtualClusterWorkspaceSpecification
+  fields: 2
+- name: UsageLimits
+  fields: 3
+- name: UserGroupRoleGrant
+  fields: 2
+- name: UserRoleGrants
+  fields: 2
+- name: VirtualClusterConfig
+  fields: 3
+  description: 'VirtualClusterConfig describes a virtual cluster: a tenant running on a'
+- name: VirtualClusterWorkspace
+  fields: 7
+  description: A workspace is a named handle for the infrastructure a set of virtual
+relationships:
+- from: ListApiKeysResponse
+  to: ApiKey
+  type: has_many
+  via: api_keys
+- from: ListApiKeysResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: CreateApiKeyRequest
+  to: ServiceAccount
+  type: belongs_to
+  via: service_account_id
+- from: ApiKey
+  to: ServiceAccount
+  type: belongs_to
+  via: service_account_id
+- from: CreateApiKeyResponse
+  to: ApiKey
+  type: has_one
+  via: api_key
+- from: ListRestoresResponse
+  to: Restore
+  type: has_many
+  via: restores
+- from: ListRestoresResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: BackupConfiguration
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: Restore
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: ListBackupsResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: ListInvoicesResponse
+  to: Invoice
+  type: has_many
+  via: invoices
+- from: ListClusterNodesResponse
+  to: ClusterNode
+  type: has_many
+  via: nodes
+- from: ListClusterNodesResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: ListAvailableRegionsResponse
+  to: AvailableRegion
+  type: has_many
+  via: regions
+- from: ListAvailableRegionsResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: Cluster
+  to: Region
+  type: has_many
+  via: regions
+- from: Cluster
+  to: ClusterConfig
+  type: has_one
+  via: config
+- from: ClusterConfig
+  to: ServerlessClusterConfig
+  type: has_one
+  via: serverless
+- from: ClusterConfig
+  to: DedicatedClusterConfig
+  type: has_one
+  via: dedicated
+- from: ListClustersResponse
+  to: Cluster
+  type: has_many
+  via: clusters
+- from: ListClustersResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: CMEKClusterInfo
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: CMEKClusterInfo
+  to: CMEKClusterSpecification
+  type: has_one
+  via: spec
+- from: ListDatabasesResponse
+  to: Database
+  type: has_many
+  via: databases
+- from: ListDatabasesResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: ListEgressRulesResponse
+  to: EgressRule
+  type: has_many
+  via: rules
+- from: ListEgressRulesResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: Folder
+  to: Resource
+  type: belongs_to
+  via: resource_id
+- from: ListFoldersResponse
+  to: Folder
+  type: has_many
+  via: folders
+- from: ListFoldersResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: HealthResponse
+  to: Node
+  type: belongs_to
+  via: node_id
+- from: ListAllowlistEntriesResponse
+  to: AllowlistEntry
+  type: has_many
+  via: allowlist
+- from: ListAllowlistEntriesResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: ListJWTIssuersResponse
+  to: JWTIssuer
+  type: has_many
+  via: issuers
+- from: ListJWTIssuersResponse
+  to: PaginationResponse
+  type: has_one
+  via: pagination
+- from: LogExportClusterInfo
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: PrometheusMetricExportInfo
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: DatadogMetricExportInfo
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: CloudWatchMetricExportInfo
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: ListNodesResponse
+  to: NodeStatus
+  type: has_many
+  via: nodes
+- from: NodeStatus
+  to: NodeDescriptor
+  type: has_one
+  via: desc
+- from: NodeStatus
+  to: BuildInfo
+  type: has_one
+  via: build_info
+- from: NodeDescriptor
+  to: Node
+  type: belongs_to
+  via: node_id
+- from: NodeDescriptor
+  to: Address
+  type: has_one
+  via: address
+- from: NodeDescriptor
+  to: Locality
+  type: has_one
+  via: locality
+- from: NodeDescriptor
+  to: Address
+  type: has_one
+  via: sql_address
+- from: AddEgressRuleResponse
+  to: EgressRule
+  type: has_one
+  via: Rule
+- from: AddPrivateEndpointTrustedOwnerResponse
+  to: PrivateEndpointTrustedOwner
+  type: has_one
+  via: trusted_owner
+- from: AuditLogEntry
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: AuditLogEntry
+  to: AuditLogMetadata
+  type: has_one
+  via: metadata
+- from: AuditLogEntry
+  to: Session
+  type: belongs_to
+  via: session_id
+- from: AwsEndpointConnections
+  to: AwsEndpointConnection
+  type: has_many
+  via: connections
+- from: BlackoutWindow
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: BuiltInFromGroups
+  to: BuiltInRole
+  type: has_one
+  via: role
+- from: BuiltInRole
+  to: Resource
+  type: has_one
+  via: resource
+- from: CMEKKeyInfo
+  to: CMEKKeySpecification
+  type: has_one
+  via: spec
+- from: CMEKRegionInfo
+  to: CMEKKeyInfo
+  type: has_many
+  via: key_infos
+- from: CMEKRegionSpecification
+  to: CMEKKeySpecification
+  type: has_one
+  via: key_spec
+- from: ClusterDisruptionInfo
+  to: RegionalDisruptorSpecification
+  type: has_many
+  via: regional_disruptor_specifications
+- from: CockroachCloudServicePrincipals
+  to: Aws
+  type: has_one
+  via: aws
+- from: CockroachCloudServicePrincipals
+  to: Azure
+  type: has_one
+  via: azure
+- from: CockroachCloudServicePrincipals
+  to: Gcp
+  type: has_one
+  via: gcp
+- from: CreateClusterSpecification
+  to: CustomerCloudAccount
+  type: has_one
+  via: customer_cloud_account
+- from: CreateClusterSpecification
+  to: DedicatedClusterCreateSpecification
+  type: has_one
+  via: dedicated
+- from: CreateClusterSpecification
+  to: HostClusterCreateSpecification
+  type: has_one
+  via: host
+- from: CreateClusterSpecification
+  to: ServerlessClusterCreateSpecification
+  type: has_one
+  via: serverless
+- from: CreateGroupRequest
+  to: ScimResource
+  type: has_many
+  via: members
+- from: CreateRestoreBody
+  to: RestoreItem
+  type: has_many
+  via: objects
+- from: CreateRestoreBody
+  to: RestoreOpts
+  type: has_one
+  via: restore_opts
+- from: CreateServiceAccountRequest
+  to: BuiltInRole
+  type: has_many
+  via: roles
+- from: CreateUserRequest
+  to: ScimEmail
+  type: has_many
+  via: emails
+- from: CreateUserRequest
+  to: ScimName
+  type: has_one
+  via: name
+- from: CreateUserResponse
+  to: ScimEmail
+  type: has_many
+  via: emails
+- from: CreateUserResponse
+  to: ScimResource
+  type: has_many
+  via: groups
+- from: CreateUserResponse
+  to: ScimMetadata
+  type: has_one
+  via: meta
+- from: CreateUserResponse
+  to: ScimName
+  type: has_one
+  via: name
+- from: CustomerCloudAccount
+  to: AwsCustomerCloudAccount
+  type: has_one
+  via: aws
+- from: CustomerCloudAccount
+  to: AzureCustomerCloudAccount
+  type: has_one
+  via: azure
+- from: CustomerCloudAccount
+  to: GcpCustomerCloudAccount
+  type: has_one
+  via: gcp
+- from: DedicatedClusterCreateSpecification
+  to: DedicatedHardwareCreateSpecification
+  type: has_one
+  via: hardware
+- from: DedicatedClusterUpdateSpecification
+  to: CMEKRegionSpecification
+  type: has_many
+  via: cmek_region_specs
+- from: DedicatedClusterUpdateSpecification
+  to: DedicatedHardwareUpdateSpecification
+  type: has_one
+  via: hardware
+- from: DedicatedHardwareCreateSpecification
+  to: DedicatedMachineTypeSpecification
+  type: has_one
+  via: machine_spec
+- from: DedicatedHardwareUpdateSpecification
+  to: DedicatedMachineTypeSpecification
+  type: has_one
+  via: machine_spec
+- from: DeleteEgressRuleResponse
+  to: EgressRule
+  type: has_one
+  via: Rule
+- from: DeleteMetricExportResponse
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: EditEgressRuleResponse
+  to: EgressRule
+  type: has_one
+  via: Rule
+- from: EnableCMEKSpecBody
+  to: CMEKRegionSpecification
+  type: has_many
+  via: region_specs
+- from: EnableLogExportBody
+  to: LogExportGroup
+  type: has_many
+  via: groups
+- from: FolderResource
+  to: Organization
+  type: belongs_to
+  via: organization_id
+- from: FolderResource
+  to: PathSegment
+  type: has_many
+  via: path
+- from: FolderResource
+  to: Resource
+  type: belongs_to
+  via: resource_id
+- from: FolderResourceList
+  to: KeysetPaginationResponse
+  type: has_one
+  via: pagination
+- from: FolderResourceList
+  to: FolderResource
+  type: has_many
+  via: resources
+- from: GetAllRolesForUserResponse
+  to: BuiltInFromGroups
+  type: has_many
+  via: group_roles
+- from: GetAllRolesForUserResponse
+  to: BuiltInRole
+  type: has_many
+  via: roles
+- from: GetEgressRuleResponse
+  to: EgressRule
+  type: has_one
+  via: rule
+- from: GetGroupsResponse
+  to: ScimGroup
+  type: has_many
+  via: Resources
+- from: GetPersonUsersByEmailResponse
+  to: PersonUserInfo
+  type: has_one
+  via: user
+- from: GetPrivateEndpointTrustedOwnerResponse
+  to: PrivateEndpointTrustedOwner
+  type: has_one
+  via: trusted_owner
+- from: GetResourceTypesResponse
+  to: ScimResourceType
+  type: has_many
+  via: Resources
+- from: GetSchemasResponse
+  to: ScimSchema
+  type: has_many
+  via: Resources
+- from: GetServiceProviderConfigResponse
+  to: ScimAuthenticationScheme
+  type: has_many
+  via: authenticationSchemes
+- from: GetServiceProviderConfigResponse
+  to: ScimBulkSupport
+  type: has_one
+  via: bulk
+- from: GetServiceProviderConfigResponse
+  to: ScimChangePasswordSupport
+  type: has_one
+  via: changePassword
+- from: GetServiceProviderConfigResponse
+  to: ScimEtagSupport
+  type: has_one
+  via: etag
+- from: GetServiceProviderConfigResponse
+  to: ScimFilterSupport
+  type: has_one
+  via: filter
+- from: GetServiceProviderConfigResponse
+  to: ScimMetadata
+  type: has_one
+  via: meta
+- from: GetServiceProviderConfigResponse
+  to: ScimSortSupport
+  type: has_one
+  via: sort
+- from: GetUsersResponse
+  to: ScimUser
+  type: has_many
+  via: Resources
+- from: HostClusterCreateSpecification
+  to: DedicatedHardwareCreateSpecification
+  type: has_one
+  via: hardware
+- from: HostClusterUpdateSpecification
+  to: CMEKRegionSpecification
+  type: has_many
+  via: cmek_region_specs
+- from: HostClusterUpdateSpecification
+  to: DedicatedHardwareUpdateSpecification
+  type: has_one
+  via: hardware
+- from: InvoiceAdjustment
+  to: CurrencyAmount
+  type: has_one
+  via: amount
+- from: InvoiceItem
+  to: Cluster
+  type: has_one
+  via: cluster
+- from: InvoiceItem
+  to: LineItem
+  type: has_many
+  via: line_items
+- from: InvoiceItem
+  to: CurrencyAmount
+  type: has_many
+  via: totals
+- from: LineItem
+  to: CurrencyAmount
+  type: has_one
+  via: total
+- from: ListBlackoutWindowsResponse
+  to: BlackoutWindow
+  type: has_many
+  via: blackout_windows
+- from: ListBlackoutWindowsResponse
+  to: KeysetPaginationResponse
+  type: has_one
+  via: pagination
+- from: ListEgressPrivateEndpointsResponse
+  to: EgressPrivateEndpoint
+  type: has_many
+  via: egress_private_endpoints
+- from: ListEgressPrivateEndpointsResponse
+  to: KeysetPaginationResponse
+  type: has_one
+  via: pagination
+- from: ListPrivateEndpointTrustedOwnersResponse
+  to: PrivateEndpointTrustedOwner
+  type: has_many
+  via: trusted_owners
+- from: ListRoleGrantsResponse
+  to: UserRoleGrants
+  type: has_many
+  via: grants
+- from: ListRoleGrantsResponse
+  to: KeysetPaginationResponse
+  type: has_one
+  via: pagination
+- from: ListRoleGrantsResponse
+  to: UserGroupRoleGrant
+  type: has_many
+  via: user_group_grants
+- from: ListSQLUsersResponse
+  to: KeysetPaginationResponse
+  type: has_one
+  via: pagination
+- from: ListSQLUsersResponse
+  to: SQLUser
+  type: has_many
+  via: users
+- from: ListServiceAccountCredentialsResponse
+  to: ServiceAccountCredential
+  type: has_many
+  via: credentials
+- from: ListServiceAccountCredentialsResponse
+  to: KeysetPaginationResponse
+  type: has_one
+  via: pagination
+- from: ListServiceAccountsResponse
+  to: KeysetPaginationResponse
+  type: has_one
+  via: pagination
+- from: ListServiceAccountsResponse
+  to: ServiceAccount
+  type: has_many
+  via: service_accounts
+- from: ListVirtualClusterWorkspacesResponse
+  to: KeysetPaginationResponse
+  type: has_one
+  via: pagination
+- from: ListVirtualClusterWorkspacesResponse
+  to: VirtualClusterWorkspace
+  type: has_many
+  via: workspaces
+- from: LogExportClusterSpecification
+  to: LogExportGroup
+  type: has_many
+  via: groups
+- from: MigrationAssistant
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: Organization
+  to: CockroachCloudServicePrincipals
+  type: has_one
+  via: cockroach_cloud_service_principals
+- from: PatchGroupBody
+  to: ScimOperations
+  type: has_many
+  via: Operations
+- from: PatchUserBody
+  to: ScimOperations
+  type: has_many
+  via: Operations
+- from: PhysicalReplicationStreamList
+  to: KeysetPaginationResponse
+  type: has_one
+  via: pagination
+- from: PhysicalReplicationStreamList
+  to: PhysicalReplicationStream
+  type: has_many
+  via: physical_replication_streams
+- from: PrivateEndpointConnections
+  to: PrivateEndpointConnection
+  type: has_many
+  via: connections
+- from: PrivateEndpointService
+  to: AWSPrivateLinkServiceDetail
+  type: has_one
+  via: aws
+- from: PrivateEndpointServices
+  to: PrivateEndpointService
+  type: has_many
+  via: services
+- from: PrivateEndpointTrustedOwner
+  to: Cluster
+  type: belongs_to
+  via: cluster_id
+- from: RemovePrivateEndpointTrustedOwnerResponse
+  to: PrivateEndpointTrustedOwner
+  type: has_one
+  via: trusted_owner
+- from: ScimGroup
+  to: ScimResource
+  type: has_many
+  via: members
+- from: ScimGroup
+  to: ScimMetadata
+  type: has_one
+  via: meta
+- from: ScimResourceType
+  to: ScimMetadata
+  type: has_one
+  via: meta
+- from: ScimSchema
+  to: ScimSchemaAttribute
+  type: has_many
+  via: attributes
+- from: ScimSchema
+  to: ScimMetadata
+  type: has_one
+  via: meta
+- from: ScimUser
+  to: ScimEmail
+  type: has_many
+  via: emails
+- from: ScimUser
+  to: ScimResource
+  type: has_many
+  via: groups
+- from: ScimUser
+  to: ScimMetadata
+  type: has_one
+  via: meta
+- from: ScimUser
+  to: ScimName
+  type: has_one
+  via: name
+- from: ServerlessClusterCreateSpecification
+  to: UsageLimits
+  type: has_one
+  via: usage_limits
+- from: ServerlessClusterUpdateSpecification
+  to: UsageLimits
+  type: has_one
+  via: usage_limits
+- from: ServiceAccount
+  to: BuiltInFromGroups
+  type: has_many
+  via: group_roles
+- from: ServiceAccount
+  to: BuiltInRole
+  type: has_many
+  via: roles
+- from: ServiceAccountCredential
+  to: ServiceAccount
+  type: belongs_to
+  via: service_account_id
+- from: SetRolesForUserBody
+  to: BuiltInRole
+  type: has_many
+  via: roles
+- from: Status
+  to: Any
+  type: has_many
+  via: details
+- from: UpdateCMEKSpecBody
+  to: CMEKRegionSpecification
+  type: has_many
+  via: region_specs
+- from: UpdateClusterDisruptionBody
+  to: RegionalDisruptorSpecification
+  type: has_many
+  via: regional_disruptor_specifications
+- from: UpdateGroupBody
+  to: ScimResource
+  type: has_many
+  via: members
+- from: UpdateJWTIssuerBody
+  to: JWTIssuerIdentityMapEntry
+  type: has_many
+  via: identity_map
+- from: UpdateUserBody
+  to: ScimEmail
+  type: has_many
+  via: emails
+- from: UpdateUserBody
+  to: ScimName
+  type: has_one
+  via: name
+- from: UserGroupRoleGrant
+  to: BuiltInFromGroups
+  type: has_many
+  via: group_roles
+- from: UserRoleGrants
+  to: BuiltInRole
+  type: has_many
+  via: roles
+- from: ListPrivateEndpointConnectionsResponse
+  to: PrivateEndpointConnection
+  type: has_many
+  via: connections
+- from: RangeInfo
+  to: RangeDescriptor
+  type: has_one
+  via: desc
+- from: ListHotRangesResponse
+  to: HotRange
+  type: has_many
+  via: ranges
+- from: HotRange
+  to: Node
+  type: belongs_to
+  via: node_id
+- from: ListNodeRangesResponse
+  to: RangeInfo
+  type: has_many
+  via: ranges
+- from: Session
+  to: Node
+  type: belongs_to
+  via: node_id
+- from: ListSessionsResponse
+  to: Session
+  type: has_many
+  via: sessions

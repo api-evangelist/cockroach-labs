@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json",
+  "title": "ListPrivateEndpointServicesResponse",
+  "description": "List of private endpoint services for a cluster.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-private-endpoints-api-openapi.yml#/components/schemas/ListPrivateEndpointServicesResponse",
+  "type": "object",
+  "properties": {
+    "services": {
+      "type": "array",
+      "description": "Array of private endpoint service objects.",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

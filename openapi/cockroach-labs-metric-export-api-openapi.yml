@@ -1,0 +1,803 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@cockroachlabs.com
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  description: An API for managing CockroachDB Cloud resources
+  title: CockroachDB Cloud Metric Export API
+  version: '2026-09-15'
+servers:
+- url: https://cockroachlabs.cloud
+security:
+- Bearer: []
+tags:
+- name: Metric Export
+paths:
+  /api/v1/clusters/{cluster_id}/metricexport/cloudwatch:
+    delete:
+      operationId: CockroachCloud_DeleteCloudWatchMetricExport
+      summary: Delete the CloudWatch Metric Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteMetricExportResponse'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Metric Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request DELETE \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/metricexport/cloudwatch \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    get:
+      operationId: CockroachCloud_GetCloudWatchMetricExportInfo
+      summary: Get the CloudWatch Metric Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - METRICS_VIEWER
+
+        - AUDITOR'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudWatchMetricExportInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Metric Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/metricexport/cloudwatch \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    post:
+      operationId: CockroachCloud_EnableCloudWatchMetricExport
+      summary: Create or update the CloudWatch Metric Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableCloudWatchMetricExportBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudWatchMetricExportInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Metric Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request POST \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/metricexport/cloudwatch \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"external_id\":\"example_external_id\",\"log_group_name\":\"example\",\"role_arn\":\"arn:aws:iam::account:role/ExampleRole\",\"target_region\":\"us-east-1\"}'"
+  /api/v1/clusters/{cluster_id}/metricexport/datadog:
+    delete:
+      operationId: CockroachCloud_DeleteDatadogMetricExport
+      summary: Delete the Datadog Metric Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteMetricExportResponse'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Metric Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request DELETE \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/metricexport/datadog \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    get:
+      operationId: CockroachCloud_GetDatadogMetricExportInfo
+      summary: Get the Datadog Metric Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - METRICS_VIEWER
+
+        - AUDITOR'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatadogMetricExportInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Metric Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/metricexport/datadog \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    post:
+      operationId: CockroachCloud_EnableDatadogMetricExport
+      summary: Create or update the Datadog Metric Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableDatadogMetricExportBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatadogMetricExportInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Metric Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request POST \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/metricexport/datadog \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"api_key\":\"datadog_api_key\",\"site\":\"US1\"}'"
+  /api/v1/clusters/{cluster_id}/metricexport/prometheus:
+    delete:
+      operationId: CockroachCloud_DeletePrometheusMetricExport
+      summary: Disable Prometheus Metric Export for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteMetricExportResponse'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Metric Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request DELETE \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/metricexport/prometheus \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    get:
+      operationId: CockroachCloud_GetPrometheusMetricExportInfo
+      summary: Get the Prometheus Metric Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - METRICS_VIEWER
+
+        - AUDITOR'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrometheusMetricExportInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Metric Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/metricexport/prometheus \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    post:
+      operationId: CockroachCloud_EnablePrometheusMetricExport
+      summary: Enable Prometheus Metric Export for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrometheusMetricExportInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Metric Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request POST \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/metricexport/prometheus \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+components:
+  schemas:
+    Any:
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nIn its binary encoding, an `Any` is an ordinary message; but in other wire\nforms like JSON, it has a special encoding. The format of the type URL is\ndescribed on the `type_url` field.\n\nProtobuf APIs provide utilities to interact with `Any` values:\n\n- A 'pack' operation accepts a message and constructs a generic `Any` wrapper\n  around it.\n- An 'unpack' operation reads the content of an `Any` message, either into an\n  existing message or a new one. Unpack operations must check the type of the\n  value they unpack against the declared `type_url`.\n- An 'is' operation decides whether an `Any` contains a message of the given\n  type, i.e. whether it can 'unpack' that type.\n\nThe JSON format representation of an `Any` follows one of these cases:\n\n- For types without special-cased JSON encodings, the JSON format\n  representation of the `Any` is the same as that of the message, with an\n  additional `@type` field which contains the type URL.\n- For types with special-cased JSON encodings (typically called 'well-known'\n  types, listed in https://protobuf.dev/programming-guides/json/#any), the\n  JSON format representation has a key `@type` which contains the type URL\n  and a key `value` which contains the JSON-serialized value.\n\nThe text format representation of an `Any` is like a message with one field\nwhose name is the type URL in brackets. For example, an `Any` containing a\n`foo.Bar` message may be written `[type.googleapis.com/foo.Bar] { a: 2 }`."
+      type: object
+      properties:
+        '@type':
+          description: 'Identifies the type of the serialized Protobuf message with a URI reference
+
+            consisting of a prefix ending in a slash and the fully-qualified type name.
+
+
+            Example: type.googleapis.com/google.protobuf.StringValue
+
+
+            This string must contain at least one `/` character, and the content after
+
+            the last `/` must be the fully-qualified name of the type in canonical
+
+            form, without a leading dot. Do not write a scheme on these URI references
+
+            so that clients do not attempt to contact them.
+
+
+            The prefix is arbitrary and Protobuf implementations are expected to
+
+            simply strip off everything up to and including the last `/` to identify
+
+            the type. `type.googleapis.com/` is a common default prefix that some
+
+            legacy implementations require. This prefix does not indicate the origin of
+
+            the type, and URIs containing it are not expected to respond to any
+
+            requests.
+
+
+            All type URL strings must be legal URI references with the additional
+
+            restriction (for the text format) that the content of the reference
+
+            must consist only of alphanumeric characters, percent-encoded escapes, and
+
+            characters in the following set (not including the outer backticks):
+
+            `/-.~_!$&()*+,;=`. Despite our allowing percent encodings, implementations
+
+            should not unescape them to prevent confusion with existing parsers. For
+
+            example, `type.googleapis.com%2FFoo` should be rejected.
+
+
+            In the original design of `Any`, the possibility of launching a type
+
+            resolution service at these type URLs was considered but Protobuf never
+
+            implemented one and considers contacting these URLs to be problematic and
+
+            a potential security issue. Do not attempt to contact type URLs.'
+          type: string
+      additionalProperties: {}
+    EnableCloudWatchMetricExportBody:
+      type: object
+      properties:
+        external_id:
+          description: 'external_id to include when assuming the IAM role specified by role_arn.
+
+            Optional. A specific value may be required by the role''s trust policy.
+
+            Only supported for Advanced clusters. If provided for a Standard cluster,
+
+            the request is rejected.'
+          type: string
+        log_group_name:
+          description: log_group_name is the customized log group name.
+          type: string
+        role_arn:
+          description: 'role_arn is the IAM role used to upload metric segments to the
+
+            target AWS account.'
+          type: string
+        target_region:
+          description: 'target_region specifies the specific AWS region that the metrics will
+
+            be exported to.'
+          type: string
+      example:
+        external_id: example_external_id
+        log_group_name: example
+        role_arn: arn:aws:iam::account:role/ExampleRole
+        target_region: us-east-1
+      required:
+      - role_arn
+      title: EnableCloudWatchMetricExportRequest
+    PrometheusMetricExportInfo:
+      type: object
+      properties:
+        cluster_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/MetricExportStatus.Type'
+        targets:
+          description: targets is a map of ports exposing metrics to regions.
+          type: object
+          additionalProperties:
+            type: string
+        user_message:
+          type: string
+      required:
+      - cluster_id
+      title: PrometheusMetricExportInfo
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Any'
+        message:
+          type: string
+    DatadogMetricExportInfo:
+      type: object
+      properties:
+        api_key:
+          description: api_key is the last 4 digits of a Datadog API key.
+          type: string
+        cluster_id:
+          type: string
+        site:
+          $ref: '#/components/schemas/DatadogSite.Type'
+        status:
+          $ref: '#/components/schemas/MetricExportStatus.Type'
+        user_message:
+          type: string
+      required:
+      - cluster_id
+      - site
+      title: DatadogMetricExportInfo
+    DeleteMetricExportResponse:
+      type: object
+      properties:
+        cluster_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/MetricExportStatus.Type'
+      required:
+      - cluster_id
+      title: DeleteMetricExportResponse
+    DatadogSite.Type:
+      type: string
+      enum:
+      - US1
+      - US3
+      - US5
+      - US1_GOV
+      - EU1
+    EnableDatadogMetricExportBody:
+      type: object
+      properties:
+        api_key:
+          description: api_key is a Datadog API key.
+          type: string
+        site:
+          $ref: '#/components/schemas/DatadogSite.Type'
+      example:
+        api_key: datadog_api_key
+        site: US1
+      required:
+      - site
+      - api_key
+      title: EnableDatadogMetricExportRequest
+    MetricExportStatus.Type:
+      type: string
+      enum:
+      - NOT_DEPLOYED
+      - DISABLING
+      - ENABLING
+      - ENABLED
+      - ERROR
+    CloudWatchMetricExportInfo:
+      type: object
+      properties:
+        cluster_id:
+          type: string
+        external_id:
+          description: 'external_id, if set, is included when assuming the IAM role. Supported for
+
+            Advanced clusters only.'
+          type: string
+        log_group_name:
+          description: log_group_name is the customized log group name.
+          type: string
+        role_arn:
+          description: 'role_arn is the IAM role used to upload metric segments to the
+
+            target AWS account.'
+          type: string
+        status:
+          $ref: '#/components/schemas/MetricExportStatus.Type'
+        target_region:
+          description: 'target_region specifies the specific AWS region that the metrics will
+
+            be exported to.'
+          type: string
+        user_message:
+          type: string
+      required:
+      - cluster_id
+      - role_arn
+      title: CloudWatchMetricExportInfo
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+externalDocs:
+  description: Use the CockroachDB Cloud API
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api.html

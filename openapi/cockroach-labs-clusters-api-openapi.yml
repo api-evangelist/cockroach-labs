@@ -1,17 +1,11 @@
 openapi: 3.2.0
 info:
-  title: CockroachDB Cloud Clusters API
-  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization.
-  version: '2024-09-16'
-  contact:
-    name: Cockroach Labs Support
-    url: https://support.cockroachlabs.com
-  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+  title: Cockroach Labs Clusters API
+  version: '1.0'
+  description: 'Operations tagged Clusters across 2 of this provider''s published API definitions: cockroach-labs-cloud-api-openapi.yml, cockroach-labs-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://cockroachlabs.cloud
   description: CockroachDB Cloud Production Server
-security:
-- bearerAuth: []
 tags:
 - name: Clusters
   description: Create, list, retrieve, update, and delete CockroachDB Serverless and Dedicated clusters within an organization.
@@ -38,6 +32,8 @@ paths:
                 $ref: '#/components/schemas/ListClustersResponse'
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - bearerAuth: []
     post:
       operationId: CreateCluster
       summary: Create a cluster
@@ -61,6 +57,11 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://cockroachlabs.cloud
+      description: CockroachDB Cloud Production Server
   /api/v1/clusters/{cluster_id}:
     get:
       operationId: GetCluster
@@ -81,6 +82,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
     patch:
       operationId: UpdateCluster
       summary: Update a cluster
@@ -108,6 +111,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
     delete:
       operationId: DeleteCluster
       summary: Delete a cluster
@@ -127,6 +132,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://cockroachlabs.cloud
+      description: CockroachDB Cloud Production Server
   /api/v1/clusters/{cluster_id}/connection-string:
     get:
       operationId: GetConnectionString
@@ -166,6 +176,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://cockroachlabs.cloud
+      description: CockroachDB Cloud Production Server
   /api/v1/clusters/{cluster_id}/nodes:
     get:
       operationId: ListClusterNodes
@@ -195,6 +210,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://cockroachlabs.cloud
+      description: CockroachDB Cloud Production Server
   /api/v1/clusters/available-regions:
     get:
       operationId: ListAvailableRegions
@@ -228,6 +248,11 @@ paths:
                 $ref: '#/components/schemas/ListAvailableRegionsResponse'
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://cockroachlabs.cloud
+      description: CockroachDB Cloud Production Server
   /api/v1/cluster-versions:
     get:
       operationId: ListMajorClusterVersions
@@ -247,124 +272,13 @@ paths:
                 $ref: '#/components/schemas/ListMajorClusterVersionsResponse'
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://cockroachlabs.cloud
+      description: CockroachDB Cloud Production Server
 components:
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    DedicatedClusterConfig:
-      type: object
-      description: Configuration specific to CockroachDB Dedicated clusters.
-      properties:
-        machine_type:
-          type: string
-          description: Machine type used for cluster nodes.
-        num_virtual_cpus:
-          type: integer
-          description: Number of virtual CPUs per node.
-        storage_gib:
-          type: integer
-          description: Storage capacity per node in gibibytes.
-        memory_gib:
-          type: number
-          description: Memory per node in gibibytes.
-        disk_iops:
-          type: integer
-          description: Disk IOPS allocated per node.
-    ListClusterNodesResponse:
-      type: object
-      description: Paginated list of nodes in a cluster.
-      properties:
-        nodes:
-          type: array
-          description: Array of node objects.
-          items:
-            $ref: '#/components/schemas/ClusterNode'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    ListMajorClusterVersionsResponse:
-      type: object
-      description: List of available major CockroachDB versions.
-      properties:
-        versions:
-          type: array
-          description: Array of version objects.
-          items:
-            type: object
-            properties:
-              version:
-                type: string
-                description: Major version string.
-    ListAvailableRegionsResponse:
-      type: object
-      description: Paginated list of available cloud regions.
-      properties:
-        regions:
-          type: array
-          description: Array of available region objects.
-          items:
-            $ref: '#/components/schemas/AvailableRegion'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    UpdateClusterSpecification:
-      type: object
-      description: Specification for modifying an existing cluster's configuration.
-      properties:
-        dedicated:
-          type: object
-          description: Updated dedicated cluster configuration fields.
-        serverless:
-          type: object
-          description: Updated serverless cluster configuration fields.
-        cockroach_version:
-          type: string
-          description: Target CockroachDB version for the upgrade.
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
-    Region:
-      type: object
-      description: A geographic region where the cluster or its nodes are deployed.
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Cloud provider region identifier (e.g. us-east-1).
-        sql_dns:
-          type: string
-          description: DNS hostname for SQL connections routed to this region.
-        node_count:
-          type: integer
-          description: Number of nodes in this region.
     Cluster:
       type: object
       description: Represents a CockroachDB Cloud cluster, which is an instance of CockroachDB running in one or more cloud regions on Serverless or Dedicated infrastructure.
@@ -455,6 +369,105 @@ components:
         network_visibility:
           type: string
           description: Network accessibility configuration of the cluster.
+    ListClusterNodesResponse:
+      type: object
+      description: Paginated list of nodes in a cluster.
+      properties:
+        nodes:
+          type: array
+          description: Array of node objects.
+          items:
+            $ref: '#/components/schemas/ClusterNode'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    GetConnectionStringResponse:
+      type: object
+      description: Connection string for a cluster.
+      properties:
+        connection_string:
+          type: string
+          description: Formatted connection string for the cluster.
+    ListMajorClusterVersionsResponse:
+      type: object
+      description: List of available major CockroachDB versions.
+      properties:
+        versions:
+          type: array
+          description: Array of version objects.
+          items:
+            type: object
+            properties:
+              version:
+                type: string
+                description: Major version string.
+    PaginationResponse:
+      type: object
+      description: Pagination metadata included in list responses.
+      properties:
+        next:
+          type: string
+          description: Token or cursor for retrieving the next page of results.
+        last:
+          type: string
+          description: Token or cursor for the last page of results.
+        time:
+          type: string
+          format: date-time
+          description: Server time at which the paginated query was executed.
+    ListClustersResponse:
+      type: object
+      description: Paginated list of clusters in the organization.
+      properties:
+        clusters:
+          type: array
+          description: Array of cluster objects.
+          items:
+            $ref: '#/components/schemas/Cluster'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    ListAvailableRegionsResponse:
+      type: object
+      description: Paginated list of available cloud regions.
+      properties:
+        regions:
+          type: array
+          description: Array of available region objects.
+          items:
+            $ref: '#/components/schemas/AvailableRegion'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    UpdateClusterSpecification:
+      type: object
+      description: Specification for modifying an existing cluster's configuration.
+      properties:
+        dedicated:
+          type: object
+          description: Updated dedicated cluster configuration fields.
+        serverless:
+          type: object
+          description: Updated serverless cluster configuration fields.
+        cockroach_version:
+          type: string
+          description: Target CockroachDB version for the upgrade.
+    DedicatedClusterConfig:
+      type: object
+      description: Configuration specific to CockroachDB Dedicated clusters.
+      properties:
+        machine_type:
+          type: string
+          description: Machine type used for cluster nodes.
+        num_virtual_cpus:
+          type: integer
+          description: Number of virtual CPUs per node.
+        storage_gib:
+          type: integer
+          description: Storage capacity per node in gibibytes.
+        memory_gib:
+          type: number
+          description: Memory per node in gibibytes.
+        disk_iops:
+          type: integer
+          description: Disk IOPS allocated per node.
     CreateClusterRequest:
       type: object
       description: Request body for creating a new CockroachDB Cloud cluster.
@@ -485,28 +498,49 @@ components:
         parent_id:
           type: string
           description: Folder ID to place the cluster in, if applicable.
-    PaginationResponse:
+    Error:
       type: object
-      description: Pagination metadata included in list responses.
+      description: Standard error response returned by the API.
       properties:
-        next:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
           type: string
-          description: Token or cursor for retrieving the next page of results.
-        last:
-          type: string
-          description: Token or cursor for the last page of results.
-        time:
-          type: string
-          format: date-time
-          description: Server time at which the paginated query was executed.
-    ClusterConfig:
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    Region:
       type: object
-      description: Configuration settings for a CockroachDB cluster.
+      description: A geographic region where the cluster or its nodes are deployed.
+      required:
+      - name
       properties:
-        serverless:
-          $ref: '#/components/schemas/ServerlessClusterConfig'
-        dedicated:
-          $ref: '#/components/schemas/DedicatedClusterConfig'
+        name:
+          type: string
+          description: Cloud provider region identifier (e.g. us-east-1).
+        sql_dns:
+          type: string
+          description: DNS hostname for SQL connections routed to this region.
+        node_count:
+          type: integer
+          description: Number of nodes in this region.
+    ServerlessClusterConfig:
+      type: object
+      description: Configuration specific to CockroachDB Serverless clusters.
+      properties:
+        spend_limit:
+          type: integer
+          description: Monthly spend limit in US cents. 0 means no limit.
+        routing_id:
+          type: string
+          description: Unique routing identifier for the serverless cluster.
+        usage_limits:
+          type: object
+          description: Usage-based limits for request units and storage.
     AvailableRegion:
       type: object
       description: A cloud provider region available for cluster deployment.
@@ -533,51 +567,1249 @@ components:
         status:
           type: string
           description: Current operational status of the node.
-    ListClustersResponse:
+    ClusterConfig:
       type: object
-      description: Paginated list of clusters in the organization.
+      description: Configuration settings for a CockroachDB cluster.
+      properties:
+        serverless:
+          $ref: '#/components/schemas/ServerlessClusterConfig'
+        dedicated:
+          $ref: '#/components/schemas/DedicatedClusterConfig'
+    DedicatedHardwareConfig:
+      type: object
+      properties:
+        disk_iops:
+          description: 'disk_iops is the number of disk I/O operations per second that are
+
+            permitted on each node in the cluster. This value reflects the
+
+            actual provisioned IOPS, which may differ from the value specified
+
+            during cluster creation or update. Only AWS clusters support
+
+            user-specified IOPS; for GCP and Azure clusters, IOPS is
+
+            determined by the cloud provider based on disk size. A value of
+
+            zero indicates the cloud provider-specific default.'
+          type: integer
+          format: int32
+        machine_type:
+          description: 'machine_type is the machine type identifier within the given cloud
+
+            provider, ex. m5.xlarge, n2-standard-4.'
+          type: string
+        memory_gib:
+          description: memory_gib is the memory GiB per node in the cluster.
+          type: number
+          format: float
+        num_virtual_cpus:
+          description: num_virtual_cpus is the number of virtual CPUs per node in the cluster.
+          type: integer
+          format: int32
+        storage_gib:
+          description: storage_gib is the number of storage GiB per node in the cluster.
+          type: integer
+          format: int32
+      required:
+      - machine_type
+      - num_virtual_cpus
+      - storage_gib
+      - memory_gib
+      - disk_iops
+    NetworkVisibility.Type:
+      type: string
+      enum:
+      - PUBLIC
+      - PRIVATE
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Any'
+        message:
+          type: string
+    ClusterMajorVersion:
+      description: For more information about CockroachDB cluster version support, see https://www.cockroachlabs.com/docs/releases/release-support-policy.html
+      type: object
+      properties:
+        allowed_upgrades:
+          type: array
+          items:
+            type: string
+        release_type:
+          $ref: '#/components/schemas/ReleaseType.Type'
+        support_end:
+          type: string
+          format: date-time
+        support_status:
+          $ref: '#/components/schemas/ClusterMajorVersionSupportStatus.Type'
+        version:
+          type: string
+      required:
+      - version
+      - support_status
+      - support_end
+      - release_type
+      - allowed_upgrades
+    CloudProvider.Type:
+      description: " - GCP: The Google Cloud Platform cloud provider.\n - AWS: The Amazon Web Services cloud provider.\n - AZURE: The Azure cloud provider."
+      type: string
+      enum:
+      - GCP
+      - AWS
+      - AZURE
+    Cluster_2:
+      type: object
+      properties:
+        account_id:
+          description: 'account_id is a cloud provider account ID representing the CockroachDB
+
+            cluster. This ID can be used for setting up trust relationships with cloud
+
+            resources. For GCP clusters, this value is a project name that can be used
+
+            to construct principal service account names for authentication.'
+          type: string
+        azure_cluster_identity_client_id:
+          description: 'The client ID of the Azure cluster identity associated with this cluster.
+
+            This field is only populated for clusters deployed on Azure and is used
+
+            to support customer-managed encryption keys (CMEK).'
+          type: string
+        cidr_range:
+          description: 'cidr_range is the IPv4 range in CIDR format that will be used by the
+
+            cluster. It is only set on GCP Advanced tier clusters and is otherwise
+
+            empty.'
+          type: string
+        cloud_provider:
+          $ref: '#/components/schemas/CloudProvider.Type'
+        cockroach_version:
+          type: string
+        config:
+          $ref: '#/components/schemas/ClusterConfig_2'
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+        customer_cloud_account:
+          $ref: '#/components/schemas/CustomerCloudAccount'
+        delete_protection:
+          $ref: '#/components/schemas/DeleteProtectionState.Type'
+        deleted_at:
+          type: string
+          format: date-time
+        edition:
+          $ref: '#/components/schemas/Edition.Type'
+        egress_traffic_policy:
+          $ref: '#/components/schemas/EgressTrafficPolicy.Type'
+        id:
+          type: string
+        labels:
+          description: labels are key-value pairs used to organize and categorize resources.
+          type: object
+          additionalProperties:
+            type: string
+        name:
+          type: string
+        network_visibility:
+          $ref: '#/components/schemas/NetworkVisibility.Type'
+        operation_status:
+          $ref: '#/components/schemas/ClusterStatus.Type'
+        parent_id:
+          description: 'Preview: The parent ID is a folder ID. A "root" valued parent ID
+
+            refers to a cluster at the root level.'
+          type: string
+        plan:
+          $ref: '#/components/schemas/Plan.Type'
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Region_2'
+        sql_dns:
+          description: sql_dns is the DNS name of SQL interface of the cluster.
+          type: string
+        state:
+          $ref: '#/components/schemas/ClusterState.Type'
+        updated_at:
+          type: string
+          format: date-time
+        upgrade_status:
+          $ref: '#/components/schemas/ClusterUpgradeStatus.Type'
+      example:
+        account_id: ''
+        cidr_range: 172.28.0.0/14
+        cloud_provider: GCP
+        cockroach_version: v21.2.4
+        config:
+          serverless:
+            routing_id: example-cluster-1533
+            upgrade_type: AUTOMATIC
+            usage_limits:
+              provisioned_virtual_cpus: '2'
+        created_at: '2022-03-22T20:23:11.285067Z'
+        creator_id: 7cde0cd9-0d8a-4008-8f90-45092ce8afc1
+        id: 35c4abb2-bb66-46d7-afed-25ebef5ed2aa
+        is_customer_cloud_account: false
+        labels:
+          cost_center: '12345'
+          env: prod
+        name: example-cluster
+        operation_status: UNSPECIFIED
+        plan: STANDARD
+        regions:
+        - internal_dns: internal-free-tier7.gcp-us-central1.crdb.io
+          name: us-central1
+          node_count: 0
+          private_endpoint_dns: private-free-tier7.gcp-us-central1.crdb.io
+          sql_dns: free-tier7.gcp-us-central1.crdb.io
+          ui_dns: ''
+        state: CREATED
+        updated_at: '2022-03-22T20:23:11.879593Z'
+        upgrade_status: UPGRADE_AVAILABLE
+      required:
+      - id
+      - name
+      - cockroach_version
+      - upgrade_status
+      - cloud_provider
+      - state
+      - creator_id
+      - operation_status
+      - config
+      - regions
+      - cidr_range
+      - labels
+      - is_customer_cloud_account
+    EgressTrafficPolicy.Type:
+      description: " - UNSPECIFIED: UNSPECIFIED signifies the egress traffic policy is unspecified.\n - ERROR: ERROR signifies there has been an internal server error during\nan update to the egress traffic policy.\n - ALLOW_ALL: ALLOW_ALL signifies all outbound connections from CockroachDB are allowed.\n - DEFAULT_DENY: DEFAULT_DENY signifies that CockroachDB can only initiate network\nconnections to destinations explicitly allowed by the user or CockroachDB\nCloud operators.\n - UPDATING: UPDATING signifies the egress traffic policy is updating."
+      type: string
+      enum:
+      - UNSPECIFIED
+      - ERROR
+      - ALLOW_ALL
+      - DEFAULT_DENY
+      - UPDATING
+    HostClusterConfig:
+      description: HostClusterConfig describes the hardware of a host cluster.
+      type: object
+      properties:
+        disk_iops:
+          description: 'disk_iops is the number of disk I/O operations per second that are
+
+            permitted on each node in the cluster. This value reflects the
+
+            actual provisioned IOPS, which may differ from the value specified
+
+            during cluster creation or update. Only AWS clusters support
+
+            user-specified IOPS; for GCP and Azure clusters, IOPS is
+
+            determined by the cloud provider based on disk size. A value of
+
+            zero indicates the cloud provider-specific default.'
+          type: integer
+          format: int32
+        machine_type:
+          description: 'machine_type is the machine type identifier within the given cloud
+
+            provider, ex. m5.xlarge, n2-standard-4.'
+          type: string
+        memory_gib:
+          description: memory_gib is the memory GiB per node in the cluster.
+          type: number
+          format: float
+        num_virtual_cpus:
+          description: num_virtual_cpus is the number of virtual CPUs per node in the cluster.
+          type: integer
+          format: int32
+        storage_gib:
+          description: storage_gib is the number of storage GiB per node in the cluster.
+          type: integer
+          format: int32
+      example:
+        disk_iops: 1500
+        machine_type: m6i.2xlarge
+        memory_gib: 32
+        num_virtual_cpus: 8
+        storage_gib: 500
+      required:
+      - machine_type
+      - num_virtual_cpus
+      - storage_gib
+      - memory_gib
+      - disk_iops
+    HostClusterCreateSpecification:
+      description: 'HostClusterCreateSpecification creates a cluster that holds virtual
+
+        clusters.'
+      type: object
+      properties:
+        cidr_range:
+          description: 'cidr_range is the IPv4 range in CIDR format that will be used by the
+
+            cluster. This is supported only on GCP, and must have a subnet mask no larger
+
+            than /19. Defaults to "172.28.0.0/14".'
+          type: string
+        cockroach_version:
+          description: 'The CockroachDB major version for the cluster. i.e. v24.1. The latest
+
+            version is used if omitted. The version passed must be one of the
+
+            [currently supported versions](https://www.cockroachlabs.com/docs/releases/release-support-policy#supported-versions).'
+          type: string
+        hardware:
+          $ref: '#/components/schemas/DedicatedHardwareCreateSpecification'
+        network_visibility:
+          $ref: '#/components/schemas/NetworkVisibility.Type'
+        region_machine_specs:
+          description: 'region_machine_specs configures a machine type per region, producing a
+
+            cluster whose regions may use different machine types. Keys are region
+
+            codes (matching region_nodes) and values select a machine type by
+
+            machine_type or num_virtual_cpus. When set, every region in region_nodes
+
+            must have a corresponding entry, and hardware.machine_spec must be
+
+            omitted (the two fields are mutually exclusive). hardware.storage_gib
+
+            and hardware.disk_iops continue to apply cluster-wide.'
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DedicatedMachineTypeSpecification'
+        region_nodes:
+          description: 'Region keys should match the cloud provider''s zone code.
+
+            For example, for Oregon, set region_name to "us-west2" for
+
+            GCP and "us-west-2" for AWS. Values represent the node count.'
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        restrict_egress_traffic:
+          description: 'Preview: restrict_egress_traffic if set, results in an egress traffic policy of
+
+            default-deny at creation time.'
+          type: boolean
+      example:
+        hardware:
+          machine_spec:
+            machine_type: m6i.2xlarge
+          storage_gib: 500
+        region_nodes:
+          us-east-1: 3
+      required:
+      - region_nodes
+      - hardware
+    DedicatedClusterUpdateSpecification:
+      type: object
+      properties:
+        cmek_region_specs:
+          description: 'This field should contain the CMEK specs for newly added regions. If a
+
+            CMEK spec is provided for an existing region, the request is invalid and
+
+            will fail.'
+          type: array
+          items:
+            $ref: '#/components/schemas/CMEKRegionSpecification'
+        hardware:
+          $ref: '#/components/schemas/DedicatedHardwareUpdateSpecification'
+        region_machine_specs:
+          description: 'region_machine_specs updates machine types per region. Only regions named
+
+            in this map are affected; unnamed regions retain their current machine
+
+            type. Use this to add a new region with a distinct machine type or to
+
+            resize an existing region independently of others. Mutually exclusive
+
+            with hardware.machine_spec.'
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DedicatedMachineTypeSpecification'
+        region_nodes:
+          description: 'Region keys should match the cloud provider''s zone code.
+
+            For example, for Oregon, set region_name to "us-west2" for
+
+            GCP and "us-west-2" for AWS. Values represent the node count.'
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+    CloudProviderRegion:
+      type: object
+      properties:
+        distance:
+          description: Distance in miles, based on client IP address.
+          type: number
+          format: float
+        location:
+          type: string
+        name:
+          type: string
+        provider:
+          $ref: '#/components/schemas/CloudProvider.Type'
+        serverless:
+          type: boolean
+      required:
+      - name
+      - location
+      - provider
+      - serverless
+      - distance
+    ListClusterNodesResponse_2:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Node'
+        pagination:
+          $ref: '#/components/schemas/KeysetPaginationResponse'
+      required:
+      - nodes
+    DedicatedHardwareCreateSpecification:
+      description: Exactly one of machine_spec or DedicatedClusterCreateSpecification.region_machine_specs must be provided. For the standard (non-limited-access) cluster creation flow, machine_spec is effectively required; it may only be omitted by callers using the limited-access region_machine_specs field.
+      type: object
+      properties:
+        disk_iops:
+          description: 'disk_iops is the number of disk I/O operations per second that are
+
+            permitted on each node in an AWS cluster. Set to zero or omit this
+
+            field to use the cloud provider-specific default based on machine
+
+            type and storage size. The value returned in the response may differ
+
+            from the requested value. For GCP and Azure clusters, this value is
+
+            ignored and the cloud provider default is used.'
+          type: integer
+          format: int32
+        machine_spec:
+          $ref: '#/components/schemas/DedicatedMachineTypeSpecification'
+        storage_gib:
+          description: 'storage_gib is the number of storage GiB per node in the cluster.
+
+            Zero indicates default to the lowest storage GiB available given machine specs.'
+          type: integer
+          format: int32
+      required:
+      - storage_gib
+    DedicatedHardwareUpdateSpecification:
+      type: object
+      properties:
+        disk_iops:
+          description: 'disk_iops is the number of disk I/O operations per second that are
+
+            permitted on each node in an AWS cluster. Set to zero or omit this
+
+            field to use the cloud provider-specific default based on machine
+
+            type and storage size. The value returned in the response may differ
+
+            from the requested value. For GCP and Azure clusters, this value is
+
+            ignored and the cloud provider default is used.'
+          type: integer
+          format: int32
+        machine_spec:
+          $ref: '#/components/schemas/DedicatedMachineTypeSpecification'
+        storage_gib:
+          description: storage_gib is the number of storage GiB per node in the cluster.
+          type: integer
+          format: int32
+    GetConnectionStringResponse_2:
+      type: object
+      properties:
+        connection_string:
+          description: connection_string contains the full connection string with parameters formatted inline.
+          type: string
+        params:
+          $ref: '#/components/schemas/ConnectionStringParameters'
+      required:
+      - connection_string
+      - params
+    AwsCustomerCloudAccount:
+      type: object
+      properties:
+        arn:
+          description: 'The ARN string of the role that CockroachDB Cloud will assume to perform
+
+            actions in the customer-owned AWS account. The ARN contains the account
+
+            ID so CockroachDB Cloud doesn''t require it to be passed separately.'
+          type: string
+      required:
+      - arn
+    CMEKKeyType:
+      type: string
+      enum:
+      - AWS_KMS
+      - GCP_CLOUD_KMS
+      - NULL_KMS
+      - AZURE_KEY_VAULT
+      title: CMEKKeyType enumerates types of customer-managed keys
+    ListMajorClusterVersionsResponse_2:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/KeysetPaginationResponse'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterMajorVersion'
+      required:
+      - versions
+    DedicatedClusterCreateSpecification:
+      type: object
+      properties:
+        cidr_range:
+          description: 'cidr_range is the IPv4 range in CIDR format that will be used by the
+
+            cluster. This is supported only on GCP, and must have a subnet mask no larger
+
+            than /19. Defaults to "172.28.0.0/14".'
+          type: string
+        cockroach_version:
+          description: 'The CockroachDB major version for the cluster. i.e. v24.1. The latest
+
+            version is used if omitted. The version passed must be one of the
+
+            [currently supported versions](https://www.cockroachlabs.com/docs/releases/release-support-policy#supported-versions).'
+          type: string
+        hardware:
+          $ref: '#/components/schemas/DedicatedHardwareCreateSpecification'
+        network_visibility:
+          $ref: '#/components/schemas/NetworkVisibility.Type'
+        region_machine_specs:
+          description: 'region_machine_specs configures a machine type per region, producing a
+
+            cluster whose regions may use different machine types. Keys are region
+
+            codes (matching region_nodes) and values select a machine type by
+
+            machine_type or num_virtual_cpus. When set, every region in region_nodes
+
+            must have a corresponding entry, and hardware.machine_spec must be
+
+            omitted (the two fields are mutually exclusive). hardware.storage_gib
+
+            and hardware.disk_iops continue to apply cluster-wide.'
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DedicatedMachineTypeSpecification'
+        region_nodes:
+          description: 'Region keys should match the cloud provider''s zone code.
+
+            For example, for Oregon, set region_name to "us-west2" for
+
+            GCP and "us-west-2" for AWS. Values represent the node count.'
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+        restrict_egress_traffic:
+          description: 'Preview: restrict_egress_traffic if set, results in an egress traffic policy of
+
+            default-deny at creation time.'
+          type: boolean
+        supports_cluster_virtualization:
+          type: boolean
+          title: 'supports_cluster_virtualization specifies whether an Advanced
+
+            cluster is started with a virtual cluster architecture. This field
+
+            is restricted to Limited Access usage; see our documentation for
+
+            details:
+
+            https://www.cockroachlabs.com/docs/stable/cluster-virtualization-overview'
+      required:
+      - region_nodes
+      - hardware
+    ConnectionStringParameters:
+      description: Individual parameters used to create a connection string.
+      type: object
+      properties:
+        Database:
+          type: string
+        Host:
+          type: string
+        Port:
+          type: string
+        Username:
+          type: string
+      required:
+      - Host
+      - Port
+      - Database
+    ListClustersResponse_2:
+      type: object
       properties:
         clusters:
           type: array
-          description: Array of cluster objects.
           items:
-            $ref: '#/components/schemas/Cluster'
+            $ref: '#/components/schemas/Cluster_2'
         pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    GetConnectionStringResponse:
+          $ref: '#/components/schemas/KeysetPaginationResponse'
+      required:
+      - clusters
+    ClusterUpgradeStatus.Type:
+      description: " - FINALIZED: The cluster is running the latest available CockroachDB version, and all upgrades have been finalized.\n - MAJOR_UPGRADE_RUNNING: An major version upgrade is currently in progress.\n - UPGRADE_AVAILABLE: An upgrade is available. If preview builds are enabled for the parent organization, this could indicate that a preview upgrade is available.\n - PENDING_FINALIZATION: An upgrade is complete, but pending finalization. Upgrades are automatically finalized after 72 hours. For more information, see https://www.cockroachlabs.com/docs/stable/upgrade-cockroach-version.html\n - ROLLBACK_RUNNING: A rollback operation is currently in progress."
+      type: string
+      enum:
+      - FINALIZED
+      - MAJOR_UPGRADE_RUNNING
+      - UPGRADE_AVAILABLE
+      - PENDING_FINALIZATION
+      - ROLLBACK_RUNNING
+    ServerlessClusterCreateSpecification:
       type: object
-      description: Connection string for a cluster.
       properties:
-        connection_string:
+        primary_region:
+          description: 'Preview: Specify which region should be made the primary region.
+
+            This is only applicable to multi-region Serverless clusters.
+
+            This field is required if you create the cluster in more than
+
+            one region.'
           type: string
-          description: Formatted connection string for the cluster.
-    ServerlessClusterConfig:
-      type: object
-      description: Configuration specific to CockroachDB Serverless clusters.
-      properties:
-        spend_limit:
-          type: integer
-          description: Monthly spend limit in US cents. 0 means no limit.
-        routing_id:
-          type: string
-          description: Unique routing identifier for the serverless cluster.
+        regions:
+          description: 'Region values should match the cloud provider''s zone code.
+
+            For example, for Oregon, set region_name to "us-west2" for
+
+            GCP and "us-west-2" for AWS.'
+          type: array
+          items:
+            type: string
+        upgrade_type:
+          $ref: '#/components/schemas/UpgradeType.Type'
         usage_limits:
+          $ref: '#/components/schemas/UsageLimits'
+        with_empty_ip_allowlist:
+          description: 'WithEmptyIPAllowlist creates a cluster with no entries in the IP Allowlist.
+
+            By default, Serverless clusters have one IP allowlist entry that opens the cluster to any IP.
+
+            Set this property to true to ensure the cluster is closed to public traffic by default.'
+          type: boolean
+      required:
+      - regions
+    KeysetPaginationResponse:
+      type: object
+      properties:
+        next_page:
+          type: string
+        previous_page:
+          type: string
+    NodeStatus.Type:
+      type: string
+      enum:
+      - LIVE
+      - NOT_READY
+    CreateClusterSpecification:
+      type: object
+      properties:
+        customer_cloud_account:
+          $ref: '#/components/schemas/CustomerCloudAccount'
+        dedicated:
+          $ref: '#/components/schemas/DedicatedClusterCreateSpecification'
+        delete_protection:
+          $ref: '#/components/schemas/DeleteProtectionState.Type'
+        edition:
+          $ref: '#/components/schemas/Edition.Type'
+        host:
+          $ref: '#/components/schemas/HostClusterCreateSpecification'
+        labels:
+          description: labels are key-value pairs used to organize and categorize resources.
           type: object
-          description: Usage-based limits for request units and storage.
+          additionalProperties:
+            type: string
+        parent_id:
+          description: 'Preview: The parent ID is a folder ID. An empty string or "root"
+
+            will create a cluster at the root level.'
+          type: string
+        plan:
+          $ref: '#/components/schemas/Plan.Type'
+        serverless:
+          $ref: '#/components/schemas/ServerlessClusterCreateSpecification'
+    UpdateClusterSpecification_2:
+      type: object
+      properties:
+        cockroach_version:
+          description: 'The desired CockroachDB major version for the cluster.  It can be used to
+
+            orchestrate version changes.  Setting the version to a later version will
+
+            initiate an upgrade to that version.  After an upgrade is initiated but
+
+            before it''s finalized, setting the version back to the previous version
+
+            will initiate a rollback.'
+          type: string
+        dedicated:
+          $ref: '#/components/schemas/DedicatedClusterUpdateSpecification'
+        delete_protection:
+          $ref: '#/components/schemas/DeleteProtectionState.Type'
+        host:
+          $ref: '#/components/schemas/HostClusterUpdateSpecification'
+        labels:
+          description: 'labels are key-value pairs used to organize and categorize resources.
+
+            If the labels field is included in the request, any existing labels on the cluster
+
+            that are not included are removed, and any new labels specified are added.
+
+            If the labels field is omitted from the request entirely, all existing labels remain
+
+            unchanged.'
+          type: object
+          additionalProperties:
+            type: string
+        parent_id:
+          description: 'Preview: The parent ID is a folder ID. An empty string or "root"
+
+            represents the root level.'
+          type: string
+        plan:
+          $ref: '#/components/schemas/Plan.Type'
+        serverless:
+          $ref: '#/components/schemas/ServerlessClusterUpdateSpecification'
+        upgrade_status:
+          $ref: '#/components/schemas/ClusterUpgradeStatus.Type'
+      example:
+        dedicated:
+          hardware:
+            machine_spec:
+              num_virtual_cpus: 8
+          region_nodes:
+            us-central1: 5
+            us-west1: 3
+    ClusterState.Type:
+      description: ' - LOCKED: An exclusive operation is being performed on this cluster.
+
+        Other operations should not proceed if they did not set a cluster into the LOCKED state.'
+      type: string
+      enum:
+      - CREATING
+      - CREATED
+      - CREATION_FAILED
+      - DELETED
+      - LOCKED
+    ListAvailableRegionsResponse_2:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/KeysetPaginationResponse'
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudProviderRegion'
+      required:
+      - regions
+    Plan.Type:
+      description: " - BASIC: The Basic plan includes essential operational features, is available in\nselect regions, and offers on-demand capacity, making it ideal for small\nteams with unpredictable workloads.\n - STANDARD: The Standard plan includes standard enterprise security and monitoring\nfeatures, is available in all supported regions, and offers provisioned\npricing, making it the default choice for most CockroachDB production\nworkloads.\n - ADVANCED: The Advanced plan is ideal for workloads with stringent isolation,\ncompliance, and security requirements such as CMEK, PCI and HIPAA-readiness,\nand support for dedicated hardware. Customers are advised to have their\naccount team and/or Cockroach Labs Support <support@cockroachlabs.com>\ninvolved when provisioning Advanced clusters."
+      type: string
+      enum:
+      - BASIC
+      - STANDARD
+      - ADVANCED
+    Node:
+      type: object
+      properties:
+        name:
+          type: string
+        region_name:
+          type: string
+        status:
+          $ref: '#/components/schemas/NodeStatus.Type'
+      required:
+      - name
+      - region_name
+      - status
+    CreateClusterRequest_2:
+      type: object
+      properties:
+        name:
+          description: 'Name must be 6-20 characters in length and can include numbers,
+
+            lowercase letters, and dashes (but no leading or trailing dashes).'
+          type: string
+        provider:
+          $ref: '#/components/schemas/CloudProvider.Type'
+        spec:
+          $ref: '#/components/schemas/CreateClusterSpecification'
+      example:
+        name: test-cluster
+        plan: STANDARD
+        provider: GCP
+        spec:
+          serverless:
+            regions:
+            - us-central1
+            usage_limits:
+              provisioned_virtual_cpus: '2'
+      required:
+      - name
+      - provider
+      - spec
+      title: CreateClusterRequest
+    CMEKRegionSpecification:
+      description: 'CMEKRegionSpecification declares the customer-provided key specification that
+
+        should be used in a given region.'
+      type: object
+      properties:
+        key_spec:
+          $ref: '#/components/schemas/CMEKKeySpecification'
+        region:
+          type: string
+    AzureCustomerCloudAccount:
+      type: object
+      properties:
+        subscription_id:
+          description: 'The ID of the subscription in the customer-owned Azure tenant in which
+
+            clusters will be created.'
+          type: string
+        tenant_id:
+          description: The ID of the customer-owned tenant in which the subscription exists.
+          type: string
+      required:
+      - subscription_id
+      - tenant_id
+    Region_2:
+      type: object
+      properties:
+        disk_iops:
+          description: 'disk_iops is the provisioned disk I/O operations per second for nodes
+
+            in this region. Only meaningful for Advanced clusters on AWS; for GCP
+
+            and Azure the cloud provider chooses based on disk size.'
+          type: integer
+          format: int32
+        internal_dns:
+          description: 'internal_dns is the internal DNS name of the cluster within the cloud
+
+            provider''s network. It is used to connect to the cluster with AWS
+
+            PrivateLink, Azure Private Link, and GCP VPC Peering, but not GCP Private
+
+            Service Connect.'
+          type: string
+        machine_type:
+          description: 'machine_type is the machine type identifier within the cloud provider
+
+            for nodes in this region (e.g. m5.xlarge, n2-standard-4). May differ
+
+            across regions in a heterogeneous Advanced cluster. Only populated for
+
+            Advanced clusters.'
+          type: string
+        name:
+          type: string
+        node_count:
+          description: node_count will be 0 for Serverless clusters.
+          type: integer
+          format: int32
+        num_virtual_cpus:
+          description: 'num_virtual_cpus is the number of virtual CPUs per node in this region,
+
+            derived from machine_type. Only populated for Advanced clusters.'
+          type: integer
+          format: int32
+        primary:
+          description: primary is true only for the primary region in a Multi Region Serverless cluster.
+          type: boolean
+        private_endpoint_dns:
+          description: 'private_endpoint_dns is the DNS name of the cluster which is used to
+
+            connect to the cluster with GCP Private Service Connect.'
+          type: string
+        s3_vpc_endpoint_id:
+          description: 's3_vpc_endpoint_id is the ID of the AWS S3 VPC gateway endpoint
+
+            associated with this cluster region. This can be used to configure
+
+            S3 bucket policies that restrict access to traffic from this
+
+            VPC endpoint. Only populated for Advanced clusters on AWS.'
+          type: string
+        sql_dns:
+          description: sql_dns is the DNS name of SQL interface of the cluster. It is used to connect to the cluster with IP allowlisting.
+          type: string
+        ui_dns:
+          description: ui_dns is the DNS name used when connecting to the DB Console for the cluster.
+          type: string
+      required:
+      - name
+      - sql_dns
+      - ui_dns
+      - node_count
+      - internal_dns
+      - private_endpoint_dns
+    VirtualClusterConfig:
+      description: 'VirtualClusterConfig describes a virtual cluster: a tenant running on a
+
+        customer-owned host cluster, as a member of a workspace.'
+      type: object
+      properties:
+        routing_id:
+          description: routing_id is used to identify the cluster in a connection string.
+          type: string
+        virtual_cpu_burst_limit:
+          description: virtual_cpu_burst_limit is a positive integer describing the most vCPUs the cluster can use at once.
+          type: integer
+          format: int32
+        workspace_id:
+          description: workspace_id is the workspace the cluster is currently a member of.
+          type: string
+      example:
+        routing_id: example-cluster-1533
+        virtual_cpu_burst_limit: 4
+        workspace_id: b7a1c8e2-6d4f-4f9a-9b3e-2c5d8f1a4e70
+      required:
+      - routing_id
+      - workspace_id
+      - virtual_cpu_burst_limit
+      title: VirtualClusterConfig
+    CustomerCloudAccount:
+      type: object
+      properties:
+        aws:
+          $ref: '#/components/schemas/AwsCustomerCloudAccount'
+        azure:
+          $ref: '#/components/schemas/AzureCustomerCloudAccount'
+        gcp:
+          $ref: '#/components/schemas/GcpCustomerCloudAccount'
+    GcpCustomerCloudAccount:
+      type: object
+      properties:
+        service_account_email:
+          description: 'The customer-owned GCP service account email. This is the principal
+
+            that will be impersonated by CockroachDB Cloud to perform actions in
+
+            the customer-owned GCP project. The service account email contains
+
+            the project ID, so CockroachDB Cloud doesn''t require it to be passed
+
+            separately.'
+          type: string
+      required:
+      - service_account_email
+    Edition.Type:
+      description: "A Continuum edition, which determines the capabilities a cluster's license\ngrants. Editions are available only to clusters in Cockroach Continuum\norganizations, and a request that sets an edition from a non-Continuum\norganization is rejected. Editions and plans are mutually exclusive, so a\ncluster reports one or the other, never both.\n\n - STANDARD: The Standard edition grants the Standard capability set. See\n[Editions and add-ons](https://www.cockroachlabs.com/docs/continuum/editions-and-add-ons)\nfor the capabilities each edition includes.\n - MISSION_CRITICAL: The Mission Critical edition grants the Standard capability set plus the\nMission Critical capabilities. See\n[Editions and add-ons](https://www.cockroachlabs.com/docs/continuum/editions-and-add-ons)\nfor the capabilities each edition includes."
+      type: string
+      enum:
+      - STANDARD
+      - MISSION_CRITICAL
+    ServerlessClusterConfig_2:
+      type: object
+      properties:
+        routing_id:
+          description: routing_id is used to identify the cluster in a connection string.
+          type: string
+        upgrade_type:
+          $ref: '#/components/schemas/UpgradeType.Type'
+        usage_limits:
+          $ref: '#/components/schemas/UsageLimits'
+      required:
+      - routing_id
+      - upgrade_type
+    UpgradeType.Type:
+      type: string
+      enum:
+      - MANUAL
+      - AUTOMATIC
+    ServerlessClusterUpdateSpecification:
+      type: object
+      properties:
+        primary_region:
+          description: 'Specify which region should be made the primary region.
+
+            This is only applicable to multi-region Serverless clusters.
+
+            This field is required if the regions field contains more than one region.'
+          type: string
+        regions:
+          description: 'Region values should match the cloud provider''s zone code.
+
+            For example, for Oregon, set region_name to "us-west2" for
+
+            GCP and "us-west-2" for AWS. If this field is provided, the cluster''s
+
+            regions will be changed to match this list.
+
+            Regions cannot currently be removed.'
+          type: array
+          items:
+            type: string
+        upgrade_type:
+          $ref: '#/components/schemas/UpgradeType.Type'
+        usage_limits:
+          $ref: '#/components/schemas/UsageLimits'
+    Any:
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nIn its binary encoding, an `Any` is an ordinary message; but in other wire\nforms like JSON, it has a special encoding. The format of the type URL is\ndescribed on the `type_url` field.\n\nProtobuf APIs provide utilities to interact with `Any` values:\n\n- A 'pack' operation accepts a message and constructs a generic `Any` wrapper\n  around it.\n- An 'unpack' operation reads the content of an `Any` message, either into an\n  existing message or a new one. Unpack operations must check the type of the\n  value they unpack against the declared `type_url`.\n- An 'is' operation decides whether an `Any` contains a message of the given\n  type, i.e. whether it can 'unpack' that type.\n\nThe JSON format representation of an `Any` follows one of these cases:\n\n- For types without special-cased JSON encodings, the JSON format\n  representation of the `Any` is the same as that of the message, with an\n  additional `@type` field which contains the type URL.\n- For types with special-cased JSON encodings (typically called 'well-known'\n  types, listed in https://protobuf.dev/programming-guides/json/#any), the\n  JSON format representation has a key `@type` which contains the type URL\n  and a key `value` which contains the JSON-serialized value.\n\nThe text format representation of an `Any` is like a message with one field\nwhose name is the type URL in brackets. For example, an `Any` containing a\n`foo.Bar` message may be written `[type.googleapis.com/foo.Bar] { a: 2 }`."
+      type: object
+      properties:
+        '@type':
+          description: 'Identifies the type of the serialized Protobuf message with a URI reference
+
+            consisting of a prefix ending in a slash and the fully-qualified type name.
+
+
+            Example: type.googleapis.com/google.protobuf.StringValue
+
+
+            This string must contain at least one `/` character, and the content after
+
+            the last `/` must be the fully-qualified name of the type in canonical
+
+            form, without a leading dot. Do not write a scheme on these URI references
+
+            so that clients do not attempt to contact them.
+
+
+            The prefix is arbitrary and Protobuf implementations are expected to
+
+            simply strip off everything up to and including the last `/` to identify
+
+            the type. `type.googleapis.com/` is a common default prefix that some
+
+            legacy implementations require. This prefix does not indicate the origin of
+
+            the type, and URIs containing it are not expected to respond to any
+
+            requests.
+
+
+            All type URL strings must be legal URI references with the additional
+
+            restriction (for the text format) that the content of the reference
+
+            must consist only of alphanumeric characters, percent-encoded escapes, and
+
+            characters in the following set (not including the outer backticks):
+
+            `/-.~_!$&()*+,;=`. Despite our allowing percent encodings, implementations
+
+            should not unescape them to prevent confusion with existing parsers. For
+
+            example, `type.googleapis.com%2FFoo` should be rejected.
+
+
+            In the original design of `Any`, the possibility of launching a type
+
+            resolution service at these type URLs was considered but Protobuf never
+
+            implemented one and considers contacting these URLs to be problematic and
+
+            a potential security issue. Do not attempt to contact type URLs.'
+          type: string
+      additionalProperties: {}
+    ReleaseType.Type:
+      type: string
+      enum:
+      - REGULAR
+      - INNOVATION
+    HostClusterUpdateSpecification:
+      description: 'HostClusterUpdateSpecification updates a cluster that holds virtual
+
+        clusters.'
+      type: object
+      properties:
+        cmek_region_specs:
+          description: 'This field should contain the CMEK specs for newly added regions. If a
+
+            CMEK spec is provided for an existing region, the request is invalid and
+
+            will fail.'
+          type: array
+          items:
+            $ref: '#/components/schemas/CMEKRegionSpecification'
+        hardware:
+          $ref: '#/components/schemas/DedicatedHardwareUpdateSpecification'
+        region_machine_specs:
+          description: 'region_machine_specs updates machine types per region. Only regions named
+
+            in this map are affected; unnamed regions retain their current machine
+
+            type. Use this to add a new region with a distinct machine type or to
+
+            resize an existing region independently of others. Mutually exclusive
+
+            with hardware.machine_spec.'
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DedicatedMachineTypeSpecification'
+        region_nodes:
+          description: 'Region keys should match the cloud provider''s zone code.
+
+            For example, for Oregon, set region_name to "us-west2" for
+
+            GCP and "us-west-2" for AWS. Values represent the node count.'
+          type: object
+          additionalProperties:
+            format: int32
+            type: integer
+      example:
+        region_nodes:
+          us-east-1: 6
+    DeleteProtectionState.Type:
+      type: string
+      enum:
+      - ENABLED
+      - DISABLED
+    ClusterConfig_2:
+      type: object
+      properties:
+        dedicated:
+          $ref: '#/components/schemas/DedicatedHardwareConfig'
+        host:
+          $ref: '#/components/schemas/HostClusterConfig'
+        serverless:
+          $ref: '#/components/schemas/ServerlessClusterConfig_2'
+        virtual:
+          $ref: '#/components/schemas/VirtualClusterConfig'
+    ClusterMajorVersionSupportStatus.Type:
+      type: string
+      enum:
+      - UNSUPPORTED
+      - SUPPORTED
+      - PREVIEW
+    CMEKKeySpecification:
+      description: "CMEKKeySpecification contains all the details necessary to use a customer-provided\nencryption key.\n\nThis involves the type/location of the key and the principal to authenticate as \nwhen accessing it."
+      type: object
+      properties:
+        auth_principal:
+          type: string
+        type:
+          $ref: '#/components/schemas/CMEKKeyType'
+        uri:
+          type: string
+    DedicatedMachineTypeSpecification:
+      type: object
+      properties:
+        machine_type:
+          description: 'machine_type is the machine type identifier within the given cloud
+
+            provider, ex. m5.xlarge, n2-standard-4.'
+          type: string
+        num_virtual_cpus:
+          description: 'num_virtual_cpus may be used to automatically select a machine type
+
+            according to the desired number of vCPUs.'
+          type: integer
+          format: int32
+    ClusterStatus.Type:
+      description: " - UNSPECIFIED: No ongoing operation. The cluster is running normally.\n - CRDB_MAJOR_UPGRADE_RUNNING: A major CockroachDB version upgrade is in progress.\n - CRDB_MAJOR_UPGRADE_FAILED: A major CockroachDB version upgrade has failed.\n - CRDB_MAJOR_ROLLBACK_RUNNING: A major CockroachDB version rollback is in progress.\n - CRDB_MAJOR_ROLLBACK_FAILED: A major CockroachDB version rollback has failed.\n - CRDB_PATCH_RUNNING: A CockroachDB patch version update is in progress.\n - CRDB_PATCH_FAILED: A CockroachDB patch version update has failed.\n - CRDB_SCALE_RUNNING: A cluster scale operation is in progress.\n - CRDB_SCALE_FAILED: A cluster scale operation has failed.\n - MAINTENANCE_RUNNING: A cluster maintenance operation is in progress.\n - CRDB_INSTANCE_UPDATE_RUNNING: A cluster instance update is in progress.\n - CRDB_INSTANCE_UPDATE_FAILED: A cluster instance update has failed.\n - CRDB_EDIT_CLUSTER_RUNNING: A cluster edit operation is in progress.\n - CRDB_EDIT_CLUSTER_FAILED: A cluster edit operation has failed.\n - CRDB_CMEK_OPERATION_RUNNING: A CMEK key operation is in progress.\n - CRDB_CMEK_OPERATION_FAILED: A CMEK key operation has failed.\n - TENANT_RESTORE_RUNNING: A tenant restore operation is in progress.\n - TENANT_RESTORE_FAILED: A tenant restore operation has failed.\n - CRDB_LOG_EXPORT_OPERATION_RUNNING: A log export configuration operation is in progress.\n - CRDB_LOG_EXPORT_OPERATION_FAILED: A log export configuration operation has failed.\n - CRDB_CLUSTER_DISRUPTION_RUNNING: A cluster disruption operation is in progress.\n - CRDB_CLUSTER_DISRUPTION_FAILED: A cluster disruption operation has failed.\n - CRDB_REPAVE_RUNNING: A cluster node repave operation is in progress.\n - CRDB_REPAVE_FAILED: A cluster node repave operation has failed.\n - CRDB_CUSTOM_CLIENT_CA_RUNNING: A custom client CA certificate operation is in progress.\n - CRDB_CUSTOM_CLIENT_CA_FAILED: A custom client CA certificate operation has failed.\n - DEDICATED_FULL_CLUSTER_RESTORE_RUNNING: A dedicated cluster full restore is in progress.\n - DEDICATED_FULL_CLUSTER_RESTORE_FAILED: A dedicated cluster full restore has failed."
+      type: string
+      enum:
+      - UNSPECIFIED
+      - CRDB_MAJOR_UPGRADE_RUNNING
+      - CRDB_MAJOR_UPGRADE_FAILED
+      - CRDB_MAJOR_ROLLBACK_RUNNING
+      - CRDB_MAJOR_ROLLBACK_FAILED
+      - CRDB_PATCH_RUNNING
+      - CRDB_PATCH_FAILED
+      - CRDB_SCALE_RUNNING
+      - CRDB_SCALE_FAILED
+      - MAINTENANCE_RUNNING
+      - CRDB_INSTANCE_UPDATE_RUNNING
+      - CRDB_INSTANCE_UPDATE_FAILED
+      - CRDB_EDIT_CLUSTER_RUNNING
+      - CRDB_EDIT_CLUSTER_FAILED
+      - CRDB_CMEK_OPERATION_RUNNING
+      - CRDB_CMEK_OPERATION_FAILED
+      - TENANT_RESTORE_RUNNING
+      - TENANT_RESTORE_FAILED
+      - CRDB_LOG_EXPORT_OPERATION_RUNNING
+      - CRDB_LOG_EXPORT_OPERATION_FAILED
+      - CRDB_CLUSTER_DISRUPTION_RUNNING
+      - CRDB_CLUSTER_DISRUPTION_FAILED
+      - CRDB_REPAVE_RUNNING
+      - CRDB_REPAVE_FAILED
+      - CRDB_CUSTOM_CLIENT_CA_RUNNING
+      - CRDB_CUSTOM_CLIENT_CA_FAILED
+      - DEDICATED_FULL_CLUSTER_RESTORE_RUNNING
+      - DEDICATED_FULL_CLUSTER_RESTORE_FAILED
+    UsageLimits:
+      type: object
+      properties:
+        provisioned_virtual_cpus:
+          description: 'provisioned_virtual_cpus is the maximum number of vCPUs that the cluster
+
+            can use. Once this limit is reached, operation latency may increase due to
+
+            throttling. It is an error for this to be zero.'
+          type: string
+          format: int64
+        request_unit_limit:
+          description: 'request_unit_limit is the maximum number of request units that the cluster
+
+            can consume during the month. If this limit is exceeded, then the cluster
+
+            is disabled until the limit is increased, or until the beginning of the
+
+            next month when more free request units are granted. It is an error for
+
+            this to be zero.'
+          type: string
+          format: int64
+        storage_mib_limit:
+          description: 'storage_mib_limit is the maximum number of Mebibytes of storage that the
+
+            cluster can have at any time during the month. If this limit is exceeded,
+
+            then the cluster is throttled; only one SQL connection is allowed at a
+
+            time, with the expectation that it is used to delete data to reduce storage
+
+            usage. It is an error for this to be zero.'
+          type: string
+          format: int64
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
     paginationSortOrder:
       name: pagination.sort_order
       in: query
@@ -587,13 +1819,13 @@ components:
         enum:
         - ASC
         - DESC
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
       schema:
         type: string
+        format: date-time
     showInactive:
       name: show_inactive
       in: query
@@ -609,11 +1841,27 @@ components:
         format: int32
         minimum: 1
         maximum: 500
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
-externalDocs:
-  description: CockroachDB Cloud API Documentation
-  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+    Bearer:
+      type: http
+      scheme: bearer
+x-refined-from:
+- cockroach-labs-cloud-api-openapi.yml
+- cockroach-labs-openapi.json

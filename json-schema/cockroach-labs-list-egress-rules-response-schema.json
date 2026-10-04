@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-egress-rules-response-schema.json",
+  "title": "ListEgressRulesResponse",
+  "description": "Paginated list of egress rules for a cluster.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-egressrules-api-openapi.yml#/components/schemas/ListEgressRulesResponse",
+  "type": "object",
+  "properties": {
+    "rules": {
+      "type": "array",
+      "description": "Array of egress rule objects.",
+      "items": {
+        "$ref": "#/$defs/EgressRule"
+      }
+    },
+    "pagination": {
+      "$ref": "#/$defs/PaginationResponse"
+    }
+  },
+  "$defs": {
+    "EgressRule": {
+      "type": "object",
+      "description": "Represents an egress traffic rule controlling outbound connections from a CockroachDB cluster.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the egress rule."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name of the egress rule."
+        },
+        "destination": {
+          "type": "string",
+          "description": "Destination hostname or CIDR for allowed outbound traffic."
+        },
+        "ports": {
+          "type": "array",
+          "description": "List of destination port numbers allowed by this rule.",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of egress rule (FQDN or CIDR)."
+        }
+      }
+    },
+    "PaginationResponse": {
+      "type": "object",
+      "description": "Pagination metadata included in list responses.",
+      "properties": {
+        "next": {
+          "type": "string",
+          "description": "Token or cursor for retrieving the next page of results."
+        },
+        "last": {
+          "type": "string",
+          "description": "Token or cursor for the last page of results."
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server time at which the paginated query was executed."
+        }
+      }
+    }
+  }
+}

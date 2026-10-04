@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-enable-cloud-watch-metric-export-request-schema.json",
+  "title": "EnableCloudWatchMetricExportRequest",
+  "description": "Request body for enabling AWS CloudWatch metric export.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-metricexport-api-openapi.yml#/components/schemas/EnableCloudWatchMetricExportRequest",
+  "type": "object",
+  "required": [
+    "role_arn"
+  ],
+  "properties": {
+    "role_arn": {
+      "type": "string",
+      "description": "AWS IAM role ARN to assume for CloudWatch metric publishing."
+    },
+    "target_region": {
+      "type": "string",
+      "description": "AWS region where metrics should be exported."
+    }
+  }
+}

@@ -1,17 +1,11 @@
 openapi: 3.2.0
 info:
-  title: CockroachDB Cloud Billing API
-  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization.
-  version: '2024-09-16'
-  contact:
-    name: Cockroach Labs Support
-    url: https://support.cockroachlabs.com
-  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+  title: Cockroach Labs Billing API
+  version: '1.0'
+  description: 'Operations tagged Billing across 2 of this provider''s published API definitions: cockroach-labs-cloud-api-openapi.yml, cockroach-labs-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://cockroachlabs.cloud
   description: CockroachDB Cloud Production Server
-security:
-- bearerAuth: []
 tags:
 - name: Billing
   description: Retrieve invoices and billing information for the CockroachDB Cloud organization.
@@ -41,6 +35,11 @@ paths:
                 $ref: '#/components/schemas/ListInvoicesResponse'
         '401':
           $ref: '#/components/responses/Unauthorized'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://cockroachlabs.cloud
+      description: CockroachDB Cloud Production Server
   /api/v1/invoices/{invoice_id}:
     get:
       operationId: GetInvoice
@@ -66,8 +65,34 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://cockroachlabs.cloud
+      description: CockroachDB Cloud Production Server
 components:
   schemas:
+    Invoice:
+      type: object
+      description: A billing invoice for a CockroachDB Cloud organization.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the invoice.
+        status:
+          type: string
+          description: Status of the invoice. Values include Finalized and Draft.
+        period_start:
+          type: string
+          format: date-time
+          description: Start of the billing period covered by this invoice.
+        period_end:
+          type: string
+          format: date-time
+          description: End of the billing period covered by this invoice.
+        total_amount:
+          type: number
+          description: Total invoice amount in US cents.
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -92,27 +117,815 @@ components:
           description: Array of invoice objects.
           items:
             $ref: '#/components/schemas/Invoice'
-    Invoice:
+    DedicatedHardwareConfig:
       type: object
-      description: A billing invoice for a CockroachDB Cloud organization.
       properties:
+        disk_iops:
+          description: 'disk_iops is the number of disk I/O operations per second that are
+
+            permitted on each node in the cluster. This value reflects the
+
+            actual provisioned IOPS, which may differ from the value specified
+
+            during cluster creation or update. Only AWS clusters support
+
+            user-specified IOPS; for GCP and Azure clusters, IOPS is
+
+            determined by the cloud provider based on disk size. A value of
+
+            zero indicates the cloud provider-specific default.'
+          type: integer
+          format: int32
+        machine_type:
+          description: 'machine_type is the machine type identifier within the given cloud
+
+            provider, ex. m5.xlarge, n2-standard-4.'
+          type: string
+        memory_gib:
+          description: memory_gib is the memory GiB per node in the cluster.
+          type: number
+          format: float
+        num_virtual_cpus:
+          description: num_virtual_cpus is the number of virtual CPUs per node in the cluster.
+          type: integer
+          format: int32
+        storage_gib:
+          description: storage_gib is the number of storage GiB per node in the cluster.
+          type: integer
+          format: int32
+      required:
+      - machine_type
+      - num_virtual_cpus
+      - storage_gib
+      - memory_gib
+      - disk_iops
+    NetworkVisibility.Type:
+      type: string
+      enum:
+      - PUBLIC
+      - PRIVATE
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Any'
+        message:
+          type: string
+    Currency.Type:
+      description: ' - COCKROACH_CREDITS: COCKROACH_CREDITS is the same credits currency as CRDB_CLOUD_CREDITS,
+
+        reported under its current name. Organizations on Continuum receive this
+
+        value; all others continue to receive CRDB_CLOUD_CREDITS.'
+      type: string
+      enum:
+      - USD
+      - CRDB_CLOUD_CREDITS
+      - COCKROACH_CREDITS
+    CloudProvider.Type:
+      description: " - GCP: The Google Cloud Platform cloud provider.\n - AWS: The Amazon Web Services cloud provider.\n - AZURE: The Azure cloud provider."
+      type: string
+      enum:
+      - GCP
+      - AWS
+      - AZURE
+    Cluster:
+      type: object
+      properties:
+        account_id:
+          description: 'account_id is a cloud provider account ID representing the CockroachDB
+
+            cluster. This ID can be used for setting up trust relationships with cloud
+
+            resources. For GCP clusters, this value is a project name that can be used
+
+            to construct principal service account names for authentication.'
+          type: string
+        azure_cluster_identity_client_id:
+          description: 'The client ID of the Azure cluster identity associated with this cluster.
+
+            This field is only populated for clusters deployed on Azure and is used
+
+            to support customer-managed encryption keys (CMEK).'
+          type: string
+        cidr_range:
+          description: 'cidr_range is the IPv4 range in CIDR format that will be used by the
+
+            cluster. It is only set on GCP Advanced tier clusters and is otherwise
+
+            empty.'
+          type: string
+        cloud_provider:
+          $ref: '#/components/schemas/CloudProvider.Type'
+        cockroach_version:
+          type: string
+        config:
+          $ref: '#/components/schemas/ClusterConfig'
+        created_at:
+          type: string
+          format: date-time
+        creator_id:
+          type: string
+        customer_cloud_account:
+          $ref: '#/components/schemas/CustomerCloudAccount'
+        delete_protection:
+          $ref: '#/components/schemas/DeleteProtectionState.Type'
+        deleted_at:
+          type: string
+          format: date-time
+        edition:
+          $ref: '#/components/schemas/Edition.Type'
+        egress_traffic_policy:
+          $ref: '#/components/schemas/EgressTrafficPolicy.Type'
         id:
           type: string
-          description: Unique identifier of the invoice.
-        status:
+        labels:
+          description: labels are key-value pairs used to organize and categorize resources.
+          type: object
+          additionalProperties:
+            type: string
+        name:
           type: string
-          description: Status of the invoice. Values include Finalized and Draft.
-        period_start:
+        network_visibility:
+          $ref: '#/components/schemas/NetworkVisibility.Type'
+        operation_status:
+          $ref: '#/components/schemas/ClusterStatus.Type'
+        parent_id:
+          description: 'Preview: The parent ID is a folder ID. A "root" valued parent ID
+
+            refers to a cluster at the root level.'
+          type: string
+        plan:
+          $ref: '#/components/schemas/Plan.Type'
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Region'
+        sql_dns:
+          description: sql_dns is the DNS name of SQL interface of the cluster.
+          type: string
+        state:
+          $ref: '#/components/schemas/ClusterState.Type'
+        updated_at:
           type: string
           format: date-time
-          description: Start of the billing period covered by this invoice.
-        period_end:
+        upgrade_status:
+          $ref: '#/components/schemas/ClusterUpgradeStatus.Type'
+      example:
+        account_id: ''
+        cidr_range: 172.28.0.0/14
+        cloud_provider: GCP
+        cockroach_version: v21.2.4
+        config:
+          serverless:
+            routing_id: example-cluster-1533
+            upgrade_type: AUTOMATIC
+            usage_limits:
+              provisioned_virtual_cpus: '2'
+        created_at: '2022-03-22T20:23:11.285067Z'
+        creator_id: 7cde0cd9-0d8a-4008-8f90-45092ce8afc1
+        id: 35c4abb2-bb66-46d7-afed-25ebef5ed2aa
+        is_customer_cloud_account: false
+        labels:
+          cost_center: '12345'
+          env: prod
+        name: example-cluster
+        operation_status: UNSPECIFIED
+        plan: STANDARD
+        regions:
+        - internal_dns: internal-free-tier7.gcp-us-central1.crdb.io
+          name: us-central1
+          node_count: 0
+          private_endpoint_dns: private-free-tier7.gcp-us-central1.crdb.io
+          sql_dns: free-tier7.gcp-us-central1.crdb.io
+          ui_dns: ''
+        state: CREATED
+        updated_at: '2022-03-22T20:23:11.879593Z'
+        upgrade_status: UPGRADE_AVAILABLE
+      required:
+      - id
+      - name
+      - cockroach_version
+      - upgrade_status
+      - cloud_provider
+      - state
+      - creator_id
+      - operation_status
+      - config
+      - regions
+      - cidr_range
+      - labels
+      - is_customer_cloud_account
+    EgressTrafficPolicy.Type:
+      description: " - UNSPECIFIED: UNSPECIFIED signifies the egress traffic policy is unspecified.\n - ERROR: ERROR signifies there has been an internal server error during\nan update to the egress traffic policy.\n - ALLOW_ALL: ALLOW_ALL signifies all outbound connections from CockroachDB are allowed.\n - DEFAULT_DENY: DEFAULT_DENY signifies that CockroachDB can only initiate network\nconnections to destinations explicitly allowed by the user or CockroachDB\nCloud operators.\n - UPDATING: UPDATING signifies the egress traffic policy is updating."
+      type: string
+      enum:
+      - UNSPECIFIED
+      - ERROR
+      - ALLOW_ALL
+      - DEFAULT_DENY
+      - UPDATING
+    QuantityUnit.Type:
+      type: string
+      enum:
+      - HOURS
+      - REQUEST_UNITS
+      - GIB
+      - GIB_HOURS
+      - VCPU_HOURS
+    HostClusterConfig:
+      description: HostClusterConfig describes the hardware of a host cluster.
+      type: object
+      properties:
+        disk_iops:
+          description: 'disk_iops is the number of disk I/O operations per second that are
+
+            permitted on each node in the cluster. This value reflects the
+
+            actual provisioned IOPS, which may differ from the value specified
+
+            during cluster creation or update. Only AWS clusters support
+
+            user-specified IOPS; for GCP and Azure clusters, IOPS is
+
+            determined by the cloud provider based on disk size. A value of
+
+            zero indicates the cloud provider-specific default.'
+          type: integer
+          format: int32
+        machine_type:
+          description: 'machine_type is the machine type identifier within the given cloud
+
+            provider, ex. m5.xlarge, n2-standard-4.'
           type: string
-          format: date-time
-          description: End of the billing period covered by this invoice.
-        total_amount:
+        memory_gib:
+          description: memory_gib is the memory GiB per node in the cluster.
           type: number
-          description: Total invoice amount in US cents.
+          format: float
+        num_virtual_cpus:
+          description: num_virtual_cpus is the number of virtual CPUs per node in the cluster.
+          type: integer
+          format: int32
+        storage_gib:
+          description: storage_gib is the number of storage GiB per node in the cluster.
+          type: integer
+          format: int32
+      example:
+        disk_iops: 1500
+        machine_type: m6i.2xlarge
+        memory_gib: 32
+        num_virtual_cpus: 8
+        storage_gib: 500
+      required:
+      - machine_type
+      - num_virtual_cpus
+      - storage_gib
+      - memory_gib
+      - disk_iops
+    ListInvoicesResponse_2:
+      type: object
+      properties:
+        invoices:
+          description: invoices are sorted by period_start time.
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice_2'
+      required:
+      - invoices
+    FolderResourceType.Type:
+      type: string
+      enum:
+      - FOLDER
+      - CLUSTER
+    AwsCustomerCloudAccount:
+      type: object
+      properties:
+        arn:
+          description: 'The ARN string of the role that CockroachDB Cloud will assume to perform
+
+            actions in the customer-owned AWS account. The ARN contains the account
+
+            ID so CockroachDB Cloud doesn''t require it to be passed separately.'
+          type: string
+      required:
+      - arn
+    ClusterUpgradeStatus.Type:
+      description: " - FINALIZED: The cluster is running the latest available CockroachDB version, and all upgrades have been finalized.\n - MAJOR_UPGRADE_RUNNING: An major version upgrade is currently in progress.\n - UPGRADE_AVAILABLE: An upgrade is available. If preview builds are enabled for the parent organization, this could indicate that a preview upgrade is available.\n - PENDING_FINALIZATION: An upgrade is complete, but pending finalization. Upgrades are automatically finalized after 72 hours. For more information, see https://www.cockroachlabs.com/docs/stable/upgrade-cockroach-version.html\n - ROLLBACK_RUNNING: A rollback operation is currently in progress."
+      type: string
+      enum:
+      - FINALIZED
+      - MAJOR_UPGRADE_RUNNING
+      - UPGRADE_AVAILABLE
+      - PENDING_FINALIZATION
+      - ROLLBACK_RUNNING
+    CurrencyAmount:
+      type: object
+      properties:
+        amount:
+          description: 'amount is the quantity of currency. Internally, currency amounts are tracked
+
+            and stored using an arbitrary-precision decimal representation, but are serialized
+
+            as 64-bit floating point numbers. There may be minor rounding discrepancies
+
+            when parsed as a 32-bit float.'
+          type: number
+          format: double
+        currency:
+          $ref: '#/components/schemas/Currency.Type'
+    InvoiceAdjustment:
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/CurrencyAmount'
+        name:
+          description: name identifies the adjustment.
+          type: string
+      required:
+      - name
+      - amount
+    PathSegment:
+      type: object
+      properties:
+        id:
+          description: id is a folder id.
+          type: string
+        name:
+          description: name is a folder name.
+          type: string
+    ClusterState.Type:
+      description: ' - LOCKED: An exclusive operation is being performed on this cluster.
+
+        Other operations should not proceed if they did not set a cluster into the LOCKED state.'
+      type: string
+      enum:
+      - CREATING
+      - CREATED
+      - CREATION_FAILED
+      - DELETED
+      - LOCKED
+    Plan.Type:
+      description: " - BASIC: The Basic plan includes essential operational features, is available in\nselect regions, and offers on-demand capacity, making it ideal for small\nteams with unpredictable workloads.\n - STANDARD: The Standard plan includes standard enterprise security and monitoring\nfeatures, is available in all supported regions, and offers provisioned\npricing, making it the default choice for most CockroachDB production\nworkloads.\n - ADVANCED: The Advanced plan is ideal for workloads with stringent isolation,\ncompliance, and security requirements such as CMEK, PCI and HIPAA-readiness,\nand support for dedicated hardware. Customers are advised to have their\naccount team and/or Cockroach Labs Support <support@cockroachlabs.com>\ninvolved when provisioning Advanced clusters."
+      type: string
+      enum:
+      - BASIC
+      - STANDARD
+      - ADVANCED
+    InvoiceItem:
+      type: object
+      properties:
+        cluster:
+          $ref: '#/components/schemas/Cluster'
+        line_items:
+          description: line_items contain all the relevant line items from the Metronome invoice.
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+        totals:
+          description: totals is a list of the total amounts of line items per currency.
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyAmount'
+      required:
+      - cluster
+      - totals
+      - line_items
+    LineItem:
+      type: object
+      properties:
+        description:
+          description: description contains the details of the line item (i.e t3 micro).
+          type: string
+        quantity:
+          description: quantity is the number of the specific line items used.
+          type: number
+          format: double
+        quantity_unit:
+          $ref: '#/components/schemas/QuantityUnit.Type'
+        total:
+          $ref: '#/components/schemas/CurrencyAmount'
+        unit_cost:
+          description: unit_cost is the cost per unit of line item.
+          type: number
+          format: double
+      required:
+      - description
+      - quantity
+      - unit_cost
+      - total
+      - quantity_unit
+    AzureCustomerCloudAccount:
+      type: object
+      properties:
+        subscription_id:
+          description: 'The ID of the subscription in the customer-owned Azure tenant in which
+
+            clusters will be created.'
+          type: string
+        tenant_id:
+          description: The ID of the customer-owned tenant in which the subscription exists.
+          type: string
+      required:
+      - subscription_id
+      - tenant_id
+    Region:
+      type: object
+      properties:
+        disk_iops:
+          description: 'disk_iops is the provisioned disk I/O operations per second for nodes
+
+            in this region. Only meaningful for Advanced clusters on AWS; for GCP
+
+            and Azure the cloud provider chooses based on disk size.'
+          type: integer
+          format: int32
+        internal_dns:
+          description: 'internal_dns is the internal DNS name of the cluster within the cloud
+
+            provider''s network. It is used to connect to the cluster with AWS
+
+            PrivateLink, Azure Private Link, and GCP VPC Peering, but not GCP Private
+
+            Service Connect.'
+          type: string
+        machine_type:
+          description: 'machine_type is the machine type identifier within the cloud provider
+
+            for nodes in this region (e.g. m5.xlarge, n2-standard-4). May differ
+
+            across regions in a heterogeneous Advanced cluster. Only populated for
+
+            Advanced clusters.'
+          type: string
+        name:
+          type: string
+        node_count:
+          description: node_count will be 0 for Serverless clusters.
+          type: integer
+          format: int32
+        num_virtual_cpus:
+          description: 'num_virtual_cpus is the number of virtual CPUs per node in this region,
+
+            derived from machine_type. Only populated for Advanced clusters.'
+          type: integer
+          format: int32
+        primary:
+          description: primary is true only for the primary region in a Multi Region Serverless cluster.
+          type: boolean
+        private_endpoint_dns:
+          description: 'private_endpoint_dns is the DNS name of the cluster which is used to
+
+            connect to the cluster with GCP Private Service Connect.'
+          type: string
+        s3_vpc_endpoint_id:
+          description: 's3_vpc_endpoint_id is the ID of the AWS S3 VPC gateway endpoint
+
+            associated with this cluster region. This can be used to configure
+
+            S3 bucket policies that restrict access to traffic from this
+
+            VPC endpoint. Only populated for Advanced clusters on AWS.'
+          type: string
+        sql_dns:
+          description: sql_dns is the DNS name of SQL interface of the cluster. It is used to connect to the cluster with IP allowlisting.
+          type: string
+        ui_dns:
+          description: ui_dns is the DNS name used when connecting to the DB Console for the cluster.
+          type: string
+      required:
+      - name
+      - sql_dns
+      - ui_dns
+      - node_count
+      - internal_dns
+      - private_endpoint_dns
+    VirtualClusterConfig:
+      description: 'VirtualClusterConfig describes a virtual cluster: a tenant running on a
+
+        customer-owned host cluster, as a member of a workspace.'
+      type: object
+      properties:
+        routing_id:
+          description: routing_id is used to identify the cluster in a connection string.
+          type: string
+        virtual_cpu_burst_limit:
+          description: virtual_cpu_burst_limit is a positive integer describing the most vCPUs the cluster can use at once.
+          type: integer
+          format: int32
+        workspace_id:
+          description: workspace_id is the workspace the cluster is currently a member of.
+          type: string
+      example:
+        routing_id: example-cluster-1533
+        virtual_cpu_burst_limit: 4
+        workspace_id: b7a1c8e2-6d4f-4f9a-9b3e-2c5d8f1a4e70
+      required:
+      - routing_id
+      - workspace_id
+      - virtual_cpu_burst_limit
+      title: VirtualClusterConfig
+    CustomerCloudAccount:
+      type: object
+      properties:
+        aws:
+          $ref: '#/components/schemas/AwsCustomerCloudAccount'
+        azure:
+          $ref: '#/components/schemas/AzureCustomerCloudAccount'
+        gcp:
+          $ref: '#/components/schemas/GcpCustomerCloudAccount'
+    GcpCustomerCloudAccount:
+      type: object
+      properties:
+        service_account_email:
+          description: 'The customer-owned GCP service account email. This is the principal
+
+            that will be impersonated by CockroachDB Cloud to perform actions in
+
+            the customer-owned GCP project. The service account email contains
+
+            the project ID, so CockroachDB Cloud doesn''t require it to be passed
+
+            separately.'
+          type: string
+      required:
+      - service_account_email
+    Edition.Type:
+      description: "A Continuum edition, which determines the capabilities a cluster's license\ngrants. Editions are available only to clusters in Cockroach Continuum\norganizations, and a request that sets an edition from a non-Continuum\norganization is rejected. Editions and plans are mutually exclusive, so a\ncluster reports one or the other, never both.\n\n - STANDARD: The Standard edition grants the Standard capability set. See\n[Editions and add-ons](https://www.cockroachlabs.com/docs/continuum/editions-and-add-ons)\nfor the capabilities each edition includes.\n - MISSION_CRITICAL: The Mission Critical edition grants the Standard capability set plus the\nMission Critical capabilities. See\n[Editions and add-ons](https://www.cockroachlabs.com/docs/continuum/editions-and-add-ons)\nfor the capabilities each edition includes."
+      type: string
+      enum:
+      - STANDARD
+      - MISSION_CRITICAL
+    ServerlessClusterConfig:
+      type: object
+      properties:
+        routing_id:
+          description: routing_id is used to identify the cluster in a connection string.
+          type: string
+        upgrade_type:
+          $ref: '#/components/schemas/UpgradeType.Type'
+        usage_limits:
+          $ref: '#/components/schemas/UsageLimits'
+      required:
+      - routing_id
+      - upgrade_type
+    UpgradeType.Type:
+      type: string
+      enum:
+      - MANUAL
+      - AUTOMATIC
+    Invoice_2:
+      description: 'Invoice message represents the details and the total charges associated with
+
+        one billing period, which starts at the beginning of the month and ends at
+
+        the beginning of the next month.
+
+
+        The message also includes details about each invoice item.'
+      type: object
+      properties:
+        adjustments:
+          description: 'adjustments is a list of credits or costs that adjust the value of the
+
+            invoice (e.g. a Serverless Free Credit or Premium Support adjustment).
+
+            Unlike line items, adjustments are not tied to a particular cluster.'
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceAdjustment'
+        balances:
+          description: balances are the amounts of currency left at the time of the invoice.
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyAmount'
+        folder_resources:
+          description: 'Preview: FolderResources is a list of resources in the organization and their folder
+
+            paths.'
+          type: array
+          items:
+            $ref: '#/components/schemas/FolderResource'
+        invoice_id:
+          description: invoice_id is the unique ID representing the invoice.
+          type: string
+        invoice_items:
+          description: invoice_items are sorted by the cluster name.
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceItem'
+        period_end:
+          description: period_end is the end of the billing period (exclusive).
+          type: string
+          format: date-time
+        period_start:
+          description: period_start is the start of the billing period (inclusive).
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/InvoiceStatus.Type'
+        totals:
+          description: totals is a list of the total amounts per currency.
+          type: array
+          items:
+            $ref: '#/components/schemas/CurrencyAmount'
+      required:
+      - invoice_id
+      - totals
+      - period_start
+      - period_end
+      - invoice_items
+      - balances
+    Any:
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nIn its binary encoding, an `Any` is an ordinary message; but in other wire\nforms like JSON, it has a special encoding. The format of the type URL is\ndescribed on the `type_url` field.\n\nProtobuf APIs provide utilities to interact with `Any` values:\n\n- A 'pack' operation accepts a message and constructs a generic `Any` wrapper\n  around it.\n- An 'unpack' operation reads the content of an `Any` message, either into an\n  existing message or a new one. Unpack operations must check the type of the\n  value they unpack against the declared `type_url`.\n- An 'is' operation decides whether an `Any` contains a message of the given\n  type, i.e. whether it can 'unpack' that type.\n\nThe JSON format representation of an `Any` follows one of these cases:\n\n- For types without special-cased JSON encodings, the JSON format\n  representation of the `Any` is the same as that of the message, with an\n  additional `@type` field which contains the type URL.\n- For types with special-cased JSON encodings (typically called 'well-known'\n  types, listed in https://protobuf.dev/programming-guides/json/#any), the\n  JSON format representation has a key `@type` which contains the type URL\n  and a key `value` which contains the JSON-serialized value.\n\nThe text format representation of an `Any` is like a message with one field\nwhose name is the type URL in brackets. For example, an `Any` containing a\n`foo.Bar` message may be written `[type.googleapis.com/foo.Bar] { a: 2 }`."
+      type: object
+      properties:
+        '@type':
+          description: 'Identifies the type of the serialized Protobuf message with a URI reference
+
+            consisting of a prefix ending in a slash and the fully-qualified type name.
+
+
+            Example: type.googleapis.com/google.protobuf.StringValue
+
+
+            This string must contain at least one `/` character, and the content after
+
+            the last `/` must be the fully-qualified name of the type in canonical
+
+            form, without a leading dot. Do not write a scheme on these URI references
+
+            so that clients do not attempt to contact them.
+
+
+            The prefix is arbitrary and Protobuf implementations are expected to
+
+            simply strip off everything up to and including the last `/` to identify
+
+            the type. `type.googleapis.com/` is a common default prefix that some
+
+            legacy implementations require. This prefix does not indicate the origin of
+
+            the type, and URIs containing it are not expected to respond to any
+
+            requests.
+
+
+            All type URL strings must be legal URI references with the additional
+
+            restriction (for the text format) that the content of the reference
+
+            must consist only of alphanumeric characters, percent-encoded escapes, and
+
+            characters in the following set (not including the outer backticks):
+
+            `/-.~_!$&()*+,;=`. Despite our allowing percent encodings, implementations
+
+            should not unescape them to prevent confusion with existing parsers. For
+
+            example, `type.googleapis.com%2FFoo` should be rejected.
+
+
+            In the original design of `Any`, the possibility of launching a type
+
+            resolution service at these type URLs was considered but Protobuf never
+
+            implemented one and considers contacting these URLs to be problematic and
+
+            a potential security issue. Do not attempt to contact type URLs.'
+          type: string
+      additionalProperties: {}
+    FolderResource:
+      description: FolderResource describes a resource, and includes info about its lineage (parent/ancestors).
+      type: object
+      properties:
+        labels:
+          description: labels are key-value pairs used to organize and categorize resources.
+          type: object
+          additionalProperties:
+            type: string
+        name:
+          description: name is the resource's name.
+          type: string
+        organization_id:
+          description: organization_id is the id of the organization this resource belongs to.
+          type: string
+        parent_id:
+          description: 'parent_id is the id of the resource''s parent folder.
+
+            "root" represents a root level resource.'
+          type: string
+        path:
+          description: path contains the ids and names of ancestors that make up the resource's lineage.
+          type: array
+          items:
+            $ref: '#/components/schemas/PathSegment'
+        resource_id:
+          description: resource_id is the resource's id.
+          type: string
+        resource_type:
+          $ref: '#/components/schemas/FolderResourceType.Type'
+      required:
+      - resource_id
+      - resource_type
+      - parent_id
+      - organization_id
+      - name
+      - path
+      - labels
+      title: FolderResource
+    DeleteProtectionState.Type:
+      type: string
+      enum:
+      - ENABLED
+      - DISABLED
+    ClusterConfig:
+      type: object
+      properties:
+        dedicated:
+          $ref: '#/components/schemas/DedicatedHardwareConfig'
+        host:
+          $ref: '#/components/schemas/HostClusterConfig'
+        serverless:
+          $ref: '#/components/schemas/ServerlessClusterConfig'
+        virtual:
+          $ref: '#/components/schemas/VirtualClusterConfig'
+    InvoiceStatus.Type:
+      type: string
+      enum:
+      - FINALIZED
+      - DRAFT
+    ClusterStatus.Type:
+      description: " - UNSPECIFIED: No ongoing operation. The cluster is running normally.\n - CRDB_MAJOR_UPGRADE_RUNNING: A major CockroachDB version upgrade is in progress.\n - CRDB_MAJOR_UPGRADE_FAILED: A major CockroachDB version upgrade has failed.\n - CRDB_MAJOR_ROLLBACK_RUNNING: A major CockroachDB version rollback is in progress.\n - CRDB_MAJOR_ROLLBACK_FAILED: A major CockroachDB version rollback has failed.\n - CRDB_PATCH_RUNNING: A CockroachDB patch version update is in progress.\n - CRDB_PATCH_FAILED: A CockroachDB patch version update has failed.\n - CRDB_SCALE_RUNNING: A cluster scale operation is in progress.\n - CRDB_SCALE_FAILED: A cluster scale operation has failed.\n - MAINTENANCE_RUNNING: A cluster maintenance operation is in progress.\n - CRDB_INSTANCE_UPDATE_RUNNING: A cluster instance update is in progress.\n - CRDB_INSTANCE_UPDATE_FAILED: A cluster instance update has failed.\n - CRDB_EDIT_CLUSTER_RUNNING: A cluster edit operation is in progress.\n - CRDB_EDIT_CLUSTER_FAILED: A cluster edit operation has failed.\n - CRDB_CMEK_OPERATION_RUNNING: A CMEK key operation is in progress.\n - CRDB_CMEK_OPERATION_FAILED: A CMEK key operation has failed.\n - TENANT_RESTORE_RUNNING: A tenant restore operation is in progress.\n - TENANT_RESTORE_FAILED: A tenant restore operation has failed.\n - CRDB_LOG_EXPORT_OPERATION_RUNNING: A log export configuration operation is in progress.\n - CRDB_LOG_EXPORT_OPERATION_FAILED: A log export configuration operation has failed.\n - CRDB_CLUSTER_DISRUPTION_RUNNING: A cluster disruption operation is in progress.\n - CRDB_CLUSTER_DISRUPTION_FAILED: A cluster disruption operation has failed.\n - CRDB_REPAVE_RUNNING: A cluster node repave operation is in progress.\n - CRDB_REPAVE_FAILED: A cluster node repave operation has failed.\n - CRDB_CUSTOM_CLIENT_CA_RUNNING: A custom client CA certificate operation is in progress.\n - CRDB_CUSTOM_CLIENT_CA_FAILED: A custom client CA certificate operation has failed.\n - DEDICATED_FULL_CLUSTER_RESTORE_RUNNING: A dedicated cluster full restore is in progress.\n - DEDICATED_FULL_CLUSTER_RESTORE_FAILED: A dedicated cluster full restore has failed."
+      type: string
+      enum:
+      - UNSPECIFIED
+      - CRDB_MAJOR_UPGRADE_RUNNING
+      - CRDB_MAJOR_UPGRADE_FAILED
+      - CRDB_MAJOR_ROLLBACK_RUNNING
+      - CRDB_MAJOR_ROLLBACK_FAILED
+      - CRDB_PATCH_RUNNING
+      - CRDB_PATCH_FAILED
+      - CRDB_SCALE_RUNNING
+      - CRDB_SCALE_FAILED
+      - MAINTENANCE_RUNNING
+      - CRDB_INSTANCE_UPDATE_RUNNING
+      - CRDB_INSTANCE_UPDATE_FAILED
+      - CRDB_EDIT_CLUSTER_RUNNING
+      - CRDB_EDIT_CLUSTER_FAILED
+      - CRDB_CMEK_OPERATION_RUNNING
+      - CRDB_CMEK_OPERATION_FAILED
+      - TENANT_RESTORE_RUNNING
+      - TENANT_RESTORE_FAILED
+      - CRDB_LOG_EXPORT_OPERATION_RUNNING
+      - CRDB_LOG_EXPORT_OPERATION_FAILED
+      - CRDB_CLUSTER_DISRUPTION_RUNNING
+      - CRDB_CLUSTER_DISRUPTION_FAILED
+      - CRDB_REPAVE_RUNNING
+      - CRDB_REPAVE_FAILED
+      - CRDB_CUSTOM_CLIENT_CA_RUNNING
+      - CRDB_CUSTOM_CLIENT_CA_FAILED
+      - DEDICATED_FULL_CLUSTER_RESTORE_RUNNING
+      - DEDICATED_FULL_CLUSTER_RESTORE_FAILED
+    UsageLimits:
+      type: object
+      properties:
+        provisioned_virtual_cpus:
+          description: 'provisioned_virtual_cpus is the maximum number of vCPUs that the cluster
+
+            can use. Once this limit is reached, operation latency may increase due to
+
+            throttling. It is an error for this to be zero.'
+          type: string
+          format: int64
+        request_unit_limit:
+          description: 'request_unit_limit is the maximum number of request units that the cluster
+
+            can consume during the month. If this limit is exceeded, then the cluster
+
+            is disabled until the limit is increased, or until the beginning of the
+
+            next month when more free request units are granted. It is an error for
+
+            this to be zero.'
+          type: string
+          format: int64
+        storage_mib_limit:
+          description: 'storage_mib_limit is the maximum number of Mebibytes of storage that the
+
+            cluster can have at any time during the month. If this limit is exceeded,
+
+            then the cluster is throttled; only one SQL connection is allowed at a
+
+            time, with the expectation that it is used to delete data to reduce storage
+
+            usage. It is an error for this to be zero.'
+          type: string
+          format: int64
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid.
@@ -131,6 +944,9 @@ components:
       type: http
       scheme: bearer
       description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
-externalDocs:
-  description: CockroachDB Cloud API Documentation
-  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+    Bearer:
+      type: http
+      scheme: bearer
+x-refined-from:
+- cockroach-labs-cloud-api-openapi.yml
+- cockroach-labs-openapi.json

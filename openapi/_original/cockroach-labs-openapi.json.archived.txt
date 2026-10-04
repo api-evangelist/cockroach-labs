@@ -1,0 +1,2 @@
+# x-archived-from: cockroach-labs-openapi.json
+# x-archived-on: 2026-10-04

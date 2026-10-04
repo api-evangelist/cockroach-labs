@@ -116,7 +116,71 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    sqlUserName:
+      name: name
+      in: path
+      required: true
+      description: Username of the SQL user.
+      schema:
+        type: string
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
   schemas:
+    ListSQLUsersResponse:
+      type: object
+      description: Paginated list of SQL users for a cluster.
+      properties:
+        users:
+          type: array
+          description: Array of SQL user objects.
+          items:
+            $ref: '#/components/schemas/SQLUser'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+    SQLUser:
+      type: object
+      description: Represents a SQL user on a CockroachDB cluster.
+      properties:
+        name:
+          type: string
+          description: Username of the SQL user.
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -156,24 +220,6 @@ components:
           type: string
           description: New password for the SQL user.
           format: password
-    ListSQLUsersResponse:
-      type: object
-      description: Paginated list of SQL users for a cluster.
-      properties:
-        users:
-          type: array
-          description: Array of SQL user objects.
-          items:
-            $ref: '#/components/schemas/SQLUser'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    SQLUser:
-      type: object
-      description: Represents a SQL user on a CockroachDB cluster.
-      properties:
-        name:
-          type: string
-          description: Username of the SQL user.
     CreateSQLUserRequest:
       type: object
       description: Request body for creating a new SQL user.
@@ -207,52 +253,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
-    paginationSortOrder:
-      name: pagination.sort_order
-      in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-    sqlUserName:
-      name: name
-      in: path
-      required: true
-      description: Username of the SQL user.
-      schema:
-        type: string
-    paginationLimit:
-      name: pagination.limit
-      in: query
-      description: Maximum number of results to return per page.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 500
   securitySchemes:
     bearerAuth:
       type: http

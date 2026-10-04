@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-databases-response-schema.json",
+  "title": "ListDatabasesResponse",
+  "description": "Paginated list of databases in a cluster.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-databases-api-openapi.yml#/components/schemas/ListDatabasesResponse",
+  "type": "object",
+  "properties": {
+    "databases": {
+      "type": "array",
+      "description": "Array of database objects.",
+      "items": {
+        "$ref": "#/$defs/Database"
+      }
+    },
+    "pagination": {
+      "$ref": "#/$defs/PaginationResponse"
+    }
+  },
+  "$defs": {
+    "Database": {
+      "type": "object",
+      "description": "Represents a database within a CockroachDB cluster.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the database."
+        },
+        "table_count": {
+          "type": "integer",
+          "description": "Number of tables in the database."
+        }
+      }
+    },
+    "PaginationResponse": {
+      "type": "object",
+      "description": "Pagination metadata included in list responses.",
+      "properties": {
+        "next": {
+          "type": "string",
+          "description": "Token or cursor for retrieving the next page of results."
+        },
+        "last": {
+          "type": "string",
+          "description": "Token or cursor for the last page of results."
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server time at which the paginated query was executed."
+        }
+      }
+    }
+  }
+}

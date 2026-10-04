@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-nodes-response-schema.json",
+  "title": "ListNodesResponse",
+  "description": "List of nodes in the CockroachDB cluster with pagination metadata.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-nodes-api-openapi.yml#/components/schemas/ListNodesResponse",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "description": "Array of node status objects.",
+      "items": {
+        "$ref": "#/$defs/NodeStatus"
+      }
+    },
+    "next": {
+      "type": "integer",
+      "description": "Offset value to use to retrieve the next page of results. Absent when there are no more results."
+    }
+  },
+  "$defs": {
+    "Address": {
+      "type": "object",
+      "description": "Network address of a CockroachDB node.",
+      "properties": {
+        "network_field": {
+          "type": "string",
+          "description": "Network protocol (e.g. tcp)."
+        },
+        "address_field": {
+          "type": "string",
+          "description": "Host and port of the node (e.g. 10.0.0.1:26257)."
+        }
+      }
+    },
+    "BuildInfo": {
+      "type": "object",
+      "description": "Build and version metadata for the CockroachDB binary on a node.",
+      "properties": {
+        "go_version": {
+          "type": "string",
+          "description": "Go runtime version used to build CockroachDB."
+        },
+        "tag": {
+          "type": "string",
+          "description": "Git tag of the CockroachDB release."
+        },
+        "time": {
+          "type": "string",
+          "description": "Build timestamp."
+        },
+        "revision": {
+          "type": "string",
+          "description": "Git revision hash of the build."
+        },
+        "cgo_compiler": {
+          "type": "string",
+          "description": "CGO compiler version used in the build."
+        },
+        "platform": {
+          "type": "string",
+          "description": "Target platform for the build (e.g. linux amd64)."
+        },
+        "distribution": {
+          "type": "string",
+          "description": "CockroachDB distribution type (e.g. CCL or OSS)."
+        },
+        "type": {
+          "type": "string",
+          "description": "Build type (e.g. release or development)."
+        },
+        "channel": {
+          "type": "string",
+          "description": "Release channel the binary belongs to."
+        }
+      }
+    },
+    "Locality": {
+      "type": "object",
+      "description": "Geographic or topological locality tiers assigned to the node, used for zone configuration and replica placement.",
+      "properties": {
+        "tiers": {
+          "type": "array",
+          "description": "Ordered list of locality tiers from most general to most specific.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "description": "Locality tier key (e.g. region, zone, rack)."
+              },
+              "value": {
+                "type": "string",
+                "description": "Locality tier value (e.g. us-east-1, us-east-1a)."
+              }
+            }
+          }
+        }
+      }
+    },
+    "NodeDescriptor": {
+      "type": "object",
+      "description": "Identifies and locates a specific node within the CockroachDB cluster.",
+      "properties": {
+        "node_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Numeric identifier of the node."
+        },
+        "address": {
+          "$ref": "#/$defs/Address"
+        },
+        "attrs": {
+          "type": "object",
+          "description": "Node attribute key-value pairs used for zone configuration."
+        },
+        "locality": {
+          "$ref": "#/$defs/Locality"
+        },
+        "server_version": {
+          "type": "object",
+          "description": "CockroachDB server version running on this node."
+        },
+        "build_tag": {
+          "type": "string",
+          "description": "Build tag string for the CockroachDB binary."
+        },
+        "started_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unix nanosecond timestamp when the node started."
+        },
+        "cluster_name": {
+          "type": "string",
+          "description": "Name of the cluster this node belongs to."
+        },
+        "sql_address": {
+          "$ref": "#/$defs/Address"
+        }
+      }
+    },
+    "NodeStatus": {
+      "type": "object",
+      "description": "Status and metadata for a single node in the CockroachDB cluster, including address, build details, locality, store information, and activity metrics.",
+      "properties": {
+        "desc": {
+          "$ref": "#/$defs/NodeDescriptor"
+        },
+        "build_info": {
+          "$ref": "#/$defs/BuildInfo"
+        },
+        "started_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unix nanosecond timestamp when the node process started."
+        },
+        "updated_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Unix nanosecond timestamp of the most recent status update."
+        },
+        "metrics": {
+          "type": "object",
+          "description": "Map of metric name to value for this node, covering CPU, memory, disk, network, and SQL throughput metrics.",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "store_statuses": {
+          "type": "array",
+          "description": "Status objects for each store (disk) on this node.",
+          "items": {
+            "type": "object"
+          }
+        },
+        "args": {
+          "type": "array",
+          "description": "Command-line arguments the node process was started with.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "env": {
+          "type": "array",
+          "description": "Environment variables set in the node process.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "activity": {
+          "type": "object",
+          "description": "Per-node activity metrics including bytes sent and received."
+        }
+      }
+    }
+  }
+}

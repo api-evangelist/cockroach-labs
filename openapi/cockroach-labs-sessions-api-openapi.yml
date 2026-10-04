@@ -48,7 +48,41 @@ paths:
         '403':
           $ref: '#/components/responses/Forbidden'
 components:
+  parameters:
+    limit:
+      name: limit
+      in: query
+      description: Maximum number of results to return in a single response.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 1000
   schemas:
+    ListSessionsResponse:
+      type: object
+      description: List of active SQL sessions across all cluster nodes.
+      properties:
+        sessions:
+          type: array
+          description: Array of active session objects.
+          items:
+            $ref: '#/components/schemas/Session'
+        errors:
+          type: array
+          description: Errors encountered while collecting session data from individual nodes. Sessions from healthy nodes are still returned.
+          items:
+            type: object
+            properties:
+              node_id:
+                type: integer
+                description: Node ID that returned an error.
+              message:
+                type: string
+                description: Error message from the node.
+        next:
+          type: integer
+          description: Pagination cursor for the next page of session results.
     Error:
       type: object
       description: Standard error response returned by the Cluster API.
@@ -98,30 +132,6 @@ components:
         active_txn:
           type: object
           description: Currently active transaction within this session, if any.
-    ListSessionsResponse:
-      type: object
-      description: List of active SQL sessions across all cluster nodes.
-      properties:
-        sessions:
-          type: array
-          description: Array of active session objects.
-          items:
-            $ref: '#/components/schemas/Session'
-        errors:
-          type: array
-          description: Errors encountered while collecting session data from individual nodes. Sessions from healthy nodes are still returned.
-          items:
-            type: object
-            properties:
-              node_id:
-                type: integer
-                description: Node ID that returned an error.
-              message:
-                type: string
-                description: Error message from the node.
-        next:
-          type: integer
-          description: Pagination cursor for the next page of session results.
   responses:
     Unauthorized:
       description: Authentication is required. The X-Cockroach-API-Session header is missing or the session has expired.
@@ -135,16 +145,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    limit:
-      name: limit
-      in: query
-      description: Maximum number of results to return in a single response.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 1000
   securitySchemes:
     sessionAuth:
       type: apiKey

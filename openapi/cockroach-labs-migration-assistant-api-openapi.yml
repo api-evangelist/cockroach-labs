@@ -1,0 +1,646 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@cockroachlabs.com
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  description: An API for managing CockroachDB Cloud resources
+  title: CockroachDB Cloud Migration Assistant API
+  version: '2026-09-15'
+servers:
+- url: https://cockroachlabs.cloud
+security:
+- Bearer: []
+tags:
+- name: Migration Assistant
+paths:
+  /api/v1/clusters/{cluster_id}/migration-assistant:
+    delete:
+      operationId: CockroachCloud_DeleteMigrationAssistant
+      summary: Delete the Migration Assistant for a cluster
+      description: 'Tears down the deployment and returns the assistant in its DELETING status.
+
+
+        Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - ORG_ADMIN
+
+        - CLUSTER_ADMIN'
+      parameters:
+      - name: cluster_id
+        in: path
+        description: The ID of the cluster whose assistant to delete.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrationAssistant'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Migration Assistant
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request DELETE \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/migration-assistant \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    get:
+      operationId: CockroachCloud_GetMigrationAssistant
+      summary: Get the Migration Assistant for a cluster
+      description: 'Includes the lifecycle status and, while RUNNING, the URL and sign-in
+
+        credentials for the assistant; treat the response as sensitive.
+
+
+        Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - ORG_ADMIN
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        description: The ID of the cluster whose assistant to fetch.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrationAssistant'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Migration Assistant
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/migration-assistant \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    post:
+      operationId: CockroachCloud_CreateMigrationAssistant
+      summary: Provision a Migration Assistant for a cluster
+      description: 'The assistant is a per-cluster, dedicated-cluster-only migration tool. Poll
+
+        GetMigrationAssistant until its status is RUNNING to retrieve the URL and
+
+        credentials used to sign in, or FAILED to inspect last_error.
+
+
+        Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - ORG_ADMIN
+
+        - CLUSTER_ADMIN'
+      parameters:
+      - name: cluster_id
+        in: path
+        description: The ID of the cluster to deploy the assistant on.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMigrationAssistantBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrationAssistant'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Migration Assistant
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request POST \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/migration-assistant \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"cluster_id\":\"9f8e7d6c-5b4a-3210-fedc-ba9876543210\",\"region\":\"us-east1\"}'"
+  /api/v1/clusters/{cluster_id}/migration-assistant/source-ca-cert:
+    delete:
+      operationId: CockroachCloud_DeleteMigrationAssistantSourceCACert
+      summary: Delete the source-database CA certificate for a cluster's Migration Assistant
+      description: 'Reverts the assistant to the system trust roots and returns the deleted
+
+        certificate bundle.
+
+
+        Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - ORG_ADMIN
+
+        - CLUSTER_ADMIN'
+      parameters:
+      - name: cluster_id
+        in: path
+        description: The ID of the cluster whose source-database CA certificate to delete.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrationAssistantSourceCACert'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Migration Assistant
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request DELETE \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/migration-assistant/source-ca-cert \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    get:
+      operationId: CockroachCloud_GetMigrationAssistantSourceCACert
+      summary: Get the source-database CA certificate for a cluster's Migration Assistant
+      description: 'Returns the custom CA certificate bundle the assistant trusts when
+
+        connecting to its source database. Returns an empty bundle when the
+
+        assistant uses the system trust roots.
+
+
+        Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - ORG_ADMIN
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        description: The ID of the cluster whose source-database CA certificate to fetch.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrationAssistantSourceCACert'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Migration Assistant
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/migration-assistant/source-ca-cert \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    patch:
+      operationId: CockroachCloud_UpdateMigrationAssistantSourceCACert
+      summary: Update the source-database CA certificate for a cluster's Migration Assistant
+      description: 'Replaces the custom CA certificate bundle the assistant trusts when
+
+        connecting to its source database. Returns the updated certificate bundle.
+
+
+        Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - ORG_ADMIN
+
+        - CLUSTER_ADMIN'
+      parameters:
+      - name: cluster_id
+        in: path
+        description: The ID of the cluster whose source-database CA certificate to update.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMigrationAssistantSourceCACertBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrationAssistantSourceCACert'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Migration Assistant
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request PATCH \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/migration-assistant/source-ca-cert \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"cluster_id\":\"9f8e7d6c-5b4a-3210-fedc-ba9876543210\",\"x509_pem_cert\":\"-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----\"}'"
+components:
+  schemas:
+    Any:
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nIn its binary encoding, an `Any` is an ordinary message; but in other wire\nforms like JSON, it has a special encoding. The format of the type URL is\ndescribed on the `type_url` field.\n\nProtobuf APIs provide utilities to interact with `Any` values:\n\n- A 'pack' operation accepts a message and constructs a generic `Any` wrapper\n  around it.\n- An 'unpack' operation reads the content of an `Any` message, either into an\n  existing message or a new one. Unpack operations must check the type of the\n  value they unpack against the declared `type_url`.\n- An 'is' operation decides whether an `Any` contains a message of the given\n  type, i.e. whether it can 'unpack' that type.\n\nThe JSON format representation of an `Any` follows one of these cases:\n\n- For types without special-cased JSON encodings, the JSON format\n  representation of the `Any` is the same as that of the message, with an\n  additional `@type` field which contains the type URL.\n- For types with special-cased JSON encodings (typically called 'well-known'\n  types, listed in https://protobuf.dev/programming-guides/json/#any), the\n  JSON format representation has a key `@type` which contains the type URL\n  and a key `value` which contains the JSON-serialized value.\n\nThe text format representation of an `Any` is like a message with one field\nwhose name is the type URL in brackets. For example, an `Any` containing a\n`foo.Bar` message may be written `[type.googleapis.com/foo.Bar] { a: 2 }`."
+      type: object
+      properties:
+        '@type':
+          description: 'Identifies the type of the serialized Protobuf message with a URI reference
+
+            consisting of a prefix ending in a slash and the fully-qualified type name.
+
+
+            Example: type.googleapis.com/google.protobuf.StringValue
+
+
+            This string must contain at least one `/` character, and the content after
+
+            the last `/` must be the fully-qualified name of the type in canonical
+
+            form, without a leading dot. Do not write a scheme on these URI references
+
+            so that clients do not attempt to contact them.
+
+
+            The prefix is arbitrary and Protobuf implementations are expected to
+
+            simply strip off everything up to and including the last `/` to identify
+
+            the type. `type.googleapis.com/` is a common default prefix that some
+
+            legacy implementations require. This prefix does not indicate the origin of
+
+            the type, and URIs containing it are not expected to respond to any
+
+            requests.
+
+
+            All type URL strings must be legal URI references with the additional
+
+            restriction (for the text format) that the content of the reference
+
+            must consist only of alphanumeric characters, percent-encoded escapes, and
+
+            characters in the following set (not including the outer backticks):
+
+            `/-.~_!$&()*+,;=`. Despite our allowing percent encodings, implementations
+
+            should not unescape them to prevent confusion with existing parsers. For
+
+            example, `type.googleapis.com%2FFoo` should be rejected.
+
+
+            In the original design of `Any`, the possibility of launching a type
+
+            resolution service at these type URLs was considered but Protobuf never
+
+            implemented one and considers contacting these URLs to be problematic and
+
+            a potential security issue. Do not attempt to contact type URLs.'
+          type: string
+      additionalProperties: {}
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Any'
+        message:
+          type: string
+    MigrationAssistantHealth.Type:
+      description: " - NOT_COMPUTED: Health is not computed; the assistant is not RUNNING.\n - HEALTHY: The assistant is ready and serving.\n - UNAVAILABLE: The assistant is RUNNING but not currently serving. This is usually\ntransient (for example, its pod is restarting); retry shortly.\n - UNKNOWN: The live health probe could not be reached, so serving health is not\nknown. This is usually transient; retry shortly."
+      type: string
+      enum:
+      - NOT_COMPUTED
+      - HEALTHY
+      - UNAVAILABLE
+      - UNKNOWN
+    UpdateMigrationAssistantSourceCACertBody:
+      description: 'UpdateMigrationAssistantSourceCACertRequest replaces the source-database CA
+
+        certificate bundle for a cluster''s Migration Assistant.'
+      type: object
+      properties:
+        x509_pem_cert:
+          description: The PEM-encoded X.509 CA certificate bundle to apply.
+          type: string
+      example:
+        cluster_id: 9f8e7d6c-5b4a-3210-fedc-ba9876543210
+        x509_pem_cert: '-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----'
+      required:
+      - x509_pem_cert
+      title: UpdateMigrationAssistantSourceCACertRequest
+    CreateMigrationAssistantBody:
+      description: CreateMigrationAssistantRequest provisions a Migration Assistant on a cluster.
+      type: object
+      properties:
+        region:
+          description: 'The cluster region to deploy into. Optional; empty selects a default region
+
+            (the cluster''s first region ordered by locality, which is not necessarily
+
+            its original primary region). Must be one of the cluster''s existing regions.
+
+            The chosen region is reported as the assistant''s deployed_region.'
+          type: string
+      example:
+        cluster_id: 9f8e7d6c-5b4a-3210-fedc-ba9876543210
+        region: us-east1
+      title: CreateMigrationAssistantRequest
+    MigrationAssistantStatus.Type:
+      description: " - PENDING: The assistant has been requested and is being provisioned.\n - RUNNING: The assistant is ready; its URL and credentials are available.\n - DELETING: Deletion has been requested and is in progress.\n - FAILED: A provisioning or deletion operation failed; see last_error."
+      type: string
+      enum:
+      - PENDING
+      - RUNNING
+      - DELETING
+      - FAILED
+    MigrationAssistantSourceCACert:
+      description: 'MigrationAssistantSourceCACert is the CA certificate bundle a Migration
+
+        Assistant trusts when connecting to its source database.'
+      type: object
+      properties:
+        x509_pem_cert:
+          description: The PEM-encoded X.509 CA certificate bundle.
+          type: string
+      example:
+        x509_pem_cert: '-----BEGIN CERTIFICATE-----...-----END CERTIFICATE-----'
+      title: MigrationAssistantSourceCACert
+    MigrationAssistant:
+      description: 'MigrationAssistant is a per-cluster migration assistant deployment. The url,
+
+        username, password, and bucket_grantee are populated only while the status is
+
+        RUNNING. The last_error is populated only when the status is FAILED.'
+      type: object
+      properties:
+        bucket_grantee:
+          description: 'The cloud-native identity the customer must grant bucket access to;
+
+            populated when the status is RUNNING. Format depends on the cluster''s cloud
+
+            (AWS IAM role ARN, GCP service account email, or Azure object ID).'
+          type: string
+        cluster_id:
+          description: The ID of the cluster this assistant is deployed for.
+          type: string
+        created_at:
+          description: Timestamp when the assistant was created.
+          type: string
+          format: date-time
+        deployed_region:
+          description: The cluster region the assistant is deployed in.
+          type: string
+        health:
+          $ref: '#/components/schemas/MigrationAssistantHealth.Type'
+        id:
+          description: The unique ID of the migration assistant.
+          type: string
+        last_error:
+          description: The failure detail; populated when the status is FAILED.
+          type: string
+        password:
+          description: 'The password used to sign in to the assistant; populated when the status is
+
+            RUNNING.'
+          type: string
+        status:
+          $ref: '#/components/schemas/MigrationAssistantStatus.Type'
+        updated_at:
+          description: Timestamp when the assistant was last updated.
+          type: string
+          format: date-time
+        url:
+          description: The URL used to reach the assistant; populated when the status is RUNNING.
+          type: string
+        username:
+          description: 'The username used to sign in to the assistant; populated when the status is
+
+            RUNNING.'
+          type: string
+      example:
+        bucket_grantee: arn:aws:iam::123456789012:role/example-role
+        cluster_id: 9f8e7d6c-5b4a-3210-fedc-ba9876543210
+        created_at: '2026-07-30T18:00:00Z'
+        deployed_region: us-east1
+        health: HEALTHY
+        id: 1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d
+        last_error: ''
+        password: example_password
+        status: RUNNING
+        updated_at: '2026-07-30T18:05:00Z'
+        url: https://molt-ai.example.crdb.io
+        username: example_username
+      required:
+      - id
+      - cluster_id
+      - deployed_region
+      - status
+      - created_at
+      - updated_at
+      - health
+      title: MigrationAssistant
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+externalDocs:
+  description: Use the CockroachDB Cloud API
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api.html

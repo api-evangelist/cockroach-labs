@@ -1,0 +1,66 @@
+generated: '2026-10-04'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/cockroach-labs-api-keys-api-openapi.yml
+- openapi/cockroach-labs-audit-logs-api-openapi.yml
+- openapi/cockroach-labs-auth-api-openapi.yml
+- openapi/cockroach-labs-backup-restore-api-openapi.yml
+- openapi/cockroach-labs-billing-api-openapi.yml
+- openapi/cockroach-labs-clusters-api-openapi.yml
+- openapi/cockroach-labs-cmek-api-openapi.yml
+- openapi/cockroach-labs-databases-api-openapi.yml
+- openapi/cockroach-labs-egressrules-api-openapi.yml
+- openapi/cockroach-labs-folders-api-openapi.yml
+- openapi/cockroach-labs-health-api-openapi.yml
+- openapi/cockroach-labs-ipallowlists-api-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: Error
+coverage:
+  operations: 259
+  statuses_declared: 6
+problems:
+- status: 400
+  title: Bad Request
+  description: Returned when a request field is invalid.
+  operations: 191
+  media_types:
+  - application/json
+  schema: Error
+- status: 401
+  title: Unauthorized
+  description: Returned when the token bearer cannot be authenticated.
+  operations: 257
+  media_types:
+  - application/json
+  schema: Error
+- status: 403
+  title: Forbidden
+  description: Returned when the user does not have permission to access the resource.
+  operations: 167
+  media_types:
+  - application/json
+  schema: Error
+- status: 404
+  title: Not Found
+  description: Returned when the resource does not exist.
+  operations: 219
+  media_types:
+  - application/json
+  schema: Error
+- status: 500
+  title: Internal Server Error
+  description: Server error
+  operations: 162
+  media_types:
+  - application/json
+  schema: HealthResponse
+- status: default
+  title: null
+  description: An unexpected error response.
+  operations: 161
+  media_types:
+  - application/json
+  schema: Status

@@ -62,32 +62,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  schemas:
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
-    ClusterVersionDeferral:
-      type: object
-      description: Version deferral policy for a cluster, controlling whether automatic CockroachDB version upgrades are deferred.
-      properties:
-        deferral_policy:
-          type: string
-          description: Deferral policy. Values include NOT_DEFERRED (upgrades proceed immediately) and FIXED_DEFERRAL (upgrades are delayed).
-          enum:
-          - NOT_DEFERRED
-          - FIXED_DEFERRAL
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid.
@@ -115,6 +89,32 @@ components:
       description: Unique identifier of the CockroachDB Cloud cluster.
       schema:
         type: string
+  schemas:
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    ClusterVersionDeferral:
+      type: object
+      description: Version deferral policy for a cluster, controlling whether automatic CockroachDB version upgrades are deferred.
+      properties:
+        deferral_policy:
+          type: string
+          description: Deferral policy. Values include NOT_DEFERRED (upgrades proceed immediately) and FIXED_DEFERRAL (upgrades are delayed).
+          enum:
+          - NOT_DEFERRED
+          - FIXED_DEFERRAL
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-edit-egress-rule-request-schema.json",
+  "title": "EditEgressRuleRequest",
+  "description": "Request body for updating an egress rule.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-egressrules-api-openapi.yml#/components/schemas/EditEgressRuleRequest",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "New name for the egress rule."
+    },
+    "destination": {
+      "type": "string",
+      "description": "New destination FQDN or CIDR for the rule."
+    },
+    "ports": {
+      "type": "array",
+      "description": "Updated list of destination ports.",
+      "items": {
+        "type": "integer"
+      }
+    }
+  }
+}

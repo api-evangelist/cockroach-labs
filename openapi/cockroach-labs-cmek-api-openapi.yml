@@ -113,21 +113,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Error:
+    UpdateCMEKStatusRequest:
       type: object
-      description: Standard error response returned by the API.
+      description: Request body for updating CMEK operational status.
+      required:
+      - status
       properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
+        status:
           type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
+          description: New CMEK status. Accepted values include REVOKE and ROTATE.
     CMEKClusterInfo:
       type: object
       description: Customer-managed encryption key configuration for a cluster.
@@ -140,15 +134,6 @@ components:
           description: Current CMEK operational status.
         spec:
           $ref: '#/components/schemas/CMEKClusterSpecification'
-    UpdateCMEKStatusRequest:
-      type: object
-      description: Request body for updating CMEK operational status.
-      required:
-      - status
-      properties:
-        status:
-          type: string
-          description: New CMEK status. Accepted values include REVOKE and ROTATE.
     CMEKClusterSpecification:
       type: object
       description: Specification defining the customer-managed encryption key configuration for a CockroachDB cluster.
@@ -167,6 +152,21 @@ components:
               key:
                 type: object
                 description: Key specification including type and URI.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid.

@@ -1,86 +1,194 @@
 openapi: 3.2.0
 info:
-  title: CockroachDB Cloud Backup Restore API
-  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization.
-  version: '2024-09-16'
   contact:
+    email: support@cockroachlabs.com
     name: Cockroach Labs Support
     url: https://support.cockroachlabs.com
-  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+  description: An API for managing CockroachDB Cloud resources
+  title: CockroachDB Cloud Backup/Restore API
+  version: '2026-09-15'
 servers:
 - url: https://cockroachlabs.cloud
-  description: CockroachDB Cloud Production Server
 security:
-- bearerAuth: []
+- Bearer: []
 tags:
-- name: Backup Restore
-  description: Manage cluster backups, backup configurations, and restore operations for CockroachDB clusters.
+- name: Backup/Restore
 paths:
   /api/v1/clusters/{cluster_id}/backups:
     get:
-      operationId: ListBackups
-      summary: List backups
-      description: Returns a list of backups for the specified cluster, optionally filtered by start and end time. Supports pagination.
-      tags:
-      - Backup Restore
+      operationId: CockroachCloud_ListBackups
+      summary: List cluster backups
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - AUDITOR'
       parameters:
-      - $ref: '#/components/parameters/clusterId'
+      - name: cluster_id
+        in: path
+        description: The cluster associated with the backups being retrieved.
+        required: true
+        schema:
+          type: string
+      - name: pagination.page
+        in: query
+        schema:
+          type: string
+      - name: pagination.limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pagination.as_of_time
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: pagination.sort_order
+        in: query
+        description: " - ASC: Sort in ascending order. This is the default unless otherwise specified.\n - DESC: Sort in descending order."
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
       - name: start_time
         in: query
-        description: Filter backups created at or after this RFC3339 timestamp.
+        description: The beginning of the time range (inclusive) used to search for backups.
         schema:
           type: string
           format: date-time
       - name: end_time
         in: query
-        description: Filter backups created before this RFC3339 timestamp.
+        description: The end of the time range (exclusive) used to search for backups.
         schema:
           type: string
           format: date-time
-      - $ref: '#/components/parameters/paginationPage'
-      - $ref: '#/components/parameters/paginationLimit'
-      - $ref: '#/components/parameters/paginationAsOfTime'
-      - $ref: '#/components/parameters/paginationSortOrder'
       responses:
         '200':
-          description: List of backups returned successfully.
+          description: A successful response.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListBackupsResponse'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
         '404':
-          $ref: '#/components/responses/NotFound'
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Backup/Restore
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url 'https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/backups?pagination.page=SOME_STRING_VALUE&pagination.limit=SOME_INTEGER_VALUE&pagination.as_of_time=SOME_STRING_VALUE&pagination.sort_order=SOME_STRING_VALUE&start_time=SOME_STRING_VALUE&end_time=SOME_STRING_VALUE' \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
   /api/v1/clusters/{cluster_id}/backups-config:
     get:
-      operationId: GetBackupConfiguration
-      summary: Get backup configuration
-      description: Retrieves the backup configuration for the specified cluster, including retention period and backup frequency.
-      tags:
-      - Backup Restore
+      operationId: CockroachCloud_GetBackupConfiguration
+      summary: Get the backup configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - AUDITOR'
       parameters:
-      - $ref: '#/components/parameters/clusterId'
+      - name: cluster_id
+        in: path
+        description: The UUID of the cluster that this backup configuration belongs to.
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Backup configuration retrieved successfully.
+          description: A successful response.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BackupConfiguration'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
         '404':
-          $ref: '#/components/responses/NotFound'
-    patch:
-      operationId: UpdateBackupConfiguration
-      summary: Update backup configuration
-      description: Updates the backup configuration for the specified cluster, including retention period and backup frequency settings.
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
       tags:
-      - Backup Restore
+      - Backup/Restore
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/backups-config \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    patch:
+      operationId: CockroachCloud_UpdateBackupConfiguration
+      summary: Update the backup configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
       parameters:
-      - $ref: '#/components/parameters/clusterId'
+      - name: cluster_id
+        in: path
+        description: The UUID of the cluster that this backup configuration belongs to.
+        required: true
+        schema:
+          type: string
       requestBody:
+        description: 'spec contains the information that is being updated for the given
+
+          BackupConfiguration.'
         required: true
         content:
           application/json:
@@ -88,53 +196,142 @@ paths:
               $ref: '#/components/schemas/UpdateBackupConfigurationSpec'
       responses:
         '200':
-          description: Backup configuration updated successfully.
+          description: A successful response.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BackupConfiguration'
         '400':
-          $ref: '#/components/responses/BadRequest'
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
         '404':
-          $ref: '#/components/responses/NotFound'
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Backup/Restore
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request PATCH \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/backups-config \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"enabled\":true,\"frequency_minutes\":60,\"retention_days\":7}'"
   /api/v1/clusters/{cluster_id}/restores:
     get:
-      operationId: ListRestores
-      summary: List restores
-      description: Returns a list of restore operations for the specified cluster. Supports pagination and time-based filtering.
-      tags:
-      - Backup Restore
+      operationId: CockroachCloud_ListRestores
+      summary: List restore jobs
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - AUDITOR'
       parameters:
-      - $ref: '#/components/parameters/clusterId'
+      - name: cluster_id
+        in: path
+        description: The ID of the cluster where the restores ran or are currently running.
+        required: true
+        schema:
+          type: string
+      - name: pagination.page
+        in: query
+        schema:
+          type: string
+      - name: pagination.limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pagination.as_of_time
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: pagination.sort_order
+        in: query
+        description: " - ASC: Sort in ascending order. This is the default unless otherwise specified.\n - DESC: Sort in descending order."
+        schema:
+          type: string
+          enum:
+          - ASC
+          - DESC
       - name: start_time
         in: query
-        description: Filter restores initiated at or after this RFC3339 timestamp.
+        description: The beginning of the time range (inclusive) used to search for restores.
         schema:
           type: string
           format: date-time
       - name: end_time
         in: query
-        description: Filter restores initiated before this RFC3339 timestamp.
+        description: The end of the time range (exclusive) used to search for restores.
         schema:
           type: string
           format: date-time
-      - $ref: '#/components/parameters/paginationPage'
-      - $ref: '#/components/parameters/paginationLimit'
-      - $ref: '#/components/parameters/paginationAsOfTime'
-      - $ref: '#/components/parameters/paginationSortOrder'
       responses:
         '200':
-          description: List of restore operations returned successfully.
+          description: A successful response.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListRestoresResponse'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
         '404':
-          $ref: '#/components/responses/NotFound'
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Backup/Restore
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url 'https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/restores?pagination.page=SOME_STRING_VALUE&pagination.limit=SOME_INTEGER_VALUE&pagination.as_of_time=SOME_STRING_VALUE&pagination.sort_order=SOME_STRING_VALUE&start_time=SOME_STRING_VALUE&end_time=SOME_STRING_VALUE' \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
     post:
       operationId: CreateRestore
       summary: Create a restore
@@ -162,32 +359,497 @@ paths:
           $ref: '#/components/responses/Unauthorized'
   /api/v1/clusters/{cluster_id}/restores/{restore_id}:
     get:
-      operationId: GetRestore
-      summary: Get a restore
-      description: Retrieves the status and details of a specific restore operation by ID.
-      tags:
-      - Backup Restore
+      operationId: CockroachCloud_GetRestore
+      summary: View a restore job
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - AUDITOR'
       parameters:
-      - $ref: '#/components/parameters/clusterId'
+      - name: cluster_id
+        in: path
+        description: The ID of the cluster where the restore ran or is currently running.
+        required: true
+        schema:
+          type: string
       - name: restore_id
         in: path
+        description: The ID of the restore.
         required: true
-        description: Unique identifier of the restore operation.
         schema:
           type: string
       responses:
         '200':
-          description: Restore operation details retrieved successfully.
+          description: A successful response.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Restore'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
         '401':
-          $ref: '#/components/responses/Unauthorized'
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
         '404':
-          $ref: '#/components/responses/NotFound'
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Backup/Restore
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/restores/{restore_id} \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+  /api/v1/clusters/{destination_cluster_id}/restores:
+    post:
+      operationId: CockroachCloud_CreateRestore
+      summary: Create a restore
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: destination_cluster_id
+        in: path
+        description: The ID of the cluster where the backup will be restored.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRestoreBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restore'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Backup/Restore
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request POST \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{destination_cluster_id}/restores \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"backup_id\":\"1234abcd-1234-1234-abcd-12345678abcd\",\"destination_cluster_id\":\"12345678-1234-1234-1234-123456789012\",\"objects\":[{\"database\":\"database1\",\"schema\":\"schema1\",\"table\":\"table1\"},{\"database\":\"database1\",\"schema\":\"schema1\",\"table\":\"table2\"}],\"restore_opts\":{\"into_db\":\"database2\",\"schema_only\":true},\"type\":\"TABLE\"}'"
 components:
   schemas:
+    BackupSummary:
+      type: object
+      properties:
+        as_of_time:
+          description: The point in time (in UTC) the backup restores to.
+          type: string
+          format: date-time
+        id:
+          description: The unique identifier associated with the backup.
+          type: string
+      required:
+      - id
+      - as_of_time
+    Any:
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nIn its binary encoding, an `Any` is an ordinary message; but in other wire\nforms like JSON, it has a special encoding. The format of the type URL is\ndescribed on the `type_url` field.\n\nProtobuf APIs provide utilities to interact with `Any` values:\n\n- A 'pack' operation accepts a message and constructs a generic `Any` wrapper\n  around it.\n- An 'unpack' operation reads the content of an `Any` message, either into an\n  existing message or a new one. Unpack operations must check the type of the\n  value they unpack against the declared `type_url`.\n- An 'is' operation decides whether an `Any` contains a message of the given\n  type, i.e. whether it can 'unpack' that type.\n\nThe JSON format representation of an `Any` follows one of these cases:\n\n- For types without special-cased JSON encodings, the JSON format\n  representation of the `Any` is the same as that of the message, with an\n  additional `@type` field which contains the type URL.\n- For types with special-cased JSON encodings (typically called 'well-known'\n  types, listed in https://protobuf.dev/programming-guides/json/#any), the\n  JSON format representation has a key `@type` which contains the type URL\n  and a key `value` which contains the JSON-serialized value.\n\nThe text format representation of an `Any` is like a message with one field\nwhose name is the type URL in brackets. For example, an `Any` containing a\n`foo.Bar` message may be written `[type.googleapis.com/foo.Bar] { a: 2 }`."
+      type: object
+      properties:
+        '@type':
+          description: 'Identifies the type of the serialized Protobuf message with a URI reference
+
+            consisting of a prefix ending in a slash and the fully-qualified type name.
+
+
+            Example: type.googleapis.com/google.protobuf.StringValue
+
+
+            This string must contain at least one `/` character, and the content after
+
+            the last `/` must be the fully-qualified name of the type in canonical
+
+            form, without a leading dot. Do not write a scheme on these URI references
+
+            so that clients do not attempt to contact them.
+
+
+            The prefix is arbitrary and Protobuf implementations are expected to
+
+            simply strip off everything up to and including the last `/` to identify
+
+            the type. `type.googleapis.com/` is a common default prefix that some
+
+            legacy implementations require. This prefix does not indicate the origin of
+
+            the type, and URIs containing it are not expected to respond to any
+
+            requests.
+
+
+            All type URL strings must be legal URI references with the additional
+
+            restriction (for the text format) that the content of the reference
+
+            must consist only of alphanumeric characters, percent-encoded escapes, and
+
+            characters in the following set (not including the outer backticks):
+
+            `/-.~_!$&()*+,;=`. Despite our allowing percent encodings, implementations
+
+            should not unescape them to prevent confusion with existing parsers. For
+
+            example, `type.googleapis.com%2FFoo` should be rejected.
+
+
+            In the original design of `Any`, the possibility of launching a type
+
+            resolution service at these type URLs was considered but Protobuf never
+
+            implemented one and considers contacting these URLs to be problematic and
+
+            a potential security issue. Do not attempt to contact type URLs.'
+          type: string
+      additionalProperties: {}
+    RestoreItem:
+      type: object
+      properties:
+        database:
+          type: string
+        schema:
+          type: string
+        table:
+          type: string
+      required:
+      - database
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Any'
+        message:
+          type: string
+    UpdateBackupConfigurationSpec:
+      type: object
+      properties:
+        enabled:
+          description: Indicates whether backups are enabled.
+          type: boolean
+        frequency_minutes:
+          description: 'How frequently in minutes that backups are taken, which will determine the
+
+            [RPO](https://www.cockroachlabs.com/docs/stable/disaster-recovery-overview)
+
+            of the cluster.  Valid values are [5, 10, 15, 30, 60, 240, 1440].'
+          type: integer
+          format: int32
+        retention_days:
+          description: 'The number of days to retain backups for. Can only be set once, further
+
+            changes require opening a support ticket. Valid values are [2, 7, 30, 90,
+
+            365].'
+          type: integer
+          format: int32
+      example:
+        enabled: true
+        frequency_minutes: 60
+        retention_days: 7
+    CreateRestoreBody:
+      type: object
+      properties:
+        backup_id:
+          description: 'The ID of the backup from which data will be restored.
+
+            If backup_id is not set, the restore will use the latest
+
+            available backup from source_cluster_id.'
+          type: string
+        objects:
+          description: 'The list of objects to restore. Required when type is DATABASE
+
+            or TABLE.'
+          type: array
+          items:
+            $ref: '#/components/schemas/RestoreItem'
+        restore_opts:
+          $ref: '#/components/schemas/RestoreOpts'
+        source_cluster_id:
+          description: The ID of the cluster containing the backup to be restored.
+          type: string
+        type:
+          $ref: '#/components/schemas/RestoreType.Type'
+      example:
+        backup_id: 1234abcd-1234-1234-abcd-12345678abcd
+        destination_cluster_id: 12345678-1234-1234-1234-123456789012
+        objects:
+        - database: database1
+          schema: schema1
+          table: table1
+        - database: database1
+          schema: schema1
+          table: table2
+        restore_opts:
+          into_db: database2
+          schema_only: true
+        type: TABLE
+      required:
+      - type
+    RestoreType.Type:
+      type: string
+      enum:
+      - CLUSTER
+      - DATABASE
+      - TABLE
+    ListRestoresResponse:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/KeysetPaginationResponse'
+        restores:
+          type: array
+          items:
+            $ref: '#/components/schemas/Restore'
+      required:
+      - restores
+    RestoreOpts:
+      type: object
+      properties:
+        into_db:
+          description: 'Specifies the target database to restore the table into during a
+
+            table restore job. If not set, the table will be restored
+
+            into the database it belonged to in the source backup.'
+          type: string
+        new_db_name:
+          description: 'Specifies the name of the database to create during a
+
+            database restore job. If not set, the name defaults to
+
+            the original database name from the source cluster.'
+          type: string
+        schema_only:
+          description: 'If set, only the schema will be restored and no user data will
+
+            be included.'
+          type: boolean
+        skip_localities_check:
+          description: 'Allows the restore job to continue in the event that there
+
+            are mismatched localities between the backup and target cluster.
+
+            Useful when restoring multi-region tables to a cluster missing
+
+            some localities.'
+          type: boolean
+        skip_missing_foreign_keys:
+          description: 'Allows a table to be restored even if it has foreign key
+
+            constraints referencing rows that no longer exist in the target
+
+            cluster.'
+          type: boolean
+        skip_missing_sequences:
+          type: boolean
+          title: 'Allows a table to be restored even if it contains a column whose
+
+            `DEFAULT` value depends on a sequence.
+
+            (See https://www.cockroachlabs.com/docs/stable/show-sequences)'
+        skip_missing_views:
+          description: 'Allows the job to skip restoring views that cannot be
+
+            restored because their dependencies are not included in the
+
+            current restore job.'
+          type: boolean
+    KeysetPaginationResponse:
+      type: object
+      properties:
+        next_page:
+          type: string
+        previous_page:
+          type: string
+    ListBackupsResponse:
+      type: object
+      properties:
+        backups:
+          type: array
+          items:
+            $ref: '#/components/schemas/BackupSummary'
+        pagination:
+          $ref: '#/components/schemas/KeysetPaginationResponse'
+      required:
+      - backups
+    BackupConfiguration:
+      type: object
+      properties:
+        enabled:
+          description: Indicates whether backups are enabled.
+          type: boolean
+        frequency_minutes:
+          description: 'How frequently in minutes that backups are taken, which will determine the
+
+            [RPO](https://www.cockroachlabs.com/docs/stable/disaster-recovery-overview)
+
+            of the cluster.'
+          type: integer
+          format: int32
+        retention_days:
+          description: The number of days backups are retained for.
+          type: integer
+          format: int32
+      example:
+        enabled: true
+        frequency_minutes: 60
+        retention_days: 7
+      required:
+      - enabled
+      - retention_days
+      - frequency_minutes
+      title: BackupConfiguration
+    Restore:
+      type: object
+      properties:
+        backup_end_time:
+          description: The timestamp at which the backup data was captured.
+          type: string
+          format: date-time
+        backup_id:
+          description: The ID of the backup used for this restore job.
+          type: string
+        client_error_code:
+          description: Error code from the restore job, only populated if it has failed.
+          type: integer
+          format: int32
+        client_error_message:
+          description: Error message from the restore job, only populated if it has failed.
+          type: string
+        completed_at:
+          description: The timestamp at which the restore job completed.
+          type: string
+          format: date-time
+        completion_percent:
+          description: 'The percentage of the restore job that has been completed.
+
+            The value ranges from 0 to 1.'
+          type: number
+          format: float
+        crdb_job_id:
+          description: The CockroachDB internal job ID for the restore job.
+          type: string
+        created_at:
+          description: The time at which the restore job was initiated.
+          type: string
+          format: date-time
+        destination_cluster_name:
+          description: The name of the cluster to which the restore is being applied.
+          type: string
+        id:
+          description: The unique identifier associated with the restore.
+          type: string
+        objects:
+          description: The list of database objects (databases, tables) that were restored.
+          type: array
+          items:
+            $ref: '#/components/schemas/RestoreItem'
+        restore_opts:
+          $ref: '#/components/schemas/RestoreOpts'
+        source_cluster_name:
+          description: The name of the cluster from which the backup was taken.
+          type: string
+        status:
+          $ref: '#/components/schemas/RestoreStatus.Type'
+        type:
+          $ref: '#/components/schemas/RestoreType.Type'
+      example:
+        backup_end_time: '2025-07-09T14:00:00Z'
+        backup_id: 1234abcd-1234-1234-abcd-12345678abcd
+        completion_percent: 0
+        created_at: '2025-07-09T15:04:05Z'
+        destination_cluster_name: dest-cluster
+        id: abcd1234-5678-90ab-cdef-1234567890ab
+        objects:
+        - database: mydb
+          schema: public
+          table: users
+        source_cluster_name: src-cluster
+        status: PENDING
+        type: TABLE
+      required:
+      - id
+      - backup_id
+      - status
+      - created_at
+      - type
+      - completion_percent
+      - source_cluster_name
+      - destination_cluster_name
+      - backup_end_time
+    RestoreStatus.Type:
+      type: string
+      enum:
+      - PENDING
+      - SUCCESS
+      - FAILED
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -217,58 +879,6 @@ components:
           type: string
           format: date-time
           description: Server time at which the paginated query was executed.
-    ListRestoresResponse:
-      type: object
-      description: Paginated list of restore operations.
-      properties:
-        restores:
-          type: array
-          description: Array of restore operation objects.
-          items:
-            $ref: '#/components/schemas/Restore'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    BackupConfiguration:
-      type: object
-      description: Backup configuration settings for a CockroachDB cluster.
-      properties:
-        cluster_id:
-          type: string
-          description: Cluster ID the configuration applies to.
-        frequency_minutes:
-          type: integer
-          description: How often backups are taken, in minutes.
-        retention_days:
-          type: integer
-          description: Number of days backups are retained.
-    Restore:
-      type: object
-      description: Represents a restore operation on a CockroachDB cluster.
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the restore operation.
-        cluster_id:
-          type: string
-          description: ID of the destination cluster being restored into.
-        status:
-          type: string
-          description: Current status of the restore operation.
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the restore was initiated.
-    ListBackupsResponse:
-      type: object
-      description: Paginated list of cluster backups.
-      properties:
-        backups:
-          type: array
-          description: Array of backup objects.
-          items:
-            type: object
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
     CreateRestoreRequest:
       type: object
       description: Request body for initiating a cluster restore.
@@ -281,25 +891,56 @@ components:
         target:
           type: object
           description: Optional target specification for the restore.
-    UpdateBackupConfigurationSpec:
-      type: object
-      description: Specification for updating backup configuration.
-      properties:
-        frequency_minutes:
-          type: integer
-          description: New backup frequency in minutes.
-        retention_days:
-          type: integer
-          description: New retention period in days.
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+  parameters:
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
       content:
         application/json:
           schema:
@@ -310,50 +951,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
-    paginationSortOrder:
-      name: pagination.sort_order
-      in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-    paginationLimit:
-      name: pagination.limit
-      in: query
-      description: Maximum number of results to return per page.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 500
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
 externalDocs:
-  description: CockroachDB Cloud API Documentation
-  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+  description: Use the CockroachDB Cloud API
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api.html

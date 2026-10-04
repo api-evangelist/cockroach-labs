@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-add-egress-rule-request-schema.json",
+  "title": "AddEgressRuleRequest",
+  "description": "Request body for adding an egress rule.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-egressrules-api-openapi.yml#/components/schemas/AddEgressRuleRequest",
+  "type": "object",
+  "required": [
+    "name",
+    "destination"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name for the new egress rule."
+    },
+    "destination": {
+      "type": "string",
+      "description": "Destination FQDN or CIDR to allow outbound traffic to."
+    },
+    "ports": {
+      "type": "array",
+      "description": "List of destination ports to allow.",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "type": {
+      "type": "string",
+      "description": "Rule type. Accepted values are FQDN and CIDR."
+    }
+  }
+}

@@ -1,0 +1,35 @@
+generated: '2026-10-04'
+method: searched
+generator: extract-docs-artifacts.py (local)
+source: https://docs.cockroachlabs.com/docs/molt/migration-overview.md
+sources:
+- https://docs.cockroachlabs.com/docs/molt/migration-overview.md
+- https://docs.cockroachlabs.com/docs/cockroachcloud/ccloud-get-started.md
+- https://docs.cockroachlabs.com/docs/molt/migration-overview
+- https://docs.cockroachlabs.com/docs/cockroachcloud/ccloud-get-started
+install:
+- method: Homebrew
+  command: brew install cockroachdb/tap/ccloud
+- method: Binary (macOS amd64)
+  command: curl https://binaries.cockroachdb.com/ccloud/ccloud_darwin-amd64_0.6.12.tar.gz | tar -xJ && cp -i ccloud /usr/local/bin/
+- method: Binary (macOS arm64)
+  command: curl https://binaries.cockroachdb.com/ccloud/ccloud_darwin-arm64_0.6.12.tar.gz | tar -xJ && cp -i ccloud /usr/local/bin/
+- method: Binary (Linux amd64)
+  command: curl https://binaries.cockroachdb.com/ccloud/ccloud_linux-amd64_0.6.12.tar.gz | tar -xz && cp -i ccloud /usr/local/bin/
+- method: Binary (Windows amd64)
+  command: $ErrorActionPreference = "Stop"; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; $ProgressPreference
+    = 'SilentlyContinue'; $null = New-Item -Type Directory -Force $env:appdata/ccloud; Invoke-WebRequest -Uri https://binaries.cockroachdb.com/ccloud/ccloud_windows-amd64_0.6.12.zip
+    -OutFile ccloud.zip; Expand-Archive -Force -Path ccloud.zip; Copy-Item -Force ccloud/ccloud.exe -Destination $env:appdata/ccloud; $Env:PATH
+    += ";$env:appdata/ccloud"
+commands:
+- group: quickstart
+  commands:
+  - ccloud quickstart
+- group: auth
+  commands:
+  - ccloud auth login
+  - ccloud auth login --org {organization-label}
+  - ccloud auth login --vanity-name {custom-organization-name}
+  - ccloud auth login --no-redirect
+binary: ccloud
+docs: https://docs.cockroachlabs.com/docs/molt/migration-overview.md

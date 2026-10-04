@@ -1,0 +1,481 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@cockroachlabs.com
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  description: An API for managing CockroachDB Cloud resources
+  title: CockroachDB Cloud Customer-managed Encryption Keys API
+  version: '2026-09-15'
+servers:
+- url: https://cockroachlabs.cloud
+security:
+- Bearer: []
+tags:
+- name: Customer-managed Encryption Keys
+paths:
+  /api/v1/clusters/{cluster_id}/cmek:
+    get:
+      operationId: CockroachCloud_GetCMEKClusterInfo
+      summary: Get CMEK-related information for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - AUDITOR'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Customer-managed Encryption Keys
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/cmek \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    patch:
+      operationId: CockroachCloud_UpdateCMEKStatus
+      summary: Update the CMEK-related status for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCMEKStatusBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Customer-managed Encryption Keys
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request PATCH \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/cmek \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"action\":\"REVOKE\"}'"
+    post:
+      operationId: CockroachCloud_EnableCMEKSpec
+      summary: Enable CMEK for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableCMEKSpecBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Customer-managed Encryption Keys
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request POST \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/cmek \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"region_specs\":[{\"key_spec\":{\"auth_principal\":\"arn:aws:iam::account:role/role-name-with-path\",\"type\":\"AWS_KMS\",\"uri\":\"arn:aws:kms:us-west-2:111122223333:key/id-of-kms-key\"},\"region\":\"us-central1\"}]}'"
+    put:
+      operationId: CockroachCloud_UpdateCMEKSpec
+      summary: Enable or update the CMEK spec for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCMEKSpecBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CMEKClusterInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Customer-managed Encryption Keys
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request PUT \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/cmek \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"region_specs\":[{\"key_spec\":{\"auth_principal\":\"arn:aws:iam::account:role/role-name-with-path\",\"type\":\"AWS_KMS\",\"uri\":\"arn:aws:kms:us-west-2:111122223333:key/id-of-kms-key\"},\"region\":\"us-central1\"}]}'"
+components:
+  schemas:
+    Any:
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nIn its binary encoding, an `Any` is an ordinary message; but in other wire\nforms like JSON, it has a special encoding. The format of the type URL is\ndescribed on the `type_url` field.\n\nProtobuf APIs provide utilities to interact with `Any` values:\n\n- A 'pack' operation accepts a message and constructs a generic `Any` wrapper\n  around it.\n- An 'unpack' operation reads the content of an `Any` message, either into an\n  existing message or a new one. Unpack operations must check the type of the\n  value they unpack against the declared `type_url`.\n- An 'is' operation decides whether an `Any` contains a message of the given\n  type, i.e. whether it can 'unpack' that type.\n\nThe JSON format representation of an `Any` follows one of these cases:\n\n- For types without special-cased JSON encodings, the JSON format\n  representation of the `Any` is the same as that of the message, with an\n  additional `@type` field which contains the type URL.\n- For types with special-cased JSON encodings (typically called 'well-known'\n  types, listed in https://protobuf.dev/programming-guides/json/#any), the\n  JSON format representation has a key `@type` which contains the type URL\n  and a key `value` which contains the JSON-serialized value.\n\nThe text format representation of an `Any` is like a message with one field\nwhose name is the type URL in brackets. For example, an `Any` containing a\n`foo.Bar` message may be written `[type.googleapis.com/foo.Bar] { a: 2 }`."
+      type: object
+      properties:
+        '@type':
+          description: 'Identifies the type of the serialized Protobuf message with a URI reference
+
+            consisting of a prefix ending in a slash and the fully-qualified type name.
+
+
+            Example: type.googleapis.com/google.protobuf.StringValue
+
+
+            This string must contain at least one `/` character, and the content after
+
+            the last `/` must be the fully-qualified name of the type in canonical
+
+            form, without a leading dot. Do not write a scheme on these URI references
+
+            so that clients do not attempt to contact them.
+
+
+            The prefix is arbitrary and Protobuf implementations are expected to
+
+            simply strip off everything up to and including the last `/` to identify
+
+            the type. `type.googleapis.com/` is a common default prefix that some
+
+            legacy implementations require. This prefix does not indicate the origin of
+
+            the type, and URIs containing it are not expected to respond to any
+
+            requests.
+
+
+            All type URL strings must be legal URI references with the additional
+
+            restriction (for the text format) that the content of the reference
+
+            must consist only of alphanumeric characters, percent-encoded escapes, and
+
+            characters in the following set (not including the outer backticks):
+
+            `/-.~_!$&()*+,;=`. Despite our allowing percent encodings, implementations
+
+            should not unescape them to prevent confusion with existing parsers. For
+
+            example, `type.googleapis.com%2FFoo` should be rejected.
+
+
+            In the original design of `Any`, the possibility of launching a type
+
+            resolution service at these type URLs was considered but Protobuf never
+
+            implemented one and considers contacting these URLs to be problematic and
+
+            a potential security issue. Do not attempt to contact type URLs.'
+          type: string
+      additionalProperties: {}
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Any'
+        message:
+          type: string
+    CMEKClusterInfo:
+      description: 'CMEKClusterInfo contains the status of CMEK across an entire cluster,
+
+        including within each one its regions.'
+      type: object
+      properties:
+        region_infos:
+          type: array
+          items:
+            $ref: '#/components/schemas/CMEKRegionInfo'
+        status:
+          $ref: '#/components/schemas/CMEKStatus'
+    EnableCMEKSpecBody:
+      type: object
+      properties:
+        region_specs:
+          type: array
+          items:
+            $ref: '#/components/schemas/CMEKRegionSpecification'
+      example:
+        region_specs:
+        - key_spec:
+            auth_principal: arn:aws:iam::account:role/role-name-with-path
+            type: AWS_KMS
+            uri: arn:aws:kms:us-west-2:111122223333:key/id-of-kms-key
+          region: us-central1
+      required:
+      - region_specs
+      title: CMEKClusterSpecification
+    CMEKRegionSpecification:
+      description: 'CMEKRegionSpecification declares the customer-provided key specification that
+
+        should be used in a given region.'
+      type: object
+      properties:
+        key_spec:
+          $ref: '#/components/schemas/CMEKKeySpecification'
+        region:
+          type: string
+    CMEKKeyInfo:
+      description: 'CMEKKeyInfo contains the status of a customer-provided key alongside the
+
+        specification.'
+      type: object
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        spec:
+          $ref: '#/components/schemas/CMEKKeySpecification'
+        status:
+          $ref: '#/components/schemas/CMEKStatus'
+        updated_at:
+          type: string
+          format: date-time
+        user_message:
+          type: string
+    CMEKKeyType:
+      type: string
+      enum:
+      - AWS_KMS
+      - GCP_CLOUD_KMS
+      - NULL_KMS
+      - AZURE_KEY_VAULT
+      title: CMEKKeyType enumerates types of customer-managed keys
+    CMEKCustomerAction:
+      description: 'CMEKCustomerAction enumerates the actions a customer can take on a cluster
+
+        that has been enabled for CMEK.'
+      type: string
+      enum:
+      - REVOKE
+    UpdateCMEKStatusBody:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/CMEKCustomerAction'
+      example:
+        action: REVOKE
+      required:
+      - action
+      title: UpdateCMEKStatusRequest
+    UpdateCMEKSpecBody:
+      type: object
+      properties:
+        region_specs:
+          type: array
+          items:
+            $ref: '#/components/schemas/CMEKRegionSpecification'
+      example:
+        region_specs:
+        - key_spec:
+            auth_principal: arn:aws:iam::account:role/role-name-with-path
+            type: AWS_KMS
+            uri: arn:aws:kms:us-west-2:111122223333:key/id-of-kms-key
+          region: us-central1
+      required:
+      - region_specs
+      title: CMEKClusterSpecification
+    CMEKStatus:
+      description: "CMEKStatus describes the current status of CMEK for an entire CRDB cluster\nor a CMEK key within a region.\n\n - DISABLED: DISABLED corresponds to the state of a cluster or region-level key when\nCMEK has finished being disabled. By default, CMEK will be disabled for\nnew clusters.\n - DISABLING: DISABLING corresponds to the state of a cluster or region-level key when\nCMEK is in the process of being disabled.\n - DISABLE_FAILED: DISABLE_FAILED corresponds to the state of a cluster or region-level key\nwhen CMEK has failed to be disabled.\n - ENABLED: ENABLED corresponds to the state of a cluster or region-level key when\nCMEK is enabled.\n - ENABLING: ENABLING corresponds to the state of a cluster or region-level key when\nCMEK is in the process of being enabled.\n - ENABLE_FAILED: ENABLE_FAILED corresponds to the state of a cluster or region-level key\nwhen CMEK has failed to be enabled.\n - ROTATING: ROTATING corresponds to the state of a cluster or region when the a new\nspec is in the process of being enabled while an existing spec is being\ndisabled.\n - ROTATE_FAILED: ROTATE_FAILED corresponds to the state of a cluster or region if there was\na failure to update from one CMEK spec to another.\n - REVOKED: REVOKED corresponds to the state of a cluster or region-level key when the\ncustomer has revoked CockroachLab's permissions for their key.\n - REVOKING: REVOKING corresponds to the state of a cluster or region-level key when\nCMEK is in the process of being revoked.\n - REVOKE_FAILED: REVOKE_FAILED corresponds to the state of a cluster or region-level key\nwhen CMEK has failed to be revoked."
+      type: string
+      enum:
+      - DISABLED
+      - DISABLING
+      - DISABLE_FAILED
+      - ENABLED
+      - ENABLING
+      - ENABLE_FAILED
+      - ROTATING
+      - ROTATE_FAILED
+      - REVOKED
+      - REVOKING
+      - REVOKE_FAILED
+    CMEKRegionInfo:
+      description: "CMEKRegionInfo contains the status of CMEK within a region.\n\nThis includes current and past key specifications used within the region, \nas well as the status of those specifications"
+      type: object
+      properties:
+        key_infos:
+          type: array
+          items:
+            $ref: '#/components/schemas/CMEKKeyInfo'
+        region:
+          type: string
+        status:
+          $ref: '#/components/schemas/CMEKStatus'
+    CMEKKeySpecification:
+      description: "CMEKKeySpecification contains all the details necessary to use a customer-provided\nencryption key.\n\nThis involves the type/location of the key and the principal to authenticate as \nwhen accessing it."
+      type: object
+      properties:
+        auth_principal:
+          type: string
+        type:
+          $ref: '#/components/schemas/CMEKKeyType'
+        uri:
+          type: string
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+externalDocs:
+  description: Use the CockroachDB Cloud API
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api.html

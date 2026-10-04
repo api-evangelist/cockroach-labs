@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-audit-logs-response-schema.json",
+  "title": "ListAuditLogsResponse",
+  "description": "Audit log events returned from the API.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-audit-logs-api-openapi.yml#/components/schemas/ListAuditLogsResponse",
+  "type": "object",
+  "properties": {
+    "entries": {
+      "type": "array",
+      "description": "Array of audit log entry objects.",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

@@ -62,20 +62,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Error:
-      type: object
-      description: Standard error response returned by the Cluster API.
-      properties:
-        error:
-          type: string
-          description: Human-readable description of the error.
-    LogoutResponse:
-      type: object
-      description: Response from a logout request confirming session termination.
-      properties:
-        logged_out:
-          type: boolean
-          description: True if the session was successfully terminated.
     LoginResponse:
       type: object
       description: Response from a successful login request.
@@ -83,6 +69,20 @@ components:
         session:
           type: string
           description: Session token. Also returned in the X-Cockroach-API-Session response header for convenience.
+    LogoutResponse:
+      type: object
+      description: Response from a logout request confirming session termination.
+      properties:
+        logged_out:
+          type: boolean
+          description: True if the session was successfully terminated.
+    Error:
+      type: object
+      description: Standard error response returned by the Cluster API.
+      properties:
+        error:
+          type: string
+          description: Human-readable description of the error.
     LoginRequest:
       type: object
       description: Credentials for authenticating to the Cluster API.

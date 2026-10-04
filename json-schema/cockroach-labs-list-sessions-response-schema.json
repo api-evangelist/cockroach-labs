@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-sessions-response-schema.json",
+  "title": "ListSessionsResponse",
+  "description": "List of active SQL sessions across all cluster nodes.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-sessions-api-openapi.yml#/components/schemas/ListSessionsResponse",
+  "type": "object",
+  "properties": {
+    "sessions": {
+      "type": "array",
+      "description": "Array of active session objects.",
+      "items": {
+        "$ref": "#/$defs/Session"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "description": "Errors encountered while collecting session data from individual nodes. Sessions from healthy nodes are still returned.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "integer",
+            "description": "Node ID that returned an error."
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message from the node."
+          }
+        }
+      }
+    },
+    "next": {
+      "type": "integer",
+      "description": "Pagination cursor for the next page of session results."
+    }
+  },
+  "$defs": {
+    "Session": {
+      "type": "object",
+      "description": "An active SQL session on the CockroachDB cluster, representing a connection from a client application.",
+      "properties": {
+        "node_id": {
+          "type": "integer",
+          "description": "Node ID where this session is being served."
+        },
+        "username": {
+          "type": "string",
+          "description": "SQL username of the session."
+        },
+        "client_address": {
+          "type": "string",
+          "description": "Network address of the client (host:port)."
+        },
+        "application_name": {
+          "type": "string",
+          "description": "Application name reported by the SQL client driver."
+        },
+        "start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the session was established."
+        },
+        "last_active_query": {
+          "type": "string",
+          "description": "Most recently executed SQL query in this session."
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the session."
+        },
+        "alloc_bytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Memory allocated by this session in bytes."
+        },
+        "max_alloc_bytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Peak memory allocation for this session in bytes."
+        },
+        "active_queries": {
+          "type": "array",
+          "description": "Currently executing queries within this session.",
+          "items": {
+            "type": "object"
+          }
+        },
+        "active_txn": {
+          "type": "object",
+          "description": "Currently active transaction within this session, if any."
+        }
+      }
+    }
+  }
+}

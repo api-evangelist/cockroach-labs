@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-set-roles-for-user-request-schema.json",
+  "title": "SetRolesForUserRequest",
+  "description": "Request body for setting all roles for a user.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-role-management-api-openapi.yml#/components/schemas/SetRolesForUserRequest",
+  "type": "object",
+  "required": [
+    "roles"
+  ],
+  "properties": {
+    "roles": {
+      "type": "array",
+      "description": "Complete set of role grants to assign to the user.",
+      "items": {
+        "type": "object"
+      }
+    }
+  }
+}

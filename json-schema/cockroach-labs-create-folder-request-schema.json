@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-create-folder-request-schema.json",
+  "title": "CreateFolderRequest",
+  "description": "Request body for creating a new folder.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-folders-api-openapi.yml#/components/schemas/CreateFolderRequest",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name for the new folder."
+    },
+    "parent_id": {
+      "type": "string",
+      "description": "Parent folder ID to nest this folder under."
+    }
+  }
+}

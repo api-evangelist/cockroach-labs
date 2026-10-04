@@ -1,0 +1,8 @@
+generated: '2026-10-04'
+method: probed
+source: https://docs.cockroachlabs.com/docs/continuum/mcp-server.md
+deployment:
+  mode: remote
+  endpoint: https://cockroachlabs.cloud/mcp
+  auth: oauth
+  verified: probed

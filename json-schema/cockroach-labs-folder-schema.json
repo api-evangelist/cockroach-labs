@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-folder-schema.json",
+  "title": "Folder",
+  "description": "Represents a folder used to organize clusters and resources within a CockroachDB Cloud organization.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-folders-api-openapi.yml#/components/schemas/Folder",
+  "type": "object",
+  "properties": {
+    "resource_id": {
+      "type": "string",
+      "description": "Unique identifier of the folder."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the folder."
+    },
+    "parent_id": {
+      "type": "string",
+      "description": "ID of the parent folder, if any."
+    },
+    "path": {
+      "type": "string",
+      "description": "Full path to the folder."
+    }
+  }
+}

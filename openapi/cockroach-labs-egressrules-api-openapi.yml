@@ -140,7 +140,106 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    paginationPage:
+      name: pagination.page
+      in: query
+      description: Page number for paginated results, starting from 1.
+      schema:
+        type: string
+    ruleId:
+      name: rule_id
+      in: path
+      required: true
+      description: Unique identifier of the egress rule.
+      schema:
+        type: string
+    clusterId:
+      name: cluster_id
+      in: path
+      required: true
+      description: Unique identifier of the CockroachDB Cloud cluster.
+      schema:
+        type: string
+    paginationAsOfTime:
+      name: pagination.as_of_time
+      in: query
+      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
+      schema:
+        type: string
+        format: date-time
+    paginationLimit:
+      name: pagination.limit
+      in: query
+      description: Maximum number of results to return per page.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 500
+    paginationSortOrder:
+      name: pagination.sort_order
+      in: query
+      description: Sort direction for paginated results. Accepted values are ASC and DESC.
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
   schemas:
+    EgressRule:
+      type: object
+      description: Represents an egress traffic rule controlling outbound connections from a CockroachDB cluster.
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the egress rule.
+        name:
+          type: string
+          description: Human-readable name of the egress rule.
+        destination:
+          type: string
+          description: Destination hostname or CIDR for allowed outbound traffic.
+        ports:
+          type: array
+          description: List of destination port numbers allowed by this rule.
+          items:
+            type: integer
+        type:
+          type: string
+          description: Type of egress rule (FQDN or CIDR).
+    AddEgressRuleRequest:
+      type: object
+      description: Request body for adding an egress rule.
+      required:
+      - name
+      - destination
+      properties:
+        name:
+          type: string
+          description: Name for the new egress rule.
+        destination:
+          type: string
+          description: Destination FQDN or CIDR to allow outbound traffic to.
+        ports:
+          type: array
+          description: List of destination ports to allow.
+          items:
+            type: integer
+        type:
+          type: string
+          description: Rule type. Accepted values are FQDN and CIDR.
+    ListEgressRulesResponse:
+      type: object
+      description: Paginated list of egress rules for a cluster.
+      properties:
+        rules:
+          type: array
+          description: Array of egress rule objects.
+          items:
+            $ref: '#/components/schemas/EgressRule'
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -170,27 +269,6 @@ components:
           type: string
           format: date-time
           description: Server time at which the paginated query was executed.
-    AddEgressRuleRequest:
-      type: object
-      description: Request body for adding an egress rule.
-      required:
-      - name
-      - destination
-      properties:
-        name:
-          type: string
-          description: Name for the new egress rule.
-        destination:
-          type: string
-          description: Destination FQDN or CIDR to allow outbound traffic to.
-        ports:
-          type: array
-          description: List of destination ports to allow.
-          items:
-            type: integer
-        type:
-          type: string
-          description: Rule type. Accepted values are FQDN and CIDR.
     EditEgressRuleRequest:
       type: object
       description: Request body for updating an egress rule.
@@ -206,38 +284,6 @@ components:
           description: Updated list of destination ports.
           items:
             type: integer
-    ListEgressRulesResponse:
-      type: object
-      description: Paginated list of egress rules for a cluster.
-      properties:
-        rules:
-          type: array
-          description: Array of egress rule objects.
-          items:
-            $ref: '#/components/schemas/EgressRule'
-        pagination:
-          $ref: '#/components/schemas/PaginationResponse'
-    EgressRule:
-      type: object
-      description: Represents an egress traffic rule controlling outbound connections from a CockroachDB cluster.
-      properties:
-        id:
-          type: string
-          description: Unique identifier of the egress rule.
-        name:
-          type: string
-          description: Human-readable name of the egress rule.
-        destination:
-          type: string
-          description: Destination hostname or CIDR for allowed outbound traffic.
-        ports:
-          type: array
-          description: List of destination port numbers allowed by this rule.
-          items:
-            type: integer
-        type:
-          type: string
-          description: Type of egress rule (FQDN or CIDR).
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid.
@@ -257,52 +303,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    clusterId:
-      name: cluster_id
-      in: path
-      required: true
-      description: Unique identifier of the CockroachDB Cloud cluster.
-      schema:
-        type: string
-    ruleId:
-      name: rule_id
-      in: path
-      required: true
-      description: Unique identifier of the egress rule.
-      schema:
-        type: string
-    paginationAsOfTime:
-      name: pagination.as_of_time
-      in: query
-      description: RFC3339 timestamp to return results as they were at a specific point in time (time-travel query).
-      schema:
-        type: string
-        format: date-time
-    paginationPage:
-      name: pagination.page
-      in: query
-      description: Page number for paginated results, starting from 1.
-      schema:
-        type: string
-    paginationSortOrder:
-      name: pagination.sort_order
-      in: query
-      description: Sort direction for paginated results. Accepted values are ASC and DESC.
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-    paginationLimit:
-      name: pagination.limit
-      in: query
-      description: Maximum number of results to return per page.
-      schema:
-        type: integer
-        format: int32
-        minimum: 1
-        maximum: 500
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-health-response-schema.json",
+  "title": "HealthResponse",
+  "description": "Health status of the CockroachDB node.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-health-api-openapi.yml#/components/schemas/HealthResponse",
+  "type": "object",
+  "properties": {
+    "node_id": {
+      "type": "integer",
+      "description": "Numeric identifier of the responding node."
+    },
+    "ready": {
+      "type": "boolean",
+      "description": "True if the node is fully operational and ready to accept SQL connections."
+    }
+  }
+}

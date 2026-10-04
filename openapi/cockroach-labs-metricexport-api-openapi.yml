@@ -202,21 +202,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Error:
-      type: object
-      description: Standard error response returned by the API.
-      properties:
-        code:
-          type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
-        details:
-          type: array
-          description: Additional detail objects providing error context.
-          items:
-            type: object
     PrometheusMetricExportInfo:
       type: object
       description: Prometheus metric export configuration for a cluster.
@@ -252,6 +237,33 @@ components:
         target_region:
           type: string
           description: AWS region where metrics should be exported.
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
+    EnableDatadogMetricExportRequest:
+      type: object
+      description: Request body for enabling Datadog metric export.
+      required:
+      - api_key
+      properties:
+        api_key:
+          type: string
+          description: Datadog API key for authentication.
+        site:
+          type: string
+          description: Datadog site endpoint (e.g. US1, EU1).
     CloudWatchMetricExportInfo:
       type: object
       description: AWS CloudWatch metric export configuration for a cluster.
@@ -265,18 +277,6 @@ components:
         role_arn:
           type: string
           description: AWS IAM role ARN used for CloudWatch metric export.
-    EnableDatadogMetricExportRequest:
-      type: object
-      description: Request body for enabling Datadog metric export.
-      required:
-      - api_key
-      properties:
-        api_key:
-          type: string
-          description: Datadog API key for authentication.
-        site:
-          type: string
-          description: Datadog site endpoint (e.g. US1, EU1).
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid.

@@ -81,7 +81,39 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request body or parameters are invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    LogExportClusterInfo:
+      type: object
+      description: Log export configuration and status for a cluster.
+      properties:
+        cluster_id:
+          type: string
+          description: ID of the cluster this log export configuration applies to.
+        status:
+          type: string
+          description: Current status of the log export configuration.
+        spec:
+          type: object
+          description: Log export specification including destination and groups.
     Error:
       type: object
       description: Standard error response returned by the API.
@@ -97,19 +129,6 @@ components:
           description: Additional detail objects providing error context.
           items:
             type: object
-    LogExportClusterInfo:
-      type: object
-      description: Log export configuration and status for a cluster.
-      properties:
-        cluster_id:
-          type: string
-          description: ID of the cluster this log export configuration applies to.
-        status:
-          type: string
-          description: Current status of the log export configuration.
-        spec:
-          type: object
-          description: Log export specification including destination and groups.
     EnableLogExportRequest:
       type: object
       description: Request body for enabling log export.
@@ -130,25 +149,6 @@ components:
           description: Channel groups to export.
           items:
             type: object
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request body or parameters are invalid.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     clusterId:
       name: cluster_id

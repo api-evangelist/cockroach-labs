@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-create-cluster-request-schema.json",
+  "title": "CreateClusterRequest",
+  "description": "Request body for creating a new CockroachDB Cloud cluster.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/CreateClusterRequest",
+  "type": "object",
+  "required": [
+    "name",
+    "provider",
+    "spec"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name for the new cluster.",
+      "maxLength": 40
+    },
+    "provider": {
+      "type": "string",
+      "description": "Cloud provider to host the cluster.",
+      "enum": [
+        "GCP",
+        "AWS",
+        "AZURE"
+      ]
+    },
+    "spec": {
+      "type": "object",
+      "description": "Cluster specification, either a ServerlessClusterCreateSpecification or DedicatedClusterCreateSpecification."
+    },
+    "regions": {
+      "type": "array",
+      "description": "List of regions to deploy the cluster in.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "parent_id": {
+      "type": "string",
+      "description": "Folder ID to place the cluster in, if applicable."
+    }
+  }
+}

@@ -1,17 +1,11 @@
 openapi: 3.2.0
 info:
-  title: CockroachDB Cloud Organizations API
-  description: The CockroachDB Cloud API is a REST interface that provides programmatic access to manage the lifecycle of clusters within a CockroachDB Cloud organization.
-  version: '2024-09-16'
-  contact:
-    name: Cockroach Labs Support
-    url: https://support.cockroachlabs.com
-  termsOfService: https://www.cockroachlabs.com/cloud-terms-and-conditions/
+  title: Cockroach Labs Organizations API
+  version: '1.0'
+  description: 'Operations tagged Organizations across 2 of this provider''s published API definitions: cockroach-labs-cloud-api-openapi.yml, cockroach-labs-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://cockroachlabs.cloud
   description: CockroachDB Cloud Production Server
-security:
-- bearerAuth: []
 tags:
 - name: Organizations
   description: Retrieve information about the caller's CockroachDB Cloud organization.
@@ -34,21 +28,41 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://cockroachlabs.cloud
+      description: CockroachDB Cloud Production Server
 components:
   responses:
-    Forbidden:
-      description: The caller does not have permission to perform this operation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Authentication credentials are missing or invalid.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The caller does not have permission to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      description: Standard error response returned by the API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+        message:
+          type: string
+          description: Human-readable description of the error.
+        details:
+          type: array
+          description: Additional detail objects providing error context.
+          items:
+            type: object
     Organization:
       type: object
       description: Represents a CockroachDB Cloud organization, which is the top-level container for all clusters, users, and billing.
@@ -69,26 +83,134 @@ components:
           type: string
           format: date-time
           description: Timestamp when the organization was created.
-    Error:
+    Any:
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nIn its binary encoding, an `Any` is an ordinary message; but in other wire\nforms like JSON, it has a special encoding. The format of the type URL is\ndescribed on the `type_url` field.\n\nProtobuf APIs provide utilities to interact with `Any` values:\n\n- A 'pack' operation accepts a message and constructs a generic `Any` wrapper\n  around it.\n- An 'unpack' operation reads the content of an `Any` message, either into an\n  existing message or a new one. Unpack operations must check the type of the\n  value they unpack against the declared `type_url`.\n- An 'is' operation decides whether an `Any` contains a message of the given\n  type, i.e. whether it can 'unpack' that type.\n\nThe JSON format representation of an `Any` follows one of these cases:\n\n- For types without special-cased JSON encodings, the JSON format\n  representation of the `Any` is the same as that of the message, with an\n  additional `@type` field which contains the type URL.\n- For types with special-cased JSON encodings (typically called 'well-known'\n  types, listed in https://protobuf.dev/programming-guides/json/#any), the\n  JSON format representation has a key `@type` which contains the type URL\n  and a key `value` which contains the JSON-serialized value.\n\nThe text format representation of an `Any` is like a message with one field\nwhose name is the type URL in brackets. For example, an `Any` containing a\n`foo.Bar` message may be written `[type.googleapis.com/foo.Bar] { a: 2 }`."
       type: object
-      description: Standard error response returned by the API.
+      properties:
+        '@type':
+          description: 'Identifies the type of the serialized Protobuf message with a URI reference
+
+            consisting of a prefix ending in a slash and the fully-qualified type name.
+
+
+            Example: type.googleapis.com/google.protobuf.StringValue
+
+
+            This string must contain at least one `/` character, and the content after
+
+            the last `/` must be the fully-qualified name of the type in canonical
+
+            form, without a leading dot. Do not write a scheme on these URI references
+
+            so that clients do not attempt to contact them.
+
+
+            The prefix is arbitrary and Protobuf implementations are expected to
+
+            simply strip off everything up to and including the last `/` to identify
+
+            the type. `type.googleapis.com/` is a common default prefix that some
+
+            legacy implementations require. This prefix does not indicate the origin of
+
+            the type, and URIs containing it are not expected to respond to any
+
+            requests.
+
+
+            All type URL strings must be legal URI references with the additional
+
+            restriction (for the text format) that the content of the reference
+
+            must consist only of alphanumeric characters, percent-encoded escapes, and
+
+            characters in the following set (not including the outer backticks):
+
+            `/-.~_!$&()*+,;=`. Despite our allowing percent encodings, implementations
+
+            should not unescape them to prevent confusion with existing parsers. For
+
+            example, `type.googleapis.com%2FFoo` should be rejected.
+
+
+            In the original design of `Any`, the possibility of launching a type
+
+            resolution service at these type URLs was considered but Protobuf never
+
+            implemented one and considers contacting these URLs to be problematic and
+
+            a potential security issue. Do not attempt to contact type URLs.'
+          type: string
+      additionalProperties: {}
+    Status:
+      type: object
       properties:
         code:
           type: integer
-          description: HTTP status code of the error.
-        message:
-          type: string
-          description: Human-readable description of the error.
+          format: int32
         details:
           type: array
-          description: Additional detail objects providing error context.
           items:
-            type: object
+            $ref: '#/components/schemas/Any'
+        message:
+          type: string
+    Aws:
+      type: object
+      properties:
+        user_arn:
+          type: string
+          title: AWS IAM user ARN used by CockroachDB Cloud
+    Gcp:
+      type: object
+      properties:
+        service_account_email:
+          type: string
+          title: GCP service account email used by CockroachDB Cloud
+    CockroachCloudServicePrincipals:
+      type: object
+      properties:
+        aws:
+          $ref: '#/components/schemas/Aws'
+        azure:
+          $ref: '#/components/schemas/Azure'
+        gcp:
+          $ref: '#/components/schemas/Gcp'
+    Azure:
+      type: object
+      properties:
+        app_registration_client_id:
+          type: string
+          title: Azure app registration client ID used by CockroachDB Cloud
+        app_registration_name:
+          type: string
+          title: Azure app registration name used by CockroachDB Cloud
+    Organization_2:
+      type: object
+      properties:
+        cockroach_cloud_service_principals:
+          $ref: '#/components/schemas/CockroachCloudServicePrincipals'
+        created_at:
+          type: string
+          format: date-time
+        id:
+          type: string
+        label:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - label
+      - name
+      - created_at
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       description: Bearer token authentication. Generate a token in the CockroachDB Cloud Console under Organization Settings > API Access.
-externalDocs:
-  description: CockroachDB Cloud API Documentation
-  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
+    Bearer:
+      type: http
+      scheme: bearer
+x-refined-from:
+- cockroach-labs-cloud-api-openapi.yml
+- cockroach-labs-openapi.json

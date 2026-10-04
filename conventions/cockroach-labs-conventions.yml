@@ -1,0 +1,12 @@
+generated: '2026-10-04'
+method: derived
+generator: derive-conformance.py
+source: openapi/ (27 document(s), 146 mutating operations)
+idempotency:
+  coverage: partial
+  header: idempotency_key
+  mechanism: request header / body token declared in the OpenAPI
+  evidence: idempotency_key on 5 of 146 mutating operations
+  scope:
+    - mutating operations
+  verified: derived

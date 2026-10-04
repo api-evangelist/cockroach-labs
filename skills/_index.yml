@@ -1,0 +1,12 @@
+generated: '2026-10-04'
+method: generated
+generator: extract-docs-artifacts.py skills (local)
+source: openapi/cockroach-labs-databases-api-openapi.yml
+skills:
+- file: skills/cockroach-labs-create-and-get-cluster.md
+  name: cockroach-labs-create-and-get-cluster
+  api: openapi/cockroach-labs-clusters-api-openapi.yml
+  operations:
+  - CockroachCloud_CreateCluster
+  - CockroachCloud_GetCluster
+  - CockroachCloud_GetConnectionString

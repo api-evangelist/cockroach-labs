@@ -1,0 +1,683 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: support@cockroachlabs.com
+    name: Cockroach Labs Support
+    url: https://support.cockroachlabs.com
+  description: An API for managing CockroachDB Cloud resources
+  title: CockroachDB Cloud Log Export API
+  version: '2026-09-15'
+servers:
+- url: https://cockroachlabs.cloud
+security:
+- Bearer: []
+tags:
+- name: Log Export
+paths:
+  /api/v1/clusters/{cluster_id}/logexport:
+    delete:
+      operationId: CockroachCloud_DeleteLogExport
+      summary: Delete the Log Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - ORG_ADMIN
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogExportClusterInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Log Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request DELETE \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/logexport \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    get:
+      operationId: CockroachCloud_GetLogExportInfo
+      summary: Get the Log Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - ORG_ADMIN
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER
+
+        - METRICS_VIEWER
+
+        - AUDITOR'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogExportClusterInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Log Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request GET \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/logexport \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN'"
+    post:
+      operationId: CockroachCloud_EnableLogExport
+      summary: Create or update the Log Export configuration for a cluster
+      description: 'Can be used by the following roles assigned at the organization, folder or cluster scope:
+
+        - ORG_ADMIN
+
+        - CLUSTER_ADMIN
+
+        - CLUSTER_OPERATOR_WRITER'
+      parameters:
+      - name: cluster_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnableLogExportBody'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogExportClusterInfo'
+        '400':
+          description: Returned when a request field is invalid.
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Returned when the token bearer cannot be authenticated.
+          content:
+            application/json:
+              schema: {}
+        '403':
+          description: Returned when the user does not have permission to access the resource.
+          content:
+            application/json:
+              schema: {}
+        '404':
+          description: Returned when the resource does not exist.
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema: {}
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      tags:
+      - Log Export
+      x-badges:
+      - color: blue
+        label: PREVIEW
+      x-codeSamples:
+      - lang: Shell + Curl
+        source: "curl --request POST \\\n  --url https://cockroachlabs.cloud/api/v1/clusters/{cluster_id}/logexport \\\n  --header 'Authorization: Bearer REPLACE_BEARER_TOKEN' \\\n  --json '{\"auth_principal\":\"my-gcp-project-id\",\"groups\":[{\"channels\":[\"OPS\",\"HEALTH\"],\"log_name\":\"devops\",\"min_level\":\"WARNING\"}],\"log_name\":\"default\",\"omitted_channels\":[\"SESSIONS\",\"SQL_PERF\"],\"redact\":true,\"shared_key\":\"shared-key\",\"type\":\"GCP_CLOUD_LOGGING\"}'"
+components:
+  schemas:
+    Any:
+      description: "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nIn its binary encoding, an `Any` is an ordinary message; but in other wire\nforms like JSON, it has a special encoding. The format of the type URL is\ndescribed on the `type_url` field.\n\nProtobuf APIs provide utilities to interact with `Any` values:\n\n- A 'pack' operation accepts a message and constructs a generic `Any` wrapper\n  around it.\n- An 'unpack' operation reads the content of an `Any` message, either into an\n  existing message or a new one. Unpack operations must check the type of the\n  value they unpack against the declared `type_url`.\n- An 'is' operation decides whether an `Any` contains a message of the given\n  type, i.e. whether it can 'unpack' that type.\n\nThe JSON format representation of an `Any` follows one of these cases:\n\n- For types without special-cased JSON encodings, the JSON format\n  representation of the `Any` is the same as that of the message, with an\n  additional `@type` field which contains the type URL.\n- For types with special-cased JSON encodings (typically called 'well-known'\n  types, listed in https://protobuf.dev/programming-guides/json/#any), the\n  JSON format representation has a key `@type` which contains the type URL\n  and a key `value` which contains the JSON-serialized value.\n\nThe text format representation of an `Any` is like a message with one field\nwhose name is the type URL in brackets. For example, an `Any` containing a\n`foo.Bar` message may be written `[type.googleapis.com/foo.Bar] { a: 2 }`."
+      type: object
+      properties:
+        '@type':
+          description: 'Identifies the type of the serialized Protobuf message with a URI reference
+
+            consisting of a prefix ending in a slash and the fully-qualified type name.
+
+
+            Example: type.googleapis.com/google.protobuf.StringValue
+
+
+            This string must contain at least one `/` character, and the content after
+
+            the last `/` must be the fully-qualified name of the type in canonical
+
+            form, without a leading dot. Do not write a scheme on these URI references
+
+            so that clients do not attempt to contact them.
+
+
+            The prefix is arbitrary and Protobuf implementations are expected to
+
+            simply strip off everything up to and including the last `/` to identify
+
+            the type. `type.googleapis.com/` is a common default prefix that some
+
+            legacy implementations require. This prefix does not indicate the origin of
+
+            the type, and URIs containing it are not expected to respond to any
+
+            requests.
+
+
+            All type URL strings must be legal URI references with the additional
+
+            restriction (for the text format) that the content of the reference
+
+            must consist only of alphanumeric characters, percent-encoded escapes, and
+
+            characters in the following set (not including the outer backticks):
+
+            `/-.~_!$&()*+,;=`. Despite our allowing percent encodings, implementations
+
+            should not unescape them to prevent confusion with existing parsers. For
+
+            example, `type.googleapis.com%2FFoo` should be rejected.
+
+
+            In the original design of `Any`, the possibility of launching a type
+
+            resolution service at these type URLs was considered but Protobuf never
+
+            implemented one and considers contacting these URLs to be problematic and
+
+            a potential security issue. Do not attempt to contact type URLs.'
+          type: string
+      additionalProperties: {}
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/Any'
+        message:
+          type: string
+    LogExportStatus:
+      description: 'LogExportStatus encodes the possible states that a configuration can
+
+        be in as it is created, deployed, and disabled.'
+      type: string
+      enum:
+      - DISABLED
+      - DISABLING
+      - DISABLE_FAILED
+      - ENABLED
+      - ENABLING
+      - ENABLE_FAILED
+      - CREDENTIALS_ERROR
+    LogLevel.Type:
+      description: " - UNSPECIFIED: The unspecified log level includes all logs.\n - WARNING: The WARNING severity is used for situations which may require\nspecial handling, where normal operation is expected to resume\nautomatically.\n - ERROR: The ERROR severity is used for situations that require special\nhandling, where normal operation could not proceed as expected.\nOther operations can continue mostly unaffected.\n - FATAL: The FATAL severity is used for situations that require an\nimmediate, hard server shutdown. A report is also sent to\ntelemetry if telemetry is enabled."
+      type: string
+      enum:
+      - UNSPECIFIED
+      - WARNING
+      - ERROR
+      - FATAL
+    LogExportGroup:
+      description: 'LogExportGroup contains an export configuration for a single
+
+        log group which can route logs for a subset of CRDB channels.'
+      type: object
+      properties:
+        channels:
+          description: 'channels is a list of CRDB log channels to include in this
+
+            group.'
+          type: array
+          items:
+            type: string
+        enable_sending_queue:
+          description: 'enable_sending_queue enables the sending queue for logs in this
+
+            group. Only one group can have enable_sending_queue enabled.'
+          type: boolean
+        log_name:
+          description: 'log_name is the name of the group, reflected in the log sink. For
+
+            AZURE_LOG_ANALYTICS_V2, it must start with a letter and contain only
+
+            letters, digits, and underscores.'
+          type: string
+        min_level:
+          $ref: '#/components/schemas/LogLevel.Type'
+        redact:
+          description: 'redact is a boolean that governs whether this log group
+
+            should aggregate redacted logs. Redaction settings will
+
+            inherit from the cluster log export defaults if unset.'
+          type: boolean
+      required:
+      - log_name
+      - channels
+    LogExportClusterInfo:
+      description: 'LogExportClusterInfo contains a package of information that fully
+
+        describes both the intended state of the log export configuration for
+
+        a specific cluster but also some metadata around its deployment
+
+        status, any error messages, and some timestamps.'
+      type: object
+      properties:
+        cluster_id:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        delivery_status:
+          $ref: '#/components/schemas/LogExportDeliveryStatus'
+        delivery_status_message:
+          description: 'Descriptive error message when delivery_status is DELIVERY_UNHEALTHY.
+
+            Only populated for OTLP_HTTP sinks.'
+          type: string
+        spec:
+          $ref: '#/components/schemas/LogExportClusterSpecification'
+        status:
+          $ref: '#/components/schemas/LogExportStatus'
+        updated_at:
+          type: string
+          format: date-time
+        user_message:
+          type: string
+    LogExportType:
+      description: "LogExportType identifies the destination used for exported logs.\nCloud-native destinations use their provider's logging service, while\nOTLP_HTTP sends logs to a customer-configured OTLP/HTTP endpoint.\n\n - AZURE_LOG_ANALYTICS: AZURE_LOG_ANALYTICS is the legacy Azure export path via the HTTP Data\nCollector API (retiring 2026-09-14). Deprecated: use\nAZURE_LOG_ANALYTICS_V2 instead.\n - AZURE_LOG_ANALYTICS_V2: AZURE_LOG_ANALYTICS_V2 exports to Azure Monitor via the Logs Ingestion API\nand DCR-based ingestion, replacing the deprecated AZURE_LOG_ANALYTICS path\nthat uses the HTTP Data Collector API (retiring 2026-09-14). V2 authenticates\nwith a tenant/client/secret + DCR endpoint and rule, whereas the legacy type\nuses a workspace ID + shared key."
+      type: string
+      enum:
+      - AWS_CLOUDWATCH
+      - GCP_CLOUD_LOGGING
+      - AZURE_LOG_ANALYTICS
+      - AZURE_LOG_ANALYTICS_V2
+      - OTLP_HTTP
+    LogExportClusterSpecification:
+      description: 'LogExportClusterSpecification contains all the data necessary to
+
+        configure log export for an individual cluster. Users would supply
+
+        this data via the API and also receive it back when inspecting the
+
+        state of their log export configuration.'
+      type: object
+      properties:
+        auth_principal:
+          description: 'auth_principal is used in different contexts based on integration.
+
+            CloudWatch: AWS Role ARN that identifies a role
+
+            that the cluster account can assume to write to CloudWatch
+
+            GCP Cloud Logging: GCP Project ID that the cluster service account
+
+            has permissions to write to for cloud logging.
+
+            Azure Log Analytics (AZURE_LOG_ANALYTICS): CustomerID or WorkspaceID.
+
+            This field is empty for AZURE_LOG_ANALYTICS_V2 and OTLP_HTTP. OTLP_HTTP
+
+            authenticates using the headers supplied when the integration is enabled.'
+          type: string
+        aws_external_id:
+          description: 'aws_external_id, if set, is included when assuming the IAM role. Supported for
+
+            Advanced clusters on AWS only.'
+          type: string
+        azure_client_id:
+          description: Azure client ID for the app registration used by the Logs Ingestion API.
+          type: string
+        azure_client_secret:
+          description: Azure client secret for the app registration used by the Logs Ingestion API.
+          type: string
+        azure_dce_endpoint:
+          description: 'Logs ingestion endpoint of the Azure Data Collection Endpoint (DCE). For
+
+            example, https://{dce-name}.{region}.ingest.monitor.azure.com.'
+          type: string
+        azure_dcr_immutable_id:
+          description: Immutable ID of the Azure Data Collection Rule (DCR), for example dcr-...
+          type: string
+        azure_dcr_resource_id:
+          description: 'Full ARM resource ID of the Azure Data Collection Rule (DCR). Cockroach
+
+            Cloud reads and updates this DCR to add streams for each configured log
+
+            group. For example,
+
+            /subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Insights/dataCollectionRules/{dcr-name}.'
+          type: string
+        azure_shared_key:
+          description: 'The primary or the secondary connected sources client authentication key.
+
+            This is used to export logs to Azure Log Analytics via the legacy
+
+            HTTP Data Collector API. Deprecated: use azure_client_secret instead.'
+          type: string
+        azure_tenant_id:
+          description: Azure tenant ID for the app registration used by the Logs Ingestion API.
+          type: string
+        azure_workspace_resource_id:
+          description: 'Full ARM resource ID of the Log Analytics workspace. Cockroach Cloud creates
+
+            or updates the required custom tables for each configured log group. For
+
+            example, /subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.OperationalInsights/workspaces/{workspace-name}.'
+          type: string
+        groups:
+          description: 'groups is a collection of log group configurations to customize
+
+            which CRDB channels get aggregated into different groups at the
+
+            target sink. Unconfigured channels will be sent to the default
+
+            locations using the top-level log export settings.'
+          type: array
+          items:
+            $ref: '#/components/schemas/LogExportGroup'
+        log_name:
+          description: 'log_name is an identifier for the logs in the customer''s log sink. For
+
+            AZURE_LOG_ANALYTICS_V2, it must start with a letter and contain only
+
+            letters, digits, and underscores.'
+          type: string
+        omitted_channels:
+          description: 'omitted_channels is a list of channels that the user does not want to
+
+            export logs for.'
+          type: array
+          items:
+            type: string
+        otlp_endpoint:
+          description: 'otlp_endpoint is the OTLP/HTTP URL for the OTLP_HTTP sink type.
+
+            This field accepts either a base endpoint or a full /v1/logs endpoint.'
+          type: string
+        otlp_header_names:
+          description: 'otlp_header_names lists the configured OTLP auth header names; values are
+
+            never returned.'
+          type: array
+          items:
+            type: string
+        redact:
+          description: 'redact controls whether logs are redacted before forwarding to
+
+            customer sinks. By default they are not redacted.'
+          type: boolean
+        region:
+          description: 'region controls whether all logs are sent to a specific region in
+
+            the customer sink. By default, logs will remain their region of
+
+            origin depending on the cluster node''s region.'
+          type: string
+        type:
+          $ref: '#/components/schemas/LogExportType'
+    LogExportDeliveryStatus:
+      description: "LogExportDeliveryStatus reports whether logs are reaching the customer's\ndestination. This is independent of LogExportStatus, which reports whether\nthe integration is configured and running. Delivery health is currently\nreported only for OTLP_HTTP sinks.\n\n - DELIVERY_HEALTHY: The destination is receiving log records normally.\n - DELIVERY_UNHEALTHY: The destination is rejecting or failing to receive a substantial fraction\nof log records. The cause is intentionally not distinguished — it may be\ninvalid credentials, a wrong endpoint, or a transient outage."
+      type: string
+      enum:
+      - DELIVERY_HEALTHY
+      - DELIVERY_UNHEALTHY
+    EnableLogExportBody:
+      type: object
+      properties:
+        auth_principal:
+          description: 'auth_principal is used in different contexts based on integration.
+
+            CloudWatch: AWS Role ARN that identifies a role
+
+            that the cluster account can assume to write to CloudWatch
+
+            GCP Cloud Logging: GCP Project ID that the cluster service account
+
+            has permissions to write to for cloud logging.
+
+            Azure Log Analytics (AZURE_LOG_ANALYTICS): CustomerID or WorkspaceID.
+
+            Required for AWS_CLOUDWATCH, GCP_CLOUD_LOGGING, and AZURE_LOG_ANALYTICS.
+
+            Not used for AZURE_LOG_ANALYTICS_V2 or OTLP_HTTP. OTLP_HTTP authenticates
+
+            via otlp_headers (see otlp_endpoint / otlp_headers).'
+          type: string
+        aws_external_id:
+          description: 'aws_external_id to include when assuming the IAM role specified by role_arn.
+
+            Optional. A specific value may be required by the role''s trust policy.
+
+            Only supported for Advanced clusters on AWS. If provided for a Standard cluster,
+
+            the request is rejected.'
+          type: string
+        azure_client_id:
+          description: 'Azure client ID for the app registration used by the Logs Ingestion API.
+
+            Required when type is AZURE_LOG_ANALYTICS_V2.'
+          type: string
+        azure_client_secret:
+          description: 'Azure client secret for the app registration used by the Logs Ingestion API.
+
+            Required when type is AZURE_LOG_ANALYTICS_V2.'
+          type: string
+        azure_dce_endpoint:
+          description: 'Logs ingestion endpoint of the Azure Data Collection Endpoint (DCE). For
+
+            example, https://{dce-name}.{region}.ingest.monitor.azure.com.
+
+            Required when type is AZURE_LOG_ANALYTICS_V2.'
+          type: string
+        azure_dcr_immutable_id:
+          description: 'Immutable ID of the Azure Data Collection Rule (DCR), for example dcr-...
+
+            Required when type is AZURE_LOG_ANALYTICS_V2.'
+          type: string
+        azure_dcr_resource_id:
+          description: 'Full ARM resource ID of the Azure Data Collection Rule (DCR). Cockroach
+
+            Cloud reads and updates this DCR to add streams for each configured log
+
+            group. For example,
+
+            /subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Insights/dataCollectionRules/{dcr-name}.
+
+            Required when type is AZURE_LOG_ANALYTICS_V2.'
+          type: string
+        azure_shared_key:
+          description: 'The primary or the secondary connected sources client authentication key.
+
+            This is used to export logs to Azure Log Analytics via the legacy
+
+            HTTP Data Collector API. Deprecated: use azure_client_secret instead.'
+          type: string
+        azure_tenant_id:
+          description: 'Azure tenant ID for the app registration used by the Logs Ingestion API.
+
+            Required when type is AZURE_LOG_ANALYTICS_V2.'
+          type: string
+        azure_workspace_resource_id:
+          description: 'Full ARM resource ID of the Log Analytics workspace. Cockroach Cloud creates
+
+            or updates the required custom tables for each configured log group. For
+
+            example, /subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.OperationalInsights/workspaces/{workspace-name}.
+
+            Required when type is AZURE_LOG_ANALYTICS_V2.'
+          type: string
+        groups:
+          description: 'groups is a collection of log group configurations that allows the
+
+            customer to define collections of CRDB log channels that are aggregated
+
+            separately at the target sink.'
+          type: array
+          items:
+            $ref: '#/components/schemas/LogExportGroup'
+        log_name:
+          description: 'log_name is an identifier for the logs in the customer''s log sink. For
+
+            AZURE_LOG_ANALYTICS_V2, it must start with a letter and contain only
+
+            letters, digits, and underscores.'
+          type: string
+        omitted_channels:
+          description: 'omitted_channels is a list of channels that the user does not want to
+
+            export logs for.'
+          type: array
+          items:
+            type: string
+        otlp_endpoint:
+          description: 'otlp_endpoint is the OTLP/HTTP URL for the OTLP_HTTP sink type. Customers
+
+            may provide either a base endpoint or a full /v1/logs endpoint. Required
+
+            when type is OTLP_HTTP.'
+          type: string
+        otlp_headers:
+          description: 'otlp_headers are auth headers (name->value) for the OTLP_HTTP sink, e.g.
+
+            {"authorization": "Bearer ..."}. Write-only: values are stored securely and
+
+            never returned. For existing OTLP_HTTP configurations, omitting this field
+
+            or sending an empty map preserves the stored headers; sending a non-empty map
+
+            replaces them.'
+          type: object
+          additionalProperties:
+            type: string
+        redact:
+          description: 'redact allows the customer to set a default redaction policy for
+
+            logs before they are exported to the target sink. If a group config
+
+            omits a redact flag and this one is set to `true`, then that group
+
+            will receive redacted logs.'
+          type: boolean
+        region:
+          description: 'region allows the customer to override the destination region for
+
+            all logs for a cluster.'
+          type: string
+        type:
+          $ref: '#/components/schemas/LogExportType'
+      example:
+        auth_principal: my-gcp-project-id
+        groups:
+        - channels:
+          - OPS
+          - HEALTH
+          log_name: devops
+          min_level: WARNING
+        log_name: default
+        omitted_channels:
+        - SESSIONS
+        - SQL_PERF
+        redact: true
+        shared_key: shared-key
+        type: GCP_CLOUD_LOGGING
+      required:
+      - type
+      - log_name
+      title: EnableLogExportRequest
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+externalDocs:
+  description: Use the CockroachDB Cloud API
+  url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api.html

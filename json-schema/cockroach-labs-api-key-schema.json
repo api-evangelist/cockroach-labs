@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-api-key-schema.json",
+  "title": "ApiKey",
+  "description": "Represents an API key used for authenticating requests to the CockroachDB Cloud API.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/ApiKey",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier of the API key."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the API key."
+    },
+    "service_account_id": {
+      "type": "string",
+      "description": "Service account associated with this API key."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the API key was created."
+    }
+  }
+}

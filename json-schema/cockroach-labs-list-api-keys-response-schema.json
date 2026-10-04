@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-api-keys-response-schema.json",
+  "title": "ListApiKeysResponse",
+  "description": "Paginated list of API keys.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-api-keys-api-openapi.yml#/components/schemas/ListApiKeysResponse",
+  "type": "object",
+  "properties": {
+    "api_keys": {
+      "type": "array",
+      "description": "Array of API key objects.",
+      "items": {
+        "$ref": "#/$defs/ApiKey"
+      }
+    },
+    "pagination": {
+      "$ref": "#/$defs/PaginationResponse"
+    }
+  },
+  "$defs": {
+    "ApiKey": {
+      "type": "object",
+      "description": "Represents an API key used for authenticating requests to the CockroachDB Cloud API.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the API key."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name of the API key."
+        },
+        "service_account_id": {
+          "type": "string",
+          "description": "Service account associated with this API key."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the API key was created."
+        }
+      }
+    },
+    "PaginationResponse": {
+      "type": "object",
+      "description": "Pagination metadata included in list responses.",
+      "properties": {
+        "next": {
+          "type": "string",
+          "description": "Token or cursor for retrieving the next page of results."
+        },
+        "last": {
+          "type": "string",
+          "description": "Token or cursor for the last page of results."
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server time at which the paginated query was executed."
+        }
+      }
+    }
+  }
+}

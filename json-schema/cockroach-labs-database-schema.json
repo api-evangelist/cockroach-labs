@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-database-schema.json",
+  "title": "Database",
+  "description": "Represents a database within a CockroachDB cluster.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-databases-api-openapi.yml#/components/schemas/Database",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the database."
+    },
+    "table_count": {
+      "type": "integer",
+      "description": "Number of tables in the database."
+    }
+  }
+}

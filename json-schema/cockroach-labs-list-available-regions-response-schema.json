@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/cockroach-labs/main/json-schema/cockroach-labs-list-available-regions-response-schema.json",
+  "title": "ListAvailableRegionsResponse",
+  "description": "Paginated list of available cloud regions.",
+  "x-generated": "2026-10-04",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/cockroach-labs-clusters-api-openapi.yml#/components/schemas/ListAvailableRegionsResponse",
+  "type": "object",
+  "properties": {
+    "regions": {
+      "type": "array",
+      "description": "Array of available region objects.",
+      "items": {
+        "$ref": "#/$defs/AvailableRegion"
+      }
+    },
+    "pagination": {
+      "$ref": "#/$defs/PaginationResponse"
+    }
+  },
+  "$defs": {
+    "AvailableRegion": {
+      "type": "object",
+      "description": "A cloud provider region available for cluster deployment.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Cloud region identifier."
+        },
+        "provider": {
+          "type": "string",
+          "description": "Cloud provider the region belongs to."
+        },
+        "serverless": {
+          "type": "boolean",
+          "description": "Whether this region supports Serverless clusters."
+        }
+      }
+    },
+    "PaginationResponse": {
+      "type": "object",
+      "description": "Pagination metadata included in list responses.",
+      "properties": {
+        "next": {
+          "type": "string",
+          "description": "Token or cursor for retrieving the next page of results."
+        },
+        "last": {
+          "type": "string",
+          "description": "Token or cursor for the last page of results."
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server time at which the paginated query was executed."
+        }
+      }
+    }
+  }
+}
