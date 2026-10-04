@@ -644,6 +644,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - APIKeys
+  tags_raw:
   - API Keys
   properties:
   - type: OpenAPI
@@ -694,6 +696,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - BackupRestore
+  tags_raw:
   - Backup Restore
   properties:
   - type: OpenAPI
