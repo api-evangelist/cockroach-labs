@@ -1,0 +1,12 @@
+{
+ "url": "https://cockroachlabs.cloud/assets/docs/api/latest/openapi.json",
+ "requested_url": "https://cockroachlabs.cloud/assets/docs/api/latest/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 764565,
+ "sha256": "2bdac66dd24d50ff257d3264bb0662d0edb243efa62131ae18381fba2bcba64f",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.994), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
