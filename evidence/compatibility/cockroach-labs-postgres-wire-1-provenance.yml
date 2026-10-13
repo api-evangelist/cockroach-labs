@@ -1,0 +1,12 @@
+fetched: '2026-10-13'
+method: fetched
+source: https://www.cockroachlabs.com/docs/stable/postgresql-compatibility
+page: https://www.cockroachlabs.com/docs/stable/postgresql-compatibility
+file: cockroach-labs-postgres-wire-1.md
+bytes: 15958
+sha256: 17c18a84e1c01ea106442509f726df0bf07c248e9451179bbcf3f614a85e043a
+anchor: postgresql
+shape: postgres-wire
+classification: declares-compatibility
+quote: PostgreSQL Compatibility - CockroachDB
+note: text extracted from the provider's own page (tags stripped), saved for evidence

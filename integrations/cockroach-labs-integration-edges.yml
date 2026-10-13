@@ -1,0 +1,26 @@
+edges:
+- partner_name: PostgreSQL
+  partner: postgresql
+  partner_match: shape-anchor
+  channel: provider-built
+  relationship: compatible
+  direction: provider-built
+  shape: postgres-wire
+  type: docs
+  degree: declared-subset
+  evidence: https://www.cockroachlabs.com/docs/stable/postgresql-compatibility
+  evidence_kind: own-docs
+  evidence_file: https://github.com/api-evangelist/cockroach-labs/blob/main/evidence/compatibility/cockroach-labs-postgres-wire-1.md
+  quote: CockroachDB supports the PostgreSQL wire protocol and the majority of PostgreSQL syntax. This means that
+    existing applications built on PostgreSQL can often be migrated to CockroachDB without changing application
+    code.
+  supported_operations:
+  - Advisory
+  - Foreign
+  - XML
+  unsupported_operations: []
+  supported_share: 0.111
+  detected_by: sweep-shape-compat.py
+  first_seen: '2026-10-13'
+generated: '2026-10-13'
+method: searched
