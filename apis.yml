@@ -53,6 +53,8 @@ maintainers:
   email: kin@apievangelist.com
 specificationVersion: '0.23'
 common:
+- type: IntegrationEdges
+  url: integrations/cockroach-labs-integration-edges.yml
 - type: FinOps
   url: finops/cockroach-labs-finops.yml
 - type: RateLimits
@@ -1292,6 +1294,20 @@ apis:
     url: json-schema/cockroach-labs-add-private-endpoint-connection-request-schema.json
   - type: JSONSchema
     url: json-schema/cockroach-labs-list-private-endpoint-services-response-schema.json
+- aid: cockroach-labs:cockroach-labs-changefeed-sinks
+  name: Cockroach Labs CockroachDB CHANGEFEED Sinks
+  description: Event-driven description of CockroachDB Enterprise CHANGEFEED INTO sinks (Kafka, Google Cloud Pub/Sub, webhook) streaming row-level change data, modeled from the documented envelope shapes and webhook batch payload.
+  humanURL: https://www.cockroachlabs.com/docs/stable/changefeed-sinks
+  tags:
+  - Change Data Capture
+  - Events
+  - Streaming
+  properties:
+  - type: AsyncAPI
+    url: asyncapi/cockroach-labs-changefeed-asyncapi.yml
+  - type: Documentation
+    url: https://www.cockroachlabs.com/docs/stable/create-changefeed
+  x-moved-from: cockroachdb:asyncapi/cockroachdb-changefeed-asyncapi.yml (consolidated into cockroach-labs 2026-10-13, approved by Kin Lane)
 integrations:
 - name: partner-icon
 - name: Become a partner

@@ -1,0 +1,524 @@
+asyncapi: 2.6.0
+info:
+  title: CockroachDB CHANGEFEED Sinks
+  version: '1.0.0'
+  description: |
+    AsyncAPI description of CockroachDB CHANGEFEED INTO sinks. CockroachDB
+    Enterprise CHANGEFEEDs stream row-level change data to external systems.
+    This document models the publicly documented sink targets that behave as
+    event/message channels: Kafka, Google Cloud Pub/Sub, and Webhook. (The
+    cloud-storage sink writes files rather than emitting messages on a
+    broker/channel and is intentionally out of scope here.)
+
+    Source documentation:
+      * https://www.cockroachlabs.com/docs/stable/create-changefeed
+      * https://www.cockroachlabs.com/docs/stable/changefeed-messages
+      * https://www.cockroachlabs.com/docs/stable/changefeed-sinks
+      * https://www.cockroachlabs.com/docs/stable/changefeed-message-envelopes
+
+    Only documented envelope shapes (wrapped, bare, key_only, row, enriched)
+    and the documented webhook batch payload are modeled. No undocumented
+    fields are introduced.
+  contact:
+    name: Cockroach Labs Documentation
+    url: https://www.cockroachlabs.com/docs/
+  license:
+    name: Documentation - Cockroach Labs Terms
+    url: https://www.cockroachlabs.com/terms-and-conditions/
+
+defaultContentType: application/json
+
+tags:
+  - name: changefeed
+  - name: cdc
+  - name: kafka
+  - name: pubsub
+  - name: webhook
+
+servers:
+  kafka:
+    url: 'kafka://{broker}:{port}'
+    protocol: kafka
+    description: |
+      Kafka changefeed sink. CockroachDB writes one Kafka topic per table by
+      default (the table name), or a single topic when topic_name is supplied.
+      The message key is the table's primary key. Configurable via
+      kafka_sink_config, SASL/TLS parameters, and topic_prefix or
+      full_table_name URI options.
+    variables:
+      broker:
+        default: localhost
+        description: Kafka broker host.
+      port:
+        default: '9092'
+        description: Kafka broker port.
+  pubsub:
+    url: 'gcpubsub://{project}'
+    protocol: googlepubsub
+    description: |
+      Google Cloud Pub/Sub changefeed sink. One Pub/Sub topic per table by
+      default. With changefeed.new_pubsub_sink_enabled (default in v23.2+),
+      top-level message fields are capitalized: Key, Value, Topic. topic_prefix
+      is not supported on the Pub/Sub sink.
+    variables:
+      project:
+        default: my-project
+        description: GCP project that owns the destination Pub/Sub topics.
+  webhook:
+    url: 'https://{endpoint}'
+    protocol: https
+    description: |
+      Webhook changefeed sink. CockroachDB POSTs batches of changefeed events
+      as a single JSON object containing a payload array and a length field
+      to the configured HTTPS endpoint. Optional bearer/basic auth supplied
+      via webhook_auth_header. Format must be json or avro.
+    variables:
+      endpoint:
+        default: example.com/cdc
+        description: Fully qualified HTTPS endpoint that accepts CHANGEFEED batches.
+
+channels:
+  'table/{tableName}':
+    description: |
+      Per-table changefeed topic. On Kafka and Pub/Sub a topic is created per
+      source table by default (the table name). Each message represents a
+      committed row mutation in CockroachDB.
+    parameters:
+      tableName:
+        description: Source CockroachDB table name (also the destination topic name).
+        schema:
+          type: string
+    publish:
+      operationId: tableRowChanged
+      summary: A row in the table was inserted, updated, or deleted.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/EnvelopeWrapped'
+          - $ref: '#/components/messages/EnvelopeBare'
+          - $ref: '#/components/messages/EnvelopeKeyOnly'
+          - $ref: '#/components/messages/EnvelopeRow'
+          - $ref: '#/components/messages/EnvelopeEnriched'
+    bindings:
+      kafka:
+        topic: '{tableName}'
+        bindingVersion: '0.4.0'
+
+  'resolved':
+    description: |
+      Resolved-timestamp progress messages. Emitted as a separate message
+      whose envelope contains a "resolved" key whose value is an HLC timestamp
+      string. Guarantees that no previously unseen rows with an earlier
+      update timestamp will be emitted to the sink.
+    publish:
+      operationId: resolvedTimestamp
+      summary: Changefeed progress checkpoint.
+      message:
+        $ref: '#/components/messages/Resolved'
+
+  'webhook/batch':
+    description: |
+      Webhook sink batch delivery. CockroachDB POSTs a JSON object containing
+      an array of individual events (each in wrapped envelope form, including
+      after, key, topic and updated) and a length field with the batch size.
+    publish:
+      operationId: webhookBatchDelivered
+      summary: Batched changefeed events delivered to a webhook endpoint.
+      message:
+        $ref: '#/components/messages/WebhookBatch'
+    bindings:
+      http:
+        type: request
+        method: POST
+        bindingVersion: '0.3.0'
+
+components:
+  messages:
+    EnvelopeWrapped:
+      name: EnvelopeWrapped
+      title: Wrapped envelope (default)
+      summary: Default envelope; contains "after" row state and optional "before", "key", "updated".
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WrappedEnvelope'
+      examples:
+        - name: wrapped-kafka-default
+          summary: Documented Kafka wrapped example
+          payload:
+            after:
+              city: washington dc
+              creation_time: '2019-01-02T03:04:05'
+              id: dadc1c0b-30f0-4c8b-bd16-046c8612bbea
+              status: in_use
+              type: scooter
+        - name: wrapped-cloud-storage
+          summary: Documented wrapped example with key
+          payload:
+            after:
+              city: seattle
+              creation_time: '2019-01-02T03:04:05'
+              current_location: 86359 Jeffrey Ranch
+              id: 68ee1f95-3137-48e2-8ce3-34ac2d18c7c8
+              owner_id: 570a3d70-a3d7-4c00-8000-000000000011
+              status: in_use
+              type: scooter
+            key:
+              - seattle
+              - 68ee1f95-3137-48e2-8ce3-34ac2d18c7c8
+        - name: wrapped-delete
+          summary: Delete message
+          payload:
+            after: null
+
+    EnvelopeBare:
+      name: EnvelopeBare
+      title: Bare envelope
+      summary: Row columns at top level; CockroachDB metadata under "__crdb__".
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/BareEnvelope'
+      examples:
+        - name: bare-cloud-storage
+          payload:
+            __crdb__:
+              key:
+                - washington dc
+                - cd48e501-e86d-4019-9923-2fc9a964b264
+            city: washington dc
+            creation_time: '2019-01-02T03:04:05'
+            current_location: 87247 Diane Park
+            id: cd48e501-e86d-4019-9923-2fc9a964b264
+            owner_id: a616ce61-ade4-43d2-9aab-0e3b24a9aa9a
+            status: available
+            type: bike
+
+    EnvelopeKeyOnly:
+      name: EnvelopeKeyOnly
+      title: Key-only envelope
+      summary: Primary key array only; no row payload.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/KeyOnlyEnvelope'
+      examples:
+        - name: key-only-kafka
+          payload:
+            - boston
+            - 22222222-2222-4200-8000-000000000002
+
+    EnvelopeRow:
+      name: EnvelopeRow
+      title: Row envelope
+      summary: Row columns only; no metadata, no key, no envelope wrapper.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/RowEnvelope'
+      examples:
+        - name: row-kafka
+          payload:
+            city: washington dc
+            creation_time: '2019-01-02T03:04:05'
+            current_location: 85551 Moore Mountains Apt. 47
+            id: d3b37607-1e9f-4e25-b772-efb9374b08e3
+            owner_id: 4f26b516-f13f-4136-83e1-2ea1ae151c20
+            status: available
+            type: skateboard
+
+    EnvelopeEnriched:
+      name: EnvelopeEnriched
+      title: Enriched envelope (Preview)
+      summary: |
+        Adds op code, ts_ns, and (with enriched_properties) source/schema
+        metadata. Operation codes: "c" (insert), "u" (update), "d" (delete).
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/EnrichedEnvelope'
+      examples:
+        - name: enriched-basic
+          payload:
+            after:
+              category: Electronics
+              created_at: '2025-04-24T14:59:28.96273'
+              description: Ergonomic wireless mouse with USB receiver
+              id: cb1a3e43-dccf-422f-a27d-ea027c233682
+              in_stock: true
+              name: Wireless Mouse
+              price: 29.99
+            op: c
+            ts_ns: 1745525261013511000
+        - name: enriched-with-source
+          payload:
+            after: {}
+            op: c
+            source:
+              changefeed_sink: kafka
+              cluster_id: 585e6512-ea54-490a-8f1d-50c8d182a2e6
+              cluster_name: ''
+              database_name: test
+              db_version: v25.2.0-beta.2
+              job_id: '1068153948173991937'
+              node_id: '1'
+              node_name: localhost
+              origin: cockroachdb
+              primary_keys:
+                - id
+              schema_name: public
+              source_node_locality: ''
+              table_name: products
+              ts_hlc: '1746045115619002000.0000000000'
+              ts_ns: 1746045115619002000
+            ts_ns: 1746045115679811000
+
+    Resolved:
+      name: Resolved
+      title: Resolved timestamp message
+      summary: Progress checkpoint emitted independently of row changes.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ResolvedMessage'
+      examples:
+        - name: resolved-example
+          payload:
+            resolved: '1701102296662969433.0000000000'
+
+    WebhookBatch:
+      name: WebhookBatch
+      title: Webhook sink batch payload
+      summary: |
+        Documented webhook sink POST body. Contains a payload array of
+        per-row events and a length field with the batch size.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookBatchPayload'
+      examples:
+        - name: webhook-single-event
+          summary: Documented single-event webhook batch
+          payload:
+            payload:
+              - after:
+                  city: rome
+                  creation_time: '2019-01-02T03:04:05'
+                  current_location: 39141 Travis Curve Suite 87
+                  ext:
+                    brand: Schwinn
+                    color: red
+                  id: d7b18299-c0c4-4304-9ef7-05ae46fd5ee1
+                  dog_owner_id: 5d0c85b5-8866-47cf-a6bc-d032f198e48f
+                  status: in_use
+                  type: bike
+                key:
+                  - rome
+                  - d7b18299-c0c4-4304-9ef7-05ae46fd5ee1
+                topic: vehicles
+                updated: '1629813621680097993.0000000000'
+            length: 1
+
+  schemas:
+    HLCTimestamp:
+      type: string
+      description: |
+        CockroachDB hybrid logical clock (HLC) timestamp rendered as a string
+        of the form "<wall_time_ns>.<logical>" (e.g. "1701102296662969433.0000000000").
+      example: '1701102296662969433.0000000000'
+
+    PrimaryKey:
+      type: array
+      description: |
+        Primary key array. CockroachDB emits the primary key as a JSON array
+        of column values in primary-key column order.
+      items: {}
+
+    Row:
+      type: object
+      description: |
+        Row state. Property names are the table's column names; values are
+        encoded per the changefeed format option (json/avro/csv/parquet).
+      additionalProperties: true
+
+    WrappedEnvelope:
+      type: object
+      description: Default "wrapped" envelope.
+      properties:
+        after:
+          description: Current row state; null for deletes.
+          oneOf:
+            - $ref: '#/components/schemas/Row'
+            - type: 'null'
+        before:
+          description: Previous row state. Present only when the diff option is set.
+          oneOf:
+            - $ref: '#/components/schemas/Row'
+            - type: 'null'
+        key:
+          description: Primary key array. Present in cloud-storage output and on Kafka when key_in_value is set.
+          $ref: '#/components/schemas/PrimaryKey'
+        updated:
+          description: Commit timestamp. Present only when the updated option is set.
+          $ref: '#/components/schemas/HLCTimestamp'
+        topic:
+          description: Destination topic. Documented as appearing in webhook envelopes.
+          type: string
+      required:
+        - after
+
+    BareEnvelope:
+      type: object
+      description: |
+        "Bare" envelope. Row columns are top-level fields; CockroachDB
+        metadata is nested under "__crdb__".
+      properties:
+        __crdb__:
+          type: object
+          description: CockroachDB-injected metadata block.
+          properties:
+            key:
+              $ref: '#/components/schemas/PrimaryKey'
+          additionalProperties: true
+      additionalProperties: true
+      required:
+        - __crdb__
+
+    KeyOnlyEnvelope:
+      description: Primary key array; no value payload.
+      $ref: '#/components/schemas/PrimaryKey'
+
+    RowEnvelope:
+      description: Row columns only; no wrapping envelope.
+      $ref: '#/components/schemas/Row'
+
+    EnrichedEnvelope:
+      type: object
+      description: Enriched envelope (Preview).
+      properties:
+        after:
+          oneOf:
+            - $ref: '#/components/schemas/Row'
+            - type: 'null'
+        before:
+          description: Previous state. Present with the diff option.
+          oneOf:
+            - $ref: '#/components/schemas/Row'
+            - type: 'null'
+        key:
+          description: Primary key object (not array) in enriched envelopes.
+          type: object
+          additionalProperties: true
+        op:
+          type: string
+          description: Operation code.
+          enum:
+            - c
+            - u
+            - d
+        ts_ns:
+          type: integer
+          format: int64
+          description: Processing timestamp (changefeed job time), nanoseconds since epoch.
+        source:
+          $ref: '#/components/schemas/EnrichedSource'
+        schema:
+          $ref: '#/components/schemas/EnrichedSchema'
+      required:
+        - op
+        - ts_ns
+
+    EnrichedSource:
+      type: object
+      description: Source metadata block present when enriched_properties includes source.
+      properties:
+        changefeed_sink:
+          type: string
+        cluster_id:
+          type: string
+        cluster_name:
+          type: string
+        database_name:
+          type: string
+        db_version:
+          type: string
+        job_id:
+          type: string
+        node_id:
+          type: string
+        node_name:
+          type: string
+        origin:
+          type: string
+        primary_keys:
+          type: array
+          items:
+            type: string
+        schema_name:
+          type: string
+        source_node_locality:
+          type: string
+        table_name:
+          type: string
+        ts_hlc:
+          $ref: '#/components/schemas/HLCTimestamp'
+        ts_ns:
+          type: integer
+          format: int64
+
+    EnrichedSchema:
+      type: object
+      description: |
+        Kafka Connect / Debezium-style structured type description emitted
+        when enriched_properties includes schema. The payload itself is then
+        nested under a "payload" field at the top level.
+      properties:
+        fields:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        name:
+          type: string
+        optional:
+          type: boolean
+        type:
+          type: string
+
+    ResolvedMessage:
+      type: object
+      description: Resolved-timestamp envelope.
+      properties:
+        resolved:
+          $ref: '#/components/schemas/HLCTimestamp'
+      required:
+        - resolved
+
+    WebhookBatchPayload:
+      type: object
+      description: Documented webhook sink POST body.
+      properties:
+        payload:
+          type: array
+          description: Array of individual changefeed events in wrapped form.
+          items:
+            $ref: '#/components/schemas/WebhookEvent'
+        length:
+          type: integer
+          description: Number of events in this batch.
+          minimum: 0
+      required:
+        - payload
+        - length
+
+    WebhookEvent:
+      type: object
+      description: A single event inside a webhook batch.
+      properties:
+        after:
+          oneOf:
+            - $ref: '#/components/schemas/Row'
+            - type: 'null'
+        key:
+          $ref: '#/components/schemas/PrimaryKey'
+        topic:
+          type: string
+          description: Source table name.
+        updated:
+          $ref: '#/components/schemas/HLCTimestamp'
+      required:
+        - after
+        - key
+        - topic

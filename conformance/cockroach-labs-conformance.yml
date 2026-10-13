@@ -1,11 +1,8 @@
-generated: '2026-10-04'
+generated: '2026-10-13'
 method: derived
 generator: derive-conformance.py
-source: openapi/ (27 document(s), 146 mutating operations)
+source: openapi/ (44 document(s), 125 mutating operations)
 standards:
-- id: openapi-3.0
-  conforms: true
-  evidence: the document declares 3.0.0
 - id: openapi-3.2
   conforms: true
   evidence: the document declares 3.2.0
@@ -17,7 +14,7 @@ standards:
   evidence: no response declares application/problem+json
 - id: idempotency
   conforms: true
-  evidence: idempotency_key declared on 5 of 146 mutating operations (partial)
+  evidence: idempotency_key declared on 5 of 125 mutating operations (partial)
 - id: pagination
   conforms: true
   evidence: list operations take limit, offset
