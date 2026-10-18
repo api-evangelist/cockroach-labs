@@ -931,6 +931,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - EgressRules
+  tags_raw:
   - Egress Rules
   properties:
   - type: OpenAPI
@@ -957,6 +959,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - IPAllowlists
+  tags_raw:
   - IP Allowlists
   properties:
   - type: OpenAPI
@@ -983,6 +987,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - JWTIssuers
+  tags_raw:
   - JWT Issuers
   properties:
   - type: OpenAPI
@@ -1009,6 +1015,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - LogExport
+  tags_raw:
   - Log Export
   properties:
   - type: OpenAPI
@@ -1035,6 +1043,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - MetricExport
+  tags_raw:
   - Metric Export
   properties:
   - type: OpenAPI
@@ -1194,6 +1204,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - SQLUsers
+  tags_raw:
   - SQL Users
   properties:
   - type: OpenAPI
@@ -1220,6 +1232,8 @@ apis:
   humanURL: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api
   baseURL: https://cockroachlabs.cloud
   tags:
+  - VersionDeferral
+  tags_raw:
   - Version Deferral
   properties:
   - type: OpenAPI
@@ -1299,6 +1313,10 @@ apis:
   description: Event-driven description of CockroachDB Enterprise CHANGEFEED INTO sinks (Kafka, Google Cloud Pub/Sub, webhook) streaming row-level change data, modeled from the documented envelope shapes and webhook batch payload.
   humanURL: https://www.cockroachlabs.com/docs/stable/changefeed-sinks
   tags:
+  - Change Data Capture
+  - Event
+  - Streaming
+  tags_raw:
   - Change Data Capture
   - Events
   - Streaming
