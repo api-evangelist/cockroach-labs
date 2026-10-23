@@ -560,3 +560,9 @@ components:
 externalDocs:
   description: Use the CockroachDB Cloud API
   url: https://www.cockroachlabs.com/docs/cockroachcloud/cloud-api.html
+x-provenance:
+  method: harvested
+  publisher: Cockroach Labs
+  source: https://cockroachlabs.cloud/assets/docs/api/latest/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
